@@ -20,8 +20,7 @@ public class Alert {
     private int downvotes;
 
     /* constructors */
-    public Alert(int id, Route route, Date date, String type, Pair<Double, Double> coordinates,
-                 int upvotes, int downvotes) {
+    public Alert(Route route, Date date, String type, Pair<Double, Double> coordinates) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
 
@@ -29,7 +28,11 @@ public class Alert {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
 
-    public  boolean downvote() {
+    public boolean downvote() {
+        throw new UnsupportedOperationException("Not Yet Implemented");
+    }
+
+    public boolean setId(int id) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
 
