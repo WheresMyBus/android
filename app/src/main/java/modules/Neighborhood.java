@@ -2,41 +2,59 @@ package modules;
 
 import android.util.Pair;
 
+import java.util.List;
 import java.util.Set;
 
 /**
  * Created by lidav on 10/23/2016.
  *
- * Class that describes a neighborhood as a circle
+ * Immutable class that describes a neighborhood
+ * Invariant: perimeter, name != null
  */
 
 public class Neighborhood {
-    private int id;
-    private Pair<Double, Double> center;
-    private double radius;
-    private Set<BusStop> busStops;
+    private List<Pair<Double,Double>> perimeter;
+    //private int id;
+    private String name;
+    //private Pair<Double, Double> center;
+    //private double radius;
+    // private Set<BusStop> busStops;
 
-    public Neighborhood(int id, Pair<Double, Double> center, double radius) {
+    /**
+     * Contructs a Neighborhood
+     * @param perimeter List<Pair<Double,Double>> of Points in the perimeter of the neighborhood
+     * @param name name of the neighborhood
+     * @throws IllegalArgumentException if perimeter or name is null
+     */
+    public Neighborhood(List<Pair<Double,Double>> perimeter, String name) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
 
-    public boolean setId(int id) {
+    /*public boolean setId(int id) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
 
     public int getId() {
         throw new UnsupportedOperationException("Not Yet Implemented");
-    }
+    } */
 
-    public Pair<Double, Double> getCenter() {
+    /**
+     * Gets a deep copy of the perimeter list
+     * @return perimeter of the neighborhood as a List of Pairs
+     */
+    public List<Pair<Double, Double>> getPerimeter() {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
 
-    public double getRadius() {
+    /**
+     * Gets the name of the neighborhood
+     * @return name of the neighborhood
+     */
+    public String getName() {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
 
-    private Set<BusStop> getBusStops() {
+    /*private Set<BusStop> getBusStops() {
         throw new UnsupportedOperationException("Not Yet Implemented");
-    }
+    }*/
 }
