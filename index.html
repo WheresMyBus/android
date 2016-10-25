@@ -1,0 +1,17 @@
+---
+layout: page
+---
+<img id="logo" src="images/logo.svg" />
+
+<header class="masthead">
+  <h1 class="masthead-title">
+    <a href="/">{{ site.name }}</a>
+    <span>by {{ site.team.name }}</span>
+  </h1>
+
+  <nav class="masthead-nav">
+    {% for nav in site.nav %}
+    <a href="{{ nav.href }}">{{ nav.name }}</a>
+    {% endfor %}
+  </nav>
+</header>
