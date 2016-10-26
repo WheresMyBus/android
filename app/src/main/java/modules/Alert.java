@@ -14,8 +14,10 @@ import java.util.Date;
 
 public abstract class Alert {
     private int id;
+    private int creatorID;
     private Date date;
     private String type;
+    private String description;
     private Pair<Double, Double> coordinates;
     private int upvotes;
     private int downvotes;
@@ -23,12 +25,12 @@ public abstract class Alert {
     /**
      * Constructs an alert with id initialized to -1
      * and upvotes/downvotes initialized to 0
-     * @param route Route that Alert is on
+     * @param description the text describing the details of the alert
      * @param date Date the alert was posted
      * @param type type of alert as a String
      * @param coordinates position the alert was posted from
      */
-    public Alert(Route route, Date date, String type, Pair<Double, Double> coordinates) {
+    public Alert(String description, Date date, String type, Pair<Double, Double> coordinates) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
 
