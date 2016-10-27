@@ -3,6 +3,8 @@ package modules;
 /**
  * Created by lidav on 10/26/2016.
  * Stores data for a comment that a user posts about an alert
+ * Invariant: id = -1 if id has not been set, else id > 0
+ *          creatorId > 0
  */
 
 public class Comment {
@@ -16,6 +18,7 @@ public class Comment {
      * Constructs a Comment with upvotes/downvotes/id initialized to 0
      * @param data comment String to store
      * @param id id of the creator of the post
+     * @throws IllegalArgumentException if id < 1
      */
     public Comment(String data, int id) {
         throw new UnsupportedOperationException("Not Yet Implemented");

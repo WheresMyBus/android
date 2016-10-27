@@ -6,6 +6,10 @@ import java.util.Date;
 
 /**
  * Created by lidav on 10/25/2016.
+ *
+ * Stores data about a alert of a specific route
+ * Invariant: id = -1 if id has not been set, else id > 0
+ *         route, date, type, coordinates != null
  */
 
 public class RouteAlert extends Alert {
@@ -18,8 +22,14 @@ public class RouteAlert extends Alert {
      * @param date Date the alert was posted
      * @param type type of alert posted
      * @param coordinates position of alert
+     * @param creatorID id of the creator of the post
+     * @param description the text describing the details of the alert
+     * @throws IllegalArgumentException if any of route, date, type,
+     *                      coordinates, description are null
+     * @throws IllegalArgumentException if creatorID < 1
      */
-    public RouteAlert(Route route, Date date, String type, Pair<Double, Double> coordinates) {
+    public RouteAlert(Route route, Date date, String type, Pair<Double, Double> coordinates,
+            String description, int creatorID) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
 

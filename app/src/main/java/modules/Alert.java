@@ -7,9 +7,10 @@ import java.util.Date;
 /**
  * Created by lidav on 10/23/2016.
  *
- * Describes an Alert class which stores the data for a bus alert and allows up/down voting
+ * Describes an Alert abstract class which stores the data for a bus alert and allows up/down voting
  * Invariant: id = -1 if id has not been set, else id > 0
- *          date, type, coordinates != null
+ *          date, type, coordinates, description != null
+ *          creatorID > 0
  */
 
 public abstract class Alert {
@@ -29,6 +30,9 @@ public abstract class Alert {
      * @param date Date the alert was posted
      * @param type type of alert as a String
      * @param coordinates position the alert was posted from
+     * @param creatorID id of the creator of the post
+     * @throws IllegalArgumentException if any of description, date, type, coordinates are null
+     * @throws IllegalArgumentException if creatorID < 1
      */
     public Alert(String description, Date date, String type,
                  int creatorID, Pair<Double, Double> coordinates) {
