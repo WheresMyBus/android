@@ -3,6 +3,7 @@ package modules;
 import android.util.Pair;
 
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by lidav on 10/25/2016.
@@ -14,6 +15,7 @@ import java.util.Date;
 
 public class NeighborhoodAlert extends Alert {
     private Neighborhood neighborhood;
+    private Set<Route> routesAffected;
 
     /**
      * Constructs a NeighborhoodAlert with id initialized to -1
@@ -29,7 +31,8 @@ public class NeighborhoodAlert extends Alert {
      * @throws IllegalArgumentException if creatorID < 1
      */
     public NeighborhoodAlert(Neighborhood neighborhood, Date date, String description,
-                             String type, Pair<Double, Double> coordinates, int creatorID) {
+                             String type, Pair<Double, Double> coordinates, int creatorID,
+                             Set<Route> routesAffected) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
 
@@ -38,6 +41,15 @@ public class NeighborhoodAlert extends Alert {
      * @return neighborhood of this alert
      */
     public Route getNeighborhood() {
+        throw new UnsupportedOperationException("Not Yet Implemented");
+    }
+
+    /**
+     * Adds new routes to the set of routes possibly affected by this neighborhood alert.
+     * @return true if none of the elements of routesAffected were already stored in the set of
+     *              routes affected by this alert, or false otherwise
+     */
+    public boolean addAffectedRoutes(Set<Route> routesAffected) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
 }
