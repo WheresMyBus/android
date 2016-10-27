@@ -33,7 +33,7 @@ env:
 
 before_script: 
   - echo no | android create avd --force --name test --target $ANDROID_TARGET --abi $ANDROID_ABI
-  - emulator -avd test -no-skin -no-audio -no-window &amp;
+  - emulator -avd test -no-skin -no-audio -no-window &
 
 script:
   - chmod +x ./gradlew
