@@ -30,7 +30,8 @@ public abstract class Alert {
      * @param type type of alert as a String
      * @param coordinates position the alert was posted from
      */
-    public Alert(String description, Date date, String type, Pair<Double, Double> coordinates) {
+    public Alert(String description, Date date, String type,
+                 int creatorID, Pair<Double, Double> coordinates) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
 
@@ -38,6 +39,14 @@ public abstract class Alert {
      * Default constructor
      */
     public Alert() {}
+
+    /**
+     * Gets the id of the creator of the alert
+     * @return creator's id as int
+     */
+    public int getCreatorID() {
+        throw new UnsupportedOperationException("Not Yet Implemented");
+    }
 
     /**
      * Upvotes this alert
@@ -54,7 +63,7 @@ public abstract class Alert {
     }
 
     /**
-     * Sets the id of this alert if alert = -1
+     * Sets the id of this alert if id = -1
      * @param id id to set on this alert
      * @return true if id was set correctly, else returns false
      */

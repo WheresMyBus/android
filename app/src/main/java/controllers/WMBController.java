@@ -5,6 +5,7 @@ import android.util.Pair;
 import java.util.List;
 
 import modules.Alert;
+import modules.Comment;
 import modules.Neighborhood;
 
 /**
@@ -21,28 +22,101 @@ public class WMBController {
 
     }
 
+    /**
+     * Gets a list of all alerts
+     * @return List of all Alerts, empty if request failed
+     */
     public List<Alert> getAlerts() {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
+
+    /**
+     * Gets a List of all Alerts about a certain route
+     * @param routeNumber number of Route to get alerts about
+     * @return List of Alerts, null if request failed
+     */
     public List<Alert> getAlerts(int routeNumber) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
+
+    /**
+     * Gets a List of all Alerts about a certain neighborhood
+     * @param neighborhood Neighboorhood to get alerts about
+     * @throws IllegalArgumentException if Neighborhood is null
+     * @return List of Alerts, empty if request failed
+     */
     public List<Alert> getAlerts(Neighborhood neighborhood) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
+
+    /**
+     * Gets a List of all Alerts within a radius of a position
+     * @param center Center of the circle to search for alerts in
+     * @param radius Radius to search for alerts in
+     * @throws IllegalArgumentException if radius < 0
+     * @return List of alerts, empty if request failed or no alerts were found
+     */
     public List<Alert> getAlerts(Pair<Double,Double> center, double radius) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
+
+    /**
+     * Posts an alert to the WMB database
+     * @param alert alert to post
+     * @return true if post succeeded, else false
+     */
     public boolean postAlert(Alert alert) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
+
+    /**
+     * Upvotes an alert in the database
+     * @param alert Alert to upvote
+     * @return true if upvote succeeded, else false
+     */
     public boolean upvote(Alert alert) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
+    /**
+     * Downvotes an alert in the database
+     * @param alert Alert to downvote
+     * @return true if downvote succeeded, else false
+     */
     public boolean downvote(Alert alert) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
+
+    /**
+     * Gets a complete List of Neighborhoods
+     * @return List of Neighborhoods, empty if request failed
+     */
     public List<Neighborhood> getNeighborhoods() {
+        throw new UnsupportedOperationException("Not Yet Implemented");
+    }
+
+    /**
+     * Gets an ordered-by-date list of all comments in the Alert
+     * @param alert Alert to get comments about
+     * @return list of comments sorted chronologically
+     */
+    public List<Comment> getComments(Alert alert) {
+        throw new UnsupportedOperationException("Not Yet Implemented");
+    }
+
+    /**
+     * Upvotes a comment in the database
+     * @param comment Comment to upvote
+     * @return true if upvote succeeded, else false
+     */
+    public boolean upvote(Comment comment) {
+        throw new UnsupportedOperationException("Not Yet Implemented");
+    }
+    /**
+     * Downvotes a comment in the database
+     * @param comment Comment to downvote
+     * @return true if downvote succeeded, else false
+     */
+    public boolean downvote(Comment comment) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
 }
