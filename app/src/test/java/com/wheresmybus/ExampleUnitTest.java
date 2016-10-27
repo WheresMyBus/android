@@ -15,8 +15,4 @@ public class ExampleUnitTest {
         assertEquals(4, 2 + 2);
     }
     
-    @Test
-    public void intended_to_fail() throws Exception {
-        assertEquals(0, 1);
-    }
 }
