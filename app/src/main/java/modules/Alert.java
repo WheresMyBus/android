@@ -2,7 +2,7 @@ package modules;
 
 import android.util.Pair;
 
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by lidav on 10/23/2016.
@@ -14,13 +14,14 @@ import java.util.Date;
 
 public abstract class Alert {
     private int id;
-    private int creatorID;
+    private int creatorId;
     private Date date;
     private String type;
     private String description;
     private Pair<Double, Double> coordinates;
     private int upvotes;
     private int downvotes;
+    private List<Comment> commments;
 
     /**
      * Constructs an alert with id initialized to -1
@@ -30,7 +31,7 @@ public abstract class Alert {
      * @param type type of alert as a String
      * @param coordinates position the alert was posted from
      */
-    public Alert(String description, Date date, String type, Pair<Double, Double> coordinates) {
+    public Alert(String description, int creatorId, Date date, String type, Pair<Double, Double> coordinates) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
 
@@ -101,4 +102,6 @@ public abstract class Alert {
     public int getDownvotes() {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
+
+    // TODO: add methods for description, creatorID, comments
 }
