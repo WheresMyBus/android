@@ -21,4 +21,12 @@ public class HomeScreen {
     public boolean onMapSelect() {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
+
+    /**
+     * Shows favorite routes and neighborhoods
+     * @return true if succeeds, false otherwise
+     */
+    public boolean viewFavorites() {
+        throw new UnsupportedOperationException("Not Yet Implemented");
+    }
 }
