@@ -23,4 +23,10 @@ public class ExampleInstrumentedTest {
 
         assertEquals("com.wheresmybus", appContext.getPackageName());
     }
+    
+    @Test
+    public void madeToFail() throws Exception {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        assertEquals("anything but com.wheresmybus", appContext.getPackageName());
+    }
 }
