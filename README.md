@@ -24,4 +24,8 @@ Building and Running the Android App
 2. Run the Android emulator by executing `run_emulator.sh [PATH_TO_ANDROID_SDK]`
 3. Install the app onto the emulator by executing `install_apk.sh [PATH_TO_ANDROID_SDK]`
 
+Running Tests
+-------------
+1. Run the Android emulator by executing `run_emulator.sh [PATH_TO_ANDROID_SDK]`
+2. Run `run_tests.sh [PATH_TO_ANDROID_SDK]`, this will test building, connecting to the emulator, and will run our unit tests.
 
