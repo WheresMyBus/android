@@ -1,5 +1,12 @@
 language: android
 jdk: oraclejdk8
+notifications:
+  email:
+    recipients:
+      - wheresmybus@u.washington.edu
+    on_success: change # options: [always|never|change]
+    on_failure: change # default: always
+
 android:
   components:
     # Uncomment the lines below if you want to
