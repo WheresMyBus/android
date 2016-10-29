@@ -1,11 +1,11 @@
-# Where's My Bus? - Android
+# Where's My Bus?
 
 [![Build Status](https://travis-ci.org/WheresMyBus/android.svg?branch=master)](https://travis-ci.org/WheresMyBus/android)
 
-### For Users
+## For Users
 
 [User Documentation](https://github.com/WheresMyBus/android/wiki/User-Documentation)
 
-### For Developers
+## For Developers
 
 [Developer Documentation](https://github.com/WheresMyBus/android/wiki/Developer-Documentation)
