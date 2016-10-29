@@ -1,16 +1,4 @@
 name: Where's My Bus?
 
-nav:
-  - name: Description
-    href: "#description"
-  - name: Install
-    href: "#install"
-  - name: Run
-    href: "#run"
-  - name: Use
-    href: "#use"
-  - name: Report A Bug
-    href: "#report-bug"
-
 team:
   name: Team Bus
