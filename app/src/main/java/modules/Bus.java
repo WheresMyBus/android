@@ -2,6 +2,8 @@ package modules;
 
 import android.util.Pair;
 
+import junit.framework.Assert;
+
 /**
  * Created by lidav on 10/23/2016.
  *
@@ -19,10 +21,17 @@ public class Bus {
      * Constructs a Bus with id initialized to -1
      * @param route Route on which the bus runs on
      * @param coordinates Coordinates of where the bus is
-     * @throws IllegalArgumentException if Route == null
+     * @throws IllegalArgumentException if route == null
      */
     public Bus(Route route, Pair<Double, Double> coordinates) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        if(route == null) {
+            throw new IllegalArgumentException();
+        }
+        this.route = route;
+        if(coordinates != null) {
+            this.coordinates = new Pair<>(coordinates.first, coordinates.second);
+        }
+        checkRep();
     }
 
     /**
@@ -30,18 +39,26 @@ public class Bus {
      * If the id was already set (id != -1), then does not set id
      * @param id int to set the id to
      * @return true if id was set correctly, else returns false
+     * @throws IllegalArgumentException if id < 1
      */
     public boolean setId(int id) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        if(id < 1) {
+            throw new IllegalArgumentException();
+        }
+        if(this.id == -1) {
+            this.id = id;
+            checkRep();
+            return true;
+        }
+        return false;
     }
 
     /**
      * Gets the id of the bus
      * @return int id of the bus, -1 if id was not set
-     * @throws IllegalArgumentException if param id < 1
      */
     public int getId() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        return id;
     }
 
     /**
@@ -49,23 +66,28 @@ public class Bus {
      * @return Route that the bus is travelling on
      */
     public Route getRoute() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        return route; // Route is immutable
     }
 
     /**
      * Gets a deep copy of the position of the bus
-     * @return Pair<Double,Double> coordinates of where the bus is
+     * @return coordinates of where the bus is
      */
     public Pair<Double, Double> getCoordinates() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        return new Pair<>(coordinates.first, coordinates.second);
     }
 
     /**
      * Sets the coordinates of the bus
      * @param coordinates position fo the bus as a Pair<Double,Double>
-     * @throws IllegalArgumentException if coordinates == null
      */
     public void setCoordinates(Pair<Double,Double> coordinates) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        this.coordinates = coordinates;
+        checkRep();
+    }
+
+    private void checkRep() {
+        Assert.assertTrue(route != null);
+        Assert.assertTrue(id == -1 || id > 0);
     }
 }
