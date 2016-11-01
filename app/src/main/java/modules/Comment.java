@@ -1,5 +1,7 @@
 package modules;
 
+import junit.framework.Assert;
+
 /**
  * Created by lidav on 10/26/2016.
  * Stores data for a comment that a user posts about an alert
@@ -17,11 +19,16 @@ public class Comment {
     /**
      * Constructs a Comment with upvotes/downvotes/id initialized to 0
      * @param data comment String to store
-     * @param id id of the creator of the post
-     * @throws IllegalArgumentException if id < 1
+     * @param creatorId id of the creator of the post
+     * @throws IllegalArgumentException if creatorId < 1 or if data is null
      */
-    public Comment(String data, int id) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+    public Comment(String data, int creatorId) {
+        if(creatorId < 1 || data == null) {
+            throw new IllegalArgumentException();
+        }
+        this.data = data;
+        this.creatorId = creatorId;
+        checkRep();
     }
 
     /**
@@ -29,7 +36,7 @@ public class Comment {
      * @return comment String
      */
     public String getData() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        return data;
     }
 
     /**
@@ -37,21 +44,23 @@ public class Comment {
      * @return creator's id as int
      */
     public int getCreatorID() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        return creatorId;
     }
 
     /**
      * Upvotes this comment
      */
     public void upvote() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        upvotes++;
+        checkRep();
     }
 
     /**
      * Downvotes this comment
      */
     public void downvote() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        downvotes++;
+        checkRep();
     }
 
     /**
@@ -60,7 +69,15 @@ public class Comment {
      * @return true if id was set correctly, else returns false
      */
     public boolean setId(int id) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        if(id < 1) {
+            throw new IllegalArgumentException();
+        }
+        if(this.id == -1) {
+            this.id = id;
+            checkRep();
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -68,14 +85,14 @@ public class Comment {
      * @return id of comment as int
      */
     public int getId() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        return id;
     }
     /**
      * Gets the upvotes of this comment
      * @return upvotes as int
      */
     public int getUpvotes() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        return upvotes;
     }
 
     /**
@@ -83,6 +100,13 @@ public class Comment {
      * @return downvotes as int
      */
     public int getDownvotes() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        return downvotes;
+    }
+    private void checkRep() {
+        Assert.assertTrue(id == -1 || id > 0);
+        Assert.assertTrue(creatorId > 0);
+        Assert.assertFalse(data == null);
+        Assert.assertTrue(upvotes > 0);
+        Assert.assertTrue(downvotes > 0);
     }
 }

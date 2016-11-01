@@ -1,11 +1,13 @@
 package modules;
 
+import junit.framework.Assert;
+
 import java.util.Set;
 
 /**
  * Created by lidav on 10/23/2016.
  *
- * Class that stores data for a bus route
+ * Immutable class that stores data for a bus route
  * Invariant: number > 0, name != null
  */
 
@@ -21,10 +23,18 @@ public class Route {
      * @param number number that Route is associated with
      * @param name destination of the Route
      * @throws IllegalArgumentException if number < 1
-     * @throws IllegalArgumentException if name = null
+     * @throws IllegalArgumentException if name == null
      */
     public Route(int number, String name) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        if(number < 1) {
+            throw new IllegalArgumentException("number < 1");
+        }
+        if(name == null) {
+            throw new IllegalArgumentException("name == null");
+        }
+        this.number = number;
+        this.name = name;
+        checkRep();
     }
 
     /**
@@ -32,7 +42,7 @@ public class Route {
      * @return number of the route as an int
      */
     public int getNumber() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        return number;
     }
 
     /**
@@ -40,7 +50,11 @@ public class Route {
      * @return name of the route as a String
      */
     public String getName() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        return name;
+    }
+    private void checkRep() {
+        Assert.assertTrue(number > 0);
+        Assert.assertTrue(name != null);
     }
 /*
     /**
