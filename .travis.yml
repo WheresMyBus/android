@@ -1,5 +1,12 @@
 language: android
 jdk: oraclejdk8
+notifications:
+  email:
+    recipients:
+      - wheresmybus@u.washington.edu
+    on_success: change # options: [always|never|change]
+    on_failure: change # default: always
+
 android:
   components:
     # Uncomment the lines below if you want to
@@ -25,8 +32,18 @@ android:
 
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
-    # - sys-img-armeabi-v7a-android-22
-    - sys-img-x86-android-24
+    - sys-img-armeabi-v7a-android-24
+    # - sys-img-x86-android-24
+env:
+  matrix: 
+    - ANDROID_TARGET=android-24 ANDROID_ABI=armeabi-v7a
+
+before_script: 
+  - echo no | android create avd --force --name test --target $ANDROID_TARGET --abi $ANDROID_ABI
+  - emulator -avd test -no-skin -no-audio -no-window &
+
 script:
   - chmod +x ./gradlew
-#  - ./gradlew build connectedCheck # I'll make this work tomorrow...
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+  - ./gradlew build connectedCheck # I'll make this work tomorrow...
