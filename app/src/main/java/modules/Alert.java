@@ -68,6 +68,7 @@ public abstract class Alert {
      */
     public void upvote() {
         this.upvotes++;
+        checkRep();
     }
 
     /**
@@ -75,6 +76,7 @@ public abstract class Alert {
      */
     public void downvote() {
         this.downvotes++;
+        checkRep();
     }
 
     /**
@@ -89,6 +91,7 @@ public abstract class Alert {
         }
         if(this.id == -1) {
             this.id = id;
+            checkRep();
             return true;
         }
         return false;
@@ -150,7 +153,7 @@ public abstract class Alert {
         return (Date) this.date.clone();
     }
 
-    private void checkRep() {
+    protected void checkRep() {
         Assert.assertTrue(this.creatorID > 0);
         Assert.assertTrue(date != null);
         Assert.assertTrue(type != null);
