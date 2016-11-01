@@ -3,6 +3,7 @@ package modules;
 import android.util.Pair;
 
 import java.util.Date;
+import junit.framework.*;
 
 /**
  * Created by lidav on 10/23/2016.
@@ -36,7 +37,17 @@ public abstract class Alert {
      */
     public Alert(String description, Date date, String type,
                  int creatorID, Pair<Double, Double> coordinates) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        if(creatorID < 1) {
+            throw new IllegalArgumentException("creatorID < 1");
+        }
+        if(description == null || date == null || type == null || coordinates == null) {
+            throw new IllegalArgumentException("null parameters");
+        }
+        this.description = description;
+        this.date = (Date) date.clone();
+        this.type = type;
+        this.coordinates = new Pair<>(coordinates.first, coordinates.second);
+        this.creatorID = creatorID;
     }
 
     /**
@@ -49,30 +60,41 @@ public abstract class Alert {
      * @return creator's id as int
      */
     public int getCreatorID() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        return creatorID;
     }
 
     /**
      * Upvotes this alert
      */
     public void upvote() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        this.upvotes++;
+        checkRep();
     }
 
     /**
      * Downvotes this alert
      */
     public void downvote() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        this.downvotes++;
+        checkRep();
     }
 
     /**
      * Sets the id of this alert if id = -1
      * @param id id to set on this alert
      * @return true if id was set correctly, else returns false
+     * @throws IllegalArgumentException if id < 1
      */
     public boolean setId(int id) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        if(id < 1) {
+            throw new IllegalArgumentException();
+        }
+        if(this.id == -1) {
+            this.id = id;
+            checkRep();
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -80,7 +102,7 @@ public abstract class Alert {
      * @return id of alert as int
      */
     public int getId() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        return id;
     }
 
     /**
@@ -88,7 +110,7 @@ public abstract class Alert {
      * @return type of alert as String
      */
     public String getType() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        return type;
     }
 
     /**
@@ -96,7 +118,7 @@ public abstract class Alert {
      * @return coordinates of this alert as a double Pair
      */
     public Pair<Double, Double> getCoordinates() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        return new Pair<>(coordinates.first, coordinates.second);
     }
 
     /**
@@ -104,7 +126,7 @@ public abstract class Alert {
      * @return upvotes as int
      */
     public int getUpvotes() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        return upvotes;
     }
 
     /**
@@ -112,6 +134,33 @@ public abstract class Alert {
      * @return downvotes as int
      */
     public int getDownvotes() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        return downvotes;
+    }
+
+    /**
+     * Gets the description of the alert
+     * @return description as String
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Gets the Date of the alert
+     * @return Date of the alert
+     */
+    public Date getDate() {
+        return (Date) this.date.clone();
+    }
+
+    protected void checkRep() {
+        Assert.assertTrue(this.creatorID > 0);
+        Assert.assertTrue(date != null);
+        Assert.assertTrue(type != null);
+        Assert.assertTrue(description != null);
+        Assert.assertTrue(coordinates != null);
+        Assert.assertTrue(upvotes > -1);
+        Assert.assertTrue(downvotes > -1);
+        Assert.assertTrue(id == -1 || id > 0);
     }
 }

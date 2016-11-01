@@ -2,6 +2,8 @@ package modules;
 
 import android.util.Pair;
 
+import junit.framework.Assert;
+
 import java.util.Date;
 
 /**
@@ -30,7 +32,12 @@ public class RouteAlert extends Alert {
      */
     public RouteAlert(Route route, Date date, String type, Pair<Double, Double> coordinates,
             String description, int creatorID) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        super(description,date,type,creatorID,coordinates);
+        if(route == null) {
+            throw new IllegalArgumentException("route == null");
+        }
+        this.route = route;
+        checkRep();
     }
 
     /**
@@ -38,6 +45,12 @@ public class RouteAlert extends Alert {
      * @return route of this alert
      */
     public Route getRoute() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+        return new Route(route.getNumber(), route.getName());
+    }
+
+    @Override
+    protected void checkRep() {
+        super.checkRep();
+        Assert.assertFalse(route == null);
     }
 }
