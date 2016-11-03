@@ -33,7 +33,9 @@
             android:name=".CatalogActivity">
 
         </activity>
-
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyClMB6f77og7XRhydYH1lEK5jTum73yl-M"/>
     </application>
 
 </manifest>

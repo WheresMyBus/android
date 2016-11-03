@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/mediumBlue</item>
         <item name="colorPrimaryDark">@color/darkBlue</item>
         <item name="colorAccent">@color/white</item>
+        <item name="android:tabWidgetStyle">@style/AppTheme.TabWidget</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -19,6 +20,15 @@
 
     <style name="AppTheme.Launcher" >
         <item name="android:windowBackground">@layout/splash</item>
+    </style>
+
+    <style name="AppTheme.TabWidget">
+        <item name="android:background">@color/mediumBlue</item>
+        <item name="textAppearance">@style/AppTheme.TabWidget.TextAppearance</item>
+    </style>
+
+    <style name="AppTheme.TabWidget.TextAppearance">
+        <item name="android:textColor">@color/white</item>
     </style>
 
 </resources>
