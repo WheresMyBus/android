@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.content.Intent;
-import com.wheresmybus.R;
 
 public class Splash extends AppCompatActivity {
 
