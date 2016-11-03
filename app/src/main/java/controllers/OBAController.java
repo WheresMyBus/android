@@ -13,11 +13,19 @@ import modules.*;
  */
 
 public class OBAController {
+    private static OBAController instance = null;
     /**
      * Constructs an OBAController and connects to OBA API
      */
-    public OBAController() {
+    protected OBAController() {
         throw new UnsupportedOperationException("Not Yet Implemented");
+    }
+
+    public static OBAController getInstance() {
+        if(instance == null) {
+            instance = new OBAController();
+        }
+        return instance;
     }
 
     /**
