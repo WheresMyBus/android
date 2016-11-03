@@ -1,8 +1,19 @@
 package controllers;
 
+import android.util.JsonReader;
 import android.util.Pair;
 
+import org.json.JSONArray;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import modules.Alert;
 import modules.Comment;
@@ -15,11 +26,20 @@ import modules.Neighborhood;
  */
 
 public class WMBController {
+    private static WMBController instance = null;
+
     /**
      * Constructs a WMBController and connects to server/database
      */
-    public  WMBController() {
+    protected   WMBController() {
 
+    }
+
+    public static WMBController getInstance() {
+        if(instance == null) {
+            instance = new WMBController();
+        }
+        return instance;
     }
 
     /**
@@ -91,6 +111,35 @@ public class WMBController {
      * @return List of Neighborhoods, empty if request failed
      */
     public List<Neighborhood> getNeighborhoods() {
+        String https_url = "https://wheresmybus-api.herokuapp.com/neighborhoods.json";
+        URL url;
+        try {
+
+            url = new URL(https_url);
+            HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
+            return parseNeighborhoods(con);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        throw new UnsupportedOperationException("Not Yet Implemented");
+    }
+
+    private List<Neighborhood> parseNeighborhoods(HttpsURLConnection con) {
+        if(con!=null){
+            try {
+                BufferedReader br = new BufferedReader(
+                                new InputStreamReader(con.getInputStream()));
+                String input;
+                JsonReader reader = new JsonReader(br);
+                List<Neighborhood> newList = new ArrayList<>();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
 
