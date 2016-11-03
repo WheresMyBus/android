@@ -1,8 +1,13 @@
 package controllers;
 
+import android.util.JsonReader;
 import android.util.Pair;
 
+import org.json.JSONArray;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -106,7 +111,7 @@ public class WMBController {
      * @return List of Neighborhoods, empty if request failed
      */
     public List<Neighborhood> getNeighborhoods() {
-        String https_url = "https://www.google.com/";
+        String https_url = "https://wheresmybus-api.herokuapp.com/neighborhoods.json";
         URL url;
         try {
 
@@ -122,7 +127,19 @@ public class WMBController {
     }
 
     private List<Neighborhood> parseNeighborhoods(HttpsURLConnection con) {
+        if(con!=null){
+            try {
+                BufferedReader br = new BufferedReader(
+                                new InputStreamReader(con.getInputStream()));
+                String input;
+                JsonReader reader = new JsonReader(br);
+                List<Neighborhood> newList = new ArrayList<>();
 
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
 
