@@ -1,26 +1,31 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'Where\'s My Bus?'
+            keyPassword 'WMB!android'
+            storeFile file('C:/Users/danho/git/WheresMyBus/android/keystore.jks')
+            storePassword '2b3d1n@team_BUS'
+        }
+    }
     compileSdkVersion 24
     buildToolsVersion "25.0.0"
-    
     // These need to be turned off to build on travis while our code is still
     // badly structured/full of stubs.
     lintOptions {
-       // set to true to turn off analysis progress reporting by lint
-       quiet true
-       // if true, stop the gradle build if errors are found
-       abortOnError false
-       // if true, only report errors
-       ignoreWarnings true
+        // set to true to turn off analysis progress reporting by lint
+        quiet true
+        // if true, stop the gradle build if errors are found
+        abortOnError false
+        // if true, only report errors
+        ignoreWarnings true
     }
-       
     // This enables long timeouts required on slow environments, e.g. Travis
     adbOptions {
         timeOutInMs 10 * 60 * 1000  // Set the timeout to 10 minutes
-        installOptions "-d","-t"
+        installOptions "-d", "-t"
     }
-    
     defaultConfig {
         applicationId "com.wheresmybus"
         minSdkVersion 15
@@ -34,11 +39,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            signingConfig signingConfigs.config
+        }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
