@@ -1,16 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-    /*
-    signingConfigs {
-        config {
-            keyAlias 'Where\'s My Bus?'
-            keyPassword 'WMB!android'
-            storeFile file('C:/Users/danho/git/WheresMyBus/android/keystore.jks')
-            storePassword '2b3d1n@team_BUS'
-        }
-    }
-    */
     compileSdkVersion 24
     buildToolsVersion "25.0.0"
     // These need to be turned off to build on travis while our code is still

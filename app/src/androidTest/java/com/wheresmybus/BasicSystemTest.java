@@ -10,6 +10,9 @@ import java.util.List;
 
 import controllers.WMBController;
 import modules.Neighborhood;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 import static org.junit.Assert.*;
 
@@ -36,4 +39,22 @@ public class BasicSystemTest {
         assertEquals("ID comparison of index 48 neighborhood entry", 48, maybeSouthPark.getID());
 
     }
+
+
+    /*  Async use example.
+    public void exampleRequest() throws Exception {
+        WMBController controller = WMBController.getInstance();
+        controller.getNeighborhoods(new Callback<List<Neighborhood>>() {
+            @Override
+            public void onResponse(Response<List<Neighborhood>> response, Retrofit retrofit) {
+                List<Neighborhood> data = response.body();
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                // stuff to do when it doesn't work
+            }
+        });
+    }
+    */
 }
