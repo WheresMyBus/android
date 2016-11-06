@@ -38,8 +38,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:background="@color/green"
-        android:textColor="@color/white"
-        android:onClick="switchToCatalog" />
+        android:textColor="@color/white" />
 
     <Button
         android:text="Bryce"
@@ -53,6 +52,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:onClick="switchToCatalog" />
 
 </RelativeLayout>
