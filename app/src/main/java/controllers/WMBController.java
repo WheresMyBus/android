@@ -2,7 +2,7 @@ package controllers;
 
 import android.util.JsonReader;
 import android.util.Pair;
-
+import android.util.Log;
 import org.json.JSONArray;
 
 import java.io.BufferedReader;
@@ -18,6 +18,11 @@ import javax.net.ssl.HttpsURLConnection;
 import modules.Alert;
 import modules.Comment;
 import modules.Neighborhood;
+import modules.RetrofitAPI;
+import retrofit.Call;
+import retrofit.GsonConverterFactory;
+import retrofit.Retrofit;
+import retrofit.Callback;
 
 /**
  * Created by lidav on 10/23/2016.
@@ -27,15 +32,20 @@ import modules.Neighborhood;
 
 public class WMBController {
     private static WMBController instance = null;
+    private static RetrofitAPI retrofitService = new Retrofit.Builder()
+            .baseUrl("http://wheresmybus-api.herokuapp.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(RetrofitAPI.class);
 
     /**
      * Constructs a WMBController and connects to server/database
      */
-    protected   WMBController() {
+    protected WMBController() {
 
     }
 
-    public static WMBController getInstance() {
+    public static synchronized WMBController getInstance() {
         if(instance == null) {
             instance = new WMBController();
         }
@@ -107,40 +117,26 @@ public class WMBController {
     }
 
     /**
+     * Performs actions of callback on List of Neighborhoods obtained from api.
+     * @param callback a retrofit Callback for handling the response from the api.
+     */
+    public void getNeighborhoods(Callback<List<Neighborhood>> callback) {
+        Call<List<Neighborhood>> call = retrofitService.getNeighborhoodsJSON();
+        call.enqueue(callback);
+    }
+
+    /**
      * Gets a complete List of Neighborhoods
      * @return List of Neighborhoods, empty if request failed
      */
-    public List<Neighborhood> getNeighborhoods() {
-        String https_url = "https://wheresmybus-api.herokuapp.com/neighborhoods.json";
-        URL url;
+    public List<Neighborhood> getNeighborhoodsSynchonously() {
+        Call<List<Neighborhood>> call = retrofitService.getNeighborhoodsJSON();
         try {
-
-            url = new URL(https_url);
-            HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
-            return parseNeighborhoods(con);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            return call.execute().body();
+        } catch (Exception e) {
+            Log.d(e.toString(), "in getNeighborhoodsSychronously");
+            return null;
         }
-        throw new UnsupportedOperationException("Not Yet Implemented");
-    }
-
-    private List<Neighborhood> parseNeighborhoods(HttpsURLConnection con) {
-        if(con!=null){
-            try {
-                BufferedReader br = new BufferedReader(
-                                new InputStreamReader(con.getInputStream()));
-                String input;
-                JsonReader reader = new JsonReader(br);
-                List<Neighborhood> newList = new ArrayList<>();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-        throw new UnsupportedOperationException("Not Yet Implemented");
     }
 
     /**
@@ -160,6 +156,7 @@ public class WMBController {
     public boolean upvote(Comment comment) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
+
     /**
      * Downvotes a comment in the database
      * @param comment Comment to downvote

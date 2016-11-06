@@ -2,6 +2,8 @@ package modules;
 
 import android.util.Pair;
 
+import com.google.gson.annotations.SerializedName;
+
 import junit.framework.Assert;
 
 import java.util.ArrayList;
@@ -18,7 +20,10 @@ import java.util.Set;
 
 public class Neighborhood {
     private List<Pair<Double,Double>> perimeter;
-    //private int id;
+
+    @SerializedName("id")
+    private int id;
+    @SerializedName("name")
     private String name;
     //private Pair<Double, Double> center;
     //private double radius;
@@ -26,20 +31,27 @@ public class Neighborhood {
 
     /**
      * Contructs a Neighborhood
+     * @param id unique int ID of the neighborhood.
      * @param perimeter List<Pair<Double,Double>> of Points in the perimeter of the neighborhood
      * @param name name of the neighborhood
-     * @throws IllegalArgumentException if perimeter or name is null
+     * @throws IllegalArgumentException if perimeter or name is null or id < 0.
      * @throws IllegalArgumentException if any element of perimeter is null
      */
-    public Neighborhood(List<Pair<Double,Double>> perimeter, String name) {
+    public Neighborhood(int id, String name) {
+        /* TODO: adjust once perimeter data is available. Then uncomment with checkRep().
         if(perimeter == null || perimeter.contains(null) || name == null) {
             throw new IllegalArgumentException();
         }
         for(Pair<Double,Double> next : perimeter) {
             this.perimeter.add(new Pair<>(next.first, next.second));
         }
+        */
+        if(id < 0 || name == null) {
+            throw new IllegalArgumentException();
+        }
         this.name = name;
-        checkRep();
+        this.id = id;
+        //checkRep();
     }
 
     /*public boolean setId(int id) {
@@ -69,6 +81,15 @@ public class Neighborhood {
     public String getName() {
         return name;
     }
+
+    /**
+     * Gets the name of the neighborhood
+     * @return name of the neighborhood
+     */
+    public int getID() {
+        return id;
+    }
+
 
     private void checkRep() {
         Assert.assertFalse(name == null);
