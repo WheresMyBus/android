@@ -11,36 +11,35 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.wheresmybus.MainActivity"
-    tools:showIn="@layout/activity_main"
-    android:background="@color/mediumBlue">
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/logo"
-        android:id="@+id/imageView2"
-        android:paddingBottom="0dp"
-        android:paddingTop="0dp"
-        android:contentDescription="@string/app_logo"
-        android:adjustViewBounds="true"
-        android:layout_marginTop="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+    tools:showIn="@layout/activity_main">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textSize="40sp"
-        android:textAlignment="center"
-        android:textStyle="normal|bold"
-        android:textColor="@color/white"
-        android:layout_marginTop="17dp"
-        android:layout_below="@+id/imageView2"
+        android:text="Hello World!" />
+
+    <Button
+        android:text="@string/submit_alert_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        android:layout_marginTop="430dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:background="@color/green"
+        android:textColor="@color/white" />
+
+    <Button
+        android:text="Bryce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="163dp"
+        android:id="@+id/button2"
+        android:background="@color/purple"
+        android:textColor="@color/white" />
 
 </RelativeLayout>
