@@ -50,7 +50,7 @@ public class NeighborhoodAlert extends Alert {
      * @return neighborhood of this alert
      */
     public Neighborhood getNeighborhood() {
-        return new Neighborhood(neighborhood.getPerimeter(), neighborhood.getName());
+        return new Neighborhood(neighborhood.getID(), neighborhood.getName());
     }
 
     /**
