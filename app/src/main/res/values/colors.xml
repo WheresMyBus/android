@@ -6,11 +6,11 @@
     <color name="mediumBlue">#4A97CD</color>
     <color name="darkBlue">#4287B7</color>
     <color name="white">#FFFFFF</color>
-    <color name="orange">#CB7B44</color>
+    <color name="orange">#EC9027</color>
     <color name="yellow">#ECC127</color>
     <color name="green">#34BB6B</color>
     <color name="pink">#BB3484</color>
     <color name="purple">#A034BB</color>
     <color name="lightGreen">#97CD4A</color>
-    <color name="lightOrange">#CD804A</color>
+    <color name="lightOrange">#ECA027</color>
 </resources>
