@@ -19,7 +19,7 @@
         android:text="Hello World!" />
 
     <Button
-        android:text="Button"
+        android:text="@string/submit_alert_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button"
@@ -27,6 +27,19 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:background="@color/green"
+        android:textColor="@color/white" />
+
+    <Button
+        android:text="Bryce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="163dp"
+        android:id="@+id/button2"
+        android:background="@color/purple"
+        android:textColor="@color/white" />
 
 </RelativeLayout>
