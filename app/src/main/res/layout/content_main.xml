@@ -38,7 +38,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:background="@color/green"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:onClick="switchToCatalog" />
 
     <Button
         android:text="Bryce"
