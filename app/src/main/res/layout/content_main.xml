@@ -23,10 +23,10 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/button2"
         android:layout_alignParentTop="true"
         android:textSize="24sp"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:layout_alignBottom="@+id/button2" />
 
     <Button
         android:text="@string/submit_alert_button"
@@ -42,21 +42,6 @@
         android:textColor="@color/white" />
 
     <Button
-        android:text="View Favorites"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="91dp"
-        android:id="@+id/button2"
-        android:background="@color/yellow"
-        android:textColor="@color/white"
-        android:layout_alignBottom="@+id/button"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="switchToCatalog" />
-
-    <Button
         android:text="Neighborhoods"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,5 +52,20 @@
         android:drawableTop="@drawable/neighborhood_logo_filler"
         android:layout_above="@+id/button2"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="View Favorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="63dp"
+        android:id="@+id/button2"
+        android:background="@color/yellow"
+        android:textColor="@color/white"
+        android:onClick="switchToCatalog"
+        android:layout_alignBottom="@+id/button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
