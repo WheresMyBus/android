@@ -8,4 +8,5 @@
     <string name="select_forum_type">Select a type of forum:</string>
     <string name="bus_route">Bus Route</string>
     <string name="neighborhood">Neighborhood</string>
+    <string name="submit">Submit</string>
 </resources>
