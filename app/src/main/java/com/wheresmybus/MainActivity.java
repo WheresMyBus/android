@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void switchToSubmitAlert(View v) {
-
+        Intent intent = new Intent(this, SubmitAlertActivity.class);
+        startActivity(intent);
     }
 }
