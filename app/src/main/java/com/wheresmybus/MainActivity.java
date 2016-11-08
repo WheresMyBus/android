@@ -42,4 +42,8 @@ public class MainActivity extends AppCompatActivity {
     public void switchToCatalog(View v) {
 
     }
+
+    public void switchToSubmitAlert(View v) {
+
+    }
 }
