@@ -7,6 +7,7 @@ import junit.framework.Assert;
  * Stores data for a comment that a user posts about an alert
  * Invariant: id = -1 if id has not been set, else id > 0
  *          creatorId > 0
+ *          alert, data != null
  */
 
 public class Comment {
@@ -15,6 +16,7 @@ public class Comment {
     private int upvotes;
     private int downvotes;
     private int id;
+    private Alert alert;
 
     /**
      * Constructs a Comment with upvotes/downvotes/id initialized to 0
@@ -22,12 +24,13 @@ public class Comment {
      * @param creatorId id of the creator of the post
      * @throws IllegalArgumentException if creatorId < 1 or if data is null
      */
-    public Comment(String data, int creatorId) {
-        if(creatorId < 1 || data == null) {
+    public Comment(String data, int creatorId, Alert alert) {
+        if(creatorId < 1 || data == null || alert == null) {
             throw new IllegalArgumentException();
         }
         this.data = data;
         this.creatorId = creatorId;
+        this.alert = alert;
         checkRep();
     }
 
@@ -81,6 +84,14 @@ public class Comment {
     }
 
     /**
+     * Returns the alert that this comment is posted to
+     * @return alert comment was posted to
+     */
+    public Alert getAlert() {
+        return alert;
+    }
+
+    /**
      * Gets the id of this comment
      * @return id of comment as int
      */
@@ -108,5 +119,6 @@ public class Comment {
         Assert.assertFalse(data == null);
         Assert.assertTrue(upvotes > 0);
         Assert.assertTrue(downvotes > 0);
+        Assert.assertFalse(alert == null);
     }
 }
