@@ -62,7 +62,6 @@
         android:id="@+id/button2"
         android:background="@color/yellow"
         android:textColor="@color/white"
-        android:onClick="switchToCatalog"
         android:layout_alignBottom="@+id/button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -78,6 +77,7 @@
         android:layout_marginBottom="10dp"
         android:id="@+id/button4"
         android:textColor="@color/white"
-        android:background="@color/mediumBlue"/>
+        android:background="@color/mediumBlue"
+        android:onClick="switchToCatalog"/>
 
 </RelativeLayout>
