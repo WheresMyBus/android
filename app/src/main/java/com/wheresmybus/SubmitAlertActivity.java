@@ -34,4 +34,9 @@ public class SubmitAlertActivity extends AppCompatActivity {
                     break;
         }
     }
+
+    private void loadSpinnerData() {
+        // get the names of bus routes or neighborhoods depending on which radio button selected
+        // make sure data alphabetized
+    }
 }
