@@ -44,4 +44,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CatalogActivity.class);
         startActivity(intent);
     }
+
+    public void switchToSubmitAlert(View v) {
+
+    }
 }
