@@ -1,5 +1,7 @@
 package com.wheresmybus;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.RadioButton;
 import android.view.View;
@@ -9,6 +11,12 @@ import android.view.View;
  */
 
 public class SubmitAlertActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_submit_alert);
+    }
 
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
