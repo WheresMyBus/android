@@ -31,11 +31,11 @@ public class SubmitAlertActivity extends AppCompatActivity {
         busRouteSpinner = (Spinner) findViewById(R.id.bus_route_spinner);
         busRouteSpinner.setVisibility(View.INVISIBLE);
 
-        // neighborhood = (TextView) findViewById(R.id.choose_neighborhood);
-        //neighborhood.setVisibility(View.INVISIBLE);
+        neighborhood = (TextView) findViewById(R.id.choose_neighborhood);
+        neighborhood.setVisibility(View.INVISIBLE);
 
-        // neighborhoodSpinner = (Spinner) findViewById(R.id.neighborhood_spinner);
-        //neighborhoodSpinner.setVisibility(View.INVISIBLE);
+        neighborhoodSpinner = (Spinner) findViewById(R.id.neighborhood_spinner);
+        neighborhoodSpinner.setVisibility(View.INVISIBLE);
 
         // add these things for selecting tag for alert and text box for alert description
 
@@ -53,6 +53,8 @@ public class SubmitAlertActivity extends AppCompatActivity {
                 if (checked)
                     // Pirates are the best
 
+                    neighborhood.setVisibility(View.INVISIBLE);
+                    neighborhood.setVisibility(View.INVISIBLE);
                     busRoute.setVisibility(View.VISIBLE);
                     busRouteSpinner.setVisibility(View.VISIBLE);
                     break;
@@ -62,7 +64,8 @@ public class SubmitAlertActivity extends AppCompatActivity {
 
                     busRoute.setVisibility(View.INVISIBLE);
                     busRouteSpinner.setVisibility(View.INVISIBLE);
-                    submitButton.setVisibility(View.VISIBLE);
+                    neighborhood.setVisibility(View.VISIBLE);
+                    neighborhood.setVisibility(View.VISIBLE);
                     break;
         }
     }
