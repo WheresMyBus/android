@@ -53,7 +53,8 @@
         android:textColor="@color/white"
         android:drawableTop="@drawable/neighborhood_logo"
         android:layout_above="@+id/button2"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="switchToNeighborhoodCatalog" />
 
     <Button
         android:text="View Favorites"
@@ -79,6 +80,6 @@
         android:id="@+id/button4"
         android:textColor="@color/white"
         android:background="@color/mediumBlue"
-        android:onClick="switchToCatalog"/>
+        android:onClick="switchToRouteCatalog" />
 
 </RelativeLayout>

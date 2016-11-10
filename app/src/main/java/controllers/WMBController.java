@@ -134,8 +134,7 @@ public class WMBController {
         try {
             return call.execute().body();
         } catch (Exception e) {
-            Log.d(e.toString(), "in getNeighborhoodsSychronously");
-            return null;
+            return new ArrayList<Neighborhood>();
         }
     }
 

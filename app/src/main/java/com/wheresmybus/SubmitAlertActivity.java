@@ -17,7 +17,8 @@ import android.support.v4.app.Fragment;
  * Created by lesli_000 on 11/8/2016.
  */
 
-public class SubmitAlertActivity extends FragmentActivity implements BusRouteAlertFragment.OnFragmentInteractionListener {
+public class SubmitAlertActivity extends FragmentActivity implements BusRouteAlertFragment.OnFragmentInteractionListener,
+        NeighborhoodAlertFragment.OnFragmentInteractionListener {
     private Button submitButton;
     /*private Spinner busRouteSpinner;
     private Spinner neighborhoodSpinner;
@@ -25,6 +26,7 @@ public class SubmitAlertActivity extends FragmentActivity implements BusRouteAle
     private TextView neighborhood;  */
     private FragmentManager fragmentManager;
     private Fragment busRouteFragment;
+    private Fragment neighborhoodFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,9 @@ public class SubmitAlertActivity extends FragmentActivity implements BusRouteAle
         busRouteFragment = (BusRouteAlertFragment) fragmentManager.findFragmentById(R.id.bus_route_alert_fragment);
         busRouteFragment.getView().setVisibility(View.INVISIBLE);
 
-
+        fragmentManager.beginTransaction().add(R.id.neighborhood_alert_fragment, new NeighborhoodAlertFragment(), "neighborhoodFragment").commit();
+        neighborhoodFragment = (NeighborhoodAlertFragment) fragmentManager.findFragmentById(R.id.neighborhood_alert_fragment);
+        neighborhoodFragment.getView().setVisibility(View.INVISIBLE);
 
         /*
         busRoute = (TextView) findViewById(R.id.choose_bus_route);
@@ -75,6 +79,7 @@ public class SubmitAlertActivity extends FragmentActivity implements BusRouteAle
                     busRouteSpinner.setVisibility(View.VISIBLE);
                     */
 
+                    neighborhoodFragment.getView().setVisibility(View.INVISIBLE);
                     busRouteFragment.getView().setVisibility(View.VISIBLE);
                     break;
             case R.id.radio_neighborhood:
@@ -88,6 +93,7 @@ public class SubmitAlertActivity extends FragmentActivity implements BusRouteAle
                     */
 
                     busRouteFragment.getView().setVisibility(View.INVISIBLE);
+                    neighborhoodFragment.getView().setVisibility(View.VISIBLE);
                     break;
         }
     }

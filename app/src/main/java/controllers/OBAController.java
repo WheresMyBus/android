@@ -1,10 +1,18 @@
 package controllers;
 
+import android.util.Log;
 import android.util.Pair;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import modules.*;
+import retrofit.Call;
+import retrofit.GsonConverterFactory;
+import retrofit.Retrofit;
+import retrofit.Callback;
+
 
 /**
  * Created by lidav on 10/23/2016.
@@ -14,14 +22,20 @@ import modules.*;
 
 public class OBAController {
     private static OBAController instance = null;
+    private static RetrofitAPI retrofitService = new Retrofit.Builder()
+            .baseUrl("http://wheresmybus-api.herokuapp.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(RetrofitAPI.class);
+
     /**
      * Constructs an OBAController and connects to OBA API
      */
     protected OBAController() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+
     }
 
-    public static OBAController getInstance() {
+    public static synchronized OBAController getInstance() {
         if(instance == null) {
             instance = new OBAController();
         }
@@ -33,10 +47,29 @@ public class OBAController {
      * Returns an empty set if the request failed
      * @return Set of routes from One Bus Away, empty if request failed
      */
-    public Set<Route> getRoutes() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+    public void getRoutes(Callback<Set<Route>> callback) {
+        Call<Set<Route>> call = retrofitService.getRoutesJSON();
+        call.enqueue(callback);
     }
 
+    /**
+     * Gets a complete List of Neighborhoods
+     * @return List of Neighborhoods, empty if request failed
+     */
+    public Set<Route> getRoutesSynchonously() {
+        Call<Set<Route>> call = retrofitService.getRoutesJSON();
+        try {
+            Set<Route> routeList = call.execute().body();
+            for (Route r : routeList) {
+                Log.d("route name: ", r.getName());
+            }
+            Log.d("routeList.isEmpty():", "" + routeList.isEmpty());
+            return routeList;
+        } catch (Exception e) {
+            Log.d("In getRoutesSynch: ", e.toString());
+            return new HashSet<>();
+        }
+    }
     /**
      * Gets a complete set of BusStops for a given route
      * Returns an empty set if the Route was not found or request failed
