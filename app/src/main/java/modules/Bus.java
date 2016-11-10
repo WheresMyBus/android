@@ -31,6 +31,7 @@ public class Bus {
         if(coordinates != null) {
             this.coordinates = new Pair<>(coordinates.first, coordinates.second);
         }
+        this.id = -1;
         checkRep();
     }
 
