@@ -1,6 +1,7 @@
 package modules;
 
 import java.util.List;
+import java.util.Set;
 
 import retrofit.Call;
 import retrofit.http.GET;
@@ -12,4 +13,7 @@ import retrofit.http.GET;
 public interface RetrofitAPI {
     @GET("neighborhoods.json")
     Call<List<Neighborhood>> getNeighborhoodsJSON();
+
+    @GET("routes.json")
+    Call<Set<Route>> getRoutesJSON();
 }

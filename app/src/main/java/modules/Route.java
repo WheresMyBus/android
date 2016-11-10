@@ -1,5 +1,7 @@
 package modules;
 
+import com.google.gson.annotations.SerializedName;
+
 import junit.framework.Assert;
 
 import java.util.Set;
@@ -12,8 +14,13 @@ import java.util.Set;
  */
 
 public class Route {
-    private int number;
+    @SerializedName("number")
+    private String number;
+    @SerializedName("name")
     private String name;
+    @SerializedName("id")
+    private String id;
+
     //private Set<BusStop> busStops;
     //private Set<Bus> busses;
 
@@ -22,18 +29,24 @@ public class Route {
      * If busStops or busses is null, creates empty sets for them
      * @param number number that Route is associated with
      * @param name destination of the Route
-     * @throws IllegalArgumentException if number < 1
+     * @param id the route's OBA id
+     * @throws IllegalArgumentException if number == null
      * @throws IllegalArgumentException if name == null
+     * @throws IllegalArgumentException if id == null
      */
-    public Route(int number, String name) {
-        if(number < 1) {
-            throw new IllegalArgumentException("number < 1");
+    public Route(String number, String name, String id) {
+        if(number == null) {
+            throw new IllegalArgumentException("number == null");
         }
         if(name == null) {
             throw new IllegalArgumentException("name == null");
         }
+        if (id == null) {
+            throw new IllegalArgumentException("id == null");
+        }
         this.number = number;
         this.name = name;
+        this.id = id;
         checkRep();
     }
 
@@ -41,7 +54,7 @@ public class Route {
      * Gets the number of the route
      * @return number of the route as an int
      */
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
@@ -52,9 +65,35 @@ public class Route {
     public String getName() {
         return name;
     }
+
+    /**
+     * Gets the OBA id of the route
+     * @return id of the route as a String
+     */
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        boolean res = true;
+        if (other != null && other instanceof Route) {
+            return this.getName().equals(((Route) other).getName())
+                    && this.getNumber().equals(((Route) other).getNumber())
+                    && this.getId().equals(((Route) other).getId());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return (this.getName() + this.getNumber() + this.getId()).hashCode();
+    }
+
     private void checkRep() {
-        Assert.assertTrue(number > 0);
+        Assert.assertTrue(number != null);
         Assert.assertTrue(name != null);
+        Assert.assertTrue(id != null);
     }
 /*
     /**
