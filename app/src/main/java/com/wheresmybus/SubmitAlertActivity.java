@@ -1,5 +1,6 @@
 package com.wheresmybus;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +16,7 @@ import android.support.v4.app.Fragment;
  * Created by lesli_000 on 11/8/2016.
  */
 
-public class SubmitAlertActivity extends FragmentActivity {
+public class SubmitAlertActivity extends FragmentActivity implements BusRouteAlertFragment.OnFragmentInteractionListener {
     private Button submitButton;
     /*private Spinner busRouteSpinner;
     private Spinner neighborhoodSpinner;
@@ -81,10 +82,13 @@ public class SubmitAlertActivity extends FragmentActivity {
         }
     }
 
-
-
     private void loadSpinnerData() {
         // get the names of bus routes or neighborhoods depending on which radio button selected
         // make sure data alphabetized
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
