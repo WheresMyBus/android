@@ -6,24 +6,15 @@ import java.util.Date;
 
 import modules.Alert;
 
+import com.wheresmybus.MockAlert;
+import static com.wheresmybus.MockAlert.makeSampleAlert;
+
 /**
  * Created by Nick on 11/5/2016
  * Tests a Mock implementor of modules.Alert
  */
 
 public class TestAlert extends TestAlertBase {
-    private class MockAlert extends Alert{
-        MockAlert(String desc, Date date, String type, int creatorId, Pair<Double, Double> coords) {
-            super(desc, date, type, creatorId, coords);
-        }
-        MockAlert() {
-            super();
-        }
-    }
-
-    private MockAlert makeSampleAlert() {
-        return new MockAlert("Baz", new Date((long) 0), "Foo", 7, new Pair<>(1.0, 0.0));
-    }
 
     @Override
     Alert createDefaultInstance() {
