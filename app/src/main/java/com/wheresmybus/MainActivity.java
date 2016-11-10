@@ -40,8 +40,15 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void switchToCatalog(View v) {
+    public void switchToRouteCatalog(View v) {
         Intent intent = new Intent(this, CatalogActivity.class);
+        intent.putExtra("TAB_INDEX", 0);
+        startActivity(intent);
+    }
+
+    public void switchToNeighborhoodCatalog(View v) {
+        Intent intent = new Intent(this, CatalogActivity.class);
+        intent.putExtra("TAB_INDEX", 1);
         startActivity(intent);
     }
 
