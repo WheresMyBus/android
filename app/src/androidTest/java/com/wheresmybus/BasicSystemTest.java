@@ -7,9 +7,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.List;
+import java.util.Set;
 
+import controllers.OBAController;
 import controllers.WMBController;
 import modules.Neighborhood;
+import modules.Route;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -40,6 +43,15 @@ public class BasicSystemTest {
 
     }
 
+    @Test
+    public void sendRoutesRequestToAPI() throws Exception {
+        OBAController controller = OBAController.getInstance();
+
+        Set<Route> routeList = controller.getRoutesSynchonously();
+        assertFalse(routeList.isEmpty());
+        assertTrue(routeList.contains(new Route("556", "Issaquah University District Northgate", "40_100451")));
+        //assertEquals("name comparison of first route", "Pacific to Algona to Auburn Station", routeList.get(0).getName());
+    }
 
     /*  Async use example.
     public void exampleRequest() throws Exception {
