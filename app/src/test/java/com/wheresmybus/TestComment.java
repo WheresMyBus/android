@@ -20,7 +20,7 @@ public class TestComment {
 
     @Before
     public void setup() {
-        alert = new RouteAlert(new Route(1, "a"), new Date(), "b", new Pair<>(0.0,1.0), "c", 2);
+        alert = new RouteAlert(new Route("12", "a", "b"), new Date(), "b", new Pair<>(0.0,1.0), "c", 2);
         comment = new Comment("d", 1, alert);
     }
 
