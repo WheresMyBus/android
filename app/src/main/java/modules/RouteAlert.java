@@ -45,7 +45,7 @@ public class RouteAlert extends Alert {
      * @return route of this alert
      */
     public Route getRoute() {
-        return new Route(route.getNumber(), route.getName());
+        return new Route(route.getNumber(), route.getName(), route.getId());
     }
 
     @Override

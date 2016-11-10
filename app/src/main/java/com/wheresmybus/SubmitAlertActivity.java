@@ -3,6 +3,7 @@ package com.wheresmybus;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.RadioButton;
 import android.view.View;
@@ -22,6 +23,7 @@ public class SubmitAlertActivity extends FragmentActivity implements BusRouteAle
     private Spinner neighborhoodSpinner;
     private TextView busRoute;
     private TextView neighborhood;  */
+    private FragmentManager fragmentManager;
     private Fragment busRouteFragment;
 
     @Override
@@ -29,7 +31,11 @@ public class SubmitAlertActivity extends FragmentActivity implements BusRouteAle
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit_alert);
 
-       //busRouteFragment = (Fragment) findViewById(R.id.bus_route_alert_fragment);
+        fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().add(R.id.bus_route_alert_fragment, new BusRouteAlertFragment(), "busRouteFragment").commit();
+        busRouteFragment = (BusRouteAlertFragment) fragmentManager.findFragmentById(R.id.bus_route_alert_fragment);
+        busRouteFragment.getView().setVisibility(View.INVISIBLE);
+
 
 
         /*
@@ -68,6 +74,8 @@ public class SubmitAlertActivity extends FragmentActivity implements BusRouteAle
                     busRoute.setVisibility(View.VISIBLE);
                     busRouteSpinner.setVisibility(View.VISIBLE);
                     */
+
+                    busRouteFragment.getView().setVisibility(View.VISIBLE);
                     break;
             case R.id.radio_neighborhood:
                 if (checked)
@@ -78,6 +86,8 @@ public class SubmitAlertActivity extends FragmentActivity implements BusRouteAle
                     neighborhood.setVisibility(View.VISIBLE);
                     neighborhood.setVisibility(View.VISIBLE);
                     */
+
+                    busRouteFragment.getView().setVisibility(View.INVISIBLE);
                     break;
         }
     }
@@ -89,6 +99,6 @@ public class SubmitAlertActivity extends FragmentActivity implements BusRouteAle
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
+        //getFragmentManager().findFragmentById(R.id.bus_route_alert_fragment);
     }
 }

@@ -135,11 +135,10 @@
         android:layout_height="wrap_content"
         android:name="com.wheresmybus.BusRouteAlertFragment"
         android:layout_below="@+id/type_buttons"
+        android:id="@+id/bus_route_alert_fragment"
+        tools:layout="@layout/fragment_bus_route_alert"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="19dp"
-        android:layout_marginStart="19dp"
-        android:id="@+id/bus_route_alert_fragment" />
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>
