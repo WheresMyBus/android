@@ -49,12 +49,8 @@ public abstract class Alert {
         this.coordinates = new Pair<>(coordinates.first, coordinates.second);
         this.creatorID = creatorID;
         this.id = -1;
+        checkRep();
     }
-
-    /**
-     * Default constructor
-     */
-    public Alert() {}
 
     /**
      * Gets the id of the creator of the alert
