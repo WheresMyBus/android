@@ -38,6 +38,14 @@ public class Route {
     }
 
     /**
+     * Returns the full name of the Route, number and name
+     * @return full name of route
+     */
+    public String toString() {
+        return number + " " + name;
+    }
+
+    /**
      * Gets the number of the route
      * @return number of the route as an int
      */
