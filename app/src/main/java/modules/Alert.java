@@ -48,6 +48,7 @@ public abstract class Alert {
         this.type = type;
         this.coordinates = new Pair<>(coordinates.first, coordinates.second);
         this.creatorID = creatorID;
+        this.id = -1;
     }
 
     /**
