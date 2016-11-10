@@ -140,5 +140,17 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <fragment
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:name="com.wheresmybus.NeighborhoodAlertFragment"
+        android:layout_below="@+id/type_buttons"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/neighborhood_alert_fragment"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        tools:layout="@layout/fragment_neighborhood_alert" />
+
 
 </RelativeLayout>
