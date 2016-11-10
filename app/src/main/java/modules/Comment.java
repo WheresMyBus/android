@@ -31,6 +31,7 @@ public class Comment {
         this.data = data;
         this.creatorId = creatorId;
         this.alert = alert;
+        this.id = -1;
         checkRep();
     }
 
@@ -117,8 +118,8 @@ public class Comment {
         Assert.assertTrue(id == -1 || id > 0);
         Assert.assertTrue(creatorId > 0);
         Assert.assertFalse(data == null);
-        Assert.assertTrue(upvotes > 0);
-        Assert.assertTrue(downvotes > 0);
+        Assert.assertTrue(upvotes >= 0);
+        Assert.assertTrue(downvotes >= 0);
         Assert.assertFalse(alert == null);
     }
 }
