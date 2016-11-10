@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 
 /**
  * Created by lesli_000 on 11/8/2016.
@@ -20,14 +21,14 @@ public class SubmitAlertActivity extends FragmentActivity {
     private Spinner neighborhoodSpinner;
     private TextView busRoute;
     private TextView neighborhood;  */
-    //private Fragment busRouteFragment;
+    private Fragment busRouteFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit_alert);
 
-       // busRouteFragment = (Fragment) findViewById(R.id.bus_route_alert_fragment);
+       //busRouteFragment = (Fragment) findViewById(R.id.bus_route_alert_fragment);
 
 
         /*
@@ -79,6 +80,8 @@ public class SubmitAlertActivity extends FragmentActivity {
                     break;
         }
     }
+
+
 
     private void loadSpinnerData() {
         // get the names of bus routes or neighborhoods depending on which radio button selected
