@@ -15,9 +15,7 @@ class MockAlert extends Alert {
     private MockAlert(String desc, Date date, String type, int creatorId, Pair<Double, Double> coords) {
         super(desc, date, type, creatorId, coords);
     }
-    MockAlert() {
-        super();
-    }
+
 
     // creates a sample alert used by TestAlertBase
     static MockAlert makeSampleAlert() {

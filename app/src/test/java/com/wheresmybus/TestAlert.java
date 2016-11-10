@@ -18,7 +18,7 @@ public class TestAlert extends TestAlertBase {
 
     @Override
     Alert createDefaultInstance() {
-        return new MockAlert();
+        return makeSampleAlert();
     }
 
     @Override
