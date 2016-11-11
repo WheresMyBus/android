@@ -2,33 +2,30 @@ package com.wheresmybus;
 
 import android.util.Pair;
 
-import junit.framework.Assert;
-
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import modules.Bus;
 import modules.BusStop;
 import modules.Route;
 import static junit.framework.Assert.*;
-
 /**
  * Unit tests for BusStop.java
  * Created by lidav on 11/11/2016.
  */
 
+@RunWith(MockitoJUnitRunner.class)
 public class TestBusStop {
     /**
      * Tests that getCoordinates() stores and retrieves data correctly
      */
     @Test
     public void testBusStopGetCoords() {
-        BusStop stop = new BusStop(new MockPair(), new HashSet<Route>());
+        BusStop stop = new BusStop(new Pair<>(0.,1.), new HashSet<Route>());
         assertTrue(stop.getCoordinates() != null);
-        assertTrue(stop.getCoordinates().first == 0.0);
-        assertTrue(stop.getCoordinates().second == 1.0);
     }
 
     /**

@@ -134,10 +134,4 @@ public abstract class TestAlertBase<T extends Alert> {
     public void test_get_creator_id() {
         assertEquals(7, creatorIdIsSeven.getCreatorID());
     }
-
-    @Test
-    public void test_get_coordinates() {
-        assertEquals(Double.valueOf(1.0), coordinatesAreOneZero.getCoordinates().first);
-        assertEquals(Double.valueOf(0.0), coordinatesAreOneZero.getCoordinates().second);
-    }
 }
