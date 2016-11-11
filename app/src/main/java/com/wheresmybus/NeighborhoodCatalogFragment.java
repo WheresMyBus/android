@@ -3,11 +3,23 @@ package com.wheresmybus;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import controllers.WMBController;
+import modules.Neighborhood;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 
 /**
@@ -25,8 +37,7 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private ListView neighborhoodList;
 
     private OnFragmentInteractionListener mListener;
 
@@ -59,6 +70,41 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }*/
+        try {
+            neighborhoodRequest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void neighborhoodRequest() throws Exception {
+        WMBController controller = WMBController.getInstance();
+        controller.getNeighborhoods(new Callback<List<Neighborhood>>() {
+            @Override
+            public void onResponse(Response<List<Neighborhood>> response, Retrofit retrofit) {
+                List<Neighborhood> data = response.body();
+                loadListData(getListStrings(data));
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                // stuff to do when it doesn't work
+            }
+        });
+    }
+
+    private List<String> getListStrings(List<Neighborhood> neighborhoods) {
+        List<String> data = new ArrayList<>();
+        for (Neighborhood neighborhood : neighborhoods) {
+            data.add(neighborhood.getName());
+        }
+        return data;
+    }
+
+    private void loadListData(List<String> data) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this.getActivity(), android.R.layout.simple_list_item_1, data);
+        neighborhoodList.setAdapter(adapter);
     }
 
     @Override
@@ -66,6 +112,13 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_neighborhood_catalog, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        neighborhoodList = (ListView) getActivity().findViewById(R.id.neighborhood_list);
+        neighborhoodList.setOnItemSelectedListener(this);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -95,7 +148,7 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
     // TODO: for setOnItemSelectedListener
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+        String neighborhoodName = parent.getItemAtPosition(position).toString();
     }
 
     // TODO: for setOnItemSelectedListener
