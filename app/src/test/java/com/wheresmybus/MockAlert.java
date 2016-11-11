@@ -19,6 +19,6 @@ class MockAlert extends Alert {
 
     // creates a sample alert used by TestAlertBase
     static MockAlert makeSampleAlert() {
-        return new MockAlert("Baz", new Date((long) 0), "Foo", 7, new MockPair());
+        return new MockAlert("Baz", new Date((long) 0), "Foo", 7, new Pair<>(1.,0.));
     }
 }
