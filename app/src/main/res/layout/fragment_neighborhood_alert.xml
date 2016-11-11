@@ -23,8 +23,8 @@
         android:layout_below="@+id/choose_neighborhood"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:spinnerMode="dialog"
-        android:prompt="@string/choose_neighborhood"/>
+        android:isScrollContainer="true"
+        android:elevation="10dp"/>
 
     <TextView
         android:text="@string/check_alert_types"
@@ -33,10 +33,52 @@
         android:layout_below="@+id/neighborhood_spinner"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/textView2"
+        android:id="@+id/choose_alert_types"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:textSize="20sp"
         android:textColor="@android:color/black" />
+
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_below="@+id/choose_alert_types"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:numColumns="auto_fit"
+        android:choiceMode="multipleChoice"
+        android:id="@+id/alert_types"
+        android:clickable="true"
+        android:elevation="10dp"/>
+
+    <TextView
+        android:text="@string/write_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/alert_types"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/write_description_prompt"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/write_description_prompt"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/alert_description"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:elevation="10dp"
+        android:allowUndo="true"
+        android:isScrollContainer="true"
+        android:textColor="@android:color/black" />
+
 
 </RelativeLayout>

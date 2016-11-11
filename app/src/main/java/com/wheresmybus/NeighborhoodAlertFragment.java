@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -40,6 +41,7 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
     // TODO: Rename and change types of parameters
     private TextView neighborhood;
     private Spinner neighborhoodSpinner;
+    private GridView alertTypes;
 
     private OnFragmentInteractionListener mListener;
 
@@ -74,6 +76,7 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
         }*/
         try {
             neighborhoodRequest();
+            loadCheckBoxData(getResources().getStringArray(R.array.neighborhood_alert_types));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -112,6 +115,12 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
         neighborhoodSpinner.setOnItemSelectedListener(this);
     }
 
+    private void loadCheckBoxData(String[] data) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(),
+                android.R.layout.simple_list_item_multiple_choice, data);
+        alertTypes.setAdapter(adapter);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -124,6 +133,7 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
         super.onActivityCreated(savedInstanceState);
         neighborhoodSpinner = (Spinner) getActivity().findViewById(R.id.neighborhood_spinner);
         neighborhoodSpinner.setOnItemSelectedListener(this);
+        alertTypes = (GridView) getActivity().findViewById(R.id.alert_types);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

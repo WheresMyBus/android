@@ -14,4 +14,10 @@
     <string name="choose_bus_route">Choose a bus route:</string>
     <string name="choose_neighborhood">Choose a neighborhood:</string>
     <string name="check_alert_types">Check the type(s) of the alert:</string>
+    <string-array name="neighborhood_alert_types">
+        <item>Construction</item>
+        <item>Traffic</item>
+        <item>Other</item>
+    </string-array>
+    <string name="write_description">Write a description of the alert:</string>
 </resources>
