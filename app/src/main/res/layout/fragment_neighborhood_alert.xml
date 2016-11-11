@@ -1,8 +1,9 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="com.wheresmybus.NeighborhoodAlertFragment">
 
     <TextView
@@ -41,6 +42,7 @@
         android:textSize="20sp"
         android:textColor="@android:color/black" />
 
+    <!--
     <GridView
         android:layout_width="match_parent"
         android:layout_height="120dp"
@@ -52,12 +54,47 @@
         android:id="@+id/alert_types"
         android:clickable="true"
         android:elevation="10dp"/>
+        -->
+
+    <CheckBox
+        android:text="@string/construction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox1"
+        android:layout_below="@+id/choose_alert_types"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        app:buttonTint="@color/darkBlue" />
+
+    <CheckBox
+        android:text="@string/traffic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkBox1"
+        android:id="@+id/checkBox2"
+        app:buttonTint="@color/darkBlue" />
+
+    <CheckBox
+        android:text="@string/event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkBox2"
+        android:id="@+id/checkBox3"
+        app:buttonTint="@color/darkBlue" />
+
+    <CheckBox
+        android:text="@string/other"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkBox3"
+        android:id="@+id/checkBox4"
+        app:buttonTint="@color/darkBlue" />
 
     <TextView
         android:text="@string/write_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/alert_types"
+        android:layout_below="@+id/checkBox4"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/write_description_prompt"
@@ -68,20 +105,21 @@
 
     <EditText
         android:layout_width="wrap_content"
-        android:layout_height="170dp"
+        android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:layout_below="@+id/write_description_prompt"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:id="@+id/alert_description"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:elevation="10dp"
         android:allowUndo="true"
         android:isScrollContainer="true"
-        android:textColor="@android:color/black" />
-
-
+        android:textColor="@android:color/black"
+        android:minLines="6"
+        android:gravity="top|left"
+        android:scrollbars="vertical"
+        android:layout_below="@+id/write_description_prompt"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

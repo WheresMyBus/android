@@ -76,7 +76,7 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
         }*/
         try {
             neighborhoodRequest();
-            loadCheckBoxData(getResources().getStringArray(R.array.neighborhood_alert_types));
+            //loadCheckBoxData(getResources().getStringArray(R.array.neighborhood_alert_types));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -133,7 +133,7 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
         super.onActivityCreated(savedInstanceState);
         neighborhoodSpinner = (Spinner) getActivity().findViewById(R.id.neighborhood_spinner);
         neighborhoodSpinner.setOnItemSelectedListener(this);
-        alertTypes = (GridView) getActivity().findViewById(R.id.alert_types);
+        //alertTypes = (GridView) getActivity().findViewById(R.id.alert_types);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -1,6 +1,7 @@
 package com.wheresmybus;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,7 +21,8 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-public class CatalogActivity extends AppCompatActivity {
+public class CatalogActivity extends AppCompatActivity implements BusRouteCatalogFragment.OnFragmentInteractionListener,
+        NeighborhoodCatalogFragment.OnFragmentInteractionListener{
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -60,15 +62,6 @@ public class CatalogActivity extends AppCompatActivity {
         System.out.println(tabIndex);
         TabLayout.Tab tab = tabLayout.getTabAt(tabIndex);
         tab.select();
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
     }
 
@@ -123,10 +116,13 @@ public class CatalogActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_catalog, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
+            if(getArguments().getInt(ARG_SECTION_NUMBER) == 1) {
+                View routeView = inflater.inflate(R.layout.fragment_bus_route_catalog, container, false);
+                return routeView;
+            } else {
+                View neighborhoodView = inflater.inflate(R.layout.fragment_neighborhood_catalog, container, false);
+                return neighborhoodView;
+            }
         }
     }
 
@@ -163,5 +159,10 @@ public class CatalogActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        //getFragmentManager().findFragmentById(R.bus_route_catalog_fragment);
     }
 }
