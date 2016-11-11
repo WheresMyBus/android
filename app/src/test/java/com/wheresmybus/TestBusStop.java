@@ -25,7 +25,7 @@ public class TestBusStop {
      */
     @Test
     public void testBusStopGetCoords() {
-        BusStop stop = new BusStop(new Pair<>(0.,1.), new HashSet<Route>());
+        BusStop stop = new BusStop(new MockPair(), new HashSet<Route>());
         assertTrue(stop.getCoordinates() != null);
         assertTrue(stop.getCoordinates().first == 0.0);
         assertTrue(stop.getCoordinates().second == 1.0);
@@ -47,6 +47,9 @@ public class TestBusStop {
         assertTrue(stop.getRoutes().size() == 1);
     }
 
+    /**
+     * Tests that setId sets properly once and returns true and changes id
+     */
     @Test
     public void testSetId(){
         BusStop sampleBus = new BusStop(new Pair<>(0.,1.), new HashSet<Route>());
@@ -55,16 +58,25 @@ public class TestBusStop {
         assertEquals(sampleBus.getId(), 2);
     }
 
+    /**
+     * Tests that IllegalArgumentException is thrown when coordinates is null
+     */
     @Test(expected = IllegalArgumentException.class)
     public void testNullCoords() {
         BusStop stop = new BusStop(null, new HashSet<Route>());
     }
 
+    /**
+     * Tests that IllegalArgumentException is thrown when Set of routes is null
+     */
     @Test(expected = IllegalArgumentException.class)
     public void testNullRoutes() {
         BusStop stop = new BusStop(new Pair<>(0.,1.), null);
     }
 
+    /**
+     * Test that id is stored properly and calling setId() twice will not affect id
+     */
     @Test
     public void testGetId() {
         BusStop sampleBus = new BusStop(new Pair<>(0.,1.), new HashSet<Route>());
