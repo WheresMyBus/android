@@ -65,8 +65,8 @@ public class WMBController {
 
     /**
      * Gets a List of all Alerts about a certain route
-     * @param routeNumber number of Route to get alerts about
-     * @return List of Alerts, null if request failed
+     * @param routeNumber number of Route to get alerts of
+     * @param callback handles retrofit response containing list of route alerts.
      */
     public void getRouteAlerts(String routeNumber, Callback<List<RouteAlert>> callback) {
         Call<List<RouteAlert>> call = retrofitService.getRouteAlertsJSON(routeNumber);
@@ -74,10 +74,9 @@ public class WMBController {
     }
 
     /**
-     * Gets a List of all Alerts about a certain neighborhood
-     * @param neighborhood Neighboorhood to get alerts about
-     * @throws IllegalArgumentException if Neighborhood is null
-     * @return List of Alerts, empty if request failed
+     * Gets the list of alerts associated with a neighborhood.
+     * @param neighborhood the neighborhood whose alerts to get.
+     * @param callback handles retrofit response containing list of neighborhood alerts.
      */
     public void getAlerts(Neighborhood neighborhood, Callback<List<NeighborhoodAlert>> callback) {
         Call<List<NeighborhoodAlert>> call = retrofitService.getNeighborhoodAlertsJSON(neighborhood.getID());
@@ -96,14 +95,12 @@ public class WMBController {
     }
 
     /**
-     * Posts an alert to the WMB database
-     * @param neighborhoodID the ID of the affected neighbodhood.
-     * @param alertType type of alert (e.g. code for flat tire)
-     * @param description description of the alert to be posted
-     * @param userID user id of the creator of the alert (this phone)
-     * @param callback the callback to handle the Alert that will be created from
-     *                 the response.
-     * @return true if post succeeded, else false
+     * post alert for a neighborhood.
+     * @param neighborhoodID ID of the neighborhood
+     * @param alertType the type of the alert
+     * @param description description of the alert
+     * @param userID id of the user posting the alert
+     * @param callback handles response containing the generated NeighborhoodAlert.
      */
     public void postAlert(int neighborhoodID, String alertType, String description,
                           int userID, Callback<NeighborhoodAlert> callback) {
@@ -111,58 +108,125 @@ public class WMBController {
         call.enqueue(callback);
     }
 
+    /**
+     * post alert for a route.
+     * @param routeID ID of the route
+     * @param alertType type of the alert (e.g. construction)
+     * @param description description of the alert
+     * @param userID id of the user posting the alert
+     * @param callback handles response containing the generated RouteAlert
+     */
     public void postAlert(String routeID, String alertType, String description,
                           int userID, Callback<RouteAlert> callback) {
         Call<RouteAlert> call = retrofitService.postRouteAlert(routeID,alertType,description,userID);
         call.enqueue(callback);
     }
 
+    /**
+     * posts a comment on a given route alert.
+     * @param routeAlertID id of route alert comment belongs to
+     * @param data the content of the comment
+     * @param userID id of this user
+     * @param callback handles response containing the generated Comment
+     */
     public void postRouteAlertComment(int routeAlertID, String data, int userID, Callback<Comment> callback) {
         Call<Comment> call = retrofitService.postRouteAlertComment(routeAlertID,data,userID);
         call.enqueue(callback);
     }
 
+    /**
+     * posts a comment on a given neighborhood alert
+     * @param neighborhoodAlertID id of neighborhood alert the comment belongs to
+     * @param data the content of the comment
+     * @param userID id of this user
+     * @param callback handles response containing the generated Comment
+     */
     public void postNeighborhoodAlertComment(int neighborhoodAlertID, String data, int userID, Callback<Comment> callback) {
         Call<Comment> call = retrofitService.postNeighborhoodAlertComment(neighborhoodAlertID, data, userID);
         call.enqueue(callback);
     }
 
+    /**
+     * upvotes a neighborhood alert
+     * @param alertID id of the alert
+     * @param userID id of this user
+     * @param callback handles response containing a VoteConfirmation.
+     */
     public void neighborhoodAlertUpvote(int alertID, int userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("neighborhood_alerts", alertID, "upvote", userID);
         call.enqueue(callback);
     }
 
+    /**
+     * downvotes a neighborhood alert
+     * @param alertID id of the alert
+     * @param userID id of this user
+     * @param callback handles response containing a VoteConfirmation
+     */
     public void neighborhoodAlertDownvote(int alertID, int userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("neighborhood_alerts", alertID, "downvote", userID);
         call.enqueue(callback);
     }
 
+    /**
+     * upvotes a route alert
+     * @param alertID id of the alert
+     * @param userID id of this user
+     * @param callback handles response containing VoteConfirmation
+     */
     public void routeAlertUpvote(int alertID, int userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("route_alerts", alertID, "upvote", userID);
         call.enqueue(callback);
     }
-
+    /**
+     * downvotes a route alert
+     * @param alertID id of the alert
+     * @param userID id of this user
+     * @param callback handles response containing VoteConfirmation
+     */
     public void routeAlertDownvote(int alertID, int userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("route_alerts", alertID, "downvote", userID);
         call.enqueue(callback);
     }
 
+    /**
+     * upvotes a neighborhood alert comment
+     * @param commentID id of the comment
+     * @param userID id of this user
+     * @param callback handles response containing VoteConfirmation
+     */
     public void neighborhoodAlertCommentUpvote(int commentID, int userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("neighborhood_alert_comments", commentID, "upvote", userID);
         call.enqueue(callback);
     }
 
-
+    /**
+     * downvotes a neighborhood alert comment
+     * @param commentID id of the comment
+     * @param userID id of the user
+     * @param callback handles response containing VoteConfirmation
+     */
     public void neighborhoodAlertCommentDownvote(int commentID, int userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("neighborhood_alert_comments", commentID, "downvote", userID);
         call.enqueue(callback);
     }
 
+    /**
+     * upvote a route alert comment
+     * @param commentID id of the comment
+     * @param userID id of the user
+     * @param callback handles response containing VoteConfirmation
+     */
     public void routeAlertCommentUpvote(int commentID, int userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("route_alert_comments", commentID, "upvote", userID);
         call.enqueue(callback);
     }
-
+    /**
+     * downvote a route alert comment
+     * @param commentID id of the comment
+     * @param userID id of the user
+     * @param callback handles response containing a VoteConfirmation
+     */
     public void routeAlertCommentDownvote(int commentID, int userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("route_alert_comments", commentID, "downvote", userID);
         call.enqueue(callback);
@@ -191,16 +255,23 @@ public class WMBController {
         }
     }
 
+
     /**
-     * Gets an ordered-by-date list of all comments in the Alert
-     * @param alertID Alert to get comments about
-     * @return list of comments sorted chronologically
+     * gets list of all comments on a route alert
+     * @param alertID id of the route alert
+     * @param callback handles response containing a list of comments.
      */
     public void getRouteAlertComments(int alertID, Callback<List<Comment>> callback) {
         Call<List<Comment>> call = retrofitService.getRouteAlertComments(alertID);
         call.enqueue(callback);
     }
 
+
+    /**
+     * gets list of all comments on a neighborhood alert
+     * @param alertID id of the alert
+     * @param callback handles response containing a list of comments
+     */
     public void getNeighborhoodAlertComments(int alertID, Callback<List<Comment>> callback) {
         Call<List<Comment>> call = retrofitService.getNeighborhoodAlertComments(alertID);
         call.enqueue(callback);

@@ -3,9 +3,9 @@ package modules;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by gunter on 11/10/16.
+ * This is a class for encapsulating responses by the server to different
+ * upvote and downvote requests.
  */
-
 public class VoteConfirmation {
     @SerializedName("id")
     private int id;
