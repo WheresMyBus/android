@@ -2,6 +2,8 @@ package modules;
 
 import android.util.Pair;
 
+import com.google.gson.annotations.SerializedName;
+
 import junit.framework.Assert;
 
 import java.util.Date;
@@ -16,6 +18,8 @@ import java.util.Date;
 
 public class RouteAlert extends Alert {
     private Route route;
+    @SerializedName("route_id")
+    private String routeID;
 
     /**
      * Constructs a RouteAlert with id initialized to -1
@@ -38,6 +42,12 @@ public class RouteAlert extends Alert {
         }
         this.route = route;
         checkRep();
+    }
+
+    public RouteAlert(String routeID, int alertID, int user_id, String alertType,
+                      String description, Date date, int upvotes, int downvotes) {
+        super(alertID, user_id, alertType, description, date, upvotes, downvotes);
+        this.routeID = routeID;
     }
 
     /**

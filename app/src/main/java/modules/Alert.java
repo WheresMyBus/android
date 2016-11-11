@@ -2,6 +2,8 @@ package modules;
 
 import android.util.Pair;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 import junit.framework.*;
 
@@ -15,13 +17,20 @@ import junit.framework.*;
  */
 
 public abstract class Alert {
+    @SerializedName("id")
     private int id;
+    @SerializedName("user_id")
     private int creatorID;
+    @SerializedName("created_at")
     private Date date;
+    @SerializedName("alert_type")
     private String type;
+    @SerializedName("description")
     private String description;
     private Pair<Double, Double> coordinates;
+    @SerializedName("upvotes")
     private int upvotes;
+    @SerializedName("downvotes")
     private int downvotes;
 
     /**
@@ -49,6 +58,33 @@ public abstract class Alert {
         this.coordinates = new Pair<>(coordinates.first, coordinates.second);
         this.creatorID = creatorID;
         this.id = -1;
+    }
+
+    /**
+     * TODO: document this. Added to construct from server response for beta.
+     * @param alertID
+     * @param user_id
+     * @param alertType
+     * @param description
+     * @param date
+     * @param upvotes
+     * @param downvotes
+     */
+    public Alert(int alertID, int user_id, String alertType, String description,
+                 Date date, int upvotes, int downvotes) {
+        if (description == null || date == null || alertType == null) {
+            throw new IllegalArgumentException("null parameters");
+        }
+        if (user_id < 1) {
+            throw new IllegalArgumentException("User ID < 1");
+        }
+        this.id = alertID;
+        this.creatorID = user_id;
+        this.date = date;
+        this.type = alertType;
+        this.description = description;
+        this.upvotes = upvotes;
+        this.downvotes = downvotes;
     }
 
     /**
