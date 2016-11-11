@@ -37,6 +37,7 @@ public class BusStop {
         }
         this.coordinates = new Pair<>(coordinates.first, coordinates.second);
         this.routes = new HashSet<>(routes);
+        this.id = -1;
         checkRep();
     }
 
