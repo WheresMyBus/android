@@ -36,7 +36,6 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private ListView neighborhoodList;
 
     private OnFragmentInteractionListener mListener;
@@ -66,10 +65,6 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }*/
         try {
             neighborhoodRequest();
         } catch (Exception e) {
@@ -77,6 +72,10 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
         }
     }
 
+    /**
+     * Gets the neighborhoods from the database
+     * @throws Exception if the request fails
+     */
     private void neighborhoodRequest() throws Exception {
         WMBController controller = WMBController.getInstance();
         controller.getNeighborhoods(new Callback<List<Neighborhood>>() {
@@ -93,6 +92,11 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
         });
     }
 
+    /**
+     * Get list of neighborhood names from the list of neighborhoods
+     * @param neighborhoods list of neighborhoods
+     * @return the list of neighborhood names as strings
+     */
     private List<String> getListStrings(List<Neighborhood> neighborhoods) {
         List<String> data = new ArrayList<>();
         for (Neighborhood neighborhood : neighborhoods) {
@@ -101,6 +105,10 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
         return data;
     }
 
+    /**
+     * Load the given data into the ListView
+     * @param data the list of strings (neighborhood names) to be loaded
+     */
     private void loadListData(List<String> data) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this.getActivity(), android.R.layout.simple_list_item_1, data);
@@ -121,12 +129,6 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
         neighborhoodList.setOnItemSelectedListener(this);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -145,10 +147,11 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
         mListener = null;
     }
 
-    // TODO: for setOnItemSelectedListener
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String neighborhoodName = parent.getItemAtPosition(position).toString();
+        View neighborhoodView = getActivity().findViewById(R.id.bus_route_catalog_fragment);
+        neighborhoodView.setVisibility(View.INVISIBLE);
+        view.setVisibility(View.VISIBLE);
     }
 
     // TODO: for setOnItemSelectedListener
