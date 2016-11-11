@@ -32,7 +32,7 @@ public class Neighborhood {
     /**
      * Contructs a Neighborhood
      * @param id unique int ID of the neighborhood.
-     * @param perimeter List<Pair<Double,Double>> of Points in the perimeter of the neighborhood
+     * //@param perimeter List<Pair<Double,Double>> of Points in the perimeter of the neighborhood
      * @param name name of the neighborhood
      * @throws IllegalArgumentException if perimeter or name is null or id < 0.
      * @throws IllegalArgumentException if any element of perimeter is null
@@ -46,7 +46,7 @@ public class Neighborhood {
             this.perimeter.add(new Pair<>(next.first, next.second));
         }
         */
-        if(id < 0 || name == null) {
+        if(id < 1 || name == null) {
             throw new IllegalArgumentException();
         }
         this.name = name;
@@ -93,8 +93,8 @@ public class Neighborhood {
 
     private void checkRep() {
         Assert.assertFalse(name == null);
-        Assert.assertFalse(perimeter == null);
-        Assert.assertFalse(perimeter.contains(null));
+        //Assert.assertFalse(perimeter == null);
+        //Assert.assertFalse(perimeter.contains(null));
     }
 
     /*private Set<BusStop> getBusStops() {
