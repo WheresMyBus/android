@@ -9,8 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import controllers.WMBController;
+import modules.Neighborhood;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 
 /**
@@ -30,6 +41,7 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
     // TODO: Rename and change types of parameters
     private TextView neighborhood;
     private Spinner neighborhoodSpinner;
+    private GridView alertTypes;
 
     private OnFragmentInteractionListener mListener;
 
@@ -62,6 +74,51 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }*/
+        try {
+            neighborhoodRequest();
+            loadCheckBoxData(getResources().getStringArray(R.array.neighborhood_alert_types));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void neighborhoodRequest() throws Exception {
+        WMBController controller = WMBController.getInstance();
+        controller.getNeighborhoods(new Callback<List<Neighborhood>>() {
+            @Override
+            public void onResponse(Response<List<Neighborhood>> response, Retrofit retrofit) {
+                List<Neighborhood> data = response.body();
+                loadSpinnerData(getListStrings(data));
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                // stuff to do when it doesn't work
+            }
+        });
+    }
+
+    private List<String> getListStrings(List<Neighborhood> neighborhoods) {
+        List<String> data = new ArrayList<>();
+        for (Neighborhood neighborhood : neighborhoods) {
+            data.add(neighborhood.getName());
+        }
+        return data;
+    }
+
+    private void loadSpinnerData(List<String> data) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this.getActivity(), android.R.layout.simple_spinner_item, data);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        neighborhoodSpinner.setAdapter(adapter);
+        neighborhoodSpinner.setOnItemSelectedListener(this);
+    }
+
+    private void loadCheckBoxData(String[] data) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(),
+                android.R.layout.simple_list_item_multiple_choice, data);
+        alertTypes.setAdapter(adapter);
     }
 
     @Override
@@ -76,6 +133,7 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
         super.onActivityCreated(savedInstanceState);
         neighborhoodSpinner = (Spinner) getActivity().findViewById(R.id.neighborhood_spinner);
         neighborhoodSpinner.setOnItemSelectedListener(this);
+        alertTypes = (GridView) getActivity().findViewById(R.id.alert_types);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -105,7 +163,9 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
     // TODO: for neighborhood spinner
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+        String neighborhoodName = parent.getItemAtPosition(position).toString();
+        // do something to create alert
+        // make next items visible
     }
 
     // TODO: for neighborhood spinner

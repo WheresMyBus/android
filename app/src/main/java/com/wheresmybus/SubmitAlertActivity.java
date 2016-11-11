@@ -98,11 +98,6 @@ public class SubmitAlertActivity extends FragmentActivity implements BusRouteAle
         }
     }
 
-    private void loadSpinnerData() {
-        // get the names of bus routes or neighborhoods depending on which radio button selected
-        // make sure data alphabetized
-    }
-
     @Override
     public void onFragmentInteraction(Uri uri) {
         //getFragmentManager().findFragmentById(R.id.bus_route_alert_fragment);
