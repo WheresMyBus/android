@@ -2,6 +2,8 @@ package modules;
 
 import android.util.Pair;
 
+import com.google.gson.annotations.SerializedName;
+
 import junit.framework.Assert;
 
 import java.util.Date;
@@ -18,8 +20,12 @@ import java.util.Set;
  */
 
 public class NeighborhoodAlert extends Alert {
+    // This is the old stuff.
     private Neighborhood neighborhood;
     private Set<Route> routesAffected;
+
+    @SerializedName("neighborhood_id")
+    private int neighborhoodID;
 
     /**
      * Constructs a NeighborhoodAlert with id initialized to -1
@@ -43,6 +49,22 @@ public class NeighborhoodAlert extends Alert {
         }
         this.neighborhood = neighborhood;
         this.routesAffected = routesAffected;
+    }
+
+    /**
+     * TODO: document this.
+     * @param neighborhoodID
+     * @param alertID
+     * @param user_id
+     * @param alertType
+     * @param date
+     * @param upvotes
+     * @param downvotes
+     */
+    public NeighborhoodAlert(int neighborhoodID, int alertID, int user_id, String alertType,
+                             String description, Date date, int upvotes, int downvotes) {
+        super(alertID, user_id, alertType, description, date, upvotes, downvotes);
+        this.neighborhoodID = neighborhoodID;
     }
 
     /**

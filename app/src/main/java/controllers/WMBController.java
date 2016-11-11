@@ -18,7 +18,10 @@ import javax.net.ssl.HttpsURLConnection;
 import modules.Alert;
 import modules.Comment;
 import modules.Neighborhood;
+import modules.NeighborhoodAlert;
 import modules.RetrofitAPI;
+import modules.RouteAlert;
+import modules.VoteConfirmation;
 import retrofit.Call;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
@@ -41,7 +44,7 @@ public class WMBController {
     /**
      * Constructs a WMBController and connects to server/database
      */
-    protected WMBController() {
+    private WMBController() {
 
     }
 
@@ -65,8 +68,9 @@ public class WMBController {
      * @param routeNumber number of Route to get alerts about
      * @return List of Alerts, null if request failed
      */
-    public List<Alert> getAlerts(int routeNumber) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+    public void getRouteAlerts(String routeNumber, Callback<List<RouteAlert>> callback) {
+        Call<List<RouteAlert>> call = retrofitService.getRouteAlertsJSON(routeNumber);
+        call.enqueue(callback);
     }
 
     /**
@@ -75,8 +79,9 @@ public class WMBController {
      * @throws IllegalArgumentException if Neighborhood is null
      * @return List of Alerts, empty if request failed
      */
-    public List<Alert> getAlerts(Neighborhood neighborhood) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+    public void getAlerts(Neighborhood neighborhood, Callback<List<NeighborhoodAlert>> callback) {
+        Call<List<NeighborhoodAlert>> call = retrofitService.getNeighborhoodAlertsJSON(neighborhood.getID());
+        call.enqueue(callback);
     }
 
     /**
@@ -92,29 +97,77 @@ public class WMBController {
 
     /**
      * Posts an alert to the WMB database
-     * @param alert alert to post
+     * @param neighborhoodID the ID of the affected neighbodhood.
+     * @param alertType type of alert (e.g. code for flat tire)
+     * @param description description of the alert to be posted
+     * @param userID user id of the creator of the alert (this phone)
+     * @param callback the callback to handle the Alert that will be created from
+     *                 the response.
      * @return true if post succeeded, else false
      */
-    public boolean postAlert(Alert alert) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+    public void postAlert(int neighborhoodID, String alertType, String description,
+                          int userID, Callback<NeighborhoodAlert> callback) {
+        Call<NeighborhoodAlert> call = retrofitService.postNeighborhoodAlert(neighborhoodID, alertType, description, userID);
+        call.enqueue(callback);
     }
 
-    /**
-     * Upvotes an alert in the database
-     * @param alert Alert to upvote
-     * @return true if upvote succeeded, else false
-     */
-    public boolean upvote(Alert alert) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+    public void postAlert(String routeID, String alertType, String description,
+                          int userID, Callback<RouteAlert> callback) {
+        Call<RouteAlert> call = retrofitService.postRouteAlert(routeID,alertType,description,userID);
+        call.enqueue(callback);
     }
-    /**
-     * Downvotes an alert in the database
-     * @param alert Alert to downvote
-     * @return true if downvote succeeded, else false
-     */
-    public boolean downvote(Alert alert) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+
+    public void postRouteAlertComment(int routeAlertID, String data, int userID, Callback<Comment> callback) {
+        Call<Comment> call = retrofitService.postRouteAlertComment(routeAlertID,data,userID);
+        call.enqueue(callback);
     }
+
+    public void postNeighborhoodAlertComment(int neighborhoodAlertID, String data, int userID, Callback<Comment> callback) {
+        Call<Comment> call = retrofitService.postNeighborhoodAlertComment(neighborhoodAlertID, data, userID);
+        call.enqueue(callback);
+    }
+
+    public void neighborhoodAlertUpvote(int alertID, int userID, Callback<VoteConfirmation> callback) {
+        Call<VoteConfirmation> call = retrofitService.postVote("neighborhood_alerts", alertID, "upvote", userID);
+        call.enqueue(callback);
+    }
+
+    public void neighborhoodAlertDownvote(int alertID, int userID, Callback<VoteConfirmation> callback) {
+        Call<VoteConfirmation> call = retrofitService.postVote("neighborhood_alerts", alertID, "downvote", userID);
+        call.enqueue(callback);
+    }
+
+    public void routeAlertUpvote(int alertID, int userID, Callback<VoteConfirmation> callback) {
+        Call<VoteConfirmation> call = retrofitService.postVote("route_alerts", alertID, "upvote", userID);
+        call.enqueue(callback);
+    }
+
+    public void routeAlertDownvote(int alertID, int userID, Callback<VoteConfirmation> callback) {
+        Call<VoteConfirmation> call = retrofitService.postVote("route_alerts", alertID, "downvote", userID);
+        call.enqueue(callback);
+    }
+
+    public void neighborhoodAlertCommentUpvote(int commentID, int userID, Callback<VoteConfirmation> callback) {
+        Call<VoteConfirmation> call = retrofitService.postVote("neighborhood_alert_comments", commentID, "upvote", userID);
+        call.enqueue(callback);
+    }
+
+
+    public void neighborhoodAlertCommentDownvote(int commentID, int userID, Callback<VoteConfirmation> callback) {
+        Call<VoteConfirmation> call = retrofitService.postVote("neighborhood_alert_comments", commentID, "downvote", userID);
+        call.enqueue(callback);
+    }
+
+    public void routeAlertCommentUpvote(int commentID, int userID, Callback<VoteConfirmation> callback) {
+        Call<VoteConfirmation> call = retrofitService.postVote("route_alert_comments", commentID, "upvote", userID);
+        call.enqueue(callback);
+    }
+
+    public void routeAlertCommentDownvote(int commentID, int userID, Callback<VoteConfirmation> callback) {
+        Call<VoteConfirmation> call = retrofitService.postVote("route_alert_comments", commentID, "downvote", userID);
+        call.enqueue(callback);
+    }
+
 
     /**
      * Performs actions of callback on List of Neighborhoods obtained from api.
@@ -140,11 +193,17 @@ public class WMBController {
 
     /**
      * Gets an ordered-by-date list of all comments in the Alert
-     * @param alert Alert to get comments about
+     * @param alertID Alert to get comments about
      * @return list of comments sorted chronologically
      */
-    public List<Comment> getComments(Alert alert) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
+    public void getRouteAlertComments(int alertID, Callback<List<Comment>> callback) {
+        Call<List<Comment>> call = retrofitService.getRouteAlertComments(alertID);
+        call.enqueue(callback);
+    }
+
+    public void getNeighborhoodAlertComments(int alertID, Callback<List<Comment>> callback) {
+        Call<List<Comment>> call = retrofitService.getNeighborhoodAlertComments(alertID);
+        call.enqueue(callback);
     }
 
     /**

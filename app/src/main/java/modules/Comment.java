@@ -1,6 +1,10 @@
 package modules;
 
+import com.google.gson.annotations.SerializedName;
+
 import junit.framework.Assert;
+
+import java.util.Date;
 
 /**
  * Created by lidav on 10/26/2016.
@@ -11,11 +15,18 @@ import junit.framework.Assert;
  */
 
 public class Comment {
+    @SerializedName("message")
     private String data;
-    private int creatorId;
+    @SerializedName("user_id")
+    private int creatorID;
+    @SerializedName("upvotes")
     private int upvotes;
+    @SerializedName("downvotes")
     private int downvotes;
+    @SerializedName("id")
     private int id;
+    @SerializedName("created_at")
+    Date date;
     private Alert alert;
 
     /**
@@ -29,12 +40,20 @@ public class Comment {
             throw new IllegalArgumentException();
         }
         this.data = data;
-        this.creatorId = creatorId;
+        this.creatorID = creatorId;
         this.alert = alert;
         this.id = -1;
         checkRep();
     }
 
+    public Comment(int id, int userID, String data, int upvotes, int downvotes, Date date) {
+        this.id = id;
+        this.creatorID = userID;
+        this.data = data;
+        this.upvotes = upvotes;
+        this.downvotes = downvotes;
+        this.date = date;
+    }
     /**
      * Gets the comment String
      * @return comment String
@@ -48,7 +67,7 @@ public class Comment {
      * @return creator's id as int
      */
     public int getCreatorID() {
-        return creatorId;
+        return creatorID;
     }
 
     /**
@@ -116,7 +135,7 @@ public class Comment {
     }
     private void checkRep() {
         Assert.assertTrue(id == -1 || id > 0);
-        Assert.assertTrue(creatorId > 0);
+        Assert.assertTrue(creatorID > 0);
         Assert.assertFalse(data == null);
         Assert.assertTrue(upvotes >= 0);
         Assert.assertTrue(downvotes >= 0);
