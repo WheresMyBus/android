@@ -64,23 +64,23 @@
         android:layout_below="@+id/choose_alert_types"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        app:buttonTint="@color/darkBlue" />
-
-    <CheckBox
-        android:text="@string/traffic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/checkBox1"
-        android:id="@+id/checkBox2"
-        app:buttonTint="@color/darkBlue" />
+        android:buttonTint="@color/darkBlue" />
 
     <CheckBox
         android:text="@string/event"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/checkBox1"
+        android:id="@+id/checkBox2"
+        android:buttonTint="@color/darkBlue" />
+
+    <CheckBox
+        android:text="@string/traffic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/checkBox2"
         android:id="@+id/checkBox3"
-        app:buttonTint="@color/darkBlue" />
+        android:buttonTint="@color/darkBlue" />
 
     <CheckBox
         android:text="@string/other"
@@ -88,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/checkBox3"
         android:id="@+id/checkBox4"
-        app:buttonTint="@color/darkBlue" />
+        android:buttonTint="@color/darkBlue" />
 
     <TextView
         android:text="@string/write_description"

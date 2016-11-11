@@ -9,8 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import controllers.OBAController;
+import modules.Route;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 
 /**
@@ -28,7 +39,6 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private TextView busRoute;
     private Spinner busRouteSpinner;
 
     private OnFragmentInteractionListener mListener;
@@ -62,6 +72,45 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
             textView = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }*/
+
+        try {
+            busRouteRequest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void busRouteRequest() throws Exception {
+        OBAController controller = OBAController.getInstance();
+        controller.getRoutes(new Callback<Set<Route>>() {
+            @Override
+            public void onResponse(Response<Set<Route>> response, Retrofit retrofit) {
+                Set<Route> data = response.body();
+                loadSpinnerData(getListStrings(data));
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                // stuff to do when it doesn't work
+            }
+        });
+    }
+
+    private List<String> getListStrings(Set<Route> routes) {
+        List<String> data = new ArrayList<>();
+        for (Route route : routes) {
+            data.add(route.getName());
+        }
+        return data;
+    }
+
+    private void loadSpinnerData(List<String> data) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this.getActivity(), android.R.layout.simple_spinner_item, data);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        busRouteSpinner.setAdapter(adapter);
+        //busRouteSpinner.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -105,7 +154,7 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
     // TODO: for spinner's setOnItemSelectedListener
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+        String routeName = parent.getItemAtPosition(position).toString();
     }
 
     // TODO: for spinner's setOnItemSelectedListener

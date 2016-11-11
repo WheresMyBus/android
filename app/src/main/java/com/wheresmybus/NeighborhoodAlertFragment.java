@@ -39,9 +39,8 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private TextView neighborhood;
     private Spinner neighborhoodSpinner;
-    private GridView alertTypes;
+    //private GridView alertTypes;
 
     private OnFragmentInteractionListener mListener;
 
@@ -112,13 +111,13 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         neighborhoodSpinner.setAdapter(adapter);
-        neighborhoodSpinner.setOnItemSelectedListener(this);
+        //neighborhoodSpinner.setOnItemSelectedListener(this);
     }
 
     private void loadCheckBoxData(String[] data) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(),
                 android.R.layout.simple_list_item_multiple_choice, data);
-        alertTypes.setAdapter(adapter);
+        //alertTypes.setAdapter(adapter);
     }
 
     @Override
