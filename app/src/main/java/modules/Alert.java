@@ -52,11 +52,6 @@ public abstract class Alert {
     }
 
     /**
-     * Default constructor
-     */
-    public Alert() {}
-
-    /**
      * Gets the id of the creator of the alert
      * @return creator's id as int
      */

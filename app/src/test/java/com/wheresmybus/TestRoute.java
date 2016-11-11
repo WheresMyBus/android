@@ -20,8 +20,8 @@ public class TestRoute {
      */
     @Test
     public void testGetData() {
-        Route r = new Route(12, "Seattle");
-        assertEquals(12, r.getNumber());
+        Route r = new Route("12", "Seattle", "a");
+        assertEquals("12", r.getNumber());
         assertTrue(r.getName().equals("Seattle"));
     }
 
@@ -30,23 +30,16 @@ public class TestRoute {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testNullName() {
-        Route m = new Route(12, null);
+        Route m = new Route("12", null, null);
     }
 
-    /**
-     * Check the IllegalArgumentException is thrown when number < 1
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void testBadNumber() {
-        Route a = new Route(0, null);
-    }
 
     /**
      * Check the toString() produces the correct result
      */
     @Test
     public void testToString() {
-        Route r = new Route(556, "Northgate");
+        Route r = new Route("556", "Northgate", "1");
         assertTrue(r.toString().equals("556 Northgate"));
     }
 

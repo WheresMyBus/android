@@ -25,7 +25,7 @@ public class TestBus {
 
     @Before
     public void setUp() {
-        sampleBus = new Bus(new Route(1, ""), new Pair<>(0.0, 1.0));
+        sampleBus = new Bus(new Route("106", "Downtown", "FooBar"), new Pair<>(0.0, 1.0));
     }
 
     @Test
@@ -54,4 +54,13 @@ public class TestBus {
         assertEquals(sampleBus.getId(), Integer.MAX_VALUE);
     }
 
+    @Test
+    public void test_get_route_basic() {
+        assertEquals(new Route("106", "Downtown", "FooBar"), sampleBus.getRoute());
+    }
+
+    @Test
+    public void test_get_route_deep_copy() {
+
+    }
 }
