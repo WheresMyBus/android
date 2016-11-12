@@ -158,6 +158,14 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
         mListener = null;
     }
 
+    /**
+     * When a route is clicked, it takes the user to the corresponding
+     * alert forum page
+     * @param adapterView the AdapterView that keeps track of the ListView elements
+     * @param view the ListView for this class
+     * @param position the position of the element clicked
+     * @param id the id of the element clicked
+     */
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent intent = new Intent(getActivity(), AlertForumActivity.class);

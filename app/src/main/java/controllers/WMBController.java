@@ -211,6 +211,16 @@ public class WMBController {
         call.enqueue(callback);
     }
 
+    public Comment postNeighborhoodAlertCommentSynchronously(int neighborhoodAlertID, String data, int userID) {
+        Call<Comment> call = retrofitService.postNeighborhoodAlertComment(neighborhoodAlertID, data, userID);
+        try {
+            return call.execute().body();
+        } catch (IOException e) {
+            Log.d("postHoodAlertComment ", e.toString());
+            return null;
+        }
+    }
+
     /**
      * upvotes a neighborhood alert
      * @param alertID id of the alert
@@ -350,6 +360,16 @@ public class WMBController {
     public void getNeighborhoodAlertComments(int alertID, Callback<List<Comment>> callback) {
         Call<List<Comment>> call = retrofitService.getNeighborhoodAlertComments(alertID);
         call.enqueue(callback);
+    }
+
+    public List<Comment> getNeighborhoodAlertCommentsSynchronously(int alertID) {
+        Call<List<Comment>> call = retrofitService.getNeighborhoodAlertComments(alertID);
+        try {
+            return call.execute().body();
+        } catch (IOException e) {
+            Log.d("getHoodAlertComment", e.toString());
+            return null;
+        }
     }
 
     /**
