@@ -3,8 +3,6 @@ package com.wheresmybus;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -19,8 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.TextView;
-
+/**
+ * A class for the catalog screen, with tabs for routes and neighborhoods
+ */
 public class CatalogActivity extends AppCompatActivity implements BusRouteCatalogFragment.OnFragmentInteractionListener,
         NeighborhoodCatalogFragment.OnFragmentInteractionListener{
 
@@ -39,6 +38,12 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
      */
     private ViewPager mViewPager;
 
+    /**
+     * Sets up the catalog screen with a routes and a neighborhoods tab
+     * Each tab shows a list of the routes/neighborhoods in Seattle
+     * The tab intially selected is determined by the button clicked to navigate here
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +51,7 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         // Create the adapter that will return a fragment for each of the two
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -59,9 +65,10 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
 
         Intent intent = getIntent();
         int tabIndex = intent.getIntExtra("TAB_INDEX", 0);
-        System.out.println(tabIndex);
         TabLayout.Tab tab = tabLayout.getTabAt(tabIndex);
-        tab.select();
+        if (tab != null) {
+            tab.select();
+        }
 
     }
 
@@ -89,44 +96,6 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
     }
 
     /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            if(getArguments().getInt(ARG_SECTION_NUMBER) == 1) {
-                View routeView = inflater.inflate(R.layout.fragment_bus_route_catalog, container, false);
-                return routeView;
-            } else {
-                View neighborhoodView = inflater.inflate(R.layout.fragment_neighborhood_catalog, container, false);
-                return neighborhoodView;
-            }
-        }
-    }
-
-    /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
@@ -136,11 +105,21 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
             super(fm);
         }
 
+        /**
+         * Gets the fragment at the given index
+         * @param position The index of the fragment to display
+         * @return The fragment (sub-page) to show
+         */
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            if (position == 0) {
+                return new BusRouteCatalogFragment();
+            } else if (position == 1) {
+                return new NeighborhoodCatalogFragment();
+            } else {
+                return null;
+            }
         }
 
         @Override
@@ -149,6 +128,11 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
             return 2;
         }
 
+        /**
+         * Gets the title of the tab/page at the given index
+         * @param position the index of the tab
+         * @return the title of the given tab
+         */
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
@@ -163,6 +147,6 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-        //getFragmentManager().findFragmentById(R.bus_route_catalog_fragment);
+
     }
 }
