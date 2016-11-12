@@ -17,6 +17,7 @@ import java.util.List;
 
 import controllers.WMBController;
 import modules.Neighborhood;
+import modules.NeighborhoodAdapter;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -86,7 +87,7 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
             @Override
             public void onResponse(Response<List<Neighborhood>> response, Retrofit retrofit) {
                 List<Neighborhood> data = response.body();
-                loadListData(getListStrings(data));
+                loadListData(data);
             }
 
             @Override
@@ -97,25 +98,12 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
     }
 
     /**
-     * Gets the list of neighborhood names from the list of neighborhoods
-     * @param neighborhoods list of neighborhoods
-     * @return the list of neighborhood names as strings
-     */
-    private List<String> getListStrings(List<Neighborhood> neighborhoods) {
-        List<String> data = new ArrayList<>();
-        for (Neighborhood neighborhood : neighborhoods) {
-            data.add(neighborhood.getName());
-        }
-        return data;
-    }
-
-    /**
      * Load the given data into the ListView
      * @param data the list of strings (neighborhood names) to be loaded
      */
-    private void loadListData(List<String> data) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this.getActivity(), android.R.layout.simple_list_item_1, data);
+    private void loadListData(List<Neighborhood> data) {
+        NeighborhoodAdapter adapter = new NeighborhoodAdapter(this.getActivity(),
+                android.R.layout.simple_list_item_1, data);
         neighborhoodList.setAdapter(adapter);
     }
 
