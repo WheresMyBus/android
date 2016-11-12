@@ -20,6 +20,7 @@ import java.util.List;
 import controllers.WMBController;
 import modules.Alert;
 import modules.Neighborhood;
+import modules.NeighborhoodAdapter;
 import modules.NeighborhoodAlert;
 import retrofit.Callback;
 import retrofit.Response;
@@ -64,7 +65,7 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
             @Override
             public void onResponse(Response<List<Neighborhood>> response, Retrofit retrofit) {
                 List<Neighborhood> data = response.body();
-                loadSpinnerData(getListStrings(data));
+                loadSpinnerData(data);
             }
 
             @Override
@@ -82,6 +83,13 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
         return data;
     }
 
+    private void loadSpinnerData(List<Neighborhood> data) {
+        NeighborhoodAdapter adapter = new NeighborhoodAdapter(this.getActivity(), android.R.layout.simple_spinner_item, data);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        neighborhoodSpinner.setAdapter(adapter);
+    }
+
+    /*
     private void loadSpinnerData(List<String> data) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this.getActivity(), android.R.layout.simple_spinner_item, data);
@@ -89,6 +97,7 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         neighborhoodSpinner.setAdapter(adapter);
     }
+    */
 
     private void loadCheckBoxData(String[] data) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(),
@@ -138,7 +147,7 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
     // TODO: for neighborhood spinner
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String neighborhoodName = parent.getItemAtPosition(position).toString();
+        String neighborhood = parent.getItemAtPosition(position).toString();
         // do something to create alert
         // make next items visible
     }

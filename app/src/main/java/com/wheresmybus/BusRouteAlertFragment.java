@@ -83,6 +83,8 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
 
     private void loadSpinnerData(List<Route> data) {
         RouteAdapter adapter = new RouteAdapter(this.getActivity(), android.R.layout.simple_spinner_item, data);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        busRouteSpinner.setAdapter(adapter);
     }
 
     /*
