@@ -48,14 +48,10 @@ public class SubmitAlertActivity extends FragmentActivity implements
         setContentView(R.layout.activity_submit_alert);
 
         fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.bus_route_alert_fragment,
-                new BusRouteAlertFragment(), "busRouteFragment").commit();
         busRouteFragment = (BusRouteAlertFragment)
                 fragmentManager.findFragmentById(R.id.bus_route_alert_fragment);
         busRouteFragment.getView().setVisibility(View.INVISIBLE);
 
-        fragmentManager.beginTransaction().add(R.id.neighborhood_alert_fragment,
-                new NeighborhoodAlertFragment(), "neighborhoodFragment").commit();
         neighborhoodFragment = (NeighborhoodAlertFragment)
                 fragmentManager.findFragmentById(R.id.neighborhood_alert_fragment);
         neighborhoodFragment.getView().setVisibility(View.INVISIBLE);
