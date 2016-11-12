@@ -98,19 +98,6 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
     }
 
     /**
-     * Gets the list of neighborhood names from the list of neighborhoods
-     * @param neighborhoods list of neighborhoods
-     * @return the list of neighborhood names as strings
-     */
-    private List<String> getListStrings(List<Neighborhood> neighborhoods) {
-        List<String> data = new ArrayList<>();
-        for (Neighborhood neighborhood : neighborhoods) {
-            data.add(neighborhood.getName());
-        }
-        return data;
-    }
-
-    /**
      * Load the given data into the ListView
      * @param data the list of strings (neighborhood names) to be loaded
      */
