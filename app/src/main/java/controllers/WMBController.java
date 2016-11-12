@@ -63,6 +63,23 @@ public class WMBController {
         return instance;
     }
 
+    public static void useTestURL() {
+        retrofitService = new Retrofit.Builder()
+                .baseUrl("https://wheresmybus-api-test.herokuapp.com/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build()
+                .create(RetrofitAPI.class);
+    }
+
+    public static void useMockURL(String url) {
+        retrofitService = new Retrofit.Builder()
+                .baseUrl(url)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build()
+                .create(RetrofitAPI.class);
+    }
+
+
     /**
      * Gets a list of all alerts
      * @return List of all Alerts, empty if request failed

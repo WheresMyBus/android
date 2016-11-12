@@ -33,14 +33,14 @@ public interface RetrofitAPI {
     @FormUrlEncoded
     @POST("neighborhoods/{id}/alerts")
     Call<NeighborhoodAlert> postNeighborhoodAlert(@Path("id") int neighborhoodID,
-                                          @Field("alert_type") String alertType,
+                                          @Field("issue_type") String alertType,
                                           @Field("description") String description,
                                           @Field("user_id") int userID);
 
     @FormUrlEncoded
     @POST("routes/{id}/alerts")
     Call<RouteAlert> postRouteAlert(@Path("id") String routeID,
-                                    @Field("alert_type") String alertType,
+                                    @Field("issue_type") String alertType,
                                     @Field("description") String description,
                                     @Field("user_id") int userID);
 
