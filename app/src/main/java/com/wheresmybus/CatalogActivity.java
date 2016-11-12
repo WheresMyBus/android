@@ -17,7 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-
+/**
+ * A class for the catalog screen, with tabs for routes and neighborhoods
+ */
 public class CatalogActivity extends AppCompatActivity implements BusRouteCatalogFragment.OnFragmentInteractionListener,
         NeighborhoodCatalogFragment.OnFragmentInteractionListener{
 
@@ -36,6 +38,12 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
      */
     private ViewPager mViewPager;
 
+    /**
+     * Sets up the catalog screen with a routes and a neighborhoods tab
+     * Each tab shows a list of the routes/neighborhoods in Seattle
+     * The tab intially selected is determined by the button clicked to navigate here
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +105,11 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
             super(fm);
         }
 
+        /**
+         * Gets the fragment at the given index
+         * @param position The index of the fragment to display
+         * @return The fragment (sub-page) to show
+         */
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
@@ -115,6 +128,11 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
             return 2;
         }
 
+        /**
+         * Gets the title of the tab/page at the given index
+         * @param position the index of the tab
+         * @return the title of the given tab
+         */
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {

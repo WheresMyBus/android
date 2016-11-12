@@ -62,6 +62,10 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
         return fragment;
     }
 
+    /**
+     * Retrieves the list of neighborhoods from the database to populate the catalog
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +97,7 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
     }
 
     /**
-     * Get list of neighborhood names from the list of neighborhoods
+     * Gets the list of neighborhood names from the list of neighborhoods
      * @param neighborhoods list of neighborhoods
      * @return the list of neighborhood names as strings
      */

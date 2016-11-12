@@ -65,6 +65,10 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
         return fragment;
     }
 
+    /**
+     * Retrieves the list of routes from the database to populate the catalog
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +100,7 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
     }
 
     /**
-     * Get list of route names from the set of routes
+     * Gets the list of route names from the set of routes
      * @param routes set of routes
      * @return the list of route names as strings
      */
