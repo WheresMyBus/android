@@ -44,6 +44,7 @@ public class MockedInstrumentedTest {
         RecordedRequest request = server.takeRequest();
         assertEquals("request path", "/neighborhoods/1/alerts", request.getPath());
         assertEquals("request body", "issue_type=construction&description=Bus%20driver%20was%20a%20ghost%21&user_id=420", request.getBody().readUtf8());
+        server.shutdown();
     }
 
 }
