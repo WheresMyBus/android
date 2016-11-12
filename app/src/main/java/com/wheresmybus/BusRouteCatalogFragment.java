@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -89,8 +90,9 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
         controller.getRoutes(new Callback<Set<Route>>() {
             @Override
             public void onResponse(Response<Set<Route>> response, Retrofit retrofit) {
-                Set<Route> data = response.body();
-                loadListData(setToList(data));
+                List<Route> data = new ArrayList<Route>(response.body());
+                Collections.sort(data);
+                loadListData(data);
             }
 
             @Override

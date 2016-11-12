@@ -17,16 +17,16 @@ import java.util.List;
 
 public class NeighborhoodAdapter extends ArrayAdapter<Neighborhood> {
 
-    //constructor, call on creation
+    // constructor, call on creation
     public NeighborhoodAdapter(Context context, int resource, List<Neighborhood> neighborhoods) {
         super(context, resource, neighborhoods);
     }
 
-    //called when rendering the list
+    // called when rendering the list
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        //get the property we are displaying
+        // get the property we are displaying
         Neighborhood neighborhood = getItem(position);
 
         // checks if an existing view is being reused, otherwise inflate a new row

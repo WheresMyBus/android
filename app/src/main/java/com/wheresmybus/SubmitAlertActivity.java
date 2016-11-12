@@ -1,9 +1,11 @@
 package com.wheresmybus;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.RadioButton;
 import android.view.View;
@@ -14,8 +16,16 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
+import java.util.List;
+
+import controllers.WMBController;
 import modules.Neighborhood;
+import modules.NeighborhoodAlert;
 import modules.Route;
+import modules.RouteAlert;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * Created by lesli_000 on 11/8/2016.
@@ -26,15 +36,11 @@ public class SubmitAlertActivity extends FragmentActivity implements
         NeighborhoodAlertFragment.OnFragmentInteractionListener {
     private Button submitButton;
     private FragmentManager fragmentManager;
-    private Fragment busRouteFragment;
-    private Fragment neighborhoodFragment;
+    private BusRouteAlertFragment busRouteFragment;
+    private NeighborhoodAlertFragment neighborhoodFragment;
 
-    // parameters for the alert that will be submitted
+    // parameter to get alert information that will be submitted
     private String type;
-    private Neighborhood neighborhood;
-    private Route route;
-    private String alertType;
-    private String description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,22 +88,64 @@ public class SubmitAlertActivity extends FragmentActivity implements
     public void onSubmitButtonClicked(View view) {
         // need route/neighborhood ID, alertType string, description of alert, 0, callback
         if (type.equals("route")) {
+            // get the information from the BusRouteFragment
+            Route route = busRouteFragment.getRoute();
+            String alertType = busRouteFragment.getAlertType();
+            String description = busRouteFragment.getDescription();
+
             if (route == null || alertType == null || description == null) {
+                // instruct user that some parameter is missing information
                 Toast toast = Toast.makeText(this, "Please enter any missing parameters.",
                         Toast.LENGTH_SHORT);
                 toast.show();
             } else {
-               // submit new route alert
+                // submit new route alert
+                WMBController controller = WMBController.getInstance();
+                controller.postAlert(route.getId(), alertType, description, 0, new Callback<RouteAlert>() {
+                    @Override
+                    public void onResponse(Response<RouteAlert> response, Retrofit retrofit) {
 
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+
+                    }
+                });
+
+                // switch back to home screen
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
             }
         } else if (type.equals("neighborhood")) {
+            // get the information from the NeighborhoodFragment
+            Neighborhood neighborhood = neighborhoodFragment.getNeighborhood();
+            String alertType = neighborhoodFragment.getAlertType();
+            String description = neighborhoodFragment.getDescription();
+
             if (neighborhood == null || alertType == null || description == null) {
+                // instruct the user that some parameter is missing information
                 Toast toast = Toast.makeText(this, "Please enter any missing parameters.",
                         Toast.LENGTH_SHORT);
                 toast.show();
             } else {
-                // submit new neighborhood alert
+                // submit new alert
+                WMBController controller = WMBController.getInstance();
+                controller.postAlert(neighborhood.getID(), alertType, description, 0, new Callback<NeighborhoodAlert>() {
+                    @Override
+                    public void onResponse(Response<NeighborhoodAlert> response, Retrofit retrofit) {
 
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+
+                    }
+                });
+
+                // switch back to home screen
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
             }
         }
     }

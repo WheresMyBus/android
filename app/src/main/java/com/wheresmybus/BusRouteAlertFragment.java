@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -40,6 +41,11 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
     private CheckBox checkBox3;
     private CheckBox checkBox4;
 
+    // information for the alert
+    private Route route;
+    private List<String> alertTypes;
+    private String description;
+
     private OnFragmentInteractionListener mListener;
 
     @Override
@@ -49,12 +55,6 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
             textView = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }*/
-
-        try {
-            busRouteRequest();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void busRouteRequest() throws Exception {
@@ -62,8 +62,9 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
         controller.getRoutes(new Callback<Set<Route>>() {
             @Override
             public void onResponse(Response<Set<Route>> response, Retrofit retrofit) {
-                Set<Route> data = response.body();
-                loadSpinnerData(new ArrayList<Route>(data));
+                List<Route> data = new ArrayList<Route>(response.body());
+                Collections.sort(data);
+                loadSpinnerData(data);
             }
 
             @Override
@@ -71,14 +72,6 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
                 // stuff to do when it doesn't work
             }
         });
-    }
-
-    private List<String> getListStrings(Set<Route> routes) {
-        List<String> data = new ArrayList<>();
-        for (Route route : routes) {
-            data.add(route.getName());
-        }
-        return data;
     }
 
     private void loadSpinnerData(List<Route> data) {
@@ -101,14 +94,23 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bus_route_alert, container, false);
+        View view = inflater.inflate(R.layout.fragment_bus_route_alert, container, false);
+
+        busRouteSpinner = (Spinner) view.findViewById(R.id.bus_route_spinner);
+        busRouteSpinner.setOnItemSelectedListener(this);
+
+        try {
+            busRouteRequest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        busRouteSpinner = (Spinner) getActivity().findViewById(R.id.bus_route_spinner);
-        busRouteSpinner.setOnItemSelectedListener(this);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -138,13 +140,40 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
     // TODO: for spinner's setOnItemSelectedListener
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String routeName = parent.getItemAtPosition(position).toString();
+        Object route = parent.getItemAtPosition(position);
+        if (route instanceof Route) {
+            this.route = (Route) route;
+        }
     }
 
     // TODO: for spinner's setOnItemSelectedListener
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+    }
 
+    public void onCheckBoxSelected(View view) {
+        
+    }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    // assumes alertTypes.size() > 0
+    public String getAlertType() {
+        if (alertTypes == null) {
+            return null;
+        } else {
+            String alertType = alertTypes.get(0);
+            for (int i = 1; i < alertTypes.size(); i++) {
+                alertType += ", " + alertTypes.get(i);
+            }
+            return alertType;
+        }
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     /**

@@ -26,7 +26,6 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -40,7 +39,11 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
     private CheckBox checkBox2;
     private CheckBox checkBox3;
     private CheckBox checkBox4;
-    private Alert alert;
+
+    // information for the alerts
+    private Neighborhood neighborhood;
+    private List<String> alertTypes;
+    private String description;
 
     private OnFragmentInteractionListener mListener;
 
@@ -147,15 +150,35 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
     // TODO: for neighborhood spinner
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String neighborhood = parent.getItemAtPosition(position).toString();
-        // do something to create alert
-        // make next items visible
+        Object neighborhood = parent.getItemAtPosition(position);
+
     }
 
     // TODO: for neighborhood spinner
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    public Neighborhood getNeighborhood() {
+        return neighborhood;
+    }
+
+    // assumes alertTypes.size() > 0
+    public String getAlertType() {
+        if (alertTypes == null) {
+            return null;
+        } else {
+            String alertType = alertTypes.get(0);
+            for (int i = 1; i < alertTypes.size(); i++) {
+                alertType += ", " + alertTypes.get(i);
+            }
+            return alertType;
+        }
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     /**
