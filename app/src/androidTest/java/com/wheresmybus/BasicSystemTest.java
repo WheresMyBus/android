@@ -12,6 +12,7 @@ import java.util.Set;
 import controllers.OBAController;
 import controllers.WMBController;
 import modules.Neighborhood;
+import modules.NeighborhoodAlert;
 import modules.Route;
 import retrofit.Callback;
 import retrofit.Response;
@@ -40,7 +41,6 @@ public class BasicSystemTest {
         Neighborhood maybeSouthPark = hoods.get(47);
         assertEquals("Name comparison of index 48 neighborhood entry", "South Park", maybeSouthPark.getName());
         assertEquals("ID comparison of index 48 neighborhood entry", 48, maybeSouthPark.getID());
-
     }
 
     @Test
@@ -69,4 +69,17 @@ public class BasicSystemTest {
         });
     }
     */
+    /* This is not a proper test, just stuff I have been trying to confirm that things work...
+    @Test
+    public void attemptPostToAPI() throws Exception {
+        WMBController controller = WMBController.getInstance();
+
+        NeighborhoodAlert responseAlert = controller.postAlertSynchronously(14, "construction", "THE BUS TURNED INTO A CAT!!!!", 404);
+        assertEquals("compare description", "THE BUS TURNED INTO A CAT!!!!", responseAlert.getDescription());
+
+        List<NeighborhoodAlert> alertsList = controller.getAlertsSynchronously(14);
+        assertEquals("compare get to posted", alertsList.get(0).getDescription(), responseAlert.getDescription());
+    }
+    */
+
 }

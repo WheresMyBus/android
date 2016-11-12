@@ -3,6 +3,10 @@ package controllers;
 import android.util.JsonReader;
 import android.util.Pair;
 import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.json.JSONArray;
 
 import java.io.BufferedReader;
@@ -35,9 +39,13 @@ import retrofit.Callback;
 
 public class WMBController {
     private static WMBController instance = null;
+    private static Gson gson = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            .create();
+
     private static RetrofitAPI retrofitService = new Retrofit.Builder()
             .baseUrl("http://wheresmybus-api.herokuapp.com/")
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(RetrofitAPI.class);
 
@@ -120,6 +128,29 @@ public class WMBController {
                           int userID, Callback<RouteAlert> callback) {
         Call<RouteAlert> call = retrofitService.postRouteAlert(routeID,alertType,description,userID);
         call.enqueue(callback);
+    }
+
+    // the next two methods are for testing.
+    public NeighborhoodAlert postAlertSynchronously(int neighborhoodID, String alertType, String description,
+                                                    int userID) {
+        Call<NeighborhoodAlert> call = retrofitService.postNeighborhoodAlert(neighborhoodID,alertType,description,userID);
+        try {
+            NeighborhoodAlert alert = call.execute().body();
+            return alert;
+        } catch (IOException e) {
+            Log.d("postAlertSynchronously", e.toString());
+            return null;
+        }
+    }
+    public List<NeighborhoodAlert> getAlertsSynchronously(int neighborhoodID) {
+        Call<List<NeighborhoodAlert>> call = retrofitService.getNeighborhoodAlertsJSON(neighborhoodID);
+        try {
+            List<NeighborhoodAlert> alerts = call.execute().body();
+            return alerts;
+        } catch (IOException e) {
+            Log.d("getAlertsSynchronously", e.toString());
+            return null;
+        }
     }
 
     /**
