@@ -20,6 +20,7 @@ import controllers.OBAController;
 import controllers.WMBController;
 import modules.Neighborhood;
 import modules.Route;
+import modules.RouteAdapter;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -89,7 +90,7 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
             @Override
             public void onResponse(Response<Set<Route>> response, Retrofit retrofit) {
                 Set<Route> data = response.body();
-                loadListData(getListStrings(data));
+                loadListData(setToList(data));
             }
 
             @Override
@@ -97,6 +98,19 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
                 // stuff to do when it doesn't work
             }
         });
+    }
+
+    /**
+     * Converts the set of routes returned from the database to a list for the adapter
+     * @param routes the set of routes (from the database)
+     * @return the list of routes
+     */
+    private List<Route> setToList(Set<Route> routes) {
+        List<Route> data = new ArrayList<Route>();
+        for (Route route: routes) {
+            data.add(route);
+        }
+        return data;
     }
 
     /**
@@ -116,9 +130,10 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
      * Load the given data into the ListView
      * @param data the list of strings (route names) to be loaded
      */
-    private void loadListData(List<String> data) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this.getActivity(), android.R.layout.simple_list_item_1, data);
+    private void loadListData(List<Route> data) {
+        /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this.getActivity(), android.R.layout.simple_list_item_1, data);*/
+        RouteAdapter adapter = new RouteAdapter(this.getActivity(), android.R.layout.simple_list_item_1, data);
         routeList.setAdapter(adapter);
     }
 
