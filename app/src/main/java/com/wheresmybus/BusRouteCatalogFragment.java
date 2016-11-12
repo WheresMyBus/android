@@ -131,9 +131,8 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
      * @param data the list of strings (route names) to be loaded
      */
     private void loadListData(List<Route> data) {
-        /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this.getActivity(), android.R.layout.simple_list_item_1, data);*/
-        RouteAdapter adapter = new RouteAdapter(this.getActivity(), android.R.layout.simple_list_item_1, data);
+        RouteAdapter adapter = new RouteAdapter(this.getActivity(),
+                android.R.layout.simple_list_item_1, data);
         routeList.setAdapter(adapter);
     }
 
