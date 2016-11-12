@@ -173,19 +173,19 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
         // Check which checkbox was clicked
         switch(view.getId()) {
             case R.id.checkBox1:
-                alertType = checkBox1.getText().toString();
+                alertType = checkBox1.getText().toString().toLowerCase();
                 handleAlertType(alertType, checked);
                 break;
             case R.id.checkBox2:
-                alertType = checkBox2.getText().toString();
+                alertType = checkBox2.getText().toString().toLowerCase();
                 handleAlertType(alertType, checked);
                 break;
             case R.id.checkBox3:
-                alertType = checkBox3.getText().toString();
+                alertType = checkBox3.getText().toString().toLowerCase();
                 handleAlertType(alertType, checked);
                 break;
             case R.id.checkBox4:
-                alertType = checkBox4.getText().toString();
+                alertType = checkBox4.getText().toString().toLowerCase();
                 handleAlertType(alertType, checked);
                 break;
         }
