@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp">
+
+    <TextView
+        android:text="Alert Type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/alert_type"
+        android:textColor="@android:color/black"
+        android:textStyle="normal|bold"
+        android:textSize="20sp"
+        android:layout_toLeftOf="@+id/thumbs_up"
+        android:layout_toStartOf="@+id/thumbs_up"
+        android:gravity="center_vertical"
+        android:layout_above="@+id/num_thumbs_up" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/thumbs_down"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/thumbs_down"
+        android:backgroundTint="@android:color/transparent"
+        android:tint="@color/orange" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/thumbs_up"
+        android:layout_alignBottom="@+id/thumbs_down"
+        android:layout_toLeftOf="@+id/thumbs_down"
+        android:layout_toStartOf="@+id/thumbs_down"
+        android:id="@+id/thumbs_up"
+        android:backgroundTint="@android:color/transparent"
+        android:tint="@color/green" />
+
+    <TextView
+        android:text="Number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/thumbs_down"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/num_thumbs_down"
+        android:layout_toRightOf="@+id/thumbs_up"
+        android:layout_toEndOf="@+id/thumbs_up"
+        android:textAlignment="center"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:text="Number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/thumbs_down"
+        android:layout_toLeftOf="@+id/thumbs_down"
+        android:id="@+id/num_thumbs_up"
+        android:layout_alignLeft="@+id/thumbs_up"
+        android:layout_alignStart="@+id/thumbs_up"
+        android:textAlignment="center"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:text="Date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/num_thumbs_up"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/date" />
+
+    <TextView
+        android:text="Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/time"
+        android:paddingLeft="10dp"
+        android:layout_alignBaseline="@+id/date"
+        android:layout_alignBottom="@+id/date"
+        android:layout_toRightOf="@+id/date"
+        android:layout_toEndOf="@+id/date" />
+</RelativeLayout>

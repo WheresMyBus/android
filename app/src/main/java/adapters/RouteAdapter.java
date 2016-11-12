@@ -1,4 +1,4 @@
-package modules;
+package adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.wheresmybus.R;
 
 import java.util.List;
+
+import modules.Route;
 
 /**
  * Created by lesli_000 on 11/11/2016.

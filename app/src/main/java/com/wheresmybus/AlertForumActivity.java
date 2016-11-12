@@ -7,8 +7,6 @@ import android.os.Bundle;
 import java.util.List;
 
 import controllers.WMBController;
-import modules.Neighborhood;
-import modules.NeighborhoodAdapter;
 import modules.NeighborhoodAlert;
 import modules.RouteAlert;
 import retrofit.Callback;

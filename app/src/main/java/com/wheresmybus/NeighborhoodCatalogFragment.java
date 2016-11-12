@@ -16,7 +16,7 @@ import java.util.List;
 
 import controllers.WMBController;
 import modules.Neighborhood;
-import modules.NeighborhoodAdapter;
+import adapters.NeighborhoodAdapter;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;

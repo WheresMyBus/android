@@ -29,4 +29,5 @@
     <string name="crime">Crime</string>
     <string name="maintenance_issue">Maintenance Issue</string>
     <string name="write_description">Write a description of the alert:</string>
+    <string name="routes_affected">Routes possibly affected:</string>
 </resources>

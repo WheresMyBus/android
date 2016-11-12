@@ -9,10 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -22,7 +20,7 @@ import java.util.Set;
 
 import controllers.OBAController;
 import modules.Route;
-import modules.RouteAdapter;
+import adapters.RouteAdapter;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
