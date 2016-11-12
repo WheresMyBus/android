@@ -11,8 +11,10 @@ import org.junit.runner.RunWith;
 import java.util.List;
 
 import controllers.WMBController;
+import modules.Comment;
 import modules.Neighborhood;
 import modules.NeighborhoodAlert;
+import modules.VoteConfirmation;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -65,7 +67,15 @@ public class MockedInstrumentedTest {
                 "  \"user_id\": \"420\",\n" +
                 "  \"value\": \"up\"\n" +
                 "}"));
+
+        VoteConfirmation vc = controller.neighborhoodAlertUpvoteSynchronously(1, 420);
+        assertEquals("id ", 1, vc.getId());
+        assertEquals("user_id ", 420, vc.getUserID());
+        assertEquals("value ", "up", vc.getValue());
+        RecordedRequest request = server.takeRequest();
+        assertEquals("request path", "/neighborhood_alerts/1/upvote", request.getPath());
     }
+
 
     @Test
     public void testGetNeighborhoods() throws Exception {
@@ -90,7 +100,44 @@ public class MockedInstrumentedTest {
         RecordedRequest request = server.takeRequest();
         assertEquals("request path: ", "/neighborhoods.json", request.getPath());
         assertEquals("neighborhood name: ", "Alki", hoods.get(1).getName());
+    }
 
+    @Test
+    public void testPOSTNeighborhoodAlertComment() throws Exception {
+        server.enqueue(new MockResponse()
+        .setResponseCode(200)
+        .setBody("{\n" +
+                "  \"id\": 2,\n" +
+                "  \"user_id\": \"666\",\n" +
+                "  \"message\": \"nothing has ever been true\",\n" +
+                "  \"upvotes\": 0,\n" +
+                "  \"downvotes\": 0,\n" +
+                "  \"created_at\": \"2016-11-10T19:07:11.769Z\"\n" +
+                "}"));
+        Comment comment = controller.postNeighborhoodAlertCommentSynchronously(2, "nothing has ever been true", 666);
+        assertEquals(comment.getData(), "nothing has ever been true");
+        RecordedRequest request = server.takeRequest();
+        assertEquals("message=nothing%20has%20ever%20been%20true&user_id=666", request.getBody().readUtf8());
+    }
+
+    @Test
+    public void testNeighborhoodAlertComments() throws Exception {
+        server.enqueue(new MockResponse()
+        .setResponseCode(200)
+        .setBody("[\n" +
+                "  {\n" +
+                "    \"id\": 1,\n" +
+                "    \"user_id\": \"14\",\n" +
+                "    \"message\": \"something about hitler\",\n" +
+                "    \"upvotes\": 0,\n" +
+                "    \"downvotes\": 0,\n" +
+                "    \"created_at\": \"2016-11-10T17:51:32.984Z\"\n" +
+                "  }\n" +
+                "]"));
+        List<Comment> comments = controller.getNeighborhoodAlertCommentsSynchronously(5);
+        RecordedRequest request = server.takeRequest();
+        assertEquals(comments.get(0).getData(), "something about hitler");
+        assertEquals("/neighborhood_alerts/5/comments", request.getPath());
     }
 
     @After
