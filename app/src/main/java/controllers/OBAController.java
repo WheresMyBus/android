@@ -3,6 +3,9 @@ package controllers;
 import android.util.Log;
 import android.util.Pair;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +25,11 @@ import retrofit.Callback;
 
 public class OBAController {
     private static OBAController instance = null;
+
+    private static Gson gson = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            .create();
+
     private static RetrofitAPI retrofitService = new Retrofit.Builder()
             .baseUrl("http://wheresmybus-api.herokuapp.com/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -40,6 +48,30 @@ public class OBAController {
             instance = new OBAController();
         }
         return instance;
+    }
+
+    public static void useProdURL() {
+        retrofitService = new Retrofit.Builder()
+                .baseUrl("http://wheresmybus-api.herokuapp.com/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build()
+                .create(RetrofitAPI.class);
+    }
+
+    public static void useTestURL() {
+        retrofitService = new Retrofit.Builder()
+                .baseUrl("https://wheresmybus-api-test.herokuapp.com/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build()
+                .create(RetrofitAPI.class);
+    }
+
+    public static void useMockURL(String url) {
+        retrofitService = new Retrofit.Builder()
+                .baseUrl(url)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build()
+                .create(RetrofitAPI.class);
     }
 
     /**
