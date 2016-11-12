@@ -91,6 +91,15 @@ public class Neighborhood {
     }
 
 
+    /**
+     * Gets the string representation of the neighborhood
+     * @return string representation of the neighborhood
+     */
+    @Override
+    public String toString() {
+        return name;
+    }
+
     private void checkRep() {
         Assert.assertFalse(name == null);
         //Assert.assertFalse(perimeter == null);
