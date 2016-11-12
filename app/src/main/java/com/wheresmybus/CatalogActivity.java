@@ -3,8 +3,6 @@ package com.wheresmybus;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -61,7 +59,9 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
         int tabIndex = intent.getIntExtra("TAB_INDEX", 0);
         System.out.println(tabIndex);
         TabLayout.Tab tab = tabLayout.getTabAt(tabIndex);
-        tab.select();
+        if (tab != null) {
+            tab.select();
+        }
 
     }
 

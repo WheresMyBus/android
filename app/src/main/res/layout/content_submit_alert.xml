@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/radio_bus_route"
             android:onClick="onRadioButtonClicked"
-            app:buttonTint="@color/darkBlue"
+            android:buttonTint="@color/darkBlue"
             android:layout_below="@+id/textView3"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -58,77 +58,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/radio_neighborhood"
             android:onClick="onRadioButtonClicked"
-            app:buttonTint="@color/darkBlue"
+            android:buttonTint="@color/darkBlue"
             android:layout_below="@+id/textView3"
             android:layout_centerHorizontal="true" />
 
     </RadioGroup>
-
-    <Button
-        android:text="@string/submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_submit"
-        android:background="@color/green"
-        android:textColor="@color/white"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="12dp" />
-
-    <!--
-    <TextView
-        android:text="@string/choose_bus_route"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/choose_bus_route"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/type_buttons"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/bus_route_spinner"
-        android:layout_below="@+id/choose_bus_route"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-
-    <TextView
-        android:text="@string/choose_neighborhood"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bus_route_spinner"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="98dp"
-        android:id="@+id/choose_neighborhood"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/choose_bus_route"
-        android:layout_alignRight="@+id/choose_bus_route"
-        android:layout_alignBottom="@+id/choose_bus_route"
-        android:layout_alignLeft="@+id/choose_bus_route" />
-
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="52dp"
-        android:id="@+id/neighborhood_spinner"
-        android:layout_alignTop="@+id/bus_route_spinner"
-        android:layout_alignRight="@+id/bus_route_spinner"
-        android:layout_alignBottom="@+id/bus_route_spinner"
-        android:layout_alignLeft="@+id/bus_route_spinner"/>
-    -->
 
     <fragment
         android:layout_width="wrap_content"
@@ -152,5 +86,15 @@
         android:layout_alignParentEnd="true"
         tools:layout="@layout/fragment_neighborhood_alert" />
 
+    <Button
+        android:text="@string/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_submit"
+        android:background="@color/green"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp" />
 
 </RelativeLayout>

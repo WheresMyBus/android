@@ -9,6 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import controllers.OBAController;
+import controllers.WMBController;
+import modules.Neighborhood;
+import modules.Route;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 
 /**
@@ -25,9 +39,7 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private ListView routeList;
 
     private OnFragmentInteractionListener mListener;
 
@@ -56,10 +68,54 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }*/
+        try {
+            routeRequest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Gets the routes from the database
+     * @throws Exception if the request fails
+     */
+    private void routeRequest() throws Exception {
+        OBAController controller = OBAController.getInstance();
+        controller.getRoutes(new Callback<Set<Route>>() {
+            @Override
+            public void onResponse(Response<Set<Route>> response, Retrofit retrofit) {
+                Set<Route> data = response.body();
+                loadListData(getListStrings(data));
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                // stuff to do when it doesn't work
+            }
+        });
+    }
+
+    /**
+     * Get list of route names from the set of routes
+     * @param routes set of routes
+     * @return the list of route names as strings
+     */
+    private List<String> getListStrings(Set<Route> routes) {
+        List<String> data = new ArrayList<>();
+        for (Route route : routes) {
+            data.add(route.getName());
+        }
+        return data;
+    }
+
+    /**
+     * Load the given data into the ListView
+     * @param data the list of strings (route names) to be loaded
+     */
+    private void loadListData(List<String> data) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this.getActivity(), android.R.layout.simple_list_item_1, data);
+        routeList.setAdapter(adapter);
     }
 
     @Override
@@ -72,13 +128,8 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+        routeList = (ListView) getActivity().findViewById(R.id.route_list);
+        routeList.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -98,10 +149,11 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
         mListener = null;
     }
 
-    // TODO: for setOnItemSelectedListener
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+        View neighborhoodView = getActivity().findViewById(R.id.neighborhood_catalog_fragment);
+        neighborhoodView.setVisibility(View.INVISIBLE);
+        view.setVisibility(View.VISIBLE);
     }
 
     // TODO: for setOnItemSelectedListener

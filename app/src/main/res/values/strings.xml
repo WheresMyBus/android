@@ -25,5 +25,8 @@
     <string name="traffic">Traffic</string>
     <string name="event">Event</string>
     <string name="other">Other</string>
+    <string name="question">Question</string>
+    <string name="crime">Crime</string>
+    <string name="maintenance_issue">Maintenance Issue</string>
     <string name="write_description">Write a description of the alert:</string>
 </resources>
