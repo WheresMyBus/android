@@ -62,7 +62,10 @@ public class WMBController {
         }
         return instance;
     }
-
+    /**
+     * Sets the target for API requests to the production backend.
+     * (this is also the default URL)
+     */
     public static void useProdURL() {
         retrofitService = new Retrofit.Builder()
                 .baseUrl("http://wheresmybus-api.herokuapp.com/")
@@ -71,6 +74,9 @@ public class WMBController {
                 .create(RetrofitAPI.class);
     }
 
+    /**
+     * Sets the target for API requests to be the test backend.
+     */
     public static void useTestURL() {
         retrofitService = new Retrofit.Builder()
                 .baseUrl("https://wheresmybus-api-test.herokuapp.com/")
@@ -79,6 +85,11 @@ public class WMBController {
                 .create(RetrofitAPI.class);
     }
 
+    /**
+     * Sets the url for API requests
+     * (this should only be used to setup mocks)
+     * @param url
+     */
     public static void useMockURL(String url) {
         retrofitService = new Retrofit.Builder()
                 .baseUrl(url)
@@ -87,14 +98,6 @@ public class WMBController {
                 .create(RetrofitAPI.class);
     }
 
-
-    /**
-     * Gets a list of all alerts
-     * @return List of all Alerts, empty if request failed
-     */
-    public List<Alert> getAlerts() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
-    }
 
     /**
      * Gets a List of all Alerts about a certain route
@@ -164,13 +167,12 @@ public class WMBController {
         call.enqueue(callback);
     }
 
-    // the next two methods are for testing.
+    // the next two methods are for testing only.
     public NeighborhoodAlert postAlertSynchronously(int neighborhoodID, String alertType, String description,
                                                     int userID) {
         Call<NeighborhoodAlert> call = retrofitService.postNeighborhoodAlert(neighborhoodID,alertType,description,userID);
         try {
-            NeighborhoodAlert alert = call.execute().body();
-            return alert;
+            return call.execute().body();
         } catch (IOException e) {
             Log.d("postAlertSynchronously", e.toString());
             return null;
@@ -179,8 +181,7 @@ public class WMBController {
     public List<NeighborhoodAlert> getAlertsSynchronously(int neighborhoodID) {
         Call<List<NeighborhoodAlert>> call = retrofitService.getNeighborhoodAlertsJSON(neighborhoodID);
         try {
-            List<NeighborhoodAlert> alerts = call.execute().body();
-            return alerts;
+            return call.execute().body();
         } catch (IOException e) {
             Log.d("getAlertsSynchronously", e.toString());
             return null;
@@ -370,23 +371,5 @@ public class WMBController {
             Log.d("getHoodAlertComment", e.toString());
             return null;
         }
-    }
-
-    /**
-     * Upvotes a comment in the database
-     * @param comment Comment to upvote
-     * @return true if upvote succeeded, else false
-     */
-    public boolean upvote(Comment comment) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
-    }
-
-    /**
-     * Downvotes a comment in the database
-     * @param comment Comment to downvote
-     * @return true if downvote succeeded, else false
-     */
-    public boolean downvote(Comment comment) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
     }
 }
