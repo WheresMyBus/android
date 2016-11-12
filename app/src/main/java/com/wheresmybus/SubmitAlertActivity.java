@@ -171,7 +171,7 @@ public class SubmitAlertActivity extends FragmentActivity implements
     /**
      * Implements the OnFragmentInteractionListener interfaces for BusRouteAlertFragment and
      * NeighborhoodAlertFragment.
-     * 
+     *
      * @param uri
      */
     @Override
