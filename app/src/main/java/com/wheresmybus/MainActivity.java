@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Switches the activity displayed from the current activity to the activity where users can
      * submit an alert.
-     * 
+     *
      * @param v
      */
     public void switchToSubmitAlert(View v) {
