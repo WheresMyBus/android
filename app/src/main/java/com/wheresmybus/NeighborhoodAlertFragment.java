@@ -160,7 +160,9 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Object neighborhood = parent.getItemAtPosition(position);
-
+        if (neighborhood instanceof Neighborhood) {
+            this.neighborhood = (Neighborhood) neighborhood;
+        }
     }
 
     // TODO: for neighborhood spinner
