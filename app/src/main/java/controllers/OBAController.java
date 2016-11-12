@@ -50,6 +50,10 @@ public class OBAController {
         return instance;
     }
 
+    /**
+     * Sets the target for API requests to the production backend.
+     * (this is also the default URL)
+     */
     public static void useProdURL() {
         retrofitService = new Retrofit.Builder()
                 .baseUrl("http://wheresmybus-api.herokuapp.com/")
@@ -58,6 +62,9 @@ public class OBAController {
                 .create(RetrofitAPI.class);
     }
 
+    /**
+     * Sets the target for API requests to be the test backend.
+     */
     public static void useTestURL() {
         retrofitService = new Retrofit.Builder()
                 .baseUrl("https://wheresmybus-api-test.herokuapp.com/")
@@ -66,6 +73,11 @@ public class OBAController {
                 .create(RetrofitAPI.class);
     }
 
+    /**
+     * Sets the url for API requests
+     * (this should only be used to setup mocks)
+     * @param url
+     */
     public static void useMockURL(String url) {
         retrofitService = new Retrofit.Builder()
                 .baseUrl(url)
@@ -75,9 +87,8 @@ public class OBAController {
     }
 
     /**
-     * Gets a complete set of Routes
-     * Returns an empty set if the request failed
-     * @return Set of routes from One Bus Away, empty if request failed
+     * gets the set of all routes.
+     * @param callback handles set of all routes
      */
     public void getRoutes(Callback<Set<Route>> callback) {
         Call<Set<Route>> call = retrofitService.getRoutesJSON();
@@ -102,6 +113,7 @@ public class OBAController {
             return new HashSet<>();
         }
     }
+
     /**
      * Gets a complete set of BusStops for a given route
      * Returns an empty set if the Route was not found or request failed
