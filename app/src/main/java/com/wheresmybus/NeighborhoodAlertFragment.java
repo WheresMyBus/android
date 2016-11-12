@@ -18,7 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import controllers.WMBController;
+import modules.Alert;
 import modules.Neighborhood;
+import modules.NeighborhoodAlert;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -37,6 +39,7 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
     private CheckBox checkBox2;
     private CheckBox checkBox3;
     private CheckBox checkBox4;
+    private Alert alert;
 
     private OnFragmentInteractionListener mListener;
 

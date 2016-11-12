@@ -20,6 +20,7 @@ import java.util.Set;
 
 import controllers.OBAController;
 import modules.Route;
+import modules.RouteAdapter;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -62,7 +63,7 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
             @Override
             public void onResponse(Response<Set<Route>> response, Retrofit retrofit) {
                 Set<Route> data = response.body();
-                loadSpinnerData(getListStrings(data));
+                loadSpinnerData(new ArrayList<Route>(data));
             }
 
             @Override
@@ -80,6 +81,11 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
         return data;
     }
 
+    private void loadSpinnerData(List<Route> data) {
+        RouteAdapter adapter = new RouteAdapter(this.getActivity(), android.R.layout.simple_spinner_item, data);
+    }
+
+    /*
     private void loadSpinnerData(List<String> data) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this.getActivity(), android.R.layout.simple_spinner_item, data);
@@ -87,6 +93,7 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         busRouteSpinner.setAdapter(adapter);
     }
+    */
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
