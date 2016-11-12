@@ -40,6 +40,11 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
     private CheckBox checkBox3;
     private CheckBox checkBox4;
 
+    // information for the alert
+    private Route route;
+    private List<String> alertTypes;
+    private String description;
+
     private OnFragmentInteractionListener mListener;
 
     @Override
@@ -138,13 +143,40 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
     // TODO: for spinner's setOnItemSelectedListener
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String routeName = parent.getItemAtPosition(position).toString();
+        Object route = parent.getItemAtPosition(position);
+        if (route instanceof Route) {
+            this.route = (Route) route;
+        }
     }
 
     // TODO: for spinner's setOnItemSelectedListener
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+    }
 
+    public void onCheckBoxSelected(View view) {
+        
+    }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    // assumes alertTypes.size() > 0
+    public String getAlertType() {
+        if (alertTypes == null) {
+            return null;
+        } else {
+            String alertType = alertTypes.get(0);
+            for (int i = 1; i < alertTypes.size(); i++) {
+                alertType += ", " + alertTypes.get(i);
+            }
+            return alertType;
+        }
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     /**
