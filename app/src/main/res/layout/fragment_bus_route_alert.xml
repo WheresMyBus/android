@@ -47,8 +47,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/checkBox1"
-        android:buttonTint="@color/darkBlue"
-        android:onClick="onCheckBoxSelected"/>
+        android:buttonTint="@color/darkBlue"/>
 
     <CheckBox
         android:text="@string/maintenance_issue"
@@ -58,8 +57,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/checkBox2"
-        android:buttonTint="@color/darkBlue"
-        android:onClick="onCheckBoxSelected"/>
+        android:buttonTint="@color/darkBlue"/>
 
     <CheckBox
         android:text="@string/question"
@@ -69,8 +67,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/checkBox3"
-        android:buttonTint="@color/darkBlue"
-        android:onClick=""/>
+        android:buttonTint="@color/darkBlue"/>
 
     <CheckBox
         android:text="@string/other"
@@ -80,8 +77,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/checkBox4"
-        android:buttonTint="@color/darkBlue"
-        android:onClick="onCheckBoxSelected"/>
+        android:buttonTint="@color/darkBlue"/>
 
     <TextView
         android:text="@string/write_description"

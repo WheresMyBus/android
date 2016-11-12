@@ -34,7 +34,7 @@ import retrofit.Retrofit;
  * {@link BusRouteAlertFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class BusRouteAlertFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class BusRouteAlertFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private Spinner busRouteSpinner;
     private CheckBox checkBox1;
@@ -101,11 +101,17 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
         busRouteSpinner.setOnItemSelectedListener(this);
 
         checkBox1 = (CheckBox) view.findViewById(R.id.checkBox1);
+        checkBox1.setOnClickListener(this);
         checkBox2 = (CheckBox) view.findViewById(R.id.checkBox2);
+        checkBox2.setOnClickListener(this);
         checkBox3 = (CheckBox) view.findViewById(R.id.checkBox3);
+        checkBox3.setOnClickListener(this);
         checkBox4 = (CheckBox) view.findViewById(R.id.checkBox4);
+        checkBox4.setOnClickListener(this);
 
         text = (EditText) view.findViewById(R.id.alert_description);
+
+        alertTypes = new ArrayList<>();
 
         try {
             busRouteRequest();
@@ -167,19 +173,19 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
         // Check which checkbox was clicked
         switch(view.getId()) {
             case R.id.checkBox1:
-                alertType = checkBox1.getText().toString();
+                alertType = checkBox1.getText().toString().toLowerCase();
                 handleAlertType(alertType, checked);
                 break;
             case R.id.checkBox2:
-                alertType = checkBox2.getText().toString();
+                alertType = checkBox2.getText().toString().toLowerCase();
                 handleAlertType(alertType, checked);
                 break;
             case R.id.checkBox3:
-                alertType = checkBox3.getText().toString();
+                alertType = checkBox3.getText().toString().toLowerCase();
                 handleAlertType(alertType, checked);
                 break;
             case R.id.checkBox4:
-                alertType = checkBox4.getText().toString();
+                alertType = checkBox4.getText().toString().toLowerCase();
                 handleAlertType(alertType, checked);
                 break;
         }
@@ -213,6 +219,32 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
 
     public String getDescription() {
         return text.getText().toString();
+    }
+
+    @Override
+    public void onClick(View view) {
+        boolean checked = ((CheckBox) view).isChecked();
+        String alertType;
+
+        // Check which checkbox was clicked
+        switch(view.getId()) {
+            case R.id.checkBox1:
+                alertType = checkBox1.getText().toString();
+                handleAlertType(alertType, checked);
+                break;
+            case R.id.checkBox2:
+                alertType = checkBox2.getText().toString();
+                handleAlertType(alertType, checked);
+                break;
+            case R.id.checkBox3:
+                alertType = checkBox3.getText().toString();
+                handleAlertType(alertType, checked);
+                break;
+            case R.id.checkBox4:
+                alertType = checkBox4.getText().toString();
+                handleAlertType(alertType, checked);
+                break;
+        }
     }
 
     /**
