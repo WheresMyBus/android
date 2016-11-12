@@ -17,9 +17,15 @@ import retrofit.Retrofit;
 
 /**
  * Created by bmartz on 11/11/2016.
+ *
+ * A class for the alert forum screen, for either a route or a neighborhood
  */
 public class AlertForumActivity extends AppCompatActivity {
 
+    /**
+     * Displays the alerts for the route or neighborhood that was clicked on
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
