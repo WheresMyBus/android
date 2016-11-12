@@ -1,6 +1,7 @@
 package com.wheresmybus;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,10 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import controllers.WMBController;
@@ -99,7 +98,7 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
 
     /**
      * Load the given data into the ListView
-     * @param data the list of strings (neighborhood names) to be loaded
+     * @param data the list of neighborhoods to be loaded
      */
     private void loadListData(List<Neighborhood> data) {
         NeighborhoodAdapter adapter = new NeighborhoodAdapter(this.getActivity(),
@@ -141,7 +140,11 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+        Intent intent = new Intent(getActivity(), AlertForumActivity.class);
+        intent.putExtra("ALERT_TYPE", "Neighborhood");
+        Neighborhood neighborhood = (Neighborhood) parent.getItemAtPosition(position);
+        intent.putExtra("NEIGHBORHOOD_ID", neighborhood.getID());
+        startActivity(intent);
     }
 
     // TODO: for setOnItemSelectedListener

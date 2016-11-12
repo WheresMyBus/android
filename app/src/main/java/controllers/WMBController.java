@@ -108,6 +108,15 @@ public class WMBController {
 
     /**
      * Gets the list of alerts associated with a neighborhood.
+     * @param neighborhoodID id of neighborhood whose alerts to get.
+     * @param callback handles response containing list of NeighborhoodAlerts.
+     */
+    public void getNeighborhoodAlerts(int neighborhoodID, Callback<List<NeighborhoodAlert>> callback) {
+        Call<List<NeighborhoodAlert>> call = retrofitService.getNeighborhoodAlertsJSON(neighborhoodID);
+        call.enqueue(callback);
+    }
+    /**
+     * Gets the list of alerts associated with a neighborhood.
      * @param neighborhood the neighborhood whose alerts to get.
      * @param callback handles retrofit response containing list of neighborhood alerts.
      */
@@ -211,6 +220,16 @@ public class WMBController {
     public void neighborhoodAlertUpvote(int alertID, int userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("neighborhood_alerts", alertID, "upvote", userID);
         call.enqueue(callback);
+    }
+
+    public VoteConfirmation neighborhoodAlertUpvoteSynchronously(int alertID, int userID) {
+        Call<VoteConfirmation> call = retrofitService.postVote("neighborhood_alerts", alertID, "upvote", userID);
+        try {
+            return call.execute().body();
+        } catch (IOException e) {
+            Log.d("neighboralertupvote:", e.toString());
+            return null;
+        }
     }
 
     /**
