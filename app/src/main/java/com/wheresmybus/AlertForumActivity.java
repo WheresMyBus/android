@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import java.util.List;
 
+import adapters.NeighborhoodAlertAdapter;
+import adapters.RouteAlertAdapter;
 import controllers.WMBController;
 import modules.NeighborhoodAlert;
 import modules.RouteAlert;
@@ -96,7 +98,7 @@ public class AlertForumActivity extends AppCompatActivity {
      * @param data the list of alerts to be loaded
      */
     private void loadNeighborhoodData(List<NeighborhoodAlert> data) {
-        //NeighborhoodAdapter adapter = new NeighborhoodAdapter(this, android.R.layout.simple_list_item_1, data);
+        NeighborhoodAlertAdapter adapter = new NeighborhoodAlertAdapter(this, android.R.layout.simple_list_item_1, data);
         //neighborhoodList.setAdapter(adapter);
     }
 
@@ -105,6 +107,6 @@ public class AlertForumActivity extends AppCompatActivity {
      * @param data the list of alerts to be loaded
      */
     private void loadRouteData(List<RouteAlert> data) {
-
+        RouteAlertAdapter adapter = new RouteAlertAdapter(this, android.R.layout.simple_list_item_1, data);
     }
 }
