@@ -31,23 +31,32 @@ import retrofit.Retrofit;
  * Created by lesli_000 on 11/8/2016.
  */
 
+/**
+ * The activity associated with the screen for the Submit Alert page found by clicking the
+ * "Submit Alert" button on the home screen.
+ */
 public class SubmitAlertActivity extends FragmentActivity implements
         BusRouteAlertFragment.OnFragmentInteractionListener,
         NeighborhoodAlertFragment.OnFragmentInteractionListener {
+    // references to the submit button and the fragments used on this screen
     private Button submitButton;
-    private FragmentManager fragmentManager;
     private BusRouteAlertFragment busRouteFragment;
     private NeighborhoodAlertFragment neighborhoodFragment;
 
     // parameter to get alert information that will be submitted
     private String type;
 
+    /**
+     * Part of the call structure to display this activity.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit_alert);
 
-        fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         busRouteFragment = (BusRouteAlertFragment)
                 fragmentManager.findFragmentById(R.id.bus_route_alert_fragment);
         busRouteFragment.getView().setVisibility(View.INVISIBLE);
@@ -60,6 +69,13 @@ public class SubmitAlertActivity extends FragmentActivity implements
         submitButton.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * Loads the BusRouteAlertFragment and makes the NeighborhoodAlertFragment invisible if the bus
+     * route radio button was selected. Loads the NeighborhoodAlertFragment and makes the
+     * BusRouteAlertFragment invisible if the neighborhood radio button was selected.
+     *
+     * @param view
+     */
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
@@ -81,8 +97,14 @@ public class SubmitAlertActivity extends FragmentActivity implements
         }
     }
 
+    /**
+     * If the user has submitted all of the necessary information, submits the user's alert and
+     * returns the user to the homepage. Otherwise, instructs the user to fill out any missing
+     * parameters.
+     *
+     * @param view
+     */
     public void onSubmitButtonClicked(View view) {
-        // need route/neighborhood ID, alertType string, description of alert, 0, callback
         if (type.equals("route")) {
             // get the information from the BusRouteFragment
             Route route = busRouteFragment.getRoute();
@@ -146,6 +168,12 @@ public class SubmitAlertActivity extends FragmentActivity implements
         }
     }
 
+    /**
+     * Implements the OnFragmentInteractionListener interfaces for BusRouteAlertFragment and
+     * NeighborhoodAlertFragment.
+     * 
+     * @param uri
+     */
     @Override
     public void onFragmentInteraction(Uri uri) {
     }
