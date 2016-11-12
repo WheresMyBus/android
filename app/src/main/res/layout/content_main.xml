@@ -27,7 +27,8 @@
         android:layout_alignParentTop="true"
         android:textSize="24sp"
         android:textAlignment="center"
-        android:layout_alignBottom="@+id/button2" />
+        android:layout_alignBottom="@+id/button2"
+        android:textStyle="bold"/>
 
     <Button
         android:text="@string/submit_alert_button"
@@ -41,7 +42,8 @@
         android:layout_alignParentStart="true"
         android:background="@color/green"
         android:textColor="@color/white"
-        android:onClick="switchToSubmitAlert"/>
+        android:onClick="switchToSubmitAlert"
+        android:textStyle="bold"/>
 
     <Button
         android:text="View Favorites"
@@ -55,7 +57,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textStyle="bold"/>
 
     <Button
         android:text="Neighborhoods"
@@ -68,7 +71,8 @@
         android:onClick="switchToNeighborhoodCatalog"
         android:scaleType="fitCenter"
         android:layout_below="@+id/button4"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"/>
 
     <Button
         android:text="Bus Routes"
@@ -83,6 +87,7 @@
         android:layout_marginTop="46dp"
         android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/button3"
-        android:layout_alignStart="@+id/button3" />
+        android:layout_alignStart="@+id/button3"
+        android:textStyle="bold"/>
 
 </RelativeLayout>
