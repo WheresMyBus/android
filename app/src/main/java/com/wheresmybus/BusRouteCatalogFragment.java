@@ -115,22 +115,10 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
         return data;
     }
 
-    /**
-     * Gets the list of route names from the set of routes
-     * @param routes set of routes
-     * @return the list of route names as strings
-     */
-    private List<String> getListStrings(Set<Route> routes) {
-        List<String> data = new ArrayList<>();
-        for (Route route : routes) {
-            data.add(route.getName());
-        }
-        return data;
-    }
 
     /**
      * Load the given data into the ListView
-     * @param data the list of strings (route names) to be loaded
+     * @param data the list of routes to be loaded
      */
     private void loadListData(List<Route> data) {
         RouteAdapter adapter = new RouteAdapter(this.getActivity(),
