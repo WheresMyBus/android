@@ -1,5 +1,6 @@
 package com.wheresmybus;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Spinner;
 
@@ -39,11 +41,11 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
     private CheckBox checkBox2;
     private CheckBox checkBox3;
     private CheckBox checkBox4;
+    private EditText text;
 
     // information for the alerts
     private Neighborhood neighborhood;
     private List<String> alertTypes;
-    private String description;
 
     private OnFragmentInteractionListener mListener;
 
@@ -118,9 +120,16 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        neighborhoodSpinner = (Spinner) getActivity().findViewById(R.id.neighborhood_spinner);
+        Activity activity = getActivity();
+        neighborhoodSpinner = (Spinner) activity.findViewById(R.id.neighborhood_spinner);
         neighborhoodSpinner.setOnItemSelectedListener(this);
         //alertTypes = (GridView) getActivity().findViewById(R.id.alert_types);
+
+        checkBox1 = (CheckBox) activity.findViewById(R.id.checkBox1);
+        checkBox2 = (CheckBox) activity.findViewById(R.id.checkBox2);
+        checkBox3 = (CheckBox) activity.findViewById(R.id.checkBox3);
+        checkBox4 = (CheckBox) activity.findViewById(R.id.checkBox4);
+        text = (EditText) activity.findViewById(R.id.alert_description);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -160,6 +169,42 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
 
     }
 
+    public void onCheckBoxSelected(View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+        String alertType;
+
+        // Check which checkbox was clicked
+        switch(view.getId()) {
+            case R.id.checkBox1:
+                alertType = checkBox1.getText().toString();
+                handleAlertType(alertType, checked);
+                break;
+            case R.id.checkBox2:
+                alertType = checkBox2.getText().toString();
+                handleAlertType(alertType, checked);
+                break;
+            case R.id.checkBox3:
+                alertType = checkBox3.getText().toString();
+                handleAlertType(alertType, checked);
+                break;
+            case R.id.checkBox4:
+                alertType = checkBox4.getText().toString();
+                handleAlertType(alertType, checked);
+                break;
+        }
+    }
+
+    private void handleAlertType(String alertType, boolean checked) {
+        if (checked) {
+            alertTypes.add(alertType);
+        } else {
+            if (alertTypes.contains(alertType)) {
+                alertTypes.remove(alertType);
+            }
+        }
+    }
+
     public Neighborhood getNeighborhood() {
         return neighborhood;
     }
@@ -178,7 +223,7 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
     }
 
     public String getDescription() {
-        return description;
+        return text.getText().toString();
     }
 
     /**
