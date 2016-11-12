@@ -206,7 +206,8 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
 
     /**
      * Returns a string giving the types of the alert the user wants to submit, with different types
-     * separated by a comma and a space if the alert has multiple types.
+     * separated by a comma and a space if the alert has multiple types, or null if the user has
+     * not selected any types yet.
      *
      * @return the string indicating the alert types or null if the user has not indicated the types
      * yet

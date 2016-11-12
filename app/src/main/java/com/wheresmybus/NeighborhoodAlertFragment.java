@@ -35,6 +35,7 @@ import retrofit.Retrofit;
  * to handle interaction events.
  */
 public class NeighborhoodAlertFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+    // references to layout structures where users submit alert data
     private Spinner neighborhoodSpinner;
     //private GridView alertTypes;
     private CheckBox checkBox1;
@@ -49,6 +50,11 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
 
     private OnFragmentInteractionListener mListener;
 
+    /**
+     * Part of the call structure to display the activity.
+     *
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +70,12 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
         }
     }
 
+    /**
+     * Requests a list of neighborhoods from the Where's My Bus controller and loads it into the
+     * spinner where the user will select a neighborhood for which to submit an alert.
+     *
+     * @throws Exception
+     */
     private void neighborhoodRequest() throws Exception {
         WMBController controller = WMBController.getInstance();
         controller.getNeighborhoods(new Callback<List<Neighborhood>>() {
@@ -80,14 +92,11 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
         });
     }
 
-    private List<String> getListStrings(List<Neighborhood> neighborhoods) {
-        List<String> data = new ArrayList<>();
-        for (Neighborhood neighborhood : neighborhoods) {
-            data.add(neighborhood.getName());
-        }
-        return data;
-    }
-
+    /**
+     * Loads the given list of neighborhoods into the spinner on the layout for this fragment.
+     *
+     * @param data the list of neighborhoods to be imported into the spinner.
+     */
     private void loadSpinnerData(List<Neighborhood> data) {
         NeighborhoodAdapter adapter = new NeighborhoodAdapter(this.getActivity(), android.R.layout.simple_spinner_item, data);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -95,21 +104,21 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
     }
 
     /*
-    private void loadSpinnerData(List<String> data) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this.getActivity(), android.R.layout.simple_spinner_item, data);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        neighborhoodSpinner.setAdapter(adapter);
-    }
-    */
-
     private void loadCheckBoxData(String[] data) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(),
                 android.R.layout.simple_list_item_multiple_choice, data);
         //alertTypes.setAdapter(adapter);
     }
+    */
 
+    /**
+     * Part of the call structure to display this activity.
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -117,9 +126,16 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
         return inflater.inflate(R.layout.fragment_neighborhood_alert, container, false);
     }
 
+    /**
+     * Part of the call structure to display this activity.
+     *
+     * @param savedInstanceState
+     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        // grab references to the different structures where users will submit alert data
         Activity activity = getActivity();
         neighborhoodSpinner = (Spinner) activity.findViewById(R.id.neighborhood_spinner);
         neighborhoodSpinner.setOnItemSelectedListener(this);
@@ -163,7 +179,14 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
         mListener = null;
     }
 
-    // TODO: for neighborhood spinner
+    /**
+     * Stores the neighborhood the user selected in the spinner.
+     *
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Object neighborhood = parent.getItemAtPosition(position);
@@ -178,47 +201,25 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
 
     }
 
-    public void onCheckBoxSelected(View view) {
-        // Is the view now checked?
-        boolean checked = ((CheckBox) view).isChecked();
-        String alertType;
-
-        // Check which checkbox was clicked
-        switch(view.getId()) {
-            case R.id.checkBox1:
-                alertType = checkBox1.getText().toString();
-                handleAlertType(alertType, checked);
-                break;
-            case R.id.checkBox2:
-                alertType = checkBox2.getText().toString();
-                handleAlertType(alertType, checked);
-                break;
-            case R.id.checkBox3:
-                alertType = checkBox3.getText().toString();
-                handleAlertType(alertType, checked);
-                break;
-            case R.id.checkBox4:
-                alertType = checkBox4.getText().toString();
-                handleAlertType(alertType, checked);
-                break;
-        }
-    }
-
-    private void handleAlertType(String alertType, boolean checked) {
-        if (checked) {
-            alertTypes.add(alertType);
-        } else {
-            if (alertTypes.contains(alertType)) {
-                alertTypes.remove(alertType);
-            }
-        }
-    }
-
+    /**
+     * Returns the neighborhood the user selected from the spinner or null if the user has not
+     * selected a neighborhood yet.
+     *
+     * @return the neighborhood the user selected from the spinner or null if the user has not
+     * selected a neighborhood yet.
+     */
     public Neighborhood getNeighborhood() {
         return neighborhood;
     }
 
-    // assumes alertTypes.size() > 0
+    /**
+     * Returns a string representing the types the user selected for the alert, with different
+     * types separated by a comma and a space if there were multiple, or null if the user has not
+     * selected any types yet.
+     *
+     * @return a string representing the alert types the user selected or null if the user has not
+     * selected any types yet
+     */
     public String getAlertType() {
         if (alertTypes == null || alertTypes.size() == 0) {
             return null;
@@ -231,10 +232,22 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
         }
     }
 
+    /**
+     * Returns the description the user inputted for the alert or null if the user has not entered
+     * a description yet.
+     *
+     * @return the description the user entered or null if the user has not written one yet.
+     */
     public String getDescription() {
         return text.getText().toString();
     }
 
+    /**
+     * Implements the View.OnClickListener interface. Determines which checkboxes the user has
+     * checked and stores the alert types associated with those boxes.
+     *
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         // Is the view now checked?
@@ -259,6 +272,24 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
                 alertType = checkBox4.getText().toString();
                 handleAlertType(alertType, checked);
                 break;
+        }
+    }
+
+    /**
+     * Adds the given alertType to a list of alert types if the checkbox associated with it was
+     * checked or otherwise ensures the list does not contain it.
+     *
+     * @param alertType the alert type to be added to the list if the checkbox was checked or
+     *                  otherwise to be kept out of the list
+     * @param checked indicates if the checkbox associated with the given alertType was checked
+     */
+    private void handleAlertType(String alertType, boolean checked) {
+        if (checked) {
+            alertTypes.add(alertType);
+        } else {
+            if (alertTypes.contains(alertType)) {
+                alertTypes.remove(alertType);
+            }
         }
     }
 
