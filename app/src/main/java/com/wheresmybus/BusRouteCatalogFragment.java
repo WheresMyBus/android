@@ -151,9 +151,7 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        View neighborhoodView = getActivity().findViewById(R.id.neighborhood_catalog_fragment);
-        neighborhoodView.setVisibility(View.INVISIBLE);
-        view.setVisibility(View.VISIBLE);
+
     }
 
     // TODO: for setOnItemSelectedListener

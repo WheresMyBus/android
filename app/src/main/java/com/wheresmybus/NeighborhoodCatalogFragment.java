@@ -149,9 +149,7 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        View neighborhoodView = getActivity().findViewById(R.id.bus_route_catalog_fragment);
-        neighborhoodView.setVisibility(View.INVISIBLE);
-        view.setVisibility(View.VISIBLE);
+
     }
 
     // TODO: for setOnItemSelectedListener
