@@ -23,7 +23,7 @@ public abstract class Alert {
     private int creatorID;
     @SerializedName("created_at")
     private Date date;
-    @SerializedName("alert_type")
+    @SerializedName("issue_type")
     private String type;
     @SerializedName("description")
     private String description;
