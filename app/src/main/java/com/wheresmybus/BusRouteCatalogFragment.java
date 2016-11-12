@@ -1,6 +1,7 @@
 package com.wheresmybus;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -35,7 +36,7 @@ import retrofit.Retrofit;
  * Use the {@link BusRouteCatalogFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -137,7 +138,7 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         routeList = (ListView) getActivity().findViewById(R.id.route_list);
-        routeList.setOnItemSelectedListener(this);
+        routeList.setOnItemClickListener(this);
     }
 
     @Override
@@ -158,14 +159,12 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    // TODO: for setOnItemSelectedListener
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        Intent intent = new Intent(getActivity(), AlertForumActivity.class);
+        intent.putExtra("ALERT_TYPE", "Route");
+        Route route = (Route) adapterView.getItemAtPosition(position);
+        intent.putExtra("ROUTE_NUMBER", route.getNumber());
+        startActivity(intent);
     }
 
     /**

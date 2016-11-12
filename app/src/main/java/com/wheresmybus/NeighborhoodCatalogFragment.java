@@ -138,23 +138,19 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
         mListener = null;
     }
 
-    /*@Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    // TODO: for setOnItemSelectedListener
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }*/
-
+    /**
+     * When a neighborhood is clicked, it takes the user to the corresponding
+     * alert forum page
+     * @param adapterView the AdapterView that keeps track of the ListView elements
+     * @param view the ListView for this class
+     * @param position the position of the element clicked
+     * @param id the id of the element clicked
+     */
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent intent = new Intent(getActivity(), AlertForumActivity.class);
         intent.putExtra("ALERT_TYPE", "Neighborhood");
         Neighborhood neighborhood = (Neighborhood) adapterView.getItemAtPosition(position);
-        System.out.println(neighborhood.getName() + " selected");
         intent.putExtra("NEIGHBORHOOD_ID", neighborhood.getID());
         startActivity(intent);
     }
