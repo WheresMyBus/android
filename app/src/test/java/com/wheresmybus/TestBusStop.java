@@ -4,7 +4,6 @@ import android.util.Pair;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +16,6 @@ import static junit.framework.Assert.*;
  * Created by lidav on 11/11/2016.
  */
 
-@RunWith(MockitoJUnitRunner.class)
 public class TestBusStop {
     /**
      * Tests that getCoordinates() stores and retrieves data correctly
