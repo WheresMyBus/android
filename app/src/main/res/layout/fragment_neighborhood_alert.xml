@@ -59,41 +59,41 @@
         android:text="@string/construction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/checkBox1"
+        android:id="@+id/checkBox5"
         android:layout_below="@+id/choose_alert_types"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:buttonTint="@color/darkBlue" />
+        android:buttonTint="@color/darkBlue"/>
 
     <CheckBox
         android:text="@string/event"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/checkBox1"
-        android:id="@+id/checkBox2"
-        android:buttonTint="@color/darkBlue" />
+        android:layout_below="@+id/checkBox5"
+        android:id="@+id/checkBox6"
+        android:buttonTint="@color/darkBlue"/>
 
     <CheckBox
         android:text="@string/traffic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/checkBox2"
-        android:id="@+id/checkBox3"
-        android:buttonTint="@color/darkBlue" />
+        android:layout_below="@+id/checkBox6"
+        android:id="@+id/checkBox7"
+        android:buttonTint="@color/darkBlue"/>
 
     <CheckBox
         android:text="@string/other"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/checkBox3"
-        android:id="@+id/checkBox4"
-        android:buttonTint="@color/darkBlue" />
+        android:layout_below="@+id/checkBox7"
+        android:id="@+id/checkBox8"
+        android:buttonTint="@color/darkBlue"/>
 
     <TextView
         android:text="@string/write_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/checkBox4"
+        android:layout_below="@+id/checkBox8"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/write_description_prompt"

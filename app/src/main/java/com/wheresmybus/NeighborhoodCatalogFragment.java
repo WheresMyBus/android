@@ -1,6 +1,7 @@
 package com.wheresmybus;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,10 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import controllers.WMBController;
@@ -31,7 +30,7 @@ import retrofit.Retrofit;
  * Use the {@link NeighborhoodCatalogFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NeighborhoodCatalogFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class NeighborhoodCatalogFragment extends Fragment implements AdapterView.OnItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -99,7 +98,7 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
 
     /**
      * Load the given data into the ListView
-     * @param data the list of strings (neighborhood names) to be loaded
+     * @param data the list of neighborhoods to be loaded
      */
     private void loadListData(List<Neighborhood> data) {
         NeighborhoodAdapter adapter = new NeighborhoodAdapter(this.getActivity(),
@@ -118,7 +117,7 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         neighborhoodList = (ListView) getActivity().findViewById(R.id.neighborhood_list);
-        neighborhoodList.setOnItemSelectedListener(this);
+        neighborhoodList.setOnItemClickListener(this);
     }
 
 
@@ -139,15 +138,21 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
         mListener = null;
     }
 
+    /**
+     * When a neighborhood is clicked, it takes the user to the corresponding
+     * alert forum page
+     * @param adapterView the AdapterView that keeps track of the ListView elements
+     * @param view the ListView for this class
+     * @param position the position of the element clicked
+     * @param id the id of the element clicked
+     */
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    // TODO: for setOnItemSelectedListener
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        Intent intent = new Intent(getActivity(), AlertForumActivity.class);
+        intent.putExtra("ALERT_TYPE", "Neighborhood");
+        Neighborhood neighborhood = (Neighborhood) adapterView.getItemAtPosition(position);
+        intent.putExtra("NEIGHBORHOOD_ID", neighborhood.getID());
+        startActivity(intent);
     }
 
     /**
