@@ -66,28 +66,9 @@ public class RouteAlertAdapter extends ArrayAdapter<RouteAlert> {
         alertType.setText(alert.getType());
         date.setText(dateFormatter.format(date));
         time.setText(timeFormatter.format(alertDate));
-
-        thumbsUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // send an upvote to the alert
-                // alert.upvote();
-                // change color of button somehow (darker, brighter, slightly bigger)
-                // change number of thumbs up shown
-            }
-        });
-
+        thumbsUp.setOnClickListener(new ThumbsUpListener(alert));
         numThumbsUp.setText(alert.getUpvotes());
-
-        thumbsDown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // send a downvote to the alert
-                // change color of button somehow (darker, brighter, slightly bigger)
-                // change number of thumbs down shown
-            }
-        });
-
+        thumbsDown.setOnClickListener(new ThumbsDownListener(alert));
         numThumbsDown.setText(alert.getDownvotes());
 
         return convertView;

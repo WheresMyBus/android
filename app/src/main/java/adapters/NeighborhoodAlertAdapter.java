@@ -92,9 +92,9 @@ public class NeighborhoodAlertAdapter extends ArrayAdapter<NeighborhoodAlert> {
         routesAffected.setText(routes);
         date.setText(dateFormatter.format(date));
         time.setText(timeFormatter.format(alertDate));
-        thumbsUp.setOnClickListener(new ThumbsUpListener());
+        thumbsUp.setOnClickListener(new ThumbsUpListener(alert));
         numThumbsUp.setText(alert.getUpvotes());
-        thumbsDown.setOnClickListener(new ThumbsDownListener());
+        thumbsDown.setOnClickListener(new ThumbsDownListener(alert));
         numThumbsDown.setText(alert.getDownvotes());
 
         return convertView;
