@@ -30,7 +30,7 @@ import retrofit.Retrofit;
  * Use the {@link NeighborhoodCatalogFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NeighborhoodCatalogFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class NeighborhoodCatalogFragment extends Fragment implements AdapterView.OnItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -117,7 +117,7 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         neighborhoodList = (ListView) getActivity().findViewById(R.id.neighborhood_list);
-        neighborhoodList.setOnItemSelectedListener(this);
+        neighborhoodList.setOnItemClickListener(this);
     }
 
 
@@ -138,19 +138,25 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
         mListener = null;
     }
 
-    @Override
+    /*@Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(getActivity(), AlertForumActivity.class);
-        intent.putExtra("ALERT_TYPE", "Neighborhood");
-        Neighborhood neighborhood = (Neighborhood) parent.getItemAtPosition(position);
-        intent.putExtra("NEIGHBORHOOD_ID", neighborhood.getID());
-        startActivity(intent);
+
     }
 
     // TODO: for setOnItemSelectedListener
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }*/
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        Intent intent = new Intent(getActivity(), AlertForumActivity.class);
+        intent.putExtra("ALERT_TYPE", "Neighborhood");
+        Neighborhood neighborhood = (Neighborhood) adapterView.getItemAtPosition(position);
+        System.out.println(neighborhood.getName() + " selected");
+        intent.putExtra("NEIGHBORHOOD_ID", neighborhood.getID());
+        startActivity(intent);
     }
 
     /**
