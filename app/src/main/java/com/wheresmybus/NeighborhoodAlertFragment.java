@@ -186,19 +186,19 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
         // Check which checkbox was clicked
         switch(view.getId()) {
             case R.id.checkBox1:
-                alertType = checkBox1.getText().toString().toLowerCase();
+                alertType = checkBox1.getText().toString();
                 handleAlertType(alertType, checked);
                 break;
             case R.id.checkBox2:
-                alertType = checkBox2.getText().toString().toLowerCase();
+                alertType = checkBox2.getText().toString();
                 handleAlertType(alertType, checked);
                 break;
             case R.id.checkBox3:
-                alertType = checkBox3.getText().toString().toLowerCase();
+                alertType = checkBox3.getText().toString();
                 handleAlertType(alertType, checked);
                 break;
             case R.id.checkBox4:
-                alertType = checkBox4.getText().toString().toLowerCase();
+                alertType = checkBox4.getText().toString();
                 handleAlertType(alertType, checked);
                 break;
         }

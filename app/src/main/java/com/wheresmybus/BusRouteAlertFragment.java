@@ -35,7 +35,7 @@ import retrofit.Retrofit;
  * to handle interaction events.
  */
 public class BusRouteAlertFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
-
+    // references to specific user-edited fields on the fragment layout
     private Spinner busRouteSpinner;
     private CheckBox checkBox1;
     private CheckBox checkBox2;
@@ -58,6 +58,13 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
         }*/
     }
 
+    /**
+     * Requests a set of bus routes from the OneBusAway controller and loads the routes in
+     * the spinner on the layout for this fragment to let users select a route for which they will
+     * submit an alert.
+     *
+     * @throws Exception
+     */
     private void busRouteRequest() throws Exception {
         OBAController controller = OBAController.getInstance();
         controller.getRoutes(new Callback<Set<Route>>() {
@@ -75,28 +82,32 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
         });
     }
 
+    /**
+     * Imports the given list of routes into the spinner on the layout for this fragment.
+     *
+     * @param data the list of routes to be displayed in the spinner
+     */
     private void loadSpinnerData(List<Route> data) {
         RouteAdapter adapter = new RouteAdapter(this.getActivity(), android.R.layout.simple_spinner_item, data);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         busRouteSpinner.setAdapter(adapter);
     }
 
-    /*
-    private void loadSpinnerData(List<String> data) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this.getActivity(), android.R.layout.simple_spinner_item, data);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        busRouteSpinner.setAdapter(adapter);
-    }
-    */
-
+    /**
+     * Part of the call structure to display the activity.
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_bus_route_alert, container, false);
 
+        // grab references to the different features where users will submit alert data
         busRouteSpinner = (Spinner) view.findViewById(R.id.bus_route_spinner);
         busRouteSpinner.setOnItemSelectedListener(this);
 
@@ -113,6 +124,7 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
 
         alertTypes = new ArrayList<>();
 
+        // get and load spinner data
         try {
             busRouteRequest();
         } catch (Exception e) {
@@ -122,6 +134,11 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
         return view;
     }
 
+    /**
+     * Part of the call structure to display the activity.
+     *
+     * @param savedInstanceState
+     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -134,6 +151,11 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
         }
     }
 
+    /**
+     * Part of the call structure to display the activity.
+     *
+     * @param context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -151,7 +173,14 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
         mListener = null;
     }
 
-    // TODO: for spinner's setOnItemSelectedListener
+    /**
+     * Stores the route that the user selects in the spinner.
+     *
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Object route = parent.getItemAtPosition(position);
@@ -165,46 +194,23 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
-    public void onCheckBoxSelected(View view) {
-        // Is the view now checked?
-        boolean checked = ((CheckBox) view).isChecked();
-        String alertType;
-
-        // Check which checkbox was clicked
-        switch(view.getId()) {
-            case R.id.checkBox1:
-                alertType = checkBox1.getText().toString().toLowerCase();
-                handleAlertType(alertType, checked);
-                break;
-            case R.id.checkBox2:
-                alertType = checkBox2.getText().toString().toLowerCase();
-                handleAlertType(alertType, checked);
-                break;
-            case R.id.checkBox3:
-                alertType = checkBox3.getText().toString().toLowerCase();
-                handleAlertType(alertType, checked);
-                break;
-            case R.id.checkBox4:
-                alertType = checkBox4.getText().toString().toLowerCase();
-                handleAlertType(alertType, checked);
-                break;
-        }
-    }
-
-    private void handleAlertType(String alertType, boolean checked) {
-        if (checked) {
-            alertTypes.add(alertType);
-        } else {
-            if (alertTypes.contains(alertType)) {
-                alertTypes.remove(alertType);
-            }
-        }
-    }
-
+    /**
+     * Returns the route the user selected from the spinner or null if the user has not selected a
+     * route.
+     *
+     * @return the route the user has selected or null if the user has not selected a route yet
+     */
     public Route getRoute() {
         return route;
     }
 
+    /**
+     * Returns a string giving the types of the alert the user wants to submit, with different types
+     * separated by a comma and a space if the alert has multiple types.
+     *
+     * @return the string indicating the alert types or null if the user has not indicated the types
+     * yet
+     */
     public String getAlertType() {
         if (alertTypes == null || alertTypes.size() == 0) {
             return null;
@@ -217,10 +223,23 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
         }
     }
 
+    /**
+     * Returns the description the user inputted for the alert or null if the user has not entered a
+     * description yet.
+     *
+     * @return the description the user inputted or null if the user has not entered a description
+     * yet.
+     */
     public String getDescription() {
         return text.getText().toString();
     }
 
+    /**
+     * Implements the View.OnClickListener interface. Determines which checkboxes the user has
+     * checked and stores the alert types associated with those boxes.
+     *
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         boolean checked = ((CheckBox) view).isChecked();
@@ -244,6 +263,24 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
                 alertType = checkBox4.getText().toString();
                 handleAlertType(alertType, checked);
                 break;
+        }
+    }
+
+    /**
+     * Adds the given alertType to a list of alert types if the checkbox associated with it was
+     * checked or otherwise ensures the list does not contain it.
+     *
+     * @param alertType the alert type to be added to the list if the checkbox was checked or
+     *                  otherwise to be kept out of the list
+     * @param checked indicates if the checkbox associated with the given alertType was checked
+     */
+    private void handleAlertType(String alertType, boolean checked) {
+        if (checked) {
+            alertTypes.add(alertType);
+        } else {
+            if (alertTypes.contains(alertType)) {
+                alertTypes.remove(alertType);
+            }
         }
     }
 
