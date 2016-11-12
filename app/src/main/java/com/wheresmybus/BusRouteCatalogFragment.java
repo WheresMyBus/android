@@ -20,6 +20,7 @@ import controllers.OBAController;
 import controllers.WMBController;
 import modules.Neighborhood;
 import modules.Route;
+import modules.RouteAdapter;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -65,6 +66,10 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
         return fragment;
     }
 
+    /**
+     * Retrieves the list of routes from the database to populate the catalog
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +90,7 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
             @Override
             public void onResponse(Response<Set<Route>> response, Retrofit retrofit) {
                 Set<Route> data = response.body();
-                loadListData(getListStrings(data));
+                loadListData(setToList(data));
             }
 
             @Override
@@ -96,7 +101,20 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
     }
 
     /**
-     * Get list of route names from the set of routes
+     * Converts the set of routes returned from the database to a list for the adapter
+     * @param routes the set of routes (from the database)
+     * @return the list of routes
+     */
+    private List<Route> setToList(Set<Route> routes) {
+        List<Route> data = new ArrayList<Route>();
+        for (Route route: routes) {
+            data.add(route);
+        }
+        return data;
+    }
+
+    /**
+     * Gets the list of route names from the set of routes
      * @param routes set of routes
      * @return the list of route names as strings
      */
@@ -112,9 +130,9 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
      * Load the given data into the ListView
      * @param data the list of strings (route names) to be loaded
      */
-    private void loadListData(List<String> data) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this.getActivity(), android.R.layout.simple_list_item_1, data);
+    private void loadListData(List<Route> data) {
+        RouteAdapter adapter = new RouteAdapter(this.getActivity(),
+                android.R.layout.simple_list_item_1, data);
         routeList.setAdapter(adapter);
     }
 
@@ -151,9 +169,7 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        View neighborhoodView = getActivity().findViewById(R.id.neighborhood_catalog_fragment);
-        neighborhoodView.setVisibility(View.INVISIBLE);
-        view.setVisibility(View.VISIBLE);
+
     }
 
     // TODO: for setOnItemSelectedListener

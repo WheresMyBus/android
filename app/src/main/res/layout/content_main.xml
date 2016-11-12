@@ -80,6 +80,7 @@
         android:id="@+id/button4"
         android:textColor="@color/white"
         android:background="@color/mediumBlue"
-        android:onClick="switchToRouteCatalog" />
+        android:onClick="switchToRouteCatalog"
+        android:drawableTop="@drawable/bus_logo"/>
 
 </RelativeLayout>
