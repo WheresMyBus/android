@@ -13,7 +13,7 @@ import java.util.Set;
  * Invariant: number > 0, name != null
  */
 
-public class Route {
+public class Route implements Comparable<Route> {
     @SerializedName("number")
     private String number;
     @SerializedName("name")
@@ -102,6 +102,32 @@ public class Route {
         Assert.assertTrue(number != null);
         Assert.assertTrue(name != null);
         Assert.assertTrue(id != null);
+    }
+
+    @Override
+    public int compareTo(Route o) {
+        int number1 = 0;
+        int number2 = 0;
+        boolean isNumber1 = true;
+        boolean isNumber2 = true;
+
+        try {
+            number1 = Integer.parseInt(number);
+        } catch (NumberFormatException e) {
+            isNumber1 = false;
+        }
+
+        try {
+            number2 = Integer.parseInt(o.number);
+        } catch (NumberFormatException e) {
+            isNumber2 = false;
+        }
+
+        if (isNumber1 && isNumber2) {
+            return number1 - number2;
+        } else {
+            return number.compareTo(o.number);
+        }
     }
 /*
     /**
