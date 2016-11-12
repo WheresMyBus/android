@@ -34,7 +34,7 @@ import retrofit.Retrofit;
  * {@link NeighborhoodAlertFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class NeighborhoodAlertFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class NeighborhoodAlertFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     private Spinner neighborhoodSpinner;
     //private GridView alertTypes;
     private CheckBox checkBox1;
@@ -125,11 +125,18 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
         neighborhoodSpinner.setOnItemSelectedListener(this);
         //alertTypes = (GridView) getActivity().findViewById(R.id.alert_types);
 
-        checkBox1 = (CheckBox) activity.findViewById(R.id.checkBox1);
-        checkBox2 = (CheckBox) activity.findViewById(R.id.checkBox2);
-        checkBox3 = (CheckBox) activity.findViewById(R.id.checkBox3);
-        checkBox4 = (CheckBox) activity.findViewById(R.id.checkBox4);
+        checkBox1 = (CheckBox) activity.findViewById(R.id.checkBox5);
+        checkBox1.setOnClickListener(this);
+        checkBox2 = (CheckBox) activity.findViewById(R.id.checkBox6);
+        checkBox2.setOnClickListener(this);
+        checkBox3 = (CheckBox) activity.findViewById(R.id.checkBox7);
+        checkBox3.setOnClickListener(this);
+        checkBox4 = (CheckBox) activity.findViewById(R.id.checkBox8);
+        checkBox4.setOnClickListener(this);
+
         text = (EditText) activity.findViewById(R.id.alert_description);
+
+        alertTypes = new ArrayList<>();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -213,7 +220,7 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
 
     // assumes alertTypes.size() > 0
     public String getAlertType() {
-        if (alertTypes == null) {
+        if (alertTypes == null || alertTypes.size() == 0) {
             return null;
         } else {
             String alertType = alertTypes.get(0);
@@ -226,6 +233,33 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
 
     public String getDescription() {
         return text.getText().toString();
+    }
+
+    @Override
+    public void onClick(View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+        String alertType;
+
+        // Check which checkbox was clicked
+        switch(view.getId()) {
+            case R.id.checkBox5:
+                alertType = checkBox1.getText().toString();
+                handleAlertType(alertType, checked);
+                break;
+            case R.id.checkBox6:
+                alertType = checkBox2.getText().toString();
+                handleAlertType(alertType, checked);
+                break;
+            case R.id.checkBox7:
+                alertType = checkBox3.getText().toString();
+                handleAlertType(alertType, checked);
+                break;
+            case R.id.checkBox8:
+                alertType = checkBox4.getText().toString();
+                handleAlertType(alertType, checked);
+                break;
+        }
     }
 
     /**
