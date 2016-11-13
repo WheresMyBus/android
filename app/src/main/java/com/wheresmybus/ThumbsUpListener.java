@@ -26,5 +26,7 @@ public class ThumbsUpListener implements View.OnClickListener {
         // change number of thumbs up shown
         TextView numThumbsUp = (TextView) v.findViewById(R.id.num_thumbs_up);
         numThumbsUp.setText(alert.getUpvotes());
+
+        // to get the user ID: Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
     }
 }

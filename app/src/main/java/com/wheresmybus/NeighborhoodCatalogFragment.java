@@ -102,7 +102,7 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
      */
     private void loadListData(List<Neighborhood> data) {
         NeighborhoodAdapter adapter = new NeighborhoodAdapter(this.getActivity(),
-                android.R.layout.simple_list_item_1, data);
+                android.R.layout.simple_list_item_1, data, true);
         neighborhoodList.setAdapter(adapter);
     }
 

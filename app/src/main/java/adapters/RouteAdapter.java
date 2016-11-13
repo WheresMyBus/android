@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.wheresmybus.FavoriteListener;
 import com.wheresmybus.R;
 
 import java.util.List;
@@ -18,10 +20,12 @@ import modules.Route;
  */
 
 public class RouteAdapter extends ArrayAdapter<Route> {
+    private boolean isStarred;
 
     //constructor, call on creation
-    public RouteAdapter(Context context, int resource, List<Route> routes) {
+    public RouteAdapter(Context context, int resource, List<Route> routes, boolean isStarred) {
         super(context, resource, routes);
+        this.isStarred = isStarred;
     }
 
     //called when rendering the list
@@ -33,7 +37,13 @@ public class RouteAdapter extends ArrayAdapter<Route> {
 
         // checks if an existing view is being reused, otherwise inflate a new row
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.simple_route_row, parent, false);
+            if (isStarred) {
+                convertView = LayoutInflater.from(getContext()).inflate(
+                        R.layout.simple_starred_route_row, parent, false);
+            } else {
+                convertView = LayoutInflater.from(getContext()).inflate(
+                        R.layout.simple_route_row, parent, false);
+            }
         }
 
         // get references to specific views so we can populate them with data
@@ -43,6 +53,11 @@ public class RouteAdapter extends ArrayAdapter<Route> {
         // fill each view with associated data
         number.setText(route.getNumber());
         name.setText(route.getName());
+
+        if (isStarred) {
+            ImageButton favoriteButton = (ImageButton) convertView.findViewById(R.id.star);
+            favoriteButton.setOnClickListener(new FavoriteListener());
+        }
 
         return convertView;
     }
