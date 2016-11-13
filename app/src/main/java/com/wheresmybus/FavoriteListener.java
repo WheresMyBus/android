@@ -17,5 +17,7 @@ public class FavoriteListener implements View.OnClickListener {
         ImageButton button = (ImageButton) v.findViewById(R.id.star);
         button.setColorFilter(ContextCompat.getColor(v.getContext(), R.color.yellow));
         // when go back to gray, use button.clearColorFilter();
+
+        // to get the user ID: Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
     }
 }

@@ -26,5 +26,7 @@ public class ThumbsDownListener implements View.OnClickListener {
         // change number of thumbs down shown
         TextView numThumbsDown = (TextView) v.findViewById(R.id.num_thumbs_down);
         numThumbsDown.setText(alert.getDownvotes());
+
+        // to get the user ID: Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
     }
 }

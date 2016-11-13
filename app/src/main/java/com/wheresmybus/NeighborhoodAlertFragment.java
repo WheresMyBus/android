@@ -30,7 +30,8 @@ import retrofit.Retrofit;
  * {@link NeighborhoodAlertFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class NeighborhoodAlertFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+public class NeighborhoodAlertFragment extends Fragment implements
+        AdapterView.OnItemSelectedListener, View.OnClickListener {
     // references to layout structures where users submit alert data
     private Spinner neighborhoodSpinner;
     //private GridView alertTypes;
@@ -94,7 +95,8 @@ public class NeighborhoodAlertFragment extends Fragment implements AdapterView.O
      * @param data the list of neighborhoods to be imported into the spinner.
      */
     private void loadSpinnerData(List<Neighborhood> data) {
-        NeighborhoodAdapter adapter = new NeighborhoodAdapter(this.getActivity(), android.R.layout.simple_spinner_item, data);
+        NeighborhoodAdapter adapter = new NeighborhoodAdapter(this.getActivity(),
+                android.R.layout.simple_spinner_item, data, false);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         neighborhoodSpinner.setAdapter(adapter);
     }
