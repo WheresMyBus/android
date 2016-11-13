@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.wheresmybus.FavoriteListener;
 import com.wheresmybus.R;
 
 import java.util.List;
@@ -18,10 +20,13 @@ import modules.Neighborhood;
  */
 
 public class NeighborhoodAdapter extends ArrayAdapter<Neighborhood> {
+    private boolean isStarred;
 
     // constructor, call on creation
-    public NeighborhoodAdapter(Context context, int resource, List<Neighborhood> neighborhoods) {
+    public NeighborhoodAdapter(Context context, int resource, List<Neighborhood> neighborhoods,
+                               boolean isStarred) {
         super(context, resource, neighborhoods);
+        this.isStarred = isStarred;
     }
 
     // called when rendering the list
@@ -33,7 +38,13 @@ public class NeighborhoodAdapter extends ArrayAdapter<Neighborhood> {
 
         // checks if an existing view is being reused, otherwise inflate a new row
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.simple_neighborhood_row, parent, false);
+            if (isStarred) {
+                convertView = LayoutInflater.from(getContext()).inflate(
+                        R.layout.simple_starred_neighborhood_row, parent, false);
+            } else {
+                convertView = LayoutInflater.from(getContext()).inflate(
+                        R.layout.simple_neighborhood_row, parent, false);
+            }
         }
 
         // get references to specific views so we can populate them with data
@@ -41,6 +52,11 @@ public class NeighborhoodAdapter extends ArrayAdapter<Neighborhood> {
 
         // fill each view with associated data
         name.setText(neighborhood.getName());
+
+        if (isStarred) {
+            ImageButton favoriteButton = (ImageButton) convertView.findViewById(R.id.star);
+            favoriteButton.setOnClickListener(new FavoriteListener());
+        }
 
         return convertView;
     }
