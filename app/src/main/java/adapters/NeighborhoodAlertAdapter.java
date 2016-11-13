@@ -69,7 +69,7 @@ public class NeighborhoodAlertAdapter extends ArrayAdapter<NeighborhoodAlert> {
         String routes = routesAffected.getText().toString();
 
         // gets the set of routes affected from the alert
-        Set<Route> routesSet = alert.getRoutesAffected();
+        List<Route> routesSet = alert.getRoutesAffected();
         if (routesSet.isEmpty()) {
             // reports no routes affected
             routes += " none";

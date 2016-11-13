@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName;
 
 import junit.framework.Assert;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by lidav on 10/25/2016.
@@ -22,7 +22,7 @@ import java.util.Set;
 public class NeighborhoodAlert extends Alert {
     // This is the old stuff.
     private Neighborhood neighborhood;
-    private Set<Route> routesAffected;
+    private List<Route> routesAffected;
 
     @SerializedName("neighborhood_id")
     private int neighborhoodID;
@@ -42,7 +42,7 @@ public class NeighborhoodAlert extends Alert {
      */
     public NeighborhoodAlert(Neighborhood neighborhood, Date date, String description,
                              String type, Pair<Double, Double> coordinates, int creatorID,
-                             Set<Route> routesAffected) {
+                             List<Route> routesAffected) {
         super(description, date, type, creatorID, coordinates);
         if(neighborhood == null || routesAffected == null) {
             throw new IllegalArgumentException("null parameters");
@@ -76,9 +76,9 @@ public class NeighborhoodAlert extends Alert {
     }
 
     /**
-     * Adds new routes to the set of routes possibly affected by this neighborhood alert.
+     * Adds new routes to the list of routes possibly affected by this neighborhood alert.
      * @param newRoute Route to add to affected routes
-     * @return true if none of the elements of routesAffected were already stored in the set of
+     * @return true if none of the elements of routesAffected were already stored in the list of
      *              routes affected by this alert, or false otherwise
      * @throws IllegalArgumentException if newRoute is null
      */
@@ -90,11 +90,11 @@ public class NeighborhoodAlert extends Alert {
     }
 
     /**
-     * Returns the set of routes affected
-     * @return Set of routes affected
+     * Returns the list of routes affected
+     * @return List of routes affected
      */
-    public Set<Route> getRoutesAffected() {
-        return new HashSet<>(routesAffected);
+    public List<Route> getRoutesAffected() {
+        return new ArrayList<>(routesAffected);
     }
 
     @Override
