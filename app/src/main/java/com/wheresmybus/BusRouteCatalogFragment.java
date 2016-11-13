@@ -120,7 +120,7 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
      */
     private void loadListData(List<Route> data) {
         RouteAdapter adapter = new RouteAdapter(this.getActivity(),
-                android.R.layout.simple_list_item_1, data);
+                android.R.layout.simple_list_item_1, data, true);
         routeList.setAdapter(adapter);
     }
 
