@@ -40,7 +40,7 @@ public class TestRoute {
     @Test
     public void testToString() {
         Route r = new Route("556", "Northgate", "1");
-        assertTrue(r.toString().equals("556 Northgate"));
+        assertTrue(r.toString().equals("556 - Northgate"));
     }
 
 }

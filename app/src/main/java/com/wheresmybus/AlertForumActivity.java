@@ -3,7 +3,12 @@ package com.wheresmybus;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import adapters.NeighborhoodAlertAdapter;
@@ -20,7 +25,9 @@ import retrofit.Retrofit;
  *
  * A class for the alert forum screen, for either a route or a neighborhood
  */
-public class AlertForumActivity extends AppCompatActivity {
+public class AlertForumActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+
+    private ListView alertList;
 
     /**
      * Displays the alerts for the route or neighborhood that was clicked on
@@ -30,6 +37,9 @@ public class AlertForumActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alert_forum);
+
+        alertList = (ListView) findViewById(R.id.alert_list);
+        //alertList.setOnItemClickListener(this);
 
         Intent intent = getIntent();
         String type = intent.getStringExtra("ALERT_TYPE");
@@ -99,7 +109,7 @@ public class AlertForumActivity extends AppCompatActivity {
      */
     private void loadNeighborhoodData(List<NeighborhoodAlert> data) {
         NeighborhoodAlertAdapter adapter = new NeighborhoodAlertAdapter(this, android.R.layout.simple_list_item_1, data);
-        //neighborhoodList.setAdapter(adapter);
+        alertList.setAdapter(adapter);
     }
 
     /**
@@ -108,5 +118,11 @@ public class AlertForumActivity extends AppCompatActivity {
      */
     private void loadRouteData(List<RouteAlert> data) {
         RouteAlertAdapter adapter = new RouteAlertAdapter(this, android.R.layout.simple_list_item_1, data);
+        alertList.setAdapter(adapter);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        // send to page for alert that was clicked
     }
 }
