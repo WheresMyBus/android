@@ -4,16 +4,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/simple_route_row"></include>
+    <TextView
+        android:text="@string/bus_route"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/name"
+        android:paddingLeft="10dp"
+        android:layout_alignBottom="@+id/number"
+        android:gravity="center_vertical"
+        android:layout_toLeftOf="@+id/star"
+        android:layout_toRightOf="@+id/number"
+        android:layout_toEndOf="@+id/number" />
+
+    <TextView
+        android:text="Number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/number"
+        android:textColor="@color/darkBlue"
+        android:textSize="30sp"
+        android:gravity="center_vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/btn_star_big_off"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:id="@+id/star"
         android:tint="@android:color/darker_gray"
-        android:backgroundTint="@android:color/transparent" />
+        android:backgroundTint="@android:color/transparent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

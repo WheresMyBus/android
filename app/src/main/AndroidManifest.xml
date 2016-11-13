@@ -32,7 +32,7 @@
         </activity>
         <activity
             android:name=".SubmitAlertActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -42,7 +42,8 @@
             android:name=".CatalogActivity"
             android:label="@string/title_activity_catalog"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AlertForumActivity"></activity>
+        <activity android:name=".AlertForumActivity" />
+        <activity android:name=".RouteAlertActivity"></activity>
     </application>
 
 </manifest>

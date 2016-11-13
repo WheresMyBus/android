@@ -37,14 +37,12 @@ public class NeighborhoodAdapter extends ArrayAdapter<Neighborhood> {
         Neighborhood neighborhood = getItem(position);
 
         // checks if an existing view is being reused, otherwise inflate a new row
-        if (convertView == null) {
-            if (isStarred) {
-                convertView = LayoutInflater.from(getContext()).inflate(
-                        R.layout.simple_starred_neighborhood_row, parent, false);
-            } else {
-                convertView = LayoutInflater.from(getContext()).inflate(
-                        R.layout.simple_neighborhood_row, parent, false);
-            }
+        if (isStarred) {
+            convertView = LayoutInflater.from(getContext()).inflate(
+                    R.layout.simple_starred_neighborhood_row, parent, false);
+        } else {
+            convertView = LayoutInflater.from(getContext()).inflate(
+                    R.layout.simple_neighborhood_row, parent, false);
         }
 
         // get references to specific views so we can populate them with data
@@ -56,6 +54,7 @@ public class NeighborhoodAdapter extends ArrayAdapter<Neighborhood> {
         if (isStarred) {
             ImageButton favoriteButton = (ImageButton) convertView.findViewById(R.id.star);
             favoriteButton.setOnClickListener(new FavoriteListener());
+            // TODO: setColorFilter if route is user's favorite
         }
 
         return convertView;
