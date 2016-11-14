@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="10dp">
 
     <TextView
         android:text="@string/bus_route"
@@ -12,9 +13,11 @@
         android:paddingLeft="10dp"
         android:layout_alignBottom="@+id/number"
         android:gravity="center_vertical"
+        android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/star"
         android:layout_toRightOf="@+id/number"
-        android:layout_toEndOf="@+id/number" />
+        android:layout_toEndOf="@+id/number"
+        android:layout_toStartOf="@+id/star"/>
 
     <TextView
         android:text="Number"
@@ -35,7 +38,7 @@
         android:id="@+id/star"
         android:tint="@android:color/darker_gray"
         android:backgroundTint="@android:color/transparent"
-        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/name"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 </RelativeLayout>
