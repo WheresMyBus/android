@@ -42,7 +42,8 @@ public class NeighborhoodAlertAdapter extends ArrayAdapter<NeighborhoodAlert> {
 
         // checks if an existing view is being reused, otherwise inflate a new row
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.simple_route_row, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(
+                    R.layout.simple_neighborhood_alert_row, parent, false);
         }
 
         // get references to specific views so we can populate them with data
