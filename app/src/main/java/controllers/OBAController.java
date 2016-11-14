@@ -103,10 +103,12 @@ public class OBAController {
         Call<Set<Route>> call = retrofitService.getRoutesJSON();
         try {
             Set<Route> routeList = call.execute().body();
+            /* // debug logging.
             for (Route r : routeList) {
                 Log.d("route name: ", r.getName());
             }
             Log.d("routeList.isEmpty():", "" + routeList.isEmpty());
+            */
             return routeList;
         } catch (Exception e) {
             Log.d("In getRoutesSynch: ", e.toString());

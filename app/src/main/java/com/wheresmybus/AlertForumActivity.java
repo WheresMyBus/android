@@ -3,6 +3,7 @@ package com.wheresmybus;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -71,6 +72,9 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
             @Override
             public void onResponse(Response<List<NeighborhoodAlert>> response, Retrofit retrofit) {
                 List<NeighborhoodAlert> data = response.body();
+                for (NeighborhoodAlert datum : data) {
+                    Log.d("date in onResponse: ", datum.getDate().toString());
+                }
                 loadNeighborhoodData(data);
             }
 
@@ -108,6 +112,9 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
      * @param data the list of alerts to be loaded
      */
     private void loadNeighborhoodData(List<NeighborhoodAlert> data) {
+        for (NeighborhoodAlert datum : data) {
+            Log.d("date in loadData: ", datum.getDate().toString());
+        }
         NeighborhoodAlertAdapter adapter = new NeighborhoodAlertAdapter(this, android.R.layout.simple_list_item_1, data);
         alertList.setAdapter(adapter);
     }
