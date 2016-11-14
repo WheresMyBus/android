@@ -36,14 +36,12 @@ public class RouteAdapter extends ArrayAdapter<Route> {
         Route route = getItem(position);
 
         // checks if an existing view is being reused, otherwise inflate a new row
-        if (convertView == null) {
-            if (isStarred) {
-                convertView = LayoutInflater.from(getContext()).inflate(
-                        R.layout.simple_starred_route_row, parent, false);
-            } else {
-                convertView = LayoutInflater.from(getContext()).inflate(
-                        R.layout.simple_route_row, parent, false);
-            }
+        if (isStarred) {
+            convertView = LayoutInflater.from(getContext()).inflate(
+                    R.layout.simple_starred_route_row, parent, false);
+        } else {
+            convertView = LayoutInflater.from(getContext()).inflate(
+                    R.layout.simple_route_row, parent, false);
         }
 
         // get references to specific views so we can populate them with data
@@ -57,6 +55,7 @@ public class RouteAdapter extends ArrayAdapter<Route> {
         if (isStarred) {
             ImageButton favoriteButton = (ImageButton) convertView.findViewById(R.id.star);
             favoriteButton.setOnClickListener(new FavoriteListener());
+            // TODO: setColorFilter if route is user's favorite
         }
 
         return convertView;
