@@ -32,7 +32,7 @@ public class OBAController {
 
     private static RetrofitAPI retrofitService = new Retrofit.Builder()
             .baseUrl("http://wheresmybus-api.herokuapp.com/")
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(RetrofitAPI.class);
 
