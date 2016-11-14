@@ -94,6 +94,10 @@ public class NeighborhoodAlert extends Alert {
      * @return List of routes affected
      */
     public List<Route> getRoutesAffected() {
+        // if no affected routes, return empty list
+        if (routesAffected == null) {
+            return new ArrayList<>();
+        }
         return new ArrayList<>(routesAffected);
     }
 
