@@ -91,7 +91,7 @@ public class NeighborhoodAlertAdapter extends ArrayAdapter<NeighborhoodAlert> {
         // fill each view with associated data and set image button on click listeners
         alertType.setText(alert.getType());
         routesAffected.setText(routes);
-        date.setText(dateFormatter.format(date));
+        date.setText(dateFormatter.format(alertDate));
         time.setText(timeFormatter.format(alertDate));
         thumbsUp.setOnClickListener(new ThumbsUpListener(alert));
         numThumbsUp.setText(alert.getUpvotes());
