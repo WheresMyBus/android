@@ -24,8 +24,8 @@ public class ThumbsDownListener implements View.OnClickListener {
         alert.downvote();
         // change color of button somehow (darker, brighter, slightly bigger)
         // change number of thumbs down shown
-        TextView numThumbsDown = (TextView) v.findViewById(R.id.num_thumbs_down);
-        numThumbsDown.setText(alert.getDownvotes());
+        TextView numThumbsDown = (TextView) v.getRootView().findViewById(R.id.num_thumbs_down);
+        numThumbsDown.setText(alert.getDownvotes() + "");
 
         // to get the user ID: Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
     }
