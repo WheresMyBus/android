@@ -34,7 +34,7 @@ public class RouteAdapter extends ArrayAdapter<Route> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        CatalogActivity catalogActivity = (CatalogActivity) convertView.getContext();
+        CatalogActivity catalogActivity = (CatalogActivity) getContext();
 
         //get the property we are displaying
         Route route = getItem(position);

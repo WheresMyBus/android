@@ -35,7 +35,7 @@ public class NeighborhoodAdapter extends ArrayAdapter<Neighborhood> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        CatalogActivity catalogActivity = (CatalogActivity) convertView.getContext();
+        CatalogActivity catalogActivity = (CatalogActivity) getContext();
 
         // get the property we are displaying
         Neighborhood neighborhood = getItem(position);

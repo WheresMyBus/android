@@ -34,4 +34,5 @@
     <string name="alert_description">Alert Description</string>
     <string name="date">Date</string>
     <string name="time">Time</string>
+    <string name="submit_comment">Submit a Comment</string>
 </resources>

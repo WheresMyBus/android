@@ -38,7 +38,8 @@
         android:id="@+id/alert_description"
         android:paddingTop="10dp"
         android:layout_toLeftOf="@+id/thumbs_up"
-        android:layout_toStartOf="@+id/thumbs_up" />
+        android:layout_toStartOf="@+id/thumbs_up"
+        android:textColor="@android:color/black" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -49,7 +50,7 @@
         android:layout_alignParentEnd="true"
         android:id="@+id/thumbs_down"
         android:backgroundTint="@android:color/transparent"
-        android:tint="@color/orange" />
+        android:tint="@android:color/darker_gray" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -60,7 +61,7 @@
         android:layout_toStartOf="@+id/thumbs_down"
         android:id="@+id/thumbs_up"
         android:backgroundTint="@android:color/transparent"
-        android:tint="@color/green" />
+        android:tint="@android:color/darker_gray" />
 
     <TextView
         android:text="Number"
@@ -91,7 +92,7 @@
         android:text="@string/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/thumbs_up"
+        android:layout_below="@+id/alert_description"
         android:layout_toRightOf="@+id/date"
         android:layout_toEndOf="@+id/date"
         android:id="@+id/time"
@@ -108,5 +109,29 @@
         android:layout_alignBottom="@+id/time"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/time"
+        android:layout_toEndOf="@+id/time"
+        android:id="@+id/comments"
+        android:layout_above="@+id/submit_comment_button"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/submit_comment_button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/white"
+        android:background="@color/lightGreen"
+        android:text="@string/submit_comment" />
 
 </RelativeLayout>
