@@ -34,6 +34,8 @@ public class RouteAdapter extends ArrayAdapter<Route> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        CatalogActivity catalogActivity = (CatalogActivity) convertView.getContext();
+
         //get the property we are displaying
         Route route = getItem(position);
 
@@ -56,10 +58,9 @@ public class RouteAdapter extends ArrayAdapter<Route> {
 
         if (isStarred) {
             ImageButton favoriteButton = (ImageButton) convertView.findViewById(R.id.star);
-            favoriteButton.setOnClickListener(new FavoriteRouteListener(route.getId()));
+            favoriteButton.setOnClickListener(new FavoriteRouteListener(route.getId(), catalogActivity));
             // TODO: setColorFilter if route is user's favorite
             // TODO: verify if this works
-            CatalogActivity catalogActivity = (CatalogActivity) convertView.getContext();
             boolean favorited = catalogActivity.favoriteRoutesByID.contains(route.getId());
             if (favorited) {
                 // TODO: set color

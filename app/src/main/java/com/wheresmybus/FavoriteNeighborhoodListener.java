@@ -10,9 +10,11 @@ import android.widget.ImageButton;
 
 public class FavoriteNeighborhoodListener implements View.OnClickListener {
     private int neighborhoodID;
+    private CatalogActivity catalogActivity;
 
-    public FavoriteNeighborhoodListener(int neighborhoodID) {
+    public FavoriteNeighborhoodListener(int neighborhoodID, CatalogActivity catalogActivity) {
         this.neighborhoodID = neighborhoodID;
+        this.catalogActivity = catalogActivity;
     }
 
     @Override
@@ -24,6 +26,6 @@ public class FavoriteNeighborhoodListener implements View.OnClickListener {
         // when go back to gray, use button.clearColorFilter();
 
         // to get the user ID: Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
-        ((CatalogActivity) v.getContext()).favoriteNeighborhoodsByID.add(neighborhoodID);
+        catalogActivity.favoriteNeighborhoodsByID.add(neighborhoodID);
     }
 }
