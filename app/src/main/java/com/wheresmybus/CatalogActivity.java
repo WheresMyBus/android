@@ -17,11 +17,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * A class for the catalog screen, with tabs for routes and neighborhoods
  */
 public class CatalogActivity extends AppCompatActivity implements BusRouteCatalogFragment.OnFragmentInteractionListener,
         NeighborhoodCatalogFragment.OnFragmentInteractionListener{
+
+    /**
+     * The set of route IDs favorited by the user.
+     * Saved and restored by onSaveInstanceState and onRestoreInstanceState
+     */
+    public Set<String> favoriteRoutesByID;
+    // TODO: add more data sets
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -70,8 +80,34 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
             tab.select();
         }
 
+        // Initialize user data sets: favorites sets, like sets, dislike sets
+        favoriteRoutesByID = new HashSet<String>();
+        // TODO: add other data sets
+
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        // save favorite routes
+        CharSequence[] favoriteRoutesHolder = new CharSequence[favoriteRoutesByID.size()];
+        int i = 0;
+        for (String s : favoriteRoutesByID) {
+            favoriteRoutesHolder[i] = s;
+            i++;
+        }
+        savedInstanceState.putCharSequenceArray("FavoriteRoutes", favoriteRoutesHolder);
+        // TODO: save other kinds of data
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // restore favorite routes
+        for (CharSequence cs : savedInstanceState.getCharSequenceArray("FavoriteRoutes")) {
+            favoriteRoutesByID.add(cs.toString());
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -149,4 +185,7 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    // Methods for setting/unsetting favorites
+
 }
