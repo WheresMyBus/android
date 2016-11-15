@@ -6,13 +6,13 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:background="@color/lighterBlue"
         android:layout_alignParentTop="true"
         android:id="@+id/background"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/time"
-        android:background="@color/lighterBlue" />
+        android:layout_height="150dp"
+        android:layout_alignBottom="@+id/date" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -41,6 +41,41 @@
         android:layout_toStartOf="@+id/thumbs_up"
         android:textColor="@android:color/black" />
 
+    <TextView
+        android:text="@string/routes_affected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/alert_description"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/routes_affected"
+        android:paddingTop="10dp"
+        android:textColor="@android:color/black"
+        android:layout_toLeftOf="@+id/thumbs_up"
+        android:layout_toStartOf="@+id/thumbs_up" />
+
+    <TextView
+        android:text="@string/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/date"
+        android:paddingTop="10dp"
+        android:layout_below="@+id/routes_affected"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="@string/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/time"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:layout_alignBaseline="@+id/date"
+        android:layout_alignBottom="@+id/date"
+        android:layout_toRightOf="@+id/date"
+        android:layout_toEndOf="@+id/date" />
+
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -68,47 +103,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/thumbs_down"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/num_thumbs_down"
         android:layout_toRightOf="@+id/thumbs_up"
         android:layout_toEndOf="@+id/thumbs_up"
-        android:textAlignment="center"
-        android:textColor="@android:color/black" />
+        android:id="@+id/num_thumbs_down"
+        android:textColor="@android:color/black"
+        android:gravity="center" />
 
     <TextView
         android:text="Number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/thumbs_down"
-        android:layout_toLeftOf="@+id/thumbs_down"
-        android:id="@+id/num_thumbs_up"
-        android:layout_alignLeft="@+id/thumbs_up"
-        android:layout_alignStart="@+id/thumbs_up"
-        android:textAlignment="center"
-        android:textColor="@android:color/black" />
-
-    <TextView
-        android:text="@string/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/alert_description"
-        android:layout_toRightOf="@+id/date"
-        android:layout_toEndOf="@+id/date"
-        android:id="@+id/time"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp" />
-
-    <TextView
-        android:text="@string/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/date"
-        android:paddingTop="10dp"
-        android:layout_alignBaseline="@+id/time"
-        android:layout_alignBottom="@+id/time"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_toRightOf="@+id/alert_description"
+        android:layout_toEndOf="@+id/alert_description"
+        android:id="@+id/num_thumbs_up"
+        android:textColor="@android:color/black"
+        android:gravity="center"
+        android:layout_alignBottom="@+id/num_thumbs_down" />
 
     <ListView
         android:layout_width="match_parent"
@@ -118,8 +129,8 @@
         android:layout_alignParentEnd="true"
         android:layout_toRightOf="@+id/time"
         android:layout_toEndOf="@+id/time"
-        android:id="@+id/comments"
-        android:layout_above="@+id/submit_comment_button"/>
+        android:layout_above="@+id/submit_comment_button"
+        android:id="@+id/comments"/>
 
     <Button
         android:layout_width="wrap_content"
