@@ -54,10 +54,10 @@ public class RouteAlertAdapter extends ArrayAdapter<RouteAlert> {
 
         // get strings for the date and time the alert was submitted
         if (dateFormatter == null) {
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("E, MMM d");
+            dateFormatter = new SimpleDateFormat("E, MMM d");
         }
         if (timeFormatter == null) {
-            SimpleDateFormat timeFormatter = new SimpleDateFormat("h:mm a");
+            timeFormatter = new SimpleDateFormat("h:mm a");
         }
 
         Date alertDate = alert.getDate();
@@ -67,9 +67,9 @@ public class RouteAlertAdapter extends ArrayAdapter<RouteAlert> {
         date.setText(dateFormatter.format(alertDate));
         time.setText(timeFormatter.format(alertDate));
         thumbsUp.setOnClickListener(new ThumbsUpListener(alert));
-        numThumbsUp.setText(alert.getUpvotes());
+        numThumbsUp.setText(alert.getUpvotes() + "");
         thumbsDown.setOnClickListener(new ThumbsDownListener(alert));
-        numThumbsDown.setText(alert.getDownvotes());
+        numThumbsDown.setText(alert.getDownvotes() + "");
 
         return convertView;
     }
