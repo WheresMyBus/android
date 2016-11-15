@@ -1,6 +1,7 @@
 package adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.wheresmybus.CatalogActivity;
 import com.wheresmybus.FavoriteListener;
 import com.wheresmybus.R;
 
@@ -56,6 +58,13 @@ public class RouteAdapter extends ArrayAdapter<Route> {
             ImageButton favoriteButton = (ImageButton) convertView.findViewById(R.id.star);
             favoriteButton.setOnClickListener(new FavoriteListener());
             // TODO: setColorFilter if route is user's favorite
+            // TODO: verify if this works
+            CatalogActivity catalogActivity = (CatalogActivity) convertView.getContext();
+            boolean favorited = catalogActivity.favoriteRoutesByID.contains(route.getId());
+            if (favorited) {
+                // TODO: set color
+                favoriteButton.setColorFilter(ContextCompat.getColor(convertView.getContext(), R.color.yellow));
+            }
         }
 
         return convertView;
