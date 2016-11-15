@@ -32,6 +32,7 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
      */
     public Set<String> favoriteRoutesByID;
     // TODO: add more data sets
+    public Set<Integer> favoriteNeighborhoodsByID;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
