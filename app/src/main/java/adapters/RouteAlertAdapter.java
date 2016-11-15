@@ -38,10 +38,9 @@ public class RouteAlertAdapter extends ArrayAdapter<RouteAlert> {
         //get the property we are displaying
         RouteAlert alert = getItem(position);
 
-        // checks if an existing view is being reused, otherwise inflate a new row
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.simple_route_alert_row, parent, false);
-        }
+        // inflates a new row
+        convertView = LayoutInflater.from(getContext()).inflate(R.layout.simple_route_alert_row,
+                parent, false);
 
         // get references to specific views so we can populate them with data
         TextView alertType = (TextView) convertView.findViewById(R.id.alert_type);

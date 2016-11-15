@@ -107,7 +107,7 @@ public class NeighborhoodAlert extends Alert {
     protected void checkRep() {
         super.checkRep();
         // Assert.assertTrue(neighborhood != null);
-        Assert.assertTrue(routesAffected != null);
-        Assert.assertFalse(routesAffected.contains(null));
+        // Assert.assertTrue(routesAffected != null);
+        // Assert.assertFalse(routesAffected.contains(null));
     }
 }
