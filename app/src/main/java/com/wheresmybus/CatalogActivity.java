@@ -83,6 +83,7 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
 
         // Initialize user data sets: favorites sets, like sets, dislike sets
         favoriteRoutesByID = new HashSet<String>();
+        favoriteNeighborhoodsByID = new HashSet<Integer>();
         // TODO: add other data sets
 
     }

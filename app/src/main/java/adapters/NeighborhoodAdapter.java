@@ -1,6 +1,7 @@
 package adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,10 @@ public class NeighborhoodAdapter extends ArrayAdapter<Neighborhood> {
             favoriteButton.setOnClickListener(new FavoriteNeighborhoodListener(neighborhood.getID(),
                     catalogActivity));
             // TODO: setColorFilter if route is user's favorite
+            boolean favorited = catalogActivity.favoriteRoutesByID.contains(neighborhood.getID());
+            if (favorited) {
+                favoriteButton.setColorFilter(ContextCompat.getColor(convertView.getContext(), R.color.yellow));
+            }
         }
 
         return convertView;
