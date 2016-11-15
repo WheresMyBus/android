@@ -29,6 +29,7 @@ import retrofit.Retrofit;
 public class AlertForumActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ListView alertList;
+    private boolean isRouteForum; // true if routes, false if neighborhoods
 
     /**
      * Displays the alerts for the route or neighborhood that was clicked on
@@ -40,11 +41,12 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
         setContentView(R.layout.activity_alert_forum);
 
         alertList = (ListView) findViewById(R.id.alert_list);
-        //alertList.setOnItemClickListener(this);
+        alertList.setOnItemClickListener(this);
 
         Intent intent = getIntent();
         String type = intent.getStringExtra("ALERT_TYPE");
         if (type.equals("Route")) {
+            isRouteForum = true;
             String number = intent.getStringExtra("ROUTE_NUMBER");
             try {
                 routeRequest(number);
@@ -52,6 +54,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
                 e.printStackTrace();
             }
         } else { //neighborhood
+            isRouteForum = false;
             int id = intent.getIntExtra("NEIGHBORHOOD_ID", 0);
             try {
                 neighborhoodRequest(id);
@@ -128,8 +131,23 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
         alertList.setAdapter(adapter);
     }
 
+    /**
+     * When an alert is clicked, it takes the user to the corresponding
+     * alert page
+     * @param adapterView the AdapterView that keeps track of the ListView elements
+     * @param view the ListView for this class
+     * @param position the position of the element clicked
+     * @param id the id of the element clicked
+     */
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         // send to page for alert that was clicked
+        if (isRouteForum) {
+            Intent intent = new Intent(this, RouteAlertActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, NeighborhoodAlertActivity.class);
+            startActivity(intent);
+        }
     }
 }
