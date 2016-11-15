@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.wheresmybus.CatalogActivity;
-import com.wheresmybus.FavoriteListener;
+import com.wheresmybus.FavoriteRouteListener;
 import com.wheresmybus.R;
 
 import java.util.List;
@@ -56,7 +56,7 @@ public class RouteAdapter extends ArrayAdapter<Route> {
 
         if (isStarred) {
             ImageButton favoriteButton = (ImageButton) convertView.findViewById(R.id.star);
-            favoriteButton.setOnClickListener(new FavoriteListener());
+            favoriteButton.setOnClickListener(new FavoriteRouteListener(route.getId()));
             // TODO: setColorFilter if route is user's favorite
             // TODO: verify if this works
             CatalogActivity catalogActivity = (CatalogActivity) convertView.getContext();

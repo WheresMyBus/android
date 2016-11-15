@@ -8,7 +8,12 @@ import android.widget.ImageButton;
  * Created by lesli_000 on 11/13/2016.
  */
 
-public class FavoriteListener implements View.OnClickListener {
+public class FavoriteRouteListener implements View.OnClickListener {
+    private String routeID;
+
+    public FavoriteRouteListener(String routeID) {
+        this.routeID = routeID;
+    }
 
     @Override
     public void onClick(View v) {
@@ -19,5 +24,6 @@ public class FavoriteListener implements View.OnClickListener {
         // when go back to gray, use button.clearColorFilter();
 
         // to get the user ID: Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
+        ((CatalogActivity) v.getContext()).favoriteRoutesByID.add(routeID);
     }
 }
