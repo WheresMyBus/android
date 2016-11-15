@@ -69,16 +69,29 @@ public class BasicSystemTest {
         });
     }
     */
-    /* This is not a proper test, just stuff I have been trying to confirm that things work...
+    /*/ This is not a proper test, just stuff I have been trying to confirm that things work...
     @Test
     public void attemptPostToAPI() throws Exception {
         WMBController controller = WMBController.getInstance();
 
-        NeighborhoodAlert responseAlert = controller.postAlertSynchronously(14, "construction", "THE BUS TURNED INTO A CAT!!!!", 404);
-        assertEquals("compare description", "THE BUS TURNED INTO A CAT!!!!", responseAlert.getDescription());
+        NeighborhoodAlert responseAlert = controller.postAlertSynchronously(14, "construction", "Nothing matters anymore", 404);
+        assertEquals("compare description", "Nothing matters anymore", responseAlert.getDescription());
 
         List<NeighborhoodAlert> alertsList = controller.getAlertsSynchronously(14);
         assertEquals("compare get to posted", alertsList.get(0).getDescription(), responseAlert.getDescription());
+
+        assertEquals("Date: ", responseAlert.getDate(), alertsList.get(0).getDate());
+
+    }
+
+
+    @Test
+    public void testDateInfo() throws Exception {
+        WMBController controller = WMBController.getInstance();
+
+        List<NeighborhoodAlert> alerts = controller.getAlertsSynchronously(3);
+        assertEquals("2016-11-12T05:59:30.971Z", alerts.get(0).getDate().toString());
+
     }
     */
 
