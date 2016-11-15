@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.wheresmybus.CatalogActivity;
 import com.wheresmybus.FavoriteNeighborhoodListener;
 import com.wheresmybus.FavoriteRouteListener;
 import com.wheresmybus.R;
@@ -34,6 +35,8 @@ public class NeighborhoodAdapter extends ArrayAdapter<Neighborhood> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        CatalogActivity catalogActivity = (CatalogActivity) convertView.getContext();
+
         // get the property we are displaying
         Neighborhood neighborhood = getItem(position);
 
@@ -54,7 +57,7 @@ public class NeighborhoodAdapter extends ArrayAdapter<Neighborhood> {
 
         if (isStarred) {
             ImageButton favoriteButton = (ImageButton) convertView.findViewById(R.id.star);
-            favoriteButton.setOnClickListener(new FavoriteNeighborhoodListener(neighborhood.getID()));
+            favoriteButton.setOnClickListener(new FavoriteNeighborhoodListener(neighborhood.getID(), catalogActivity));
             // TODO: setColorFilter if route is user's favorite
         }
 
