@@ -44,6 +44,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AlertForumActivity" />
         <activity android:name=".RouteAlertActivity"></activity>
+        <activity android:name=".NeighborhoodAlertActivity"></activity>
     </application>
 
 </manifest>
