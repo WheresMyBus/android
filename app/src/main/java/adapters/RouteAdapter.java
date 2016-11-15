@@ -58,13 +58,15 @@ public class RouteAdapter extends ArrayAdapter<Route> {
 
         if (isStarred) {
             ImageButton favoriteButton = (ImageButton) convertView.findViewById(R.id.star);
-            favoriteButton.setOnClickListener(new FavoriteRouteListener(route.getId(), catalogActivity));
+            favoriteButton.setOnClickListener(new FavoriteRouteListener(route.getId(),
+                    catalogActivity));
             // TODO: setColorFilter if route is user's favorite
             // TODO: verify if this works
             boolean favorited = catalogActivity.favoriteRoutesByID.contains(route.getId());
             if (favorited) {
                 // TODO: set color
-                favoriteButton.setColorFilter(ContextCompat.getColor(convertView.getContext(), R.color.yellow));
+                favoriteButton.setColorFilter(ContextCompat.getColor(convertView.getContext(),
+                        R.color.yellow));
             }
         }
 

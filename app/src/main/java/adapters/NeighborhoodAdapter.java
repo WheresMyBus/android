@@ -57,7 +57,8 @@ public class NeighborhoodAdapter extends ArrayAdapter<Neighborhood> {
 
         if (isStarred) {
             ImageButton favoriteButton = (ImageButton) convertView.findViewById(R.id.star);
-            favoriteButton.setOnClickListener(new FavoriteNeighborhoodListener(neighborhood.getID(), catalogActivity));
+            favoriteButton.setOnClickListener(new FavoriteNeighborhoodListener(neighborhood.getID(),
+                    catalogActivity));
             // TODO: setColorFilter if route is user's favorite
         }
 
