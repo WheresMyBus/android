@@ -186,11 +186,11 @@ public abstract class Alert {
     }
 
     protected void checkRep() {
-        Assert.assertTrue(this.creatorID > 0);
+        // Assert.assertTrue(this.creatorID > 0);
         Assert.assertTrue(date != null);
         Assert.assertTrue(type != null);
         Assert.assertTrue(description != null);
-        Assert.assertTrue(coordinates != null);
+        // Assert.assertTrue(coordinates != null);
         Assert.assertTrue(upvotes > -1);
         Assert.assertTrue(downvotes > -1);
         Assert.assertTrue(id == -1 || id > 0);

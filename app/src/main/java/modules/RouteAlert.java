@@ -61,6 +61,6 @@ public class RouteAlert extends Alert {
     @Override
     protected void checkRep() {
         super.checkRep();
-        Assert.assertFalse(route == null);
+        // Assert.assertFalse(route == null);
     }
 }

@@ -66,7 +66,7 @@ public class NeighborhoodAlertAdapter extends ArrayAdapter<NeighborhoodAlert> {
 
         Date alertDate = alert.getDate();
 
-        // gets the header dispayed to the user for routes affected
+        // gets the header displayed to the user for routes affected
         String routes = routesAffected.getText().toString();
 
         // gets the set of routes affected from the alert

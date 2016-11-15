@@ -65,6 +65,7 @@ public class NeighborhoodAlert extends Alert {
                              String description, Date date, int upvotes, int downvotes) {
         super(alertID, user_id, alertType, description, date, upvotes, downvotes);
         this.neighborhoodID = neighborhoodID;
+        routesAffected = new ArrayList<>();
     }
 
     /**
@@ -95,16 +96,13 @@ public class NeighborhoodAlert extends Alert {
      */
     public List<Route> getRoutesAffected() {
         // if no affected routes, return empty list
-        if (routesAffected == null) {
-            return new ArrayList<>();
-        }
-        return new ArrayList<>(routesAffected);
+        return routesAffected;
     }
 
     @Override
     protected void checkRep() {
         super.checkRep();
-        Assert.assertTrue(neighborhood != null);
+        // Assert.assertTrue(neighborhood != null);
         Assert.assertTrue(routesAffected != null);
         Assert.assertFalse(routesAffected.contains(null));
     }
