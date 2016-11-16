@@ -148,7 +148,7 @@ public class NeighborhoodAlertFragment extends Fragment implements
         checkBox4 = (CheckBox) activity.findViewById(R.id.checkBox8);
         checkBox4.setOnClickListener(this);
 
-        text = (EditText) activity.findViewById(R.id.alert_description);
+        text = (EditText) activity.findViewById(R.id.neighborhood_alert_description);
 
         alertTypes = new ArrayList<>();
     }

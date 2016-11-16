@@ -101,23 +101,28 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
+
         // save favorite routes
-        CharSequence[] favoriteRoutesHolder = new CharSequence[favoriteRoutesByID.size()];
-        int i = 0;
-        for (String s : favoriteRoutesByID) {
-            favoriteRoutesHolder[i] = s;
-            i++;
-        }
+        CharSequence[] favoriteRoutesHolder = favoriteRoutesByID.toArray(new CharSequence[favoriteRoutesByID.size()]);
+        CharSequence[] favoriteNeighborhoodsHolder = favoriteNeighborhoodsByID.toArray(new CharSequence[favoriteNeighborhoodsByID.size()]);
+
         savedInstanceState.putCharSequenceArray("FavoriteRoutes", favoriteRoutesHolder);
+        savedInstanceState.putCharSequenceArray("FavoriteNeighborhoods", favoriteNeighborhoodsHolder);
         // TODO: save other kinds of data
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+
         // restore favorite routes
         for (CharSequence cs : savedInstanceState.getCharSequenceArray("FavoriteRoutes")) {
             favoriteRoutesByID.add(cs.toString());
+        }
+
+        // restore favorite neighborhoods
+        for (CharSequence cs : savedInstanceState.getCharSequenceArray("FavoriteNeighborhoods")) {
+            favoriteNeighborhoodsByID.add(Integer.parseInt(cs.toString()));
         }
     }
 
