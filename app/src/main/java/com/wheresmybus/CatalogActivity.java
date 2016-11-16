@@ -87,11 +87,7 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
         favoriteSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (favoriteSwitch.isChecked()) {
-                    favoriteSwitch.setBackgroundColor(ContextCompat.getColor(tabLayout.getContext(), R.color.yellow));
-                } else {
-                    favoriteSwitch.setBackgroundColor(ContextCompat.getColor(tabLayout.getContext(), R.color.mediumBlue));
-                }
+                // show only favorites when checked
             }
         });
 
