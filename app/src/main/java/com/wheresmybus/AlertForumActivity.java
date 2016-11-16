@@ -153,4 +153,14 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
         intent.putExtra("ALERT", alert);
         startActivity(intent);
     }
+
+    /**
+     * Sends the user to the submit alert screen
+     *
+     * @param v The current view
+     */
+    public void switchToSubmitAlert(View v) {
+        Intent intent = new Intent(this, SubmitAlertActivity.class);
+        startActivity(intent);
+    }
 }
