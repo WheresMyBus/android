@@ -297,6 +297,16 @@ public class WMBController {
         call.enqueue(callback);
     }
 
+    public void commentUpvote(int commentID, String userID, Callback<VoteConfirmation> callback) {
+        Call<VoteConfirmation> call = retrofitService.postCommentVote(commentID, "upvote", userID);
+        call.enqueue(callback);
+    }
+
+    public void commentDownvote(int commentID, String userID, Callback<VoteConfirmation> callback) {
+        Call<VoteConfirmation> call = retrofitService.postCommentVote(commentID, "downvote", userID);
+        call.enqueue(callback);
+    }
+
     /**
      * upvote a route alert comment
      * @param commentID id of the comment
