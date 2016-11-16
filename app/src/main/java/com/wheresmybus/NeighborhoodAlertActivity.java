@@ -13,5 +13,9 @@ public class NeighborhoodAlertActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_neighborhood_alert);
+
+        // get data from the controller
+        // set up alert at top of page
+        // load data into list view
     }
 }
