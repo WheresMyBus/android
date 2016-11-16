@@ -33,7 +33,7 @@ public class ThumbsDownListener implements View.OnClickListener {
     public void onClick(View v) {
         if (isAlert) {
             // send a downvote to the alert
-            alert.downvote();
+            // alert.downvote();
 
             // change number of thumbs down shown
             TextView numThumbsDown = (TextView) v.getRootView().findViewById(R.id.num_thumbs_down);
