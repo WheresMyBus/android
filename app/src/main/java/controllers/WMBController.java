@@ -101,11 +101,11 @@ public class WMBController {
 
     /**
      * Gets a List of all Alerts about a certain route
-     * @param routeNumber number of Route to get alerts of
+     * @param routeId id of Route to get alerts of
      * @param callback handles retrofit response containing list of route alerts.
      */
-    public void getRouteAlerts(String routeNumber, Callback<List<RouteAlert>> callback) {
-        Call<List<RouteAlert>> call = retrofitService.getRouteAlertsJSON(routeNumber);
+    public void getRouteAlerts(String routeId, Callback<List<RouteAlert>> callback) {
+        Call<List<RouteAlert>> call = retrofitService.getRouteAlertsJSON(routeId);
         call.enqueue(callback);
     }
 
