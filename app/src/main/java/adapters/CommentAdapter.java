@@ -54,6 +54,8 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
         thumbsDown.setOnClickListener(new ThumbsDownListener(comment));
         numThumbsDown.setText(comment.getDownvotes() + "");
 
+        // TODO: set thumbs up/down button to green/orange if has been clicked by the user
+
         return convertView;
     }
 }
