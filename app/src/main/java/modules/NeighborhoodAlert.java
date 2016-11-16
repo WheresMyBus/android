@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import controllers.WMBController;
+import retrofit.Callback;
+
 /**
  * Created by lidav on 10/25/2016.
  *
@@ -101,6 +104,16 @@ public class NeighborhoodAlert extends Alert {
         }
 
         return routesAffected;
+    }
+
+    /**
+     * gets the comments associated with this alert and handles them with the callback.
+     * @param callback
+     */
+    @Override
+    public void getComments(Callback<List<Comment>> callback) {
+        WMBController controller = WMBController.getInstance();
+        controller.getNeighborhoodAlertComments(this.getId(), callback);
     }
 
     @Override

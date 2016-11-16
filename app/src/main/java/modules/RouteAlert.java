@@ -7,6 +7,10 @@ import com.google.gson.annotations.SerializedName;
 import junit.framework.Assert;
 
 import java.util.Date;
+import java.util.List;
+
+import controllers.WMBController;
+import retrofit.Callback;
 
 /**
  * Created by lidav on 10/25/2016.
@@ -56,6 +60,16 @@ public class RouteAlert extends Alert {
      */
     public Route getRoute() {
         return new Route(route.getNumber(), route.getName(), route.getId());
+    }
+
+    /**
+     * gets the comments on this alert.
+     * @param callback
+     */
+    @Override
+    public void getComments(Callback<List<Comment>> callback) {
+        WMBController controller = WMBController.getInstance();
+        controller.getRouteAlertComments(this.getId(), callback);
     }
 
     @Override

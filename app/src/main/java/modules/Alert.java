@@ -5,7 +5,11 @@ import android.util.Pair;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.List;
+
 import junit.framework.*;
+
+import retrofit.Callback;
 
 /**
  * Created by lidav on 10/23/2016.
@@ -110,6 +114,11 @@ public abstract class Alert {
         this.downvotes++;
         checkRep();
     }
+
+    /**
+     * method for getting comments for an alert.
+     */
+    public abstract void getComments(Callback<List<Comment>> callback);
 
     /**
      * Sets the id of this alert if id = -1
