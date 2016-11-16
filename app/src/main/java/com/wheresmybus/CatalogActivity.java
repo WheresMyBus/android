@@ -3,6 +3,7 @@ package com.wheresmybus;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -71,7 +73,7 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
         Intent intent = getIntent();
@@ -80,6 +82,14 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
         if (tab != null) {
             tab.select();
         }
+
+        final Switch favoriteSwitch =  (Switch) findViewById(R.id.favoriteSwitch);
+        favoriteSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // show only favorites when checked
+            }
+        });
 
         // Initialize user data sets: favorites sets, like sets, dislike sets
         favoriteRoutesByID = new HashSet<String>();

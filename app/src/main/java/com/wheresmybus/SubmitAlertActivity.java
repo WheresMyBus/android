@@ -119,7 +119,7 @@ public class SubmitAlertActivity extends FragmentActivity implements
             } else {
                 // submit new route alert
                 WMBController controller = WMBController.getInstance();
-                controller.postAlert(route.getId(), alertType, description, 0, new Callback<RouteAlert>() {
+                controller.postAlert(route.getId(), alertType, description, "[User ID]", new Callback<RouteAlert>() {
                     @Override
                     public void onResponse(Response<RouteAlert> response, Retrofit retrofit) {
 
@@ -149,7 +149,7 @@ public class SubmitAlertActivity extends FragmentActivity implements
             } else {
                 // submit new alert
                 WMBController controller = WMBController.getInstance();
-                controller.postAlert(neighborhood.getID(), alertType, description, 0, new Callback<NeighborhoodAlert>() {
+                controller.postAlert(neighborhood.getID(), alertType, description, "[User ID]", new Callback<NeighborhoodAlert>() {
                     @Override
                     public void onResponse(Response<NeighborhoodAlert> response, Retrofit retrofit) {
 

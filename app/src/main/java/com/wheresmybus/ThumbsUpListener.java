@@ -34,14 +34,14 @@ public class ThumbsUpListener implements View.OnClickListener {
     public void onClick(View v) {
         if (isAlert) {
             // send an upvote to the alert
-            alert.upvote();
+            // alert.upvote();
 
             // change number of thumbs up shown
             TextView numThumbsUp = (TextView) v.getRootView().findViewById(R.id.num_thumbs_up);
             numThumbsUp.setText(alert.getUpvotes() + "");
         } else {
             // send an upvote to the comment
-            comment.upvote();
+            // comment.upvote();
 
             // change number of thumbs up shown
             TextView numThumbsUp = (TextView) v.getRootView().findViewById(R.id.num_thumbs_up);

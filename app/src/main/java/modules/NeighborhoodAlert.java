@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import controllers.WMBController;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
+
 /**
  * Created by lidav on 10/25/2016.
  *
@@ -41,7 +46,7 @@ public class NeighborhoodAlert extends Alert {
      * @throws IllegalArgumentException if creatorID < 1
      */
     public NeighborhoodAlert(Neighborhood neighborhood, Date date, String description,
-                             String type, Pair<Double, Double> coordinates, int creatorID,
+                             String type, Pair<Double, Double> coordinates, String creatorID,
                              List<Route> routesAffected) {
         super(description, date, type, creatorID, coordinates);
         if(neighborhood == null || routesAffected == null) {
@@ -61,7 +66,7 @@ public class NeighborhoodAlert extends Alert {
      * @param upvotes
      * @param downvotes
      */
-    public NeighborhoodAlert(int neighborhoodID, int alertID, int user_id, String alertType,
+    public NeighborhoodAlert(int neighborhoodID, int alertID, String user_id, String alertType,
                              String description, Date date, int upvotes, int downvotes) {
         super(alertID, user_id, alertType, description, date, upvotes, downvotes);
         this.neighborhoodID = neighborhoodID;
@@ -101,6 +106,54 @@ public class NeighborhoodAlert extends Alert {
         }
 
         return routesAffected;
+    }
+
+    @Override
+    public void upvote(String userID, Callback<VoteConfirmation> callback) {
+        WMBController controller = WMBController.getInstance();
+        final NeighborhoodAlert self = this;
+        final Callback<VoteConfirmation> cb = callback;
+        controller.neighborhoodAlertUpvote(this.getId(), userID, new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                self.upvotes++;
+                cb.onResponse(response, retrofit);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                cb.onFailure(t);
+            }
+        });
+    }
+
+    @Override
+    public void downvote(String userID, Callback<VoteConfirmation> callback) {
+        WMBController controller = WMBController.getInstance();
+        final NeighborhoodAlert self = this;
+        final Callback<VoteConfirmation> cb = callback;
+        controller.neighborhoodAlertDownvote(this.getId(), userID, new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                self.downvotes++;
+                cb.onResponse(response, retrofit);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                cb.onFailure(t);
+            }
+        });
+    }
+
+    /**
+     * gets the comments associated with this alert and handles them with the callback.
+     * @param callback
+     */
+    @Override
+    public void getComments(Callback<List<Comment>> callback) {
+        WMBController controller = WMBController.getInstance();
+        controller.getNeighborhoodAlertComments(this.getId(), callback);
     }
 
     @Override

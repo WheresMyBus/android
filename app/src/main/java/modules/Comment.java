@@ -6,6 +6,11 @@ import junit.framework.Assert;
 
 import java.util.Date;
 
+import controllers.WMBController;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
+
 /**
  * Created by lidav on 10/26/2016.
  * Stores data for a comment that a user posts about an alert
@@ -18,7 +23,7 @@ public class Comment {
     @SerializedName("message")
     private String data;
     @SerializedName("user_id")
-    private int creatorID;
+    private String creatorID;
     @SerializedName("upvotes")
     private int upvotes;
     @SerializedName("downvotes")
@@ -26,7 +31,7 @@ public class Comment {
     @SerializedName("id")
     private int id;
     @SerializedName("created_at")
-    Date date;
+    private Date date;
     private Alert alert;
 
     /**
@@ -35,8 +40,8 @@ public class Comment {
      * @param creatorId id of the creator of the post
      * @throws IllegalArgumentException if creatorId < 1 or if data is null
      */
-    public Comment(String data, int creatorId, Alert alert) {
-        if(creatorId < 1 || data == null || alert == null) {
+    public Comment(String data, String creatorId, Alert alert) {
+        if(creatorId == null || data == null || alert == null) {
             throw new IllegalArgumentException();
         }
         this.data = data;
@@ -46,7 +51,7 @@ public class Comment {
         checkRep();
     }
 
-    public Comment(int id, int userID, String data, int upvotes, int downvotes, Date date) {
+    public Comment(int id, String userID, String data, int upvotes, int downvotes, Date date) {
         this.id = id;
         this.creatorID = userID;
         this.data = data;
@@ -66,24 +71,50 @@ public class Comment {
      * Gets the id of the creator of the alert
      * @return creator's id as int
      */
-    public int getCreatorID() {
+    public String getCreatorID() {
         return creatorID;
     }
 
     /**
      * Upvotes this comment
      */
-    public void upvote() {
-        upvotes++;
-        checkRep();
+    public void upvote(String userID, Callback<VoteConfirmation> callback) {
+        WMBController controller = WMBController.getInstance();
+        final Comment self = this;
+        final Callback<VoteConfirmation> cb = callback;
+        controller.commentUpvote(this.getId(), userID, new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                self.upvotes++;
+                cb.onResponse(response,retrofit);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                cb.onFailure(t);
+            }
+        });
     }
 
     /**
      * Downvotes this comment
      */
-    public void downvote() {
-        downvotes++;
-        checkRep();
+    public void downvote(String userID, Callback<VoteConfirmation> callback) {
+        WMBController controller = WMBController.getInstance();
+        final Comment self = this;
+        final Callback<VoteConfirmation> cb = callback;
+        controller.commentDownvote(this.getId(), userID, new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                self.downvotes++;
+                cb.onResponse(response,retrofit);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                cb.onFailure(t);
+            }
+        });
     }
 
     /**
@@ -133,12 +164,15 @@ public class Comment {
     public int getDownvotes() {
         return downvotes;
     }
+
+    public Date getDate() { return (Date) this.date.clone(); }
+
+
     private void checkRep() {
         Assert.assertTrue(id == -1 || id > 0);
-        Assert.assertTrue(creatorID > 0);
+        Assert.assertFalse(creatorID ==  null);
         Assert.assertFalse(data == null);
         Assert.assertTrue(upvotes >= 0);
         Assert.assertTrue(downvotes >= 0);
-        Assert.assertFalse(alert == null);
     }
 }

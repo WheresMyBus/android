@@ -148,7 +148,7 @@ public class WMBController {
      * @param callback handles response containing the generated NeighborhoodAlert.
      */
     public void postAlert(int neighborhoodID, String alertType, String description,
-                          int userID, Callback<NeighborhoodAlert> callback) {
+                          String userID, Callback<NeighborhoodAlert> callback) {
         Call<NeighborhoodAlert> call = retrofitService.postNeighborhoodAlert(neighborhoodID, alertType, description, userID);
         call.enqueue(callback);
     }
@@ -162,14 +162,14 @@ public class WMBController {
      * @param callback handles response containing the generated RouteAlert
      */
     public void postAlert(String routeID, String alertType, String description,
-                          int userID, Callback<RouteAlert> callback) {
+                          String userID, Callback<RouteAlert> callback) {
         Call<RouteAlert> call = retrofitService.postRouteAlert(routeID,alertType,description,userID);
         call.enqueue(callback);
     }
 
     // the next two methods are for testing only.
     public NeighborhoodAlert postAlertSynchronously(int neighborhoodID, String alertType, String description,
-                                                    int userID) {
+                                                    String userID) {
         Call<NeighborhoodAlert> call = retrofitService.postNeighborhoodAlert(neighborhoodID,alertType,description,userID);
         try {
             return call.execute().body();
@@ -195,7 +195,7 @@ public class WMBController {
      * @param userID id of this user
      * @param callback handles response containing the generated Comment
      */
-    public void postRouteAlertComment(int routeAlertID, String data, int userID, Callback<Comment> callback) {
+    public void postRouteAlertComment(int routeAlertID, String data, String userID, Callback<Comment> callback) {
         Call<Comment> call = retrofitService.postRouteAlertComment(routeAlertID,data,userID);
         call.enqueue(callback);
     }
@@ -207,12 +207,12 @@ public class WMBController {
      * @param userID id of this user
      * @param callback handles response containing the generated Comment
      */
-    public void postNeighborhoodAlertComment(int neighborhoodAlertID, String data, int userID, Callback<Comment> callback) {
+    public void postNeighborhoodAlertComment(int neighborhoodAlertID, String data, String userID, Callback<Comment> callback) {
         Call<Comment> call = retrofitService.postNeighborhoodAlertComment(neighborhoodAlertID, data, userID);
         call.enqueue(callback);
     }
 
-    public Comment postNeighborhoodAlertCommentSynchronously(int neighborhoodAlertID, String data, int userID) {
+    public Comment postNeighborhoodAlertCommentSynchronously(int neighborhoodAlertID, String data, String userID) {
         Call<Comment> call = retrofitService.postNeighborhoodAlertComment(neighborhoodAlertID, data, userID);
         try {
             return call.execute().body();
@@ -228,12 +228,12 @@ public class WMBController {
      * @param userID id of this user
      * @param callback handles response containing a VoteConfirmation.
      */
-    public void neighborhoodAlertUpvote(int alertID, int userID, Callback<VoteConfirmation> callback) {
+    public void neighborhoodAlertUpvote(int alertID, String userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("neighborhood_alerts", alertID, "upvote", userID);
         call.enqueue(callback);
     }
 
-    public VoteConfirmation neighborhoodAlertUpvoteSynchronously(int alertID, int userID) {
+    public VoteConfirmation neighborhoodAlertUpvoteSynchronously(int alertID, String userID) {
         Call<VoteConfirmation> call = retrofitService.postVote("neighborhood_alerts", alertID, "upvote", userID);
         try {
             return call.execute().body();
@@ -249,7 +249,7 @@ public class WMBController {
      * @param userID id of this user
      * @param callback handles response containing a VoteConfirmation
      */
-    public void neighborhoodAlertDownvote(int alertID, int userID, Callback<VoteConfirmation> callback) {
+    public void neighborhoodAlertDownvote(int alertID, String userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("neighborhood_alerts", alertID, "downvote", userID);
         call.enqueue(callback);
     }
@@ -260,7 +260,7 @@ public class WMBController {
      * @param userID id of this user
      * @param callback handles response containing VoteConfirmation
      */
-    public void routeAlertUpvote(int alertID, int userID, Callback<VoteConfirmation> callback) {
+    public void routeAlertUpvote(int alertID, String userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("route_alerts", alertID, "upvote", userID);
         call.enqueue(callback);
     }
@@ -270,7 +270,7 @@ public class WMBController {
      * @param userID id of this user
      * @param callback handles response containing VoteConfirmation
      */
-    public void routeAlertDownvote(int alertID, int userID, Callback<VoteConfirmation> callback) {
+    public void routeAlertDownvote(int alertID, String userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("route_alerts", alertID, "downvote", userID);
         call.enqueue(callback);
     }
@@ -281,7 +281,7 @@ public class WMBController {
      * @param userID id of this user
      * @param callback handles response containing VoteConfirmation
      */
-    public void neighborhoodAlertCommentUpvote(int commentID, int userID, Callback<VoteConfirmation> callback) {
+    public void neighborhoodAlertCommentUpvote(int commentID, String userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("neighborhood_alert_comments", commentID, "upvote", userID);
         call.enqueue(callback);
     }
@@ -292,8 +292,18 @@ public class WMBController {
      * @param userID id of the user
      * @param callback handles response containing VoteConfirmation
      */
-    public void neighborhoodAlertCommentDownvote(int commentID, int userID, Callback<VoteConfirmation> callback) {
+    public void neighborhoodAlertCommentDownvote(int commentID, String userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("neighborhood_alert_comments", commentID, "downvote", userID);
+        call.enqueue(callback);
+    }
+
+    public void commentUpvote(int commentID, String userID, Callback<VoteConfirmation> callback) {
+        Call<VoteConfirmation> call = retrofitService.postCommentVote(commentID, "upvote", userID);
+        call.enqueue(callback);
+    }
+
+    public void commentDownvote(int commentID, String userID, Callback<VoteConfirmation> callback) {
+        Call<VoteConfirmation> call = retrofitService.postCommentVote(commentID, "downvote", userID);
         call.enqueue(callback);
     }
 
@@ -303,7 +313,7 @@ public class WMBController {
      * @param userID id of the user
      * @param callback handles response containing VoteConfirmation
      */
-    public void routeAlertCommentUpvote(int commentID, int userID, Callback<VoteConfirmation> callback) {
+    public void routeAlertCommentUpvote(int commentID, String userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("route_alert_comments", commentID, "upvote", userID);
         call.enqueue(callback);
     }
@@ -313,7 +323,7 @@ public class WMBController {
      * @param userID id of the user
      * @param callback handles response containing a VoteConfirmation
      */
-    public void routeAlertCommentDownvote(int commentID, int userID, Callback<VoteConfirmation> callback) {
+    public void routeAlertCommentDownvote(int commentID, String userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("route_alert_comments", commentID, "downvote", userID);
         call.enqueue(callback);
     }

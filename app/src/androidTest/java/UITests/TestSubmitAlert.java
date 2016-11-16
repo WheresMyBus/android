@@ -1,4 +1,5 @@
 package UITests;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -10,6 +11,9 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.wheresmybus.R;
 import com.wheresmybus.SubmitAlertActivity;
+
+import controllers.WMBController;
+import okhttp3.mockwebserver.MockWebServer;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -24,6 +28,16 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
  */
 @RunWith(AndroidJUnit4.class)
 public class TestSubmitAlert {
+    private MockWebServer server;
+    private WMBController controller;
+    @Before
+    public void setUp() throws Exception {
+        server = new MockWebServer();
+        server.start();
+        controller = WMBController.getInstance();
+        controller.useMockURL(server.url("/").toString());
+    }
+
     @Rule
     public ActivityTestRule<SubmitAlertActivity> submitAlertActivityRule =
             new ActivityTestRule<SubmitAlertActivity>(SubmitAlertActivity.class);
@@ -41,4 +55,11 @@ public class TestSubmitAlert {
         onView(withId(R.id.bus_route_alert_fragment))
                 .check(matches(isDisplayed()));
     }
+
+    @After
+    public void tearDown() throws Exception {
+        controller.useProdURL();
+        server.shutdown();
+    }
+
 }

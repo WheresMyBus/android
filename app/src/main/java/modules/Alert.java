@@ -5,7 +5,11 @@ import android.util.Pair;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.List;
+
 import junit.framework.*;
+
+import retrofit.Callback;
 
 /**
  * Created by lidav on 10/23/2016.
@@ -20,7 +24,7 @@ public abstract class Alert {
     @SerializedName("id")
     private int id;
     @SerializedName("user_id")
-    private int creatorID;
+    private String creatorID;
     @SerializedName("created_at")
     private Date date;
     @SerializedName("issue_type")
@@ -29,9 +33,9 @@ public abstract class Alert {
     private String description;
     private Pair<Double, Double> coordinates;
     @SerializedName("upvotes")
-    private int upvotes;
+    protected int upvotes;
     @SerializedName("downvotes")
-    private int downvotes;
+    protected int downvotes;
 
     /**
      * Constructs an alert with id initialized to -1
@@ -45,11 +49,8 @@ public abstract class Alert {
      * @throws IllegalArgumentException if creatorID < 1
      */
     public Alert(String description, Date date, String type,
-                 int creatorID, Pair<Double, Double> coordinates) {
-        if(creatorID < 1) {
-            throw new IllegalArgumentException("creatorID < 1");
-        }
-        if(description == null || date == null || type == null || coordinates == null) {
+                 String creatorID, Pair<Double, Double> coordinates) {
+        if(description == null || creatorID == null || date == null || type == null || coordinates == null) {
             throw new IllegalArgumentException("null parameters");
         }
         this.description = description;
@@ -70,13 +71,10 @@ public abstract class Alert {
      * @param upvotes
      * @param downvotes
      */
-    public Alert(int alertID, int user_id, String alertType, String description,
+    public Alert(int alertID, String user_id, String alertType, String description,
                  Date date, int upvotes, int downvotes) {
-        if (description == null || date == null || alertType == null) {
+        if (description == null || user_id == null || date == null || alertType == null) {
             throw new IllegalArgumentException("null parameters");
-        }
-        if (user_id < 1) {
-            throw new IllegalArgumentException("User ID < 1");
         }
         this.id = alertID;
         this.creatorID = user_id;
@@ -91,25 +89,25 @@ public abstract class Alert {
      * Gets the id of the creator of the alert
      * @return creator's id as int
      */
-    public int getCreatorID() {
+    public String getCreatorID() {
         return creatorID;
     }
 
     /**
      * Upvotes this alert
      */
-    public void upvote() {
-        this.upvotes++;
-        checkRep();
-    }
+    public abstract void upvote(String userID, Callback<VoteConfirmation> callback);
 
     /**
      * Downvotes this alert
      */
-    public void downvote() {
-        this.downvotes++;
-        checkRep();
-    }
+    public abstract void downvote(String userID, Callback<VoteConfirmation> callback);
+
+    /**
+     * method for getting comments for an alert.
+     */
+    public abstract void getComments(Callback<List<Comment>> callback);
+
 
     /**
      * Sets the id of this alert if id = -1
