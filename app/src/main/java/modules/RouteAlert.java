@@ -7,6 +7,12 @@ import com.google.gson.annotations.SerializedName;
 import junit.framework.Assert;
 
 import java.util.Date;
+import java.util.List;
+
+import controllers.WMBController;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * Created by lidav on 10/25/2016.
@@ -56,6 +62,54 @@ public class RouteAlert extends Alert {
      */
     public Route getRoute() {
         return new Route(route.getNumber(), route.getName(), route.getId());
+    }
+
+    @Override
+    public void upvote(int userID, Callback<VoteConfirmation> callback) {
+        WMBController controller = WMBController.getInstance();
+        final RouteAlert self = this;
+        final Callback<VoteConfirmation> cb = callback;
+        controller.routeAlertUpvote(this.getId(), userID, new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                self.upvotes++;
+                cb.onResponse(response, retrofit);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                cb.onFailure(t);
+            }
+        });
+    }
+
+    @Override
+    public void downvote(int userID, Callback<VoteConfirmation> callback) {
+        WMBController controller = WMBController.getInstance();
+        final RouteAlert self = this;
+        final Callback<VoteConfirmation> cb = callback;
+        controller.routeAlertDownvote(this.getId(), userID, new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                self.downvotes++;
+                cb.onResponse(response, retrofit);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                cb.onFailure(t);
+            }
+        });
+    }
+
+    /**
+     * gets the comments on this alert.
+     * @param callback
+     */
+    @Override
+    public void getComments(Callback<List<Comment>> callback) {
+        WMBController controller = WMBController.getInstance();
+        controller.getRouteAlertComments(this.getId(), callback);
     }
 
     @Override

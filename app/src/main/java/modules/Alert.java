@@ -5,7 +5,11 @@ import android.util.Pair;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.List;
+
 import junit.framework.*;
+
+import retrofit.Callback;
 
 /**
  * Created by lidav on 10/23/2016.
@@ -29,9 +33,9 @@ public abstract class Alert {
     private String description;
     private Pair<Double, Double> coordinates;
     @SerializedName("upvotes")
-    private int upvotes;
+    protected int upvotes;
     @SerializedName("downvotes")
-    private int downvotes;
+    protected int downvotes;
 
     /**
      * Constructs an alert with id initialized to -1
@@ -98,18 +102,18 @@ public abstract class Alert {
     /**
      * Upvotes this alert
      */
-    public void upvote() {
-        this.upvotes++;
-        checkRep();
-    }
+    public abstract void upvote(int userID, Callback<VoteConfirmation> callback);
 
     /**
      * Downvotes this alert
      */
-    public void downvote() {
-        this.downvotes++;
-        checkRep();
-    }
+    public abstract void downvote(int userID, Callback<VoteConfirmation> callback);
+
+    /**
+     * method for getting comments for an alert.
+     */
+    public abstract void getComments(Callback<List<Comment>> callback);
+
 
     /**
      * Sets the id of this alert if id = -1
