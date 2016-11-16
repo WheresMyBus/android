@@ -24,7 +24,7 @@ public abstract class Alert {
     @SerializedName("id")
     private int id;
     @SerializedName("user_id")
-    private int creatorID;
+    private String creatorID;
     @SerializedName("created_at")
     private Date date;
     @SerializedName("issue_type")
@@ -49,11 +49,8 @@ public abstract class Alert {
      * @throws IllegalArgumentException if creatorID < 1
      */
     public Alert(String description, Date date, String type,
-                 int creatorID, Pair<Double, Double> coordinates) {
-        if(creatorID < 1) {
-            throw new IllegalArgumentException("creatorID < 1");
-        }
-        if(description == null || date == null || type == null || coordinates == null) {
+                 String creatorID, Pair<Double, Double> coordinates) {
+        if(description == null || creatorID == null || date == null || type == null || coordinates == null) {
             throw new IllegalArgumentException("null parameters");
         }
         this.description = description;
@@ -74,13 +71,10 @@ public abstract class Alert {
      * @param upvotes
      * @param downvotes
      */
-    public Alert(int alertID, int user_id, String alertType, String description,
+    public Alert(int alertID, String user_id, String alertType, String description,
                  Date date, int upvotes, int downvotes) {
-        if (description == null || date == null || alertType == null) {
+        if (description == null || user_id == null || date == null || alertType == null) {
             throw new IllegalArgumentException("null parameters");
-        }
-        if (user_id < 1) {
-            throw new IllegalArgumentException("User ID < 1");
         }
         this.id = alertID;
         this.creatorID = user_id;
@@ -95,19 +89,19 @@ public abstract class Alert {
      * Gets the id of the creator of the alert
      * @return creator's id as int
      */
-    public int getCreatorID() {
+    public String getCreatorID() {
         return creatorID;
     }
 
     /**
      * Upvotes this alert
      */
-    public abstract void upvote(int userID, Callback<VoteConfirmation> callback);
+    public abstract void upvote(String userID, Callback<VoteConfirmation> callback);
 
     /**
      * Downvotes this alert
      */
-    public abstract void downvote(int userID, Callback<VoteConfirmation> callback);
+    public abstract void downvote(String userID, Callback<VoteConfirmation> callback);
 
     /**
      * method for getting comments for an alert.

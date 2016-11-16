@@ -10,11 +10,11 @@ public class VoteConfirmation {
     @SerializedName("id")
     private int id;
     @SerializedName("user_id")
-    private int userID;
+    private String userID;
     @SerializedName("value")
     private String value;
 
-    public VoteConfirmation(int id, int userID, String value) {
+    public VoteConfirmation(int id, String userID, String value) {
         this.id = id;
         this.userID = userID;
         this.value = value;
@@ -23,7 +23,7 @@ public class VoteConfirmation {
     public int getId() {
         return id;
     }
-    public int getUserID() {
+    public String getUserID() {
         return userID;
     }
     public String getValue() {

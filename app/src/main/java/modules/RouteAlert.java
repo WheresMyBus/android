@@ -41,7 +41,7 @@ public class RouteAlert extends Alert {
      * @throws IllegalArgumentException if creatorID < 1
      */
     public RouteAlert(Route route, Date date, String type, Pair<Double, Double> coordinates,
-            String description, int creatorID) {
+            String description, String creatorID) {
         super(description,date,type,creatorID,coordinates);
         if(route == null) {
             throw new IllegalArgumentException("route == null");
@@ -50,7 +50,7 @@ public class RouteAlert extends Alert {
         checkRep();
     }
 
-    public RouteAlert(String routeID, int alertID, int user_id, String alertType,
+    public RouteAlert(String routeID, int alertID, String user_id, String alertType,
                       String description, Date date, int upvotes, int downvotes) {
         super(alertID, user_id, alertType, description, date, upvotes, downvotes);
         this.routeID = routeID;
@@ -65,7 +65,7 @@ public class RouteAlert extends Alert {
     }
 
     @Override
-    public void upvote(int userID, Callback<VoteConfirmation> callback) {
+    public void upvote(String userID, Callback<VoteConfirmation> callback) {
         WMBController controller = WMBController.getInstance();
         final RouteAlert self = this;
         final Callback<VoteConfirmation> cb = callback;
@@ -84,7 +84,7 @@ public class RouteAlert extends Alert {
     }
 
     @Override
-    public void downvote(int userID, Callback<VoteConfirmation> callback) {
+    public void downvote(String userID, Callback<VoteConfirmation> callback) {
         WMBController controller = WMBController.getInstance();
         final RouteAlert self = this;
         final Callback<VoteConfirmation> cb = callback;

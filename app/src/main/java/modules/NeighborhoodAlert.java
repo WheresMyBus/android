@@ -46,7 +46,7 @@ public class NeighborhoodAlert extends Alert {
      * @throws IllegalArgumentException if creatorID < 1
      */
     public NeighborhoodAlert(Neighborhood neighborhood, Date date, String description,
-                             String type, Pair<Double, Double> coordinates, int creatorID,
+                             String type, Pair<Double, Double> coordinates, String creatorID,
                              List<Route> routesAffected) {
         super(description, date, type, creatorID, coordinates);
         if(neighborhood == null || routesAffected == null) {
@@ -66,7 +66,7 @@ public class NeighborhoodAlert extends Alert {
      * @param upvotes
      * @param downvotes
      */
-    public NeighborhoodAlert(int neighborhoodID, int alertID, int user_id, String alertType,
+    public NeighborhoodAlert(int neighborhoodID, int alertID, String user_id, String alertType,
                              String description, Date date, int upvotes, int downvotes) {
         super(alertID, user_id, alertType, description, date, upvotes, downvotes);
         this.neighborhoodID = neighborhoodID;
@@ -109,7 +109,7 @@ public class NeighborhoodAlert extends Alert {
     }
 
     @Override
-    public void upvote(int userID, Callback<VoteConfirmation> callback) {
+    public void upvote(String userID, Callback<VoteConfirmation> callback) {
         WMBController controller = WMBController.getInstance();
         final NeighborhoodAlert self = this;
         final Callback<VoteConfirmation> cb = callback;
@@ -128,7 +128,7 @@ public class NeighborhoodAlert extends Alert {
     }
 
     @Override
-    public void downvote(int userID, Callback<VoteConfirmation> callback) {
+    public void downvote(String userID, Callback<VoteConfirmation> callback) {
         WMBController controller = WMBController.getInstance();
         final NeighborhoodAlert self = this;
         final Callback<VoteConfirmation> cb = callback;

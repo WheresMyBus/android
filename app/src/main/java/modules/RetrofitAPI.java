@@ -35,32 +35,32 @@ public interface RetrofitAPI {
     Call<NeighborhoodAlert> postNeighborhoodAlert(@Path("id") int neighborhoodID,
                                           @Field("issue_type") String alertType,
                                           @Field("description") String description,
-                                          @Field("user_id") int userID);
+                                          @Field("user_id") String userID);
 
     @FormUrlEncoded
     @POST("routes/{id}/alerts")
     Call<RouteAlert> postRouteAlert(@Path("id") String routeID,
                                     @Field("issue_type") String alertType,
                                     @Field("description") String description,
-                                    @Field("user_id") int userID);
+                                    @Field("user_id") String userID);
 
     @FormUrlEncoded
     @POST("route_alerts/{id}/comments")
     Call<Comment> postRouteAlertComment(@Path("id") int routeAlertID,
                                         @Field("message") String data,
-                                        @Field("user_id") int userID);
+                                        @Field("user_id") String userID);
 
     @FormUrlEncoded
     @POST("neighborhood_alerts/{id}/comments")
     Call<Comment> postNeighborhoodAlertComment(@Path("id") int neighborhoodAlertID,
                                                @Field("message") String data,
-                                               @Field("user_id") int userID);
+                                               @Field("user_id") String userID);
 
     @FormUrlEncoded
     @POST("{db_type}/{id}/{upORdown}")
     Call<VoteConfirmation> postVote(@Path("db_type") String db_type,
                                            @Path("id") int id,
                                            @Path("upORdown") String updown,
-                                           @Field("user_id") int userID);
+                                           @Field("user_id") String userID);
 
 }
