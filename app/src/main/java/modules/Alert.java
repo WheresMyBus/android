@@ -4,6 +4,7 @@ import android.util.Pair;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import retrofit.Callback;
  *          creatorID > 0
  */
 
-public abstract class Alert {
+public abstract class Alert implements Serializable {
     @SerializedName("id")
     private int id;
     @SerializedName("user_id")

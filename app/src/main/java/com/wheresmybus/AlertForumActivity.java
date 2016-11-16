@@ -15,6 +15,7 @@ import java.util.List;
 import adapters.NeighborhoodAlertAdapter;
 import adapters.RouteAlertAdapter;
 import controllers.WMBController;
+import modules.Alert;
 import modules.NeighborhoodAlert;
 import modules.RouteAlert;
 import retrofit.Callback;
@@ -142,12 +143,14 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         // send to page for alert that was clicked
+        Alert alert = (Alert) adapterView.getItemAtPosition(position);
+        Intent intent;
         if (isRouteForum) {
-            Intent intent = new Intent(this, RouteAlertActivity.class);
-            startActivity(intent);
+            intent = new Intent(this, RouteAlertActivity.class);
         } else {
-            Intent intent = new Intent(this, NeighborhoodAlertActivity.class);
-            startActivity(intent);
+            intent = new Intent(this, NeighborhoodAlertActivity.class);
         }
+        intent.putExtra("ALERT", alert);
+        startActivity(intent);
     }
 }
