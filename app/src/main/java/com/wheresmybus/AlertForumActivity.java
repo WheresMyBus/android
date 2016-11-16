@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import adapters.NeighborhoodAlertAdapter;
@@ -76,9 +77,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
             @Override
             public void onResponse(Response<List<NeighborhoodAlert>> response, Retrofit retrofit) {
                 List<NeighborhoodAlert> data = response.body();
-                for (NeighborhoodAlert datum : data) {
-                    Log.d("date in onResponse: ", datum.getDate().toString());
-                }
+                Collections.sort(data);
                 loadNeighborhoodData(data);
             }
 
@@ -101,6 +100,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
             @Override
             public void onResponse(Response<List<RouteAlert>> response, Retrofit retrofit) {
                 List<RouteAlert> data = response.body();
+                Collections.sort(data);
                 loadRouteData(data);
             }
 
