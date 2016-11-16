@@ -10,12 +10,12 @@
     <string name="neighborhood">Neighborhood</string>
     <string name="submit">Submit</string>
     <string name="title_activity_catalog">Catalog</string>
-    <string name="title_forum_page">Alert Forum</string>
+    <string name="title_forum_page">Forum</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="choose_bus_route">Choose a bus route:</string>
     <string name="choose_neighborhood">Choose a neighborhood:</string>
     <string name="check_alert_types">Check the type(s) of the alert:</string>
-    <string name="view_favorites_switch">View Only Favorites</string>
+    <string name="view_favorites_switch">View Favorites Only</string>
     <!--
     <string-array name="neighborhood_alert_types">
         <item>Construction</item>
