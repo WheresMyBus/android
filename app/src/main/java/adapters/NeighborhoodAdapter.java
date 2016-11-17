@@ -17,6 +17,7 @@ import com.wheresmybus.R;
 import java.util.List;
 
 import modules.Neighborhood;
+import modules.UserDataManager;
 
 /**
  * Created by lesli_000 on 11/11/2016.
@@ -54,17 +55,23 @@ public class NeighborhoodAdapter extends ArrayAdapter<Neighborhood> {
         name.setText(neighborhood.getName());
 
         if (isStarred) {
-            CatalogActivity catalogActivity = (CatalogActivity) getContext();
 
             ImageButton favoriteButton = (ImageButton) convertView.findViewById(R.id.star);
-            favoriteButton.setOnClickListener(new FavoriteNeighborhoodListener(neighborhood.getID(),
-                    catalogActivity));
-            // TODO: setColorFilter if route is user's favorite
-            boolean favorited = catalogActivity.favoriteNeighborhoodsByID.contains(neighborhood.getID());
+            favoriteButton.setOnClickListener(
+                    new FavoriteNeighborhoodListener(neighborhood.getID())
+            );
+
+            // true if the user had this neighborhood favorited when the main activity
+            // last stopped (MainActivity.onStop() was called)
+            boolean favorited = UserDataManager.getManager()
+                    .getFavoriteNeighborhoodsByID()
+                    .contains(neighborhood.getID());
             if (favorited) {
-                //favoriteButton.setColorFilter(ContextCompat.getColor(convertView.getContext(), R.color.yellow));
+                // this colors the button and toggles the listener on, so that
+                // the next click will un-color the button
                 favoriteButton.callOnClick();
             }
+
         }
 
         return convertView;

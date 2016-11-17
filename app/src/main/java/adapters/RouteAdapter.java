@@ -16,6 +16,7 @@ import com.wheresmybus.R;
 import java.util.List;
 
 import modules.Route;
+import modules.UserDataManager;
 
 /**
  * Created by lesli_000 on 11/11/2016.
@@ -55,22 +56,20 @@ public class RouteAdapter extends ArrayAdapter<Route> {
         name.setText(route.getName());
 
         if (isStarred) {
-            CatalogActivity catalogActivity = (CatalogActivity) getContext();
 
             ImageButton favoriteButton = (ImageButton) convertView.findViewById(R.id.star);
-            favoriteButton.setOnClickListener(new FavoriteRouteListener(route.getId(),
-                    catalogActivity));
-            // TODO: setColorFilter if route is user's favorite
-            // TODO: verify if this works
-            boolean favorited = catalogActivity.favoriteRoutesByID.contains(route.getId());
+            favoriteButton.setOnClickListener(
+                    new FavoriteRouteListener(route.getId())
+            );
+
+            // see NeighborhoodAdapter for an explanation of what this does
+            boolean favorited = UserDataManager.getManager()
+                    .getFavoriteRoutesByID()
+                    .contains(route.getId());
             if (favorited) {
-                // TODO: set color
-                //favoriteButton.setColorFilter(ContextCompat.getColor(convertView.getContext(),
-                //        R.color.yellow));
                 favoriteButton.callOnClick();
             }
         }
-
         return convertView;
     }
 }
