@@ -53,7 +53,7 @@ public class Neighborhood implements Serializable, Comparable<Neighborhood> {
         }
         this.name = name;
         this.id = id;
-        //checkRep();
+        checkRep();
     }
 
     /*public boolean setId(int id) {
