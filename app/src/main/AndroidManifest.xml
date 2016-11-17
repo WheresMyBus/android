@@ -51,7 +51,7 @@
             android:name=".SubmitCommentActivity"
             android:label="@string/title_activity_submit_comment"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
+            android:windowSoftInputMode="stateHidden|adjustPan" />
     </application>
 
 </manifest>
