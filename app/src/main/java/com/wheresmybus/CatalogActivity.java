@@ -26,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 /**
@@ -229,6 +230,40 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
     }
 
     /**
+     * Converts the set of favorite route ids to an ArrayList
+     * This method is necessary because while a set is a better implementation
+     * of the collection of favorite routes, the types of arguments that may be
+     * passed to a fragment's new instance method includes an ArrayList but not a set
+     *
+     * @param favoriteRoutes The set of favorite routes by id
+     * @return An ArrayList of the ids of favorite routes
+     */
+    private ArrayList<String> routeSetToList(Set<String> favoriteRoutes) {
+        ArrayList<String> favoriteRouteList = new ArrayList<String>();
+        for (String favorite : favoriteRoutes) {
+            favoriteRouteList.add(favorite);
+        }
+        return favoriteRouteList;
+    }
+
+    /**
+     * Converts the set of favorite neighborhood ids to an ArrayList
+     * This method is necessary because while a set is a better implementation
+     * of the collection of favorite neighborhoods, the types of arguments that may be
+     * passed to a fragment's new instance method includes an ArrayList but not a set
+     *
+     * @param favoriteNeighborhoods The set of favorite neighborhoods by id
+     * @return An ArrayList of the ids of favorite neighborhoods
+     */
+    private ArrayList<Integer> neighborhoodSetToList(Set<Integer> favoriteNeighborhoods) {
+        ArrayList<Integer> favoriteNeighborhoodList = new ArrayList<Integer>();
+        for (Integer favorite : favoriteNeighborhoods) {
+            favoriteNeighborhoodList.add(favorite);
+        }
+        return favoriteNeighborhoodList;
+    }
+
+    /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
@@ -247,9 +282,9 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             if (position == 0) {
-                return new BusRouteCatalogFragment();
+                return BusRouteCatalogFragment.newInstance(routeSetToList(favoriteRoutesByID));
             } else if (position == 1) {
-                return new NeighborhoodCatalogFragment();
+                return NeighborhoodCatalogFragment.newInstance(neighborhoodSetToList(favoriteNeighborhoodsByID));
             } else {
                 return null;
             }
