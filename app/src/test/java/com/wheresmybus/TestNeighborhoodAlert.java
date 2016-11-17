@@ -19,7 +19,8 @@ import modules.Route;
 public class TestNeighborhoodAlert extends TestAlertBase<NeighborhoodAlert> {
 
     private static NeighborhoodAlert sampleNeighborhoodAlert() {
-        return new NeighborhoodAlert(new Neighborhood(1, ""), new Date((long) 0), "Baz", "Foo", new Pair<>(1.0, 0.0), 7, new ArrayList<Route>());
+        return new NeighborhoodAlert(new Neighborhood(1, ""), new Date((long) 0),
+                "Baz", "Foo", new Pair<>(1.0, 0.0), "7", new ArrayList<Route>());
     }
 
     @Override
