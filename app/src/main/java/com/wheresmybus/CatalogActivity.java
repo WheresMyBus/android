@@ -1,5 +1,6 @@
 package com.wheresmybus;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
@@ -19,9 +20,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashSet;
 import java.util.Set;
-
 /**
  * A class for the catalog screen, with tabs for routes and neighborhoods
  */
@@ -90,14 +96,76 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
                 // show only favorites when checked
             }
         });
-
-        // Initialize user data sets: favorites sets, like sets, dislike sets
-        favoriteRoutesByID = new HashSet<String>();
-        favoriteNeighborhoodsByID = new HashSet<Integer>();
-        // TODO: add other data sets
-
     }
 
+    @Override
+    public void onStart() {
+        // Initialize user data sets: favorites sets, like sets, dislike sets
+        super.onStart();
+        loadSavedData();
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        storeSavedData();
+    }
+
+    private void loadSavedData() {
+        File fileDir = getFilesDir();
+        File[] files = fileDir.listFiles();
+        favoriteRoutesByID = null;
+        favoriteNeighborhoodsByID = null;
+
+        for (File f : files) {
+            try {
+                //if (f.isFile()) {
+                    FileInputStream fileIn = new FileInputStream(f);
+                    ObjectInputStream objIn = new ObjectInputStream(fileIn);
+                    String name = f.getName();
+                    String path = fileDir.getPath();
+                    if (name.equals("FavoriteRoutes")) {
+                        favoriteRoutesByID = (Set<String>) objIn.readObject();
+                    } else if (name.equals("FavoriteNeighborhoods")) {
+                        favoriteNeighborhoodsByID = (Set<Integer>) objIn.readObject();
+                    }
+                //}
+            } catch (IOException e) {
+                System.err.println("Error loading user data: IO failed, filname: " + f.getName());
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                System.out.println("Error loading user data: class not found, filename: " + f.getName());
+                e.printStackTrace();
+            }
+        }
+
+        if (favoriteNeighborhoodsByID == null) {
+            favoriteNeighborhoodsByID = new HashSet<Integer>();
+        }
+        if (favoriteRoutesByID == null) {
+            favoriteRoutesByID = new HashSet<String>();
+        }
+
+    }
+    private void storeSavedData() {
+        FileOutputStream outputStream;
+        ObjectOutputStream objOutputStream;
+        try {
+            outputStream = openFileOutput("FavoriteRoutes", Context.MODE_PRIVATE);
+            objOutputStream = new ObjectOutputStream(outputStream);
+            objOutputStream.writeObject(favoriteRoutesByID);
+            objOutputStream.close();
+            outputStream.close();
+            outputStream = openFileOutput("FavoriteNeighborhoods", Context.MODE_PRIVATE);
+            objOutputStream = new ObjectOutputStream(outputStream);
+            objOutputStream.writeObject(favoriteNeighborhoodsByID);
+            objOutputStream.close();
+            outputStream.close();
+        } catch (IOException e) {
+            System.err.println("Error storing user data");
+            e.printStackTrace();
+        }
+    }
+    /*
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
@@ -137,7 +205,7 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
             favoriteNeighborhoodsByID.add(Integer.parseInt(cs.toString()));
         }
     }
-
+    */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

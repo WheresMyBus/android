@@ -65,8 +65,9 @@ public class RouteAdapter extends ArrayAdapter<Route> {
             boolean favorited = catalogActivity.favoriteRoutesByID.contains(route.getId());
             if (favorited) {
                 // TODO: set color
-                favoriteButton.setColorFilter(ContextCompat.getColor(convertView.getContext(),
-                        R.color.yellow));
+                //favoriteButton.setColorFilter(ContextCompat.getColor(convertView.getContext(),
+                //        R.color.yellow));
+                favoriteButton.callOnClick();
             }
         }
 
