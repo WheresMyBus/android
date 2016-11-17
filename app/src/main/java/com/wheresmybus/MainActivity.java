@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import modules.UserDataManager;
+
 /**
  * The activity associated with the main screen of the app (the home screen).
  */
@@ -26,6 +28,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        UserDataManager.instantiateManager(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        UserDataManager.getManager().saveUserData(this);
+    }
     /**
      * Creates an options menu.
      *
