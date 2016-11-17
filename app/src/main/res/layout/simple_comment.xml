@@ -67,7 +67,7 @@
         android:layout_alignLeft="@+id/num_thumbs_up"
         android:layout_alignStart="@+id/num_thumbs_up"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/num"/>
+        android:layout_above="@id/num"/>
 
 
 </RelativeLayout>
