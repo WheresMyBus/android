@@ -34,11 +34,6 @@ public class MainActivity extends AppCompatActivity {
         UserDataManager.instantiateManager(this);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        UserDataManager.getManager().saveUserData(this);
-    }
     /**
      * Creates an options menu.
      *

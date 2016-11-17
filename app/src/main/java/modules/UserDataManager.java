@@ -124,7 +124,7 @@ public class UserDataManager {
             } catch (IOException e) {
                 Log.d("Error", "Error saving file:\n" +
                         "\tFilename: " + fileNames[i] +
-                        "\n\tObject: " + fileObjects.toString() + "\n");
+                        "\n\tObject: " + fileObjects[i].toString() + "\n");
                 e.printStackTrace();
             }
         }
@@ -195,7 +195,7 @@ public class UserDataManager {
             upVotedAlertsByID = new HashSet<>();
         }
         if (downVotedAlertsByID == null) {
-            downVotedCommentsByID = new HashSet<>();
+            downVotedAlertsByID = new HashSet<>();
         }
         if (upVotedCommentsByID == null) {
             upVotedCommentsByID = new HashSet<>();
