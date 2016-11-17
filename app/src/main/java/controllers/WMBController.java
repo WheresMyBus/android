@@ -66,7 +66,7 @@ public class WMBController {
      * Sets the target for API requests to the production backend.
      * (this is also the default URL)
      */
-    public static void useProdURL() {
+    public void useProdURL() {
         retrofitService = new Retrofit.Builder()
                 .baseUrl("http://wheresmybus-api.herokuapp.com/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
@@ -77,7 +77,7 @@ public class WMBController {
     /**
      * Sets the target for API requests to be the test backend.
      */
-    public static void useTestURL() {
+    public void useTestURL() {
         retrofitService = new Retrofit.Builder()
                 .baseUrl("https://wheresmybus-api-test.herokuapp.com/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
@@ -90,7 +90,7 @@ public class WMBController {
      * (this should only be used to setup mocks)
      * @param url
      */
-    public static void useMockURL(String url) {
+    public void useMockURL(String url) {
         retrofitService = new Retrofit.Builder()
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create(gson))
