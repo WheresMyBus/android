@@ -20,9 +20,18 @@ public class TestComment {
 
     @Before
     public void setup() {
-        alert = new RouteAlert(new Route("12", "a", "b"),
-                new Date(), "b", new Pair<>(0.0,1.0), "c", "2");
-        comment = new Comment("d", "1", alert);
+        comment = new Comment("d", "1", new Date());
+    }
+
+    @Test
+    public void testSecondConstructor(){
+        Comment c = new Comment(1, "2", "hi", 2, 0, new Date());
+        assertTrue(c.getId() == 1);
+        assertTrue(c.getCreatorID().equals("2"));
+        assertTrue(c.getData().equals("hi"));
+        assertTrue(c.getUpvotes() == 2);
+        assertTrue(c.getDownvotes() == 0);
+        assertTrue(c.getDate() != null);
     }
 
     /**
@@ -45,17 +54,8 @@ public class TestComment {
      */
     @Test
     public void testGetData() {
-        assertTrue(alert.equals(comment.getAlert()));
         assertEquals("1", comment.getCreatorID());
         assertTrue(comment.getData().equals("d"));
-    }
-
-    /**
-     * Check that IllegalArgumentException thrown when null Alert is passed
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void testNullAlert() {
-        Comment comment2 = new Comment("e", "2", null);
     }
 
     /**
@@ -63,7 +63,7 @@ public class TestComment {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testBadCreatorId() {
-        Comment comment3 = new Comment("f", null, alert);
+        Comment comment3 = new Comment("f", null, new Date());
     }
 
     @Test
