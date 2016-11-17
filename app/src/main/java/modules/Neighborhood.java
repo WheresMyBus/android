@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import junit.framework.Assert;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -18,7 +19,7 @@ import java.util.Set;
  *          no element of perimeter is null
  */
 
-public class Neighborhood {
+public class Neighborhood implements Comparable<Neighborhood> {
     private List<Pair<Double,Double>> perimeter;
 
     @SerializedName("id")
@@ -104,6 +105,11 @@ public class Neighborhood {
         Assert.assertFalse(name == null);
         //Assert.assertFalse(perimeter == null);
         //Assert.assertFalse(perimeter.contains(null));
+    }
+
+    @Override
+    public int compareTo(Neighborhood o) {
+        return name.compareTo(o.name);
     }
 
     /*private Set<BusStop> getBusStops() {

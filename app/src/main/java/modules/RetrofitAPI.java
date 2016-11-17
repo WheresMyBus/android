@@ -63,9 +63,4 @@ public interface RetrofitAPI {
                                            @Path("upORdown") String updown,
                                            @Field("user_id") String userID);
 
-    @FormUrlEncoded
-    @POST("comments/{comment_id}/{upORdown}")
-    Call<VoteConfirmation> postCommentVote(@Path("comment_id") int id,
-                                             @Path("upORdown") String updown,
-                                             @Field("user_id") String userID);
 }

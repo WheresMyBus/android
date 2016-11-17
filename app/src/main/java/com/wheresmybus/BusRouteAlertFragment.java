@@ -118,7 +118,7 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
         checkBox4 = (CheckBox) view.findViewById(R.id.checkBox4);
         checkBox4.setOnClickListener(this);
 
-        text = (EditText) view.findViewById(R.id.alert_description);
+        text = (EditText) view.findViewById(R.id.route_alert_description);
 
         alertTypes = new ArrayList<>();
 

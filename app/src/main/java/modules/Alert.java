@@ -21,7 +21,7 @@ import retrofit.Callback;
  *          creatorID > 0
  */
 
-public abstract class Alert implements Serializable {
+public abstract class Alert implements Serializable, Comparable<Alert> {
     @SerializedName("id")
     private int id;
     @SerializedName("user_id")
@@ -182,6 +182,11 @@ public abstract class Alert implements Serializable {
      */
     public Date getDate() {
         return (Date) this.date.clone();
+    }
+
+    @Override
+    public int compareTo(Alert o) {
+        return o.date.compareTo(date);
     }
 
     protected void checkRep() {

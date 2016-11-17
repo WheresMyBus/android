@@ -168,7 +168,7 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
         Intent intent = new Intent(getActivity(), AlertForumActivity.class);
         intent.putExtra("ALERT_TYPE", "Route");
         Route route = (Route) adapterView.getItemAtPosition(position);
-        intent.putExtra("ROUTE_NUMBER", route.getNumber());
+        intent.putExtra("ROUTE_ID", route.getId());
         startActivity(intent);
     }
 

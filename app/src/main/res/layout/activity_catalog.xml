@@ -38,11 +38,13 @@
 
         <Switch
             android:text="@string/view_favorites_switch"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/favoriteSwitch"
-            android:layout_weight="1"
-            android:theme="@style/AppTheme.SwitchTheme" />
+            android:theme="@style/AppTheme.SwitchTheme"
+            android:background="@color/white"
+            android:layout_gravity="end"
+            android:textAlignment="viewEnd"/>
 
     </android.support.design.widget.AppBarLayout>
 

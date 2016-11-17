@@ -35,9 +35,6 @@ public class NeighborhoodAdapter extends ArrayAdapter<Neighborhood> {
     // called when rendering the list
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        CatalogActivity catalogActivity = (CatalogActivity) getContext();
-
         // get the property we are displaying
         Neighborhood neighborhood = getItem(position);
 
@@ -57,6 +54,8 @@ public class NeighborhoodAdapter extends ArrayAdapter<Neighborhood> {
         name.setText(neighborhood.getName());
 
         if (isStarred) {
+            CatalogActivity catalogActivity = (CatalogActivity) getContext();
+
             ImageButton favoriteButton = (ImageButton) convertView.findViewById(R.id.star);
             favoriteButton.setOnClickListener(new FavoriteNeighborhoodListener(neighborhood.getID(),
                     catalogActivity));

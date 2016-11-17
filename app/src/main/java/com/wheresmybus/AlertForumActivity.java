@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import adapters.NeighborhoodAlertAdapter;
@@ -48,9 +49,9 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
         String type = intent.getStringExtra("ALERT_TYPE");
         if (type.equals("Route")) {
             isRouteForum = true;
-            String number = intent.getStringExtra("ROUTE_NUMBER");
+            String id = intent.getStringExtra("ROUTE_ID");
             try {
-                routeRequest(number);
+                routeRequest(id);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -76,9 +77,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
             @Override
             public void onResponse(Response<List<NeighborhoodAlert>> response, Retrofit retrofit) {
                 List<NeighborhoodAlert> data = response.body();
-                for (NeighborhoodAlert datum : data) {
-                    Log.d("date in onResponse: ", datum.getDate().toString());
-                }
+                Collections.sort(data);
                 loadNeighborhoodData(data);
             }
 
@@ -92,15 +91,16 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
 
     /**
      * Gets the alerts for a given route from the database
-     * @param routeNumber the number of the route to get alerts for (as a String)
+     * @param routeId the id of the route to get alerts for (as a String)
      * @throws Exception if the request fails
      */
-    private void routeRequest(String routeNumber) throws Exception {
+    private void routeRequest(String routeId) throws Exception {
         WMBController controller = WMBController.getInstance();
-        controller.getRouteAlerts(routeNumber, new Callback<List<RouteAlert>>() {
+        controller.getRouteAlerts(routeId, new Callback<List<RouteAlert>>() {
             @Override
             public void onResponse(Response<List<RouteAlert>> response, Retrofit retrofit) {
                 List<RouteAlert> data = response.body();
+                Collections.sort(data);
                 loadRouteData(data);
             }
 
@@ -116,9 +116,6 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
      * @param data the list of alerts to be loaded
      */
     private void loadNeighborhoodData(List<NeighborhoodAlert> data) {
-        for (NeighborhoodAlert datum : data) {
-            Log.d("date in loadData: ", datum.getDate().toString());
-        }
         NeighborhoodAlertAdapter adapter = new NeighborhoodAlertAdapter(this, android.R.layout.simple_list_item_1, data);
         alertList.setAdapter(adapter);
     }
@@ -151,6 +148,16 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
             intent = new Intent(this, NeighborhoodAlertActivity.class);
         }
         intent.putExtra("ALERT", alert);
+        startActivity(intent);
+    }
+
+    /**
+     * Sends the user to the submit alert screen
+     *
+     * @param v The current view
+     */
+    public void switchToSubmitAlert(View v) {
+        Intent intent = new Intent(this, SubmitAlertActivity.class);
         startActivity(intent);
     }
 }

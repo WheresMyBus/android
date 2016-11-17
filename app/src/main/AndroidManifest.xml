@@ -42,7 +42,11 @@
             android:name=".CatalogActivity"
             android:label="@string/title_activity_catalog"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AlertForumActivity" />
+
+        <activity
+            android:name=".AlertForumActivity"
+            android:label="@string/title_forum_page" />
+
         <activity android:name=".RouteAlertActivity"></activity>
         <activity android:name=".NeighborhoodAlertActivity"></activity>
     </application>

@@ -55,7 +55,7 @@ public class Route implements Comparable<Route> {
      * @return full name of route
      */
     public String toString() {
-        return number + " - " + name;
+        return "[" + number + "] " + name;
     }
 
     /**
