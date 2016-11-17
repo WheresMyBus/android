@@ -30,6 +30,9 @@ public interface RetrofitAPI {
     @GET("neighborhood_alerts/{id}/comments")
     Call<List<Comment>> getNeighborhoodAlertComments(@Path("id") int alertID);
 
+    @GET("route/{id}/bus_locations")
+    Call<List<Bus>> getBuses(@Path("id") String routeID);
+
     @FormUrlEncoded
     @POST("neighborhoods/{id}/alerts")
     Call<NeighborhoodAlert> postNeighborhoodAlert(@Path("id") int neighborhoodID,
@@ -62,5 +65,6 @@ public interface RetrofitAPI {
                                            @Path("id") int id,
                                            @Path("upORdown") String updown,
                                            @Field("user_id") String userID);
+
 
 }
