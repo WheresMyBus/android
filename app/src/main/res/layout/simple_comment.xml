@@ -18,7 +18,7 @@
         android:layout_alignBottom="@+id/num_thumbs_up"
         android:gravity="center_vertical" />
 
-    <ImageView
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/thumbs_down"
@@ -29,7 +29,8 @@
         android:background="@android:color/transparent"
         android:tint="@android:color/darker_gray"
         android:layout_toRightOf="@+id/num_thumbs_up"
-        android:layout_toEndOf="@+id/num_thumbs_up" />
+        android:layout_toEndOf="@+id/num_thumbs_up"
+        android:contentDescription="thumbs_up_button" />
 
     <TextView
         android:text="Number"
