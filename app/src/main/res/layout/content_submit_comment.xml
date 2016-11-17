@@ -37,7 +37,8 @@
         android:id="@+id/comment_description"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_above="@+id/submit_button" />
+        android:layout_above="@+id/submit_button"
+        android:gravity="top|left" />
 
     <Button
         android:text="@string/submit"
