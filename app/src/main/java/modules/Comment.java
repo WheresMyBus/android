@@ -32,32 +32,43 @@ public class Comment {
     private int id;
     @SerializedName("created_at")
     private Date date;
-    private Alert alert;
 
     /**
-     * Constructs a Comment with upvotes/downvotes/id initialized to 0
+     * Constructs a Comment with upvotes/downvotes initialized to 0, id initialized to -1
      * @param data comment String to store
+     * @param date creation date of the comment
      * @param creatorId id of the creator of the post
      * @throws IllegalArgumentException if creatorId < 1 or if data is null
      */
-    public Comment(String data, String creatorId, Alert alert) {
-        if(creatorId == null || data == null || alert == null) {
+    public Comment(String data, String creatorId, Date date) {
+        if(creatorId == null || data == null) {
             throw new IllegalArgumentException();
         }
         this.data = data;
         this.creatorID = creatorId;
-        this.alert = alert;
+        this.date = (Date)date.clone();
         this.id = -1;
         checkRep();
     }
-
-    public Comment(int id, String userID, String data, int upvotes, int downvotes, Date date) {
-        this.id = id;
-        this.creatorID = userID;
-        this.data = data;
+    /**
+     * Constructs a Comment with upvotes/downvotes/id as parameters
+     * @param data comment String to store
+     * @param date creation date of the comment
+     * @param creatorId id of the creator of the post
+     * @param upvotes upvotes to initialize the comment to
+     * @param downvotes downvotes to initialize the comment to
+     * @throws IllegalArgumentException if creatorId < 1 or if data is null
+     * @throws IllegalArgumentException if upvotes, downvotes < 0, or if id is 0 or < -1
+     */
+    public Comment(int id, String creatorId, String data, int upvotes, int downvotes, Date date) {
+        this(data, creatorId, date);
+        setId(id);
+        if(upvotes < 0 || downvotes < 0) {
+            throw new IllegalArgumentException();
+        }
         this.upvotes = upvotes;
         this.downvotes = downvotes;
-        this.date = date;
+        checkRep();
     }
     /**
      * Gets the comment String
@@ -132,14 +143,6 @@ public class Comment {
             return true;
         }
         return false;
-    }
-
-    /**
-     * Returns the alert that this comment is posted to
-     * @return alert comment was posted to
-     */
-    public Alert getAlert() {
-        return alert;
     }
 
     /**

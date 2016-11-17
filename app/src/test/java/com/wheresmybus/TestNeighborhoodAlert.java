@@ -2,9 +2,11 @@ package com.wheresmybus;
 
 import android.util.Pair;
 
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
+import static junit.framework.Assert.*;
 
 import modules.Alert;
 import modules.Neighborhood;
@@ -53,5 +55,22 @@ public class TestNeighborhoodAlert extends TestAlertBase<NeighborhoodAlert> {
         return sampleNeighborhoodAlert();
     }
 
+    @Test
+    public void testSecondConstructor() {
+        Alert a = new NeighborhoodAlert(1, 2, "3", "traffic", "lots", new Date(), 0, 5);
+        assertTrue(a.getCreatorID().equals("3"));
+        assertTrue(a.getId() == 2);
+        assertTrue(a.getDescription().equals("lots"));
+        assertTrue(a.getType().equals("traffic"));
+        assertTrue(a.getDate() != null);
+        assertTrue(a.getUpvotes() == 0);
+        assertTrue(a.getDownvotes() == 5);
+    }
 
+    @Test
+    public void testAffectedRoutes() {
+        sampleNeighborhoodAlert().addAffectedRoute(new Route("1", "a", "2"));
+        assertEquals(1, sampleNeighborhoodAlert().getRoutesAffected().size());
+        assertTrue(sampleNeighborhoodAlert().getRoutesAffected().get(1).toString().equals("1 - a"));
+    }
 }

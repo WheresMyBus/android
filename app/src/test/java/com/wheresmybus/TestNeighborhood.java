@@ -45,4 +45,14 @@ public class TestNeighborhood {
         Neighborhood n = new Neighborhood(1, "h");
         assertTrue(n.getPerimeter() != null);
     }
+
+    @Test
+    public void testToString() {
+        Neighborhood n = new Neighborhood(1, "h");
+        assertTrue(n.getName().equals(n.toString()));
+        assertTrue(n.toString().equals("h"));
+
+        Neighborhood n2 = new Neighborhood(1, "n");
+        assertTrue(n.compareTo(n2) < 0);
+    }
 }
