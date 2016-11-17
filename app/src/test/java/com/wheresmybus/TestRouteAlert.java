@@ -16,7 +16,8 @@ import modules.RouteAlert;
 public class TestRouteAlert extends TestAlertBase<RouteAlert> {
 
     private RouteAlert sampleRouteAlert() {
-        return new RouteAlert(new Route("106", "Downtown", "FooBar"), new Date((long) 0), "Foo", new Pair<>(1.0, 0.0), "Baz", 7);
+        return new RouteAlert(new Route("106", "Downtown", "FooBar"),
+                new Date((long) 0), "Foo", new Pair<>(1.0, 0.0), "Baz", "7");
     }
 
     @Override

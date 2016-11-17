@@ -20,8 +20,9 @@ public class TestComment {
 
     @Before
     public void setup() {
-        alert = new RouteAlert(new Route("12", "a", "b"), new Date(), "b", new Pair<>(0.0,1.0), "c", 2);
-        comment = new Comment("d", 1, alert);
+        alert = new RouteAlert(new Route("12", "a", "b"),
+                new Date(), "b", new Pair<>(0.0,1.0), "c", "2");
+        comment = new Comment("d", "1", alert);
     }
 
     /**
@@ -29,12 +30,12 @@ public class TestComment {
      */
     @Test
     public void testVote() {
-        comment.upvote();
-        comment.upvote();
-        comment.downvote();
-        comment.downvote();
-        comment.upvote();
-        comment.downvote();
+        comment.upvote("0", null);
+        comment.upvote("0", null);
+        comment.downvote("0", null);
+        comment.downvote("0", null);
+        comment.upvote("0", null);
+        comment.downvote("0", null);
         assertEquals(comment.getDownvotes(), 3);
         assertEquals(comment.getUpvotes(), 3);
     }
@@ -45,7 +46,7 @@ public class TestComment {
     @Test
     public void testGetData() {
         assertTrue(alert.equals(comment.getAlert()));
-        assertEquals(1, comment.getCreatorID());
+        assertEquals("1", comment.getCreatorID());
         assertTrue(comment.getData().equals("d"));
     }
 
@@ -54,7 +55,7 @@ public class TestComment {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testNullAlert() {
-        Comment comment2 = new Comment("e", 2, null);
+        Comment comment2 = new Comment("e", "2", null);
     }
 
     /**
@@ -62,7 +63,7 @@ public class TestComment {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testBadCreatorId() {
-        Comment comment3 = new Comment("f", 0, alert);
+        Comment comment3 = new Comment("f", null, alert);
     }
 
     @Test
