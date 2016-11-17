@@ -50,7 +50,7 @@ public class MockedInstrumentedTest {
                 "  \"created_at\": \"2016-11-10T17:29:53.626Z\"\n" +
                 "}"));
 
-        NeighborhoodAlert alert = controller.postAlertSynchronously(1,"construction", "Bus driver was a ghost!",420);
+        NeighborhoodAlert alert = controller.postAlertSynchronously(1,"construction", "Bus driver was a ghost!","420");
 
         assertEquals("alert description correct", "Bus driver was a ghost!", alert.getDescription());
         RecordedRequest request = server.takeRequest();
@@ -68,9 +68,9 @@ public class MockedInstrumentedTest {
                 "  \"value\": \"up\"\n" +
                 "}"));
 
-        VoteConfirmation vc = controller.neighborhoodAlertUpvoteSynchronously(1, 420);
+        VoteConfirmation vc = controller.neighborhoodAlertUpvoteSynchronously(1, "420");
         assertEquals("id ", 1, vc.getId());
-        assertEquals("user_id ", 420, vc.getUserID());
+        assertEquals("user_id ", "420", vc.getUserID());
         assertEquals("value ", "up", vc.getValue());
         RecordedRequest request = server.takeRequest();
         assertEquals("request path", "/neighborhood_alerts/1/upvote", request.getPath());
@@ -114,7 +114,7 @@ public class MockedInstrumentedTest {
                 "  \"downvotes\": 0,\n" +
                 "  \"created_at\": \"2016-11-10T19:07:11.769Z\"\n" +
                 "}"));
-        Comment comment = controller.postNeighborhoodAlertCommentSynchronously(2, "nothing has ever been true", 666);
+        Comment comment = controller.postNeighborhoodAlertCommentSynchronously(2, "nothing has ever been true", "666");
         assertEquals(comment.getData(), "nothing has ever been true");
         RecordedRequest request = server.takeRequest();
         assertEquals("message=nothing%20has%20ever%20been%20true&user_id=666", request.getBody().readUtf8());
