@@ -61,7 +61,7 @@ public class NeighborhoodAdapter extends ArrayAdapter<Neighborhood> {
             favoriteButton.setOnClickListener(new FavoriteNeighborhoodListener(neighborhood.getID(),
                     catalogActivity));
             // TODO: setColorFilter if route is user's favorite
-            boolean favorited = catalogActivity.favoriteRoutesByID.contains(neighborhood.getID());
+            boolean favorited = catalogActivity.favoriteNeighborhoodsByID.contains(neighborhood.getID());
             if (favorited) {
                 favoriteButton.setColorFilter(ContextCompat.getColor(convertView.getContext(), R.color.yellow));
             }
