@@ -151,6 +151,7 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
         Intent intent = new Intent(getActivity(), AlertForumActivity.class);
         intent.putExtra("ALERT_TYPE", "Neighborhood");
         Neighborhood neighborhood = (Neighborhood) adapterView.getItemAtPosition(position);
+        intent.putExtra("NEIGHBORHOOD", neighborhood);
         intent.putExtra("NEIGHBORHOOD_ID", neighborhood.getID());
         startActivity(intent);
     }
