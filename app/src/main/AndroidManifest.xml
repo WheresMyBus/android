@@ -42,13 +42,16 @@
             android:name=".CatalogActivity"
             android:label="@string/title_activity_catalog"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".AlertForumActivity"
             android:label="@string/title_forum_page" />
-
-        <activity android:name=".RouteAlertActivity"></activity>
-        <activity android:name=".NeighborhoodAlertActivity"></activity>
+        <activity android:name=".RouteAlertActivity" />
+        <activity android:name=".NeighborhoodAlertActivity" />
+        <activity
+            android:name=".SubmitCommentActivity"
+            android:label="@string/title_activity_submit_comment"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
     </application>
 
 </manifest>

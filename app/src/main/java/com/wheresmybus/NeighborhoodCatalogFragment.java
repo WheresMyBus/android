@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import controllers.WMBController;
@@ -31,10 +32,8 @@ import retrofit.Retrofit;
  * create an instance of this fragment.
  */
 public class NeighborhoodCatalogFragment extends Fragment implements AdapterView.OnItemClickListener {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    // the fragment initialization parameters
+    public List<Integer> favoriteNeighborhoodsByID;
 
     private ListView neighborhoodList;
 
@@ -48,16 +47,13 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param favoriteNeighborhoodsByID List of the ids of favorite neighborhoods
      * @return A new instance of fragment NeighborhoodCatalogFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static NeighborhoodCatalogFragment newInstance(String param1, String param2) {
+    public static NeighborhoodCatalogFragment newInstance(ArrayList<Integer> favoriteNeighborhoodsByID) {
         NeighborhoodCatalogFragment fragment = new NeighborhoodCatalogFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putIntegerArrayList("FAVORITES", favoriteNeighborhoodsByID);
         fragment.setArguments(args);
         return fragment;
     }
@@ -151,6 +147,7 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
         Intent intent = new Intent(getActivity(), AlertForumActivity.class);
         intent.putExtra("ALERT_TYPE", "Neighborhood");
         Neighborhood neighborhood = (Neighborhood) adapterView.getItemAtPosition(position);
+        intent.putExtra("NEIGHBORHOOD", neighborhood);
         intent.putExtra("NEIGHBORHOOD_ID", neighborhood.getID());
         startActivity(intent);
     }

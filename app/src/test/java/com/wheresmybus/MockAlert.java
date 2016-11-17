@@ -1,8 +1,12 @@
 package com.wheresmybus;
 
+import modules.Comment;
+import modules.VoteConfirmation;
+import retrofit.Callback;
 import android.util.Pair;
 
 import java.util.Date;
+import java.util.List;
 
 import modules.Alert;
 
@@ -12,13 +16,27 @@ import modules.Alert;
  */
 
 class MockAlert extends Alert {
-    private MockAlert(String desc, Date date, String type, int creatorId, Pair<Double, Double> coords) {
+    private MockAlert(String desc, Date date, String type, String creatorId, Pair<Double, Double> coords) {
         super(desc, date, type, creatorId, coords);
     }
 
 
     // creates a sample alert used by TestAlertBase
     static MockAlert makeSampleAlert() {
-        return new MockAlert("Baz", new Date((long) 0), "Foo", 7, new Pair<>(1.,0.));
+        return new MockAlert("Baz", new Date((long) 0), "Foo", "7", new Pair<>(1.,0.));
+    }
+
+    public void getComments(Callback<List<Comment>> callback) {
+        return;
+    }
+
+    public void downvote(String userId, Callback<VoteConfirmation> callback) {
+        System.out.println(downvotes);
+        downvotes++;
+        System.out.print(downvotes);
+    }
+
+    public void upvote(String userId, Callback<VoteConfirmation> callback) {
+        this.upvotes++;
     }
 }

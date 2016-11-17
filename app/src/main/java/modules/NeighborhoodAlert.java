@@ -41,6 +41,7 @@ public class NeighborhoodAlert extends Alert {
      * @param coordinates position of alert
      * @param description the text describing the details of the alert
      * @param creatorID id of the creator of the post
+     * @param routesAffected List of routes that are affected
      * @throws IllegalArgumentException if any of neighborhood, date, type,
      *              description, coordinates are null
      * @throws IllegalArgumentException if creatorID < 1
@@ -53,18 +54,19 @@ public class NeighborhoodAlert extends Alert {
             throw new IllegalArgumentException("null parameters");
         }
         this.neighborhood = neighborhood;
-        this.routesAffected = routesAffected;
+        this.routesAffected = new ArrayList<>(routesAffected);
     }
 
     /**
-     * TODO: document this.
-     * @param neighborhoodID
-     * @param alertID
-     * @param user_id
-     * @param alertType
-     * @param date
-     * @param upvotes
-     * @param downvotes
+     * Creates a Neighborhood alert with upvotes, downvotes, and id as parameters
+     * initializes routesAffected to empty List, and references a neighborhood by its id.
+     * @param neighborhoodID neighborhood of the alert
+     * @param date Date the alert was posted
+     * @param alertType type of alert posted
+     * @param description the text describing the details of the alert
+     * @param user_id id of the creator of the post
+     * @param upvotes upvotes to initialize the alert to
+     * @param downvotes downvotes to initialize the alert to
      */
     public NeighborhoodAlert(int neighborhoodID, int alertID, String user_id, String alertType,
                              String description, Date date, int upvotes, int downvotes) {

@@ -37,4 +37,5 @@
     <string name="date">Date</string>
     <string name="time">Time</string>
     <string name="submit_comment">Submit a Comment</string>
+    <string name="title_activity_submit_comment">SubmitCommentActivity</string>
 </resources>

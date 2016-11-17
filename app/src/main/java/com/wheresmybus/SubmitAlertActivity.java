@@ -38,7 +38,8 @@ import retrofit.Retrofit;
 public class SubmitAlertActivity extends FragmentActivity implements
         BusRouteAlertFragment.OnFragmentInteractionListener,
         NeighborhoodAlertFragment.OnFragmentInteractionListener {
-    // references to the submit button and the fragments used on this screen
+    // references to the buttons and the fragments used on this screen
+    private Button cancelButton;
     private Button submitButton;
     private BusRouteAlertFragment busRouteFragment;
     private NeighborhoodAlertFragment neighborhoodFragment;
@@ -65,6 +66,9 @@ public class SubmitAlertActivity extends FragmentActivity implements
                 fragmentManager.findFragmentById(R.id.neighborhood_alert_fragment);
         neighborhoodFragment.getView().setVisibility(View.INVISIBLE);
 
+        cancelButton = (Button) findViewById(R.id.cancel_button);
+        //cancelButton.setVisibility(View.INVISIBLE);
+
         submitButton = (Button) findViewById(R.id.button_submit);
         submitButton.setVisibility(View.INVISIBLE);
     }
@@ -80,6 +84,7 @@ public class SubmitAlertActivity extends FragmentActivity implements
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
         submitButton.setVisibility(View.VISIBLE);
+        // cancelButton.setVisibility(View.VISIBLE);
         // Check which radio button was clicked
         switch(view.getId()) {
             case R.id.radio_bus_route:
@@ -111,7 +116,7 @@ public class SubmitAlertActivity extends FragmentActivity implements
             String alertType = busRouteFragment.getAlertType();
             String description = busRouteFragment.getDescription();
 
-            if (route == null || alertType == null || description == null) {
+            if (route == null || alertType == null || description == null || description.equals("")) {
                 // instruct user that some parameter is missing information
                 Toast toast = Toast.makeText(this, "Please enter any missing parameters.",
                         Toast.LENGTH_SHORT);
@@ -141,7 +146,7 @@ public class SubmitAlertActivity extends FragmentActivity implements
             String alertType = neighborhoodFragment.getAlertType();
             String description = neighborhoodFragment.getDescription();
 
-            if (neighborhood == null || alertType == null || description == null) {
+            if (neighborhood == null || alertType == null || description == null || description.equals("")) {
                 // instruct the user that some parameter is missing information
                 Toast toast = Toast.makeText(this, "Please enter any missing parameters.",
                         Toast.LENGTH_SHORT);
@@ -161,11 +166,14 @@ public class SubmitAlertActivity extends FragmentActivity implements
                     }
                 });
 
-                // switch back to home screen
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
+                // switch back to previous screen
+                finish();
             }
         }
+    }
+
+    public void switchToPreviousScreen(View view) {
+        finish();
     }
 
     /**

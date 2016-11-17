@@ -87,16 +87,35 @@
         tools:layout="@layout/fragment_neighborhood_alert" />
 
     <Button
+        android:text="Cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cancel_button"
+        android:background="@color/orange"
+        android:textColor="@color/white"
+        android:textStyle="normal|bold"
+        android:layout_marginLeft="106dp"
+        android:layout_marginStart="106dp"
+        android:layout_alignBaseline="@+id/button_submit"
+        android:layout_alignBottom="@+id/button_submit"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginRight="5dp"
+        android:onClick="switchToPreviousScreen"/>
+
+    <Button
         android:text="@string/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button_submit"
         android:background="@color/green"
         android:textColor="@color/white"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="10dp"
         android:onClick="onSubmitButtonClicked"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/cancel_button"
+        android:layout_toEndOf="@+id/cancel_button"
+        android:layout_marginLeft="5dp" />
 
 </RelativeLayout>

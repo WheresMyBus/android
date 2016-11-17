@@ -20,6 +20,7 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 import modules.Alert;
+import modules.Bus;
 import modules.Comment;
 import modules.Neighborhood;
 import modules.NeighborhoodAlert;
@@ -382,5 +383,15 @@ public class WMBController {
             Log.d("getHoodAlertComment", e.toString());
             return null;
         }
+    }
+
+    /**
+     * retrieves list of buses for given route from API to be handled by callback.
+     * @param routeID id of the route whose buses are needed
+     * @param callback handles the list of buses
+     */
+    public void getBuses(String routeID, Callback<List<Bus>> callback) {
+        Call<List<Bus>> call = retrofitService.getBuses(routeID);
+        call.enqueue(callback);
     }
 }
