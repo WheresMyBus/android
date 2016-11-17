@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import junit.framework.Assert;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Set;
  * Invariant: number > 0, name != null
  */
 
-public class Route implements Comparable<Route> {
+public class Route implements Serializable, Comparable<Route> {
     @SerializedName("number")
     private String number;
     @SerializedName("name")

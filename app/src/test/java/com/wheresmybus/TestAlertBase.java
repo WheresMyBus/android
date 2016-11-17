@@ -94,23 +94,23 @@ public abstract class TestAlertBase<T extends Alert> {
 
     @Test
     public void test_basic_upvote() {
-        defaultAlert.upvote();
+        defaultAlert.upvote("", null);
         assertEquals(1, defaultAlert.getUpvotes());
     }
 
     @Test
     public void test_basic_downvote() {
-        defaultAlert.downvote();
+        defaultAlert.downvote("", null);
         assertEquals(1, defaultAlert.getDownvotes());
     }
 
     @Test
     public void test_upvote_and_downvote() {
-        defaultAlert.downvote();
-        defaultAlert.upvote();
-        defaultAlert.upvote();
-        defaultAlert.downvote();
-        defaultAlert.upvote();
+        defaultAlert.downvote("", null);
+        defaultAlert.upvote("", null);
+        defaultAlert.upvote("", null);
+        defaultAlert.downvote("", null);
+        defaultAlert.upvote("", null);
         assertEquals(2, defaultAlert.getDownvotes());
         assertEquals(3, defaultAlert.getUpvotes());
     }
@@ -132,6 +132,6 @@ public abstract class TestAlertBase<T extends Alert> {
 
     @Test
     public void test_get_creator_id() {
-        assertEquals(7, creatorIdIsSeven.getCreatorID());
+        assertEquals("7", creatorIdIsSeven.getCreatorID());
     }
 }
