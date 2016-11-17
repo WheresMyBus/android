@@ -43,4 +43,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
+
+    /**
+     * This is where we can add markers or lines, add listeners or move the camera.
+     *
+     * This should only be called once and when we are sure that (@link #mMap) is not null.
+     */
+    private void setUpMap() {
+
+    }
 }
