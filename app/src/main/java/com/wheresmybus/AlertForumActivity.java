@@ -164,12 +164,8 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
      */
     public void switchToSubmitAlert(View v) {
         Intent intent = new Intent(this, SubmitAlertActivity.class);
-        if (route != null) {
-            intent.putExtra("ROUTE", route);
-        }
-        if (neighborhood != null) {
-            intent.putExtra("NEIGHBORHOOD", neighborhood);
-        }
+        intent.putExtra("ROUTE", route);
+        intent.putExtra("NEIGHBORHOOD", neighborhood);
         startActivity(intent);
     }
 }
