@@ -159,6 +159,7 @@
         android:layout_alignParentEnd="true"
         android:textColor="@color/white"
         android:background="@color/lightGreen"
-        android:text="@string/submit_comment" />
+        android:text="@string/submit_comment"
+        android:onClick="switchToSubmitComment"/>
 
 </RelativeLayout>

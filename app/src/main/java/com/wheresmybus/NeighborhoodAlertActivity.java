@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -128,5 +129,11 @@ public class NeighborhoodAlertActivity extends AppCompatActivity {
                 comments);
         ListView commentList = (ListView) findViewById(R.id.comments);
         commentList.setAdapter(adapter);
+    }
+
+    public void switchToSubmitComment(View view) {
+        Intent intent = new Intent(this, SubmitCommentActivity.class);
+        intent.putExtra("ALERT", alert);
+        startActivity(intent);
     }
 }

@@ -43,9 +43,28 @@
         android:text="@string/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:id="@+id/submit_button"
         android:background="@color/lightGreen"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:onClick="switchToForum"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="87dp"
+        android:layout_marginEnd="87dp"
+        android:layout_marginLeft="5dp" />
+
+    <Button
+        android:text="Cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/submit_button"
+        android:layout_toStartOf="@+id/submit_button"
+        android:id="@+id/cancel_button"
+        android:background="@color/orange"
+        android:textColor="@color/white"
+        android:textStyle="normal|bold"
+        android:layout_marginRight="5dp"
+        android:onClick="switchToPreviousScreen"/>
 </RelativeLayout>
