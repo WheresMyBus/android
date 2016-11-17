@@ -5,14 +5,21 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import adapters.CommentAdapter;
+import modules.Comment;
 import modules.NeighborhoodAlert;
 import modules.Route;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * Created by lesli_000 on 11/15/2016.
@@ -35,9 +42,12 @@ public class NeighborhoodAlertActivity extends AppCompatActivity {
         // set up the alert at the top of the page
         loadAlertData();
 
-        // get data from the controller
-        // set up alert at top of page
-        // load data into list view
+        // load comment data and set up list view for comments
+        try {
+            commentRequest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadAlertData() {
@@ -96,5 +106,27 @@ public class NeighborhoodAlertActivity extends AppCompatActivity {
         //numThumbsUp.setText(alert.getUpvotes());        // TODO: fix this method call
         thumbsDown.setOnClickListener(new ThumbsDownListener(alert));
         //numThumbsDown.setText(alert.getDownvotes());
+    }
+
+    private void commentRequest() throws Exception {
+        alert.getComments(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Response<List<Comment>> response, Retrofit retrofit) {
+                List<Comment> comments = new ArrayList<Comment>(response.body());
+                loadComments(comments);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+    }
+
+    private void loadComments(List<Comment> comments) {
+        CommentAdapter adapter = new CommentAdapter(this, android.R.layout.simple_list_item_1,
+                comments);
+        ListView commentList = (ListView) findViewById(R.id.comments);
+        commentList.setAdapter(adapter);
     }
 }
