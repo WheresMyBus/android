@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import junit.framework.Assert;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.Set;
  *          no element of perimeter is null
  */
 
-public class Neighborhood implements Comparable<Neighborhood> {
+public class Neighborhood implements Serializable, Comparable<Neighborhood> {
     private List<Pair<Double,Double>> perimeter;
 
     @SerializedName("id")
@@ -52,7 +53,7 @@ public class Neighborhood implements Comparable<Neighborhood> {
         }
         this.name = name;
         this.id = id;
-        //checkRep();
+        checkRep();
     }
 
     /*public boolean setId(int id) {

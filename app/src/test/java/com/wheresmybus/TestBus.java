@@ -60,7 +60,9 @@ public class TestBus {
     }
 
     @Test
-    public void test_get_route_deep_copy() {
+    public void test_bus_coords() {
+        sampleBus.setCoordinates(new Pair<Double,Double>(0.,0.));
+        assertFalse(sampleBus.getCoordinates() != null);
 
     }
 }

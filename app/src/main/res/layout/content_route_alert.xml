@@ -130,6 +130,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/date"
+        android:layout_toRightOf="@+id/date"
         android:id="@+id/comments"
         android:layout_above="@+id/submit_comment_button"
         android:layout_below="@+id/comments_header"
@@ -148,6 +149,7 @@
         android:layout_alignParentEnd="true"
         android:textColor="@color/white"
         android:background="@color/lightGreen"
-        android:text="@string/submit_comment" />
+        android:text="@string/submit_comment"
+        android:onClick="switchToSubmitComment"/>
 
 </RelativeLayout>

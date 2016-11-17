@@ -17,7 +17,9 @@ import adapters.NeighborhoodAlertAdapter;
 import adapters.RouteAlertAdapter;
 import controllers.WMBController;
 import modules.Alert;
+import modules.Neighborhood;
 import modules.NeighborhoodAlert;
+import modules.Route;
 import modules.RouteAlert;
 import retrofit.Callback;
 import retrofit.Response;
@@ -32,6 +34,8 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
 
     private ListView alertList;
     private boolean isRouteForum; // true if routes, false if neighborhoods
+    private Route route;
+    private Neighborhood neighborhood;
 
     /**
      * Displays the alerts for the route or neighborhood that was clicked on
@@ -49,6 +53,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
         String type = intent.getStringExtra("ALERT_TYPE");
         if (type.equals("Route")) {
             isRouteForum = true;
+            route = (Route) intent.getSerializableExtra("ROUTE");
             String id = intent.getStringExtra("ROUTE_ID");
             try {
                 routeRequest(id);
@@ -57,6 +62,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
             }
         } else { //neighborhood
             isRouteForum = false;
+            neighborhood = (Neighborhood) intent.getSerializableExtra("NEIGHBORHOOD");
             int id = intent.getIntExtra("NEIGHBORHOOD_ID", 0);
             try {
                 neighborhoodRequest(id);
@@ -158,6 +164,8 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
      */
     public void switchToSubmitAlert(View v) {
         Intent intent = new Intent(this, SubmitAlertActivity.class);
+        intent.putExtra("ROUTE", route);
+        intent.putExtra("NEIGHBORHOOD", neighborhood);
         startActivity(intent);
     }
 }

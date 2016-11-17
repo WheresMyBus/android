@@ -104,7 +104,7 @@ public class Bus {
      * @param coordinates position fo the bus as a Pair<Double,Double>
 
     public void setCoordinates(Pair<Double,Double> coordinates) {
-        this.coordinates = coordinates;
+        this.coordinates = new Pair<>(coordinates.first, coordinates.second);
         checkRep();
     }
 

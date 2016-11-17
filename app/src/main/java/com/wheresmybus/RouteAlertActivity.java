@@ -3,6 +3,7 @@ package com.wheresmybus;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -72,5 +73,11 @@ public class RouteAlertActivity extends AppCompatActivity {
 
     private void commentRequest() throws Exception {
 
+    }
+
+    public void switchToSubmitComment(View view) {
+        Intent intent = new Intent(this, SubmitCommentActivity.class);
+        intent.putExtra("ALERT", alert);
+        startActivity(intent);
     }
 }
