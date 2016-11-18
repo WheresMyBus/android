@@ -64,7 +64,6 @@ public class TestRouteAlert extends TestAlertBase<RouteAlert> {
         assertTrue(a.getDescription().equals("lots"));
         assertTrue(a.getCreatorID().equals("3"));
         assertTrue(a.getId() == 2);
-        assertTrue(a.getCoordinates() == null);
     }
 
     @Test
