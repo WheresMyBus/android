@@ -21,6 +21,7 @@ import modules.Neighborhood;
 import modules.NeighborhoodAlert;
 import modules.Route;
 import modules.RouteAlert;
+import modules.UserDataManager;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -70,6 +71,15 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
                 e.printStackTrace();
             }
         }
+    }
+
+    // TODO: saving user data writes all of the user data to files, which could be unnecessarily
+    // expensive to perform as often as we will be doing - Nick B. (though the files are small
+    // enough that it probably won't matter
+    @Override
+    public void onStop() {
+        super.onStop();
+        UserDataManager.getManager().saveUserData(this);
     }
 
     /**
