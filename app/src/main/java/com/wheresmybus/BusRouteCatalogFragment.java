@@ -36,8 +36,10 @@ import retrofit.Retrofit;
 public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnItemClickListener {
     // the fragment initialization parameters
     private List<String> favoriteRoutesByID;
+    private boolean favoritesOnly;
 
     private ListView routeList;
+    private RouteAdapter adapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -52,10 +54,12 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
      * @param favoriteRoutesByID List of the ids of favorite routes
      * @return A new instance of fragment BusRouteCatalogFragment
      */
-    public static BusRouteCatalogFragment newInstance(ArrayList<String> favoriteRoutesByID) {
+    public static BusRouteCatalogFragment newInstance(ArrayList<String> favoriteRoutesByID,
+                                                      boolean favoritesOnly) {
         BusRouteCatalogFragment fragment = new BusRouteCatalogFragment();
         Bundle args = new Bundle();
         args.putStringArrayList("FAVORITES", favoriteRoutesByID);
+        args.putBoolean("FAVORITES_ONLY", favoritesOnly);
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,6 +72,7 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         favoriteRoutesByID = getArguments() != null ? getArguments().getStringArrayList("FAVORITES") : null;
+        favoritesOnly = getArguments() != null && getArguments().getBoolean("FAVORITES_ONLY");
         try {
             routeRequest();
         } catch (Exception e) {
@@ -97,16 +102,19 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
     }
 
     /**
-     * Converts the set of routes returned from the database to a list for the adapter
-     * @param routes the set of routes (from the database)
-     * @return the list of routes
+     * Filters the list of routes to a new list of only favorites
+     *
+     * @param routes The full, unfiltered list of routes
+     * @return a filtered list of only favorite routes
      */
-    private List<Route> setToList(Set<Route> routes) {
-        List<Route> data = new ArrayList<Route>();
-        for (Route route: routes) {
-            data.add(route);
+    private List<Route> filterFavorites(List<Route> routes) {
+        List<Route> favoriteList = new ArrayList<Route>();
+        for (Route route : routes) {
+            if (favoriteRoutesByID.contains(route.getId())) {
+                favoriteList.add(route);
+            }
         }
-        return data;
+        return favoriteList;
     }
 
 
@@ -115,14 +123,23 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
      * @param data the list of routes to be loaded
      */
     private void loadListData(List<Route> data) {
-        RouteAdapter adapter = new RouteAdapter(this.getActivity(),
-                android.R.layout.simple_list_item_1, data, true);
+        if (favoritesOnly) {
+            List<Route> favorites = filterFavorites(data);
+            adapter = new RouteAdapter(this.getActivity(),
+                    android.R.layout.simple_list_item_1, favorites, true);
+        } else {
+            adapter = new RouteAdapter(this.getActivity(),
+                    android.R.layout.simple_list_item_1, data, true);
+        }
         routeList.setAdapter(adapter);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_bus_route_catalog, container, false);
     }

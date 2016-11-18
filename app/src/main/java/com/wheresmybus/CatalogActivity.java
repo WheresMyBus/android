@@ -53,6 +53,9 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
      */
     private ViewPager mViewPager;
 
+    // favorites only switch is on
+    private boolean favoritesOnly;
+
     /**
      * Sets up the catalog screen with a routes and a neighborhoods tab
      * Each tab shows a list of the routes/neighborhoods in Seattle
@@ -89,9 +92,10 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
         favoriteSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // show only favorites when checked
+                favoritesOnly = favoriteSwitch.isChecked();
             }
         });
+        favoriteSwitch.setChecked(true);
     }
 
     @Override
@@ -182,9 +186,11 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
             Set<Integer> favoriteNeighborhoodsByID = manager.getFavoriteNeighborhoodsByID();
             // getItem is called to instantiate the fragment for the given page.
             if (position == 0) {
-                return BusRouteCatalogFragment.newInstance(routeSetToList(favoriteRoutesByID));
+                return BusRouteCatalogFragment.newInstance(routeSetToList(favoriteRoutesByID),
+                        favoritesOnly);
             } else if (position == 1) {
-                return NeighborhoodCatalogFragment.newInstance(neighborhoodSetToList(favoriteNeighborhoodsByID));
+                return NeighborhoodCatalogFragment.newInstance(neighborhoodSetToList(favoriteNeighborhoodsByID),
+                        favoritesOnly);
             } else {
                 return null;
             }
