@@ -25,44 +25,12 @@ public class TestBus {
 
     @Before
     public void setUp() {
-        sampleBus = new Bus(new Route("106", "Downtown", "FooBar"), new Pair<>(0.0, 1.0));
+        sampleBus = new Bus(0.0, 1.0);
     }
 
     @Test
-    public void test_set_id() {
-        assertEquals(-1, sampleBus.getId());
-        assertTrue(sampleBus.setId(2));
-        assertEquals(sampleBus.getId(), 2);
-    }
-
-    @Test(expected=IllegalArgumentException.class)
-    public void test_set_id_out_of_bounds(){
-        sampleBus.setId(0);
-    }
-
-    @Test
-    public void test_set_id_already_set() {
-        sampleBus.setId(3);
-        assertFalse(sampleBus.setId(4));
-        assertFalse(sampleBus.setId(5));
-        assertEquals(sampleBus.getId(), 3);
-    }
-
-    @Test
-    public void test_set_id_large_number() {
-        assertTrue(sampleBus.setId(Integer.MAX_VALUE));
-        assertEquals(sampleBus.getId(), Integer.MAX_VALUE);
-    }
-
-    @Test
-    public void test_get_route_basic() {
-        assertEquals(new Route("106", "Downtown", "FooBar"), sampleBus.getRoute());
-    }
-
-    @Test
-    public void test_bus_coords() {
-        sampleBus.setCoordinates(new Pair<Double,Double>(0.,0.));
-        assertFalse(sampleBus.getCoordinates() != null);
-
+    public void testBasic() {
+        assertTrue(sampleBus.getLat() == 0.0);
+        assertTrue(sampleBus.getLon() == 1.0);
     }
 }
