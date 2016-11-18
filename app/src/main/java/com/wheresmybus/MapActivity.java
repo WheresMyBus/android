@@ -1,11 +1,13 @@
 package com.wheresmybus;
 
+import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -22,20 +24,40 @@ import java.util.Set;
 
 import modules.UserDataManager;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements
+        RouteMapFragment.OnFragmentInteractionListener,
+        NeighborhoodMapFragment.OnFragmentInteractionListener {
 
-    private GoogleMap mMap;
     private ViewPager viewPager;
     private SectionsPagerAdapter mSectionsPagerAdapter;
+
+    private RouteMapFragment routeMapFragment;
+    private NeighborhoodMapFragment neighborhoodMapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // add fragments to the manager and grab references to them
+        fragmentTransaction.add(R.id.route_map, new RouteMapFragment(), "ROUTE");
+
+        routeMapFragment = (RouteMapFragment) fragmentManager.findFragmentById(R.id.route_map);
+        routeMapFragment.getMapAsync(routeMapFragment);
+
+        fragmentTransaction.add(R.id.neighborhood_map, new NeighborhoodMapFragment(), "NEIGHBORHOOD");
+
+        neighborhoodMapFragment = (NeighborhoodMapFragment) fragmentManager
+                .findFragmentById(R.id.neighborhood_map);
+        neighborhoodMapFragment.getMapAsync(neighborhoodMapFragment);
+
+        fragmentTransaction.commit();
 
         viewPager = (ViewPager) findViewById(R.id.container);
         viewPager.setAdapter(mSectionsPagerAdapter);
@@ -65,6 +87,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -81,12 +108,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
          * @return The fragment (sub-page) to show
          */
         @Override
-        // TODO: RouteMapFragment and NeighborhoodMapFragment need to subclass Fragment
-        // TODO: OR this method needs to return a SupportMapFragment (but 'cannot be resolved')
         public Fragment getItem(int position) {
-            UserDataManager manager = UserDataManager.getManager();
-            Set<String> favoriteRoutesByID = manager.getFavoriteRoutesByID();
-            Set<Integer> favoriteNeighborhoodsByID = manager.getFavoriteNeighborhoodsByID();
             // getItem is called to instantiate the fragment for the given page.
             if (position == 0) {
                 return new RouteMapFragment();
@@ -108,7 +130,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
          * @param position the index of the tab
          * @return the title of the given tab
          */
-        // TODO: change the titles of the tabs as you see fit
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
@@ -119,34 +140,5 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
             return null;
         }
-    }
-
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-    }
-
-    /**
-     * This is where we can add markers or lines, add listeners or move the camera.
-     *
-     * This should only be called once and when we are sure that (@link #mMap) is not null.
-     */
-    private void setUpMap() {
-
     }
 }

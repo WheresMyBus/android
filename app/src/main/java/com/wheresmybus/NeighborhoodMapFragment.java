@@ -8,7 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 
 /**
@@ -19,15 +24,14 @@ import com.google.android.gms.maps.SupportMapFragment;
  * Use the {@link NeighborhoodMapFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NeighborhoodMapFragment extends SupportMapFragment {
+public class NeighborhoodMapFragment extends SupportMapFragment implements OnMapReadyCallback {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private GoogleMap mMap;
 
     private OnFragmentInteractionListener mListener;
 
@@ -56,17 +60,22 @@ public class NeighborhoodMapFragment extends SupportMapFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        /*if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        }*/
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        /* SupportMapFragment fragment = (SupportMapFragment) getActivity().getSupportFragmentManager()
+                .findFragmentById(R.id.neighborhood_map);
+        fragment.getMapAsync(this); */
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_map, container, false);
+        return inflater.inflate(R.layout.fragment_neighborhood_map, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,6 +100,36 @@ public class NeighborhoodMapFragment extends SupportMapFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camera
+        LatLng sydney = new LatLng(-34, 151);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        setUpMap();
+    }
+
+    /**
+     * This is where we can add markers or lines, add listeners or move the camera.
+     *
+     * This should only be called once and when we are sure that (@link #mMap) is not null.
+     */
+    private void setUpMap() {
+
     }
 
     /**

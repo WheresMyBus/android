@@ -30,7 +30,7 @@
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
         <meta-data
-            android:name="com.google.android.maps.API_KEY"
+            android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
@@ -55,10 +55,6 @@
         <activity
             android:name=".SubmitAlertActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyClMB6f77og7XRhydYH1lEK5jTum73yl-M" />
 
         <activity
             android:name=".CatalogActivity"
