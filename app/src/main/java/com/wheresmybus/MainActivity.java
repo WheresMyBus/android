@@ -101,4 +101,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SubmitAlertActivity.class);
         startActivity(intent);
     }
+
+    public void switchToMap(View view) {
+        Intent intent = new Intent(this, MapActivity.class);
+        startActivity(intent);
+    }
 }
