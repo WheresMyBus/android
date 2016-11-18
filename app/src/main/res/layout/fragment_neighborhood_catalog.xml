@@ -1,13 +1,24 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.wheresmybus.NeighborhoodCatalogFragment">
 
+    <Switch
+        android:text="@string/view_favorites_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/favoriteSwitch"
+        android:theme="@style/AppTheme.SwitchTheme"
+        android:background="@color/white"
+        android:layout_gravity="end"
+        android:textAlignment="viewEnd"/>
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/neighborhood_list">
+        android:id="@+id/neighborhood_list"
+        android:layout_below="@+id/favoriteSwitch">
     </ListView>
 
-</FrameLayout>
+</RelativeLayout>

@@ -36,16 +36,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <Switch
-            android:text="@string/view_favorites_switch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/favoriteSwitch"
-            android:theme="@style/AppTheme.SwitchTheme"
-            android:background="@color/white"
-            android:layout_gravity="end"
-            android:textAlignment="viewEnd"/>
-
     </android.support.design.widget.AppBarLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Switch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +35,9 @@ import retrofit.Retrofit;
 public class NeighborhoodCatalogFragment extends Fragment implements AdapterView.OnItemClickListener {
     // the fragment initialization parameters
     private List<Integer> favoriteNeighborhoodsByID;
-    private boolean favoritesOnly;
 
     private ListView neighborhoodList;
+    private List<Neighborhood> neighborhoods;
     private NeighborhoodAdapter adapter;
 
     private OnFragmentInteractionListener mListener;
@@ -52,12 +53,10 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
      * @param favoriteNeighborhoodsByID List of the ids of favorite neighborhoods
      * @return A new instance of fragment NeighborhoodCatalogFragment.
      */
-    public static NeighborhoodCatalogFragment newInstance(ArrayList<Integer> favoriteNeighborhoodsByID,
-                                                          boolean favoritesOnly) {
+    public static NeighborhoodCatalogFragment newInstance(ArrayList<Integer> favoriteNeighborhoodsByID) {
         NeighborhoodCatalogFragment fragment = new NeighborhoodCatalogFragment();
         Bundle args = new Bundle();
         args.putIntegerArrayList("FAVORITES", favoriteNeighborhoodsByID);
-        args.putBoolean("FAVORITES_ONLY", favoritesOnly);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,8 +68,8 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        neighborhoods = new ArrayList<Neighborhood>();
         favoriteNeighborhoodsByID = getArguments() != null ? getArguments().getIntegerArrayList("FAVORITES") : null;
-        favoritesOnly = getArguments() != null ? getArguments().getBoolean("FAVORITES_ONLY") : false;
         try {
             neighborhoodRequest();
         } catch (Exception e) {
@@ -80,6 +79,7 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
 
     /**
      * Gets the neighborhoods from the database
+     *
      * @throws Exception if the request fails
      */
     private void neighborhoodRequest() throws Exception {
@@ -99,6 +99,20 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
     }
 
     /**
+     * Load the given data into the ListView
+     *
+     * @param data the list of neighborhoods to be loaded
+     */
+    private void loadListData(List<Neighborhood> data) {
+        adapter = new NeighborhoodAdapter(this.getActivity(),
+                android.R.layout.simple_list_item_1, data, true);
+        neighborhoodList.setAdapter(adapter);
+        for (int i = 0; i < adapter.getCount(); i++) {
+            neighborhoods.add(adapter.getItem(i));
+        }
+    }
+
+    /**
      * Filters the list of neighborhoods to a new list of only favorites
      *
      * @param neighborhoods The full, unfiltered list of neighborhoods
@@ -114,30 +128,26 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
         return favoriteList;
     }
 
-    /**
-     * Load the given data into the ListView
-     * @param data the list of neighborhoods to be loaded
-     */
-    private void loadListData(List<Neighborhood> data) {
-        if (favoritesOnly) {
-            List<Neighborhood> favorites = filterFavorites(data);
-            adapter = new NeighborhoodAdapter(this.getActivity(),
-                    android.R.layout.simple_list_item_1, favorites, true);
-        } else {
-            adapter = new NeighborhoodAdapter(this.getActivity(),
-                    android.R.layout.simple_list_item_1, data, true);
-        }
-        neighborhoodList.setAdapter(adapter);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
-        }
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_neighborhood_catalog, container, false);
+        View view = inflater.inflate(R.layout.fragment_neighborhood_catalog, container, false);
+
+        final Switch favoriteSwitch = (Switch) view.findViewById(R.id.favoriteSwitch);
+        favoriteSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapter.clear();
+                if (favoriteSwitch.isChecked()) {
+                    adapter.addAll(filterFavorites(neighborhoods));
+                } else {
+                    adapter.addAll(neighborhoods);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
+        return view;
     }
 
     @Override

@@ -87,15 +87,6 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
         if (tab != null) {
             tab.select();
         }
-
-        final Switch favoriteSwitch =  (Switch) findViewById(R.id.favoriteSwitch);
-        favoriteSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                favoritesOnly = favoriteSwitch.isChecked();
-            }
-        });
-        favoriteSwitch.setChecked(true);
     }
 
     @Override
@@ -186,11 +177,9 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
             Set<Integer> favoriteNeighborhoodsByID = manager.getFavoriteNeighborhoodsByID();
             // getItem is called to instantiate the fragment for the given page.
             if (position == 0) {
-                return BusRouteCatalogFragment.newInstance(routeSetToList(favoriteRoutesByID),
-                        favoritesOnly);
+                return BusRouteCatalogFragment.newInstance(routeSetToList(favoriteRoutesByID));
             } else if (position == 1) {
-                return NeighborhoodCatalogFragment.newInstance(neighborhoodSetToList(favoriteNeighborhoodsByID),
-                        favoritesOnly);
+                return NeighborhoodCatalogFragment.newInstance(neighborhoodSetToList(favoriteNeighborhoodsByID));
             } else {
                 return null;
             }
