@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.SupportMapFragment;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,7 +19,7 @@ import android.view.ViewGroup;
  * Use the {@link NeighborhoodMapFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NeighborhoodMapFragment extends Fragment {
+public class NeighborhoodMapFragment extends SupportMapFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -64,7 +66,7 @@ public class NeighborhoodMapFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_neighborhood_map, container, false);
+        return inflater.inflate(R.layout.fragment_map, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

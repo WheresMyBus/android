@@ -2,11 +2,15 @@ package com.wheresmybus;
 
 import android.util.Pair;
 
+import org.junit.Test;
+
 import java.util.Date;
 
 import modules.Alert;
 import modules.Route;
 import modules.RouteAlert;
+
+import static junit.framework.Assert.*;
 
 /**
  * Created by Nick on 11/9/2016.
@@ -48,5 +52,22 @@ public class TestRouteAlert extends TestAlertBase<RouteAlert> {
     @Override
     Alert createCoordinatesAreOneZero() {
         return sampleRouteAlert();
+    }
+
+    @Test
+    public void testSecondConstructor() {
+        RouteAlert a = new RouteAlert("1", 2, "3", "traffic", "lots", new Date(), 1, 4);
+        assertTrue(a.getDate() != null);
+        assertTrue(a.getDownvotes() == 4);
+        assertTrue(a.getUpvotes() == 1);
+        assertTrue(a.getType().equals("traffic"));
+        assertTrue(a.getDescription().equals("lots"));
+        assertTrue(a.getCreatorID().equals("3"));
+        assertTrue(a.getId() == 2);
+    }
+
+    @Test
+    public void testGetComments() {
+        // TODO
     }
 }
