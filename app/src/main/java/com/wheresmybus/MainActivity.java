@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void switchToMap(View view) {
-        Intent intent = new Intent(this, MapActivity.class);
+        Intent intent = new Intent(this, RouteMapActivity.class);
         startActivity(intent);
     }
 }

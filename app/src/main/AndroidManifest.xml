@@ -55,7 +55,6 @@
         <activity
             android:name=".SubmitAlertActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-
         <activity
             android:name=".CatalogActivity"
             android:label="@string/title_activity_catalog"
@@ -73,6 +72,9 @@
         <activity
             android:name=".MapActivity"
             android:label="@string/title_activity_map" />
+        <activity
+            android:name=".RouteMapActivity"
+            android:label="@string/title_activity_route_map"></activity>
     </application>
 
 </manifest>
