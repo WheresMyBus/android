@@ -95,6 +95,11 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        UserDataManager.instantiateManager(this);
+    }
+    @Override
     public void onStop() {
         super.onStop();
         UserDataManager.getManager().saveUserData(this);
