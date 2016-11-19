@@ -112,6 +112,20 @@ public class TestCatalogPage {
                                     "    \"created_at\": \"2016-11-10T17:29:53.626Z\"\n" +
                                     "  }\n" +
                                     "]");
+                } else if (request.getPath().equals("/routes/1_100512/alerts")) {
+                    return new MockResponse().setResponseCode(200)
+                            .setBody("[\n" +
+                                    "  {\n" +
+                                    "    \"id\": 1,\n" +
+                                    "    \"user_id\": \"1d5a07f3-e980-49b7-bf6c-005a02fe3e13\",\n" +
+                                    "    \"issue_type\": \"construction\",\n" +
+                                    "    \"description\": \"Alert description goes here...\",\n" +
+                                    "    \"upvotes\": 0,\n" +
+                                    "    \"downvotes\": 0,\n" +
+                                    "    \"route_id\":\"1_100224\",\n" +
+                                    "    \"created_at\": \"2016-11-11T00:28:53.935Z\"\n" +
+                                    "  }\n" +
+                                    "]");
                 } else {
                     return null;
                 }
@@ -120,11 +134,29 @@ public class TestCatalogPage {
         server.start();
         controller.useMockURL(server.url("/").toString());
         controller2.useMockURL(server.url("/").toString());
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+        controller.useProdURL();
+        controller2.useProdURL();
+        server.shutdown();
+    }
+
+    @Before
+    public void setUp() {
         Intents.init();
     }
+
+    @After
+    public void tearDown() {
+        Intents.release();
+    }
+
     @Rule
     public ActivityTestRule<CatalogActivity> rule =
             new ActivityTestRule<CatalogActivity>(CatalogActivity.class, true, false);
+
     @Test
     public void testRouteCatalogPopulated() throws Exception {
         Intent startIntent = new Intent();
@@ -177,7 +209,7 @@ public class TestCatalogPage {
                 .atPosition(2)
                 .onChildView(withId(R.id.name))
                 .check(matches(withText("Ballard")));
-        
+
         //TODO: figure out a way to test the favorites button changing colors.
 //        onData(anything()).inAdapterView(withId(R.id.neighborhood_list))
 //                .atPosition(2)
@@ -201,10 +233,26 @@ public class TestCatalogPage {
         intended(hasExtra("NEIGHBORHOOD_ID", 3));
     }
 
+    @Test
+    public void testRouteSelection() throws Exception {
+        Intent startIntent = new Intent();
+        startIntent.putExtra("TAB_INDEX", 0);
+        rule.launchActivity(startIntent);
+
+        onData(anything()).inAdapterView(withId(R.id.route_list))
+                .atPosition(2)
+                .onChildView(withId(R.id.name))
+                .perform(click());
+
+        intended(hasComponent("com.wheresmybus.AlertForumActivity"));
+        intended(hasExtra("ALERT_TYPE", "Route"));
+        intended(hasExtra("ROUTE_ID", "1_100512"));
+    }
 
 
 
 
+//// This does not work. But a matcher will probably be necessary for testing color changes.
 //    public static Matcher<View> withTint(final int color) {
 //        return new BoundedMatcher<View, View>(ImageButton.class) {
 //
@@ -221,12 +269,4 @@ public class TestCatalogPage {
 //            }
 //        };
 //    }
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-        controller.useProdURL();
-        controller2.useProdURL();
-        server.shutdown();
-        Intents.release();
-    }
-
 }
