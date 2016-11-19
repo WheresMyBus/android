@@ -2,6 +2,7 @@ package com.wheresmybus;
 
 import android.*;
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -24,6 +25,15 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
+import controllers.WMBController;
+import modules.Bus;
+import modules.Route;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
+
 
 // shouldShowRequestPermissionsRationale(): returns true if app has requested permission before and
 //          user denied the report - returns false if user has requested permission previously and
@@ -39,6 +49,7 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
     private Location userLocation;
     private boolean haveRequestedPermission;
     private boolean havePermission;
+    private Route route;
 
     private final int MAP_TYPE = GoogleMap.MAP_TYPE_NORMAL;
     private final LatLng SEATTLE = new LatLng(47.608013, -122.335167);
@@ -54,6 +65,9 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        Intent intent = getIntent();
+        route = (Route) intent.getSerializableExtra("ROUTE");
 
         // set up GoogleApiClient which helps track user location
         if (mGoogleApiClient == null) {
@@ -89,7 +103,8 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(MAP_TYPE);
-        if (checkUserLocationPermission() && userLocation != null) {
+        markZoomLocation();
+        /*if (checkUserLocationPermission() && userLocation != null) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -110,23 +125,33 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
             toast.show();
             mMap.moveCamera(CameraUpdateFactory.newLatLng(SEATTLE));
             mMap.addMarker(new MarkerOptions().position(SEATTLE).title("Seattle").icon(BitmapDescriptorFactory.defaultMarker(MARKER_HUE)));
-        }
+        }*/
 
         // get bus stops, add markers for each, and make them clickable
 
         // make some kind of view for list of routes that stop at that bus stop to show up if user
         // clicks there
-        /*
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        */
+
         setUpMap();
     }
 
     private void setUpMap() {
 
+    }
+
+    private void busLocationRequest() throws Exception {
+        WMBController controller = WMBController.getInstance();
+        controller.getBuses(route.getId(), new Callback<List<Bus>>() {
+            @Override
+            public void onResponse(Response<List<Bus>> response, Retrofit retrofit) {
+                // for each bus, add a marker to the map
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
     }
 
     @Override
@@ -154,27 +179,6 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
     private boolean checkUserLocationPermission() {
         return ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED;
-
-        /*
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
-            if (!haveRequestedPermissions) {
-                // ask the user for permission to access their location
-                ActivityCompat.requestPermissions(this, new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
-                return havePermissions;
-            } else {
-                // note that we have asked for permission already and return false to indicate we
-                // do not have the user's permission
-                haveRequestedPermissions = true;
-                return false;
-            }
-        }
-        */
     }
 
     @Override
@@ -183,10 +187,18 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
             // received permission result for camera permission
 
             // check permissions
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                markUserLocation();             // does this cause an infinite loop?
+            // if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (checkUserLocationPermission()) {        // TODO: check if this actually works
+                mMap.setMyLocationEnabled(true);
+                markUserLocation();
             } else {
+                // inform the user that location permission was not granted
                 Toast.makeText(this, "Location permission was not granted.", Toast.LENGTH_SHORT).show();
+
+                // display a marker for Seattle instead of the user's current location
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(SEATTLE));
+                mMap.addMarker(new MarkerOptions().position(SEATTLE).title("Seattle")
+                        .icon(BitmapDescriptorFactory.defaultMarker(MARKER_HUE)));
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -201,18 +213,15 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
         userLocation = location;
 
         // add marker for current location
-
+        markUserLocation();
     }
 
-    private void markUserLocation() {
+    private void markZoomLocation() {
         // check if the user has granted permission to use location data
-        if (checkUserLocationPermission()) {
+        if (checkUserLocationPermission() && userLocation != null) {
             // get the user's location and add a marker to it
             mMap.setMyLocationEnabled(true);
-            LatLng user = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(user).title("Your current location")
-                    .icon(BitmapDescriptorFactory.defaultMarker(MARKER_HUE)));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(user));
+            markUserLocation();
         } else {
             // provide rationale to the user of benefit to granting permission
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -221,8 +230,14 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
                         Toast.LENGTH_SHORT).show();
                 ActivityCompat.requestPermissions(this, new String[]{
                         Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-
             }
         }
+    }
+
+    private void markUserLocation() {
+        LatLng user = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
+        mMap.addMarker(new MarkerOptions().position(user).title("Your current location")
+                .icon(BitmapDescriptorFactory.defaultMarker(MARKER_HUE)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(user));
     }
 }
