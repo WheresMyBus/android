@@ -63,23 +63,28 @@ public abstract class Alert implements Serializable, Comparable<Alert> {
     }
 
     /**
-     * TODO: document this. Added to construct from server response for beta.
-     * @param alertID
-     * @param user_id
-     * @param alertType
-     * @param description
-     * @param date
-     * @param upvotes
-     * @param downvotes
+     * Constructor used when getting alerts from the server
+     * @param alertID id of the alert
+     * @param user_id id of the creator of the alert
+     * @param alertType type of the alert
+     * @param description description of the alert
+     * @param date Date the alert was posted
+     * @param upvotes number of upvotes the alert has
+     * @param downvotes number of downvotes the alert has
+     * @throws IllegalArgumentException if description, user_id, date, or alertType are null
+     * @throws IllegalArgumentException if alertID is < 1, or if upvotes or downvotes < 0
      */
     public Alert(int alertID, String user_id, String alertType, String description,
                  Date date, int upvotes, int downvotes) {
         if (description == null || user_id == null || date == null || alertType == null) {
             throw new IllegalArgumentException("null parameters");
         }
+        if(alertID < 1 || upvotes < 0 || downvotes < 0) {
+            throw new IllegalArgumentException();
+        }
         this.id = alertID;
         this.creatorID = user_id;
-        this.date = date;
+        this.date = (Date)date.clone();
         this.type = alertType;
         this.description = description;
         this.upvotes = upvotes;
