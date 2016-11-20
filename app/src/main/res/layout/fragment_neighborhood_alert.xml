@@ -24,7 +24,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:isScrollContainer="true"
-        android:elevation="10dp"
         android:prompt="@string/choose_neighborhood"
         android:spinnerMode="dialog"/>
 
@@ -73,22 +72,6 @@
         android:id="@+id/checkBox6"
         android:buttonTint="@color/darkBlue"/>
 
-    <CheckBox
-        android:text="@string/traffic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/checkBox6"
-        android:id="@+id/checkBox7"
-        android:buttonTint="@color/darkBlue"/>
-
-    <CheckBox
-        android:text="@string/other"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/checkBox7"
-        android:id="@+id/checkBox8"
-        android:buttonTint="@color/darkBlue"/>
-
     <TextView
         android:text="@string/write_description"
         android:layout_width="wrap_content"
@@ -108,7 +91,6 @@
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/neighborhood_alert_description"
-        android:elevation="10dp"
         android:allowUndo="true"
         android:isScrollContainer="true"
         android:textColor="@android:color/black"
@@ -120,5 +102,36 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/select_routes_affected"
+        android:layout_below="@+id/neighborhood_alert_description"
+        android:text="Select which route(s) may be affected:"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"/>
+
+    <CheckBox
+        android:text="@string/traffic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox7"
+        android:buttonTint="@color/darkBlue"
+        android:layout_below="@+id/choose_neighborhood_alert_types"
+        android:layout_toRightOf="@+id/checkBox5"
+        android:layout_toEndOf="@+id/checkBox5"
+        android:layout_marginLeft="81dp"
+        android:layout_marginStart="81dp" />
+
+    <CheckBox
+        android:text="@string/other"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox8"
+        android:buttonTint="@color/darkBlue"
+        android:layout_below="@+id/checkBox7"
+        android:layout_alignLeft="@+id/checkBox7"
+        android:layout_alignStart="@+id/checkBox7" />
 
 </RelativeLayout>
