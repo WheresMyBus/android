@@ -10,12 +10,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -47,8 +49,6 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private Location userLocation;
-    private boolean haveRequestedPermission;
-    private boolean havePermission;
     private Route route;
     private boolean noBusLocationsFound;
 
@@ -63,6 +63,9 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route_map);
+
+        requestUserLocationPermission();
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -73,23 +76,25 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
 
         // set up GoogleApiClient which helps track user location
         if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this).addApi(LocationServices.API).build();
+            mGoogleApiClient = new GoogleApiClient
+                    .Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
         }
-
-        haveRequestedPermission = false;        // default value for boolean
     }
 
     @Override
     protected void onStart() {
-        mGoogleApiClient.connect();
         super.onStart();
+        mGoogleApiClient.connect();
     }
 
     @Override
     protected void onStop() {
-        mGoogleApiClient.disconnect();
         super.onStop();
+        mGoogleApiClient.disconnect();
     }
 
     /**
@@ -167,18 +172,7 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        if (checkUserLocationPermission()) {
-            userLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        } else {
-            // provide rationale to the user of benefit to granting permission
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-                Toast.makeText(this, "Location permission is needed to show the user's location.",
-                        Toast.LENGTH_SHORT).show();
-                ActivityCompat.requestPermissions(this, new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-            }
-        }
+
     }
 
     @Override
@@ -191,39 +185,74 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
 
     }
 
+    private void requestUserLocationPermission() {
+        if (!checkUserLocationPermission()) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                Toast.makeText(this,
+                        "Location permission is needed to show your location on the map.",
+                        Toast.LENGTH_LONG).show();
+            }
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_LOCATION);
+        }
+    }
+
     /**
      * Returns true if the user has granted access to their location or false otherwise.
      *
      * @return
      */
     private boolean checkUserLocationPermission() {
-        return ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED;
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         if (requestCode == REQUEST_LOCATION) {
-            // received permission result for location permission
-
-            // check permissions
-            // if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            if (checkUserLocationPermission()) {        // TODO: check if this actually works
+            if (checkUserLocationPermission()) {
                 mMap.setMyLocationEnabled(true);
                 markUserLocation();
             } else {
-                // inform the user that location permission was not granted
-                Toast.makeText(this, "Location permission was not granted.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,
+                        "location permission was not granted.",
+                        Toast.LENGTH_SHORT).show();
 
-                // display a marker for Seattle instead of the user's current location
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(SEATTLE));
-                mMap.addMarker(new MarkerOptions().position(SEATTLE).title("Seattle")
+                mMap.addMarker(new MarkerOptions()
+                        .position(SEATTLE)
+                        .title("Seattle")
                         .icon(BitmapDescriptorFactory.defaultMarker(USER_MARKER_HUE)));
             }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
+
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        if (requestCode == REQUEST_LOCATION) {
+//            // received permission result for location permission
+//
+//            // check permissions
+//            // if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//            if (checkUserLocationPermission()) {        // TODO: check if this actually works
+//                mMap.setMyLocationEnabled(true);
+//                markUserLocation();
+//            } else {
+//                // inform the user that location permission was not granted
+//                Toast.makeText(this, "Location permission was not granted.", Toast.LENGTH_SHORT).show();
+//
+//                // display a marker for Seattle instead of the user's current location
+//                mMap.moveCamera(CameraUpdateFactory.newLatLng(SEATTLE));
+//                mMap.addMarker(new MarkerOptions().position(SEATTLE).title("Seattle")
+//                        .icon(BitmapDescriptorFactory.defaultMarker(USER_MARKER_HUE)));
+//            }
+//        } else {
+//            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        }
+//    }
 
     @Override
     public void onLocationChanged(Location location) {
