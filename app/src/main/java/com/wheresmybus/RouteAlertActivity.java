@@ -6,14 +6,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import adapters.CommentAdapter;
+import modules.Comment;
 import modules.RouteAlert;
 import modules.UserDataManager;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class RouteAlertActivity extends AppCompatActivity {
     private RouteAlert alert;
@@ -102,7 +109,25 @@ public class RouteAlertActivity extends AppCompatActivity {
     }
 
     private void commentRequest() throws Exception {
+        alert.getComments(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Response<List<Comment>> response, Retrofit retrofit) {
+                List<Comment> comments = new ArrayList<Comment>(response.body());
+                loadComments(comments);
+            }
 
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+    }
+
+    private void loadComments(List<Comment> comments) {
+        CommentAdapter adapter = new CommentAdapter(this, android.R.layout.simple_list_item_1,
+                comments);
+        ListView commentList = (ListView) findViewById(R.id.comments);
+        commentList.setAdapter(adapter);
     }
 
     public void switchToSubmitComment(View view) {
