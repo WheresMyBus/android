@@ -50,10 +50,12 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
     private boolean haveRequestedPermission;
     private boolean havePermission;
     private Route route;
+    private boolean noBusLocationsFound;
 
     private final int MAP_TYPE = GoogleMap.MAP_TYPE_NORMAL;
     private final LatLng SEATTLE = new LatLng(47.608013, -122.335167);
-    private final float MARKER_HUE = 288;           // makes the markers purple
+    private final float BUS_MARKER_HUE = 288;           // makes the bus markers purple
+    private final float USER_MARKER_HUE = 205;          // makes the user marker blue
     private final float ZOOM_LEVEL = 15;            // goes up to 21
     private final int REQUEST_LOCATION = 0;
 
@@ -104,35 +106,32 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
         mMap = googleMap;
         mMap.setMapType(MAP_TYPE);
         markZoomLocation();
-        /*if (checkUserLocationPermission() && userLocation != null) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+        /*
+        // TODO: Consider calling
+        //    ActivityCompat#requestPermissions
+        // here to request the missing permissions, and then overriding
+        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+        //                                          int[] grantResults)
+        // to handle the case where the user grants the permission. See the documentation
+        // for ActivityCompat#requestPermissions for more details.
 
-            // set a marker at the user's location and move the camera there
-            mMap.setMyLocationEnabled(true);
-            LatLng user = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(user).title("Your current location")
-                    .icon(BitmapDescriptorFactory.defaultMarker(MARKER_HUE)));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(user));
-        } else {
-            // zoom to Seattle
-            Toast toast = Toast.makeText(this, "Please consider changing your permissions.", Toast.LENGTH_SHORT);
-            toast.show();
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(SEATTLE));
-            mMap.addMarker(new MarkerOptions().position(SEATTLE).title("Seattle").icon(BitmapDescriptorFactory.defaultMarker(MARKER_HUE)));
-        }*/
+        // set a marker at the user's location and move the camera there
+        */
 
         // get bus stops, add markers for each, and make them clickable
 
         // make some kind of view for list of routes that stop at that bus stop to show up if user
         // clicks there
 
-        setUpMap();
+        try {
+            busLocationRequest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (noBusLocationsFound) {
+            Toast.makeText(this, "No buses were found to be currently running this route.",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setUpMap() {
@@ -145,6 +144,18 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
             @Override
             public void onResponse(Response<List<Bus>> response, Retrofit retrofit) {
                 // for each bus, add a marker to the map
+                String title = route.getNumber() + ": " + route.getName();
+                List<Bus> buses = response.body();
+                if (buses == null) {
+                    noBusLocationsFound = true;
+                } else {
+                    noBusLocationsFound = false;
+                    for (Bus bus : response.body()) {
+                        LatLng busLocation = new LatLng(bus.getLat(), bus.getLon());
+                        mMap.addMarker(new MarkerOptions().position(busLocation).title(title)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BUS_MARKER_HUE)));
+                    }
+                }
             }
 
             @Override
@@ -198,7 +209,7 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
                 // display a marker for Seattle instead of the user's current location
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(SEATTLE));
                 mMap.addMarker(new MarkerOptions().position(SEATTLE).title("Seattle")
-                        .icon(BitmapDescriptorFactory.defaultMarker(MARKER_HUE)));
+                        .icon(BitmapDescriptorFactory.defaultMarker(USER_MARKER_HUE)));
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -237,7 +248,7 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
     private void markUserLocation() {
         LatLng user = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
         mMap.addMarker(new MarkerOptions().position(user).title("Your current location")
-                .icon(BitmapDescriptorFactory.defaultMarker(MARKER_HUE)));
+                .icon(BitmapDescriptorFactory.defaultMarker(USER_MARKER_HUE)));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(user));
     }
 }
