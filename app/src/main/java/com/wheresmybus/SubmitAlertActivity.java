@@ -3,6 +3,7 @@ package com.wheresmybus;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.media.session.MediaControllerCompat;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.RadioButton;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.support.v4.app.FragmentActivity;
@@ -71,6 +73,42 @@ public class SubmitAlertActivity extends FragmentActivity implements
 
         submitButton = (Button) findViewById(R.id.button_submit);
         submitButton.setVisibility(View.INVISIBLE);
+
+        Intent intent = getIntent();
+        Route route = (Route) intent.getSerializableExtra("ROUTE");
+        Neighborhood neighborhood = (Neighborhood) intent.getSerializableExtra("NEIGHBORHOOD");
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.type_buttons);
+        RadioButton routeRadioButton = (RadioButton) findViewById(R.id.radio_bus_route);
+        RadioButton neighborhoodRadioButton = (RadioButton) findViewById(R.id.radio_neighborhood);
+        if (route != null) {
+            // set appropriate radio button and disable both spinner choices and make these non-clickable
+            radioGroup.check(R.id.radio_bus_route);
+            routeRadioButton.setEnabled(false);
+            neighborhoodRadioButton.setEnabled(false);
+
+            type = "route";
+
+            // make bus route fragment visible and set and disable the spinner
+            busRouteFragment.getView().setVisibility(View.VISIBLE);
+            busRouteFragment.setSpinner(route);
+
+            // make submit button visible
+            submitButton.setVisibility(View.VISIBLE);
+        } else if (neighborhood != null) {
+            // set radio button and spinner choices and make these non-clickable
+            radioGroup.check(R.id.radio_neighborhood);
+            routeRadioButton.setEnabled(false);
+            neighborhoodRadioButton.setEnabled(false);
+
+            type = "neighborhood";
+
+            // make neighborhood fragment visible and set and disable the spinner
+            neighborhoodFragment.getView().setVisibility(View.VISIBLE);
+            neighborhoodFragment.setSpinner(neighborhood);
+
+            // make submit button visible
+            submitButton.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -136,9 +174,8 @@ public class SubmitAlertActivity extends FragmentActivity implements
                     }
                 });
 
-                // switch back to home screen
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
+                // switch back to previous screen
+                finish();
             }
         } else if (type.equals("neighborhood")) {
             // get the information from the NeighborhoodFragment
