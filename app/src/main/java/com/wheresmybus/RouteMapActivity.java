@@ -5,6 +5,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,6 +27,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
@@ -42,21 +45,25 @@ import retrofit.Retrofit;
 //          chose Don't Ask Again option or device policy prohibits app from having that permission
 
 // for latitude, positive ints are north; for longitude, positive ints are east
-public class RouteMapActivity extends FragmentActivity implements OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+
+public class RouteMapActivity extends FragmentActivity
+        implements OnMapReadyCallback,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
     private GoogleMap mMap;
+    private SupportMapFragment mapFragment;
+    private LocationRequest mLocationRequest;
     private GoogleApiClient mGoogleApiClient;
-    private Location userLocation;
+    private Location mLastLocation;
+    private Marker mCurrLocationMarker;
     private Route route;
-    private boolean noBusLocationsFound;
 
-    private final int MAP_TYPE = GoogleMap.MAP_TYPE_NORMAL;
     private final LatLng SEATTLE = new LatLng(47.608013, -122.335167);
     private final float BUS_MARKER_HUE = 288;           // makes the bus markers purple
     private final float USER_MARKER_HUE = 205;          // makes the user marker blue
-    private final float ZOOM_LEVEL = 15;                // goes up to 21
+    private final float ZOOM_LEVEL = 18;                // goes up to 21
     private final int REQUEST_LOCATION = 0;
 
     @Override
@@ -64,31 +71,25 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route_map);
 
-        requestUserLocationPermission();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestUserLocationPermission();
+        }
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         Intent intent = getIntent();
         route = (Route) intent.getSerializableExtra("ROUTE");
-
-        // set up GoogleApiClient which helps track user location
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient
-                    .Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        mGoogleApiClient.connect();
+    public void onPause() {
+        super.onPause();
+
+        // stop location updates when Activity is no longer active
+        if (mGoogleApiClient != null) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        }
     }
 
     @Override
@@ -97,50 +98,36 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
         mGoogleApiClient.disconnect();
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setMapType(MAP_TYPE);
-        markZoomLocation();
-        /*
-        // TODO: Consider calling
-        //    ActivityCompat#requestPermissions
-        // here to request the missing permissions, and then overriding
-        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-        //                                          int[] grantResults)
-        // to handle the case where the user grants the permission. See the documentation
-        // for ActivityCompat#requestPermissions for more details.
-
-        // set a marker at the user's location and move the camera there
-        */
-
-        // get bus stops, add markers for each, and make them clickable
-
-        // make some kind of view for list of routes that stop at that bus stop to show up if user
-        // clicks there
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
         try {
             busLocationRequest();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (noBusLocationsFound) {
-            Toast.makeText(this, "No buses were found to be currently running this route.",
-                    Toast.LENGTH_SHORT).show();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkUserLocationPermission()) {
+                buildGoogleApiClient();
+                mMap.setMyLocationEnabled(true);
+            }
+        } else {
+            buildGoogleApiClient();
+            mMap.setMyLocationEnabled(true);
         }
     }
 
-    private void setUpMap() {
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
 
+        mGoogleApiClient.connect();
     }
 
     private void busLocationRequest() throws Exception {
@@ -148,17 +135,21 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
         controller.getBuses(route.getId(), new Callback<List<Bus>>() {
             @Override
             public void onResponse(Response<List<Bus>> response, Retrofit retrofit) {
-                // for each bus, add a marker to the map
-                String title = route.getNumber() + ": " + route.getName();
                 List<Bus> buses = response.body();
-                if (buses == null) {
-                    noBusLocationsFound = true;
+
+                if (buses.isEmpty()) {
+                    Toast.makeText(RouteMapActivity.this,
+                            "No buses are currently running on this route.",
+                            Toast.LENGTH_LONG);
                 } else {
-                    noBusLocationsFound = false;
-                    for (Bus bus : response.body()) {
+                    for (Bus bus : buses) {
                         LatLng busLocation = new LatLng(bus.getLat(), bus.getLon());
-                        mMap.addMarker(new MarkerOptions().position(busLocation).title(title)
-                                .icon(BitmapDescriptorFactory.defaultMarker(BUS_MARKER_HUE)));
+
+                        MarkerOptions markerOptions = new MarkerOptions();
+                        markerOptions.position(busLocation);
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BUS_MARKER_HUE));
+
+                        mMap.addMarker(markerOptions);
                     }
                 }
             }
@@ -171,18 +162,47 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
+    public void onConnected(Bundle bundle) {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(1000);
+        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        if (checkUserLocationPermission()) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        }
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
-
-    }
+    public void onConnectionSuspended(int i) {}
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    public void onConnectionFailed(ConnectionResult connectionResult) {}
 
+    @Override
+    public void onLocationChanged(Location location) {
+        mLastLocation = location;
+        if (mCurrLocationMarker != null) {
+            mCurrLocationMarker.remove();
+        }
+
+        // place current location marker
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        markerOptions.title("Current Position");
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(USER_MARKER_HUE));
+
+        mCurrLocationMarker = mMap.addMarker(markerOptions);
+
+        // move map camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(ZOOM_LEVEL));
+
+        // stop location updates
+        if (mGoogleApiClient != null) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        }
     }
 
     private void requestUserLocationPermission() {
@@ -212,72 +232,32 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        if (requestCode == REQUEST_LOCATION) {
-            if (checkUserLocationPermission()) {
-                mMap.setMyLocationEnabled(true);
-                markUserLocation();
-            } else {
-                Toast.makeText(this,
-                        "location permission was not granted.",
-                        Toast.LENGTH_SHORT).show();
+        switch (requestCode) {
+            case REQUEST_LOCATION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (checkUserLocationPermission()) {
+                        if (mGoogleApiClient == null) {
+                            buildGoogleApiClient();
+                        }
 
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(SEATTLE));
-                mMap.addMarker(new MarkerOptions()
-                        .position(SEATTLE)
-                        .title("Seattle")
-                        .icon(BitmapDescriptorFactory.defaultMarker(USER_MARKER_HUE)));
+                        mMap.setMyLocationEnabled(true);
+                    }
+
+                } else {
+                    // add marker on Seattle
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(SEATTLE);
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(USER_MARKER_HUE));
+
+                    mCurrLocationMarker = mMap.addMarker(markerOptions);
+
+                    // move map camera
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(SEATTLE));
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(ZOOM_LEVEL));
+                }
+
+                return;
             }
         }
-    }
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        if (requestCode == REQUEST_LOCATION) {
-//            // received permission result for location permission
-//
-//            // check permissions
-//            // if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//            if (checkUserLocationPermission()) {        // TODO: check if this actually works
-//                mMap.setMyLocationEnabled(true);
-//                markUserLocation();
-//            } else {
-//                // inform the user that location permission was not granted
-//                Toast.makeText(this, "Location permission was not granted.", Toast.LENGTH_SHORT).show();
-//
-//                // display a marker for Seattle instead of the user's current location
-//                mMap.moveCamera(CameraUpdateFactory.newLatLng(SEATTLE));
-//                mMap.addMarker(new MarkerOptions().position(SEATTLE).title("Seattle")
-//                        .icon(BitmapDescriptorFactory.defaultMarker(USER_MARKER_HUE)));
-//            }
-//        } else {
-//            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        }
-//    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        // remove marker for old location from map
-
-        // set user location to given location
-        userLocation = location;
-
-        // add marker for current location
-        markUserLocation();
-    }
-
-    private void markZoomLocation() {
-        // check if the user has granted permission to use location data
-        if (checkUserLocationPermission() && userLocation != null) {
-            // get the user's location and add a marker to it
-            mMap.setMyLocationEnabled(true);
-            markUserLocation();
-        }
-    }
-
-    private void markUserLocation() {
-        LatLng user = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(user).title("Your current location")
-                .icon(BitmapDescriptorFactory.defaultMarker(USER_MARKER_HUE)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(user));
     }
 }
