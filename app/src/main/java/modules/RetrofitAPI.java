@@ -30,7 +30,7 @@ public interface RetrofitAPI {
     @GET("neighborhood_alerts/{id}/comments")
     Call<List<Comment>> getNeighborhoodAlertComments(@Path("id") int alertID);
 
-    @GET("route/{id}/bus_locations")
+    @GET("routes/{id}/bus_locations")
     Call<List<Bus>> getBuses(@Path("id") String routeID);
 
     @FormUrlEncoded
