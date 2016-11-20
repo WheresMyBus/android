@@ -56,7 +56,7 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
     private final LatLng SEATTLE = new LatLng(47.608013, -122.335167);
     private final float BUS_MARKER_HUE = 288;           // makes the bus markers purple
     private final float USER_MARKER_HUE = 205;          // makes the user marker blue
-    private final float ZOOM_LEVEL = 15;            // goes up to 21
+    private final float ZOOM_LEVEL = 15;                // goes up to 21
     private final int REQUEST_LOCATION = 0;
 
     @Override
@@ -169,6 +169,15 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
     public void onConnected(@Nullable Bundle bundle) {
         if (checkUserLocationPermission()) {
             userLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        } else {
+            // provide rationale to the user of benefit to granting permission
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                Toast.makeText(this, "Location permission is needed to show the user's location.",
+                        Toast.LENGTH_SHORT).show();
+                ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+            }
         }
     }
 
@@ -195,7 +204,7 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_LOCATION) {
-            // received permission result for camera permission
+            // received permission result for location permission
 
             // check permissions
             // if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -233,15 +242,6 @@ public class RouteMapActivity extends FragmentActivity implements OnMapReadyCall
             // get the user's location and add a marker to it
             mMap.setMyLocationEnabled(true);
             markUserLocation();
-        } else {
-            // provide rationale to the user of benefit to granting permission
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-                Toast.makeText(this, "Location permission is needed to show the user's location.",
-                        Toast.LENGTH_SHORT).show();
-                ActivityCompat.requestPermissions(this, new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-            }
         }
     }
 
