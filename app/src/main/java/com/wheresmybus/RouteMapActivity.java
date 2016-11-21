@@ -1,17 +1,17 @@
 package com.wheresmybus;
 
-import android.*;
 import android.Manifest;
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -19,17 +19,16 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import controllers.WMBController;
@@ -59,6 +58,8 @@ public class RouteMapActivity extends FragmentActivity
     private Location mLastLocation;
     private Marker mCurrLocationMarker;
     private Route route;
+    private Button refreshButton;
+    private List<Marker> currentBusMarkers;
 
     private final LatLng SEATTLE = new LatLng(47.608013, -122.335167);
     private final float MARKER_HUE = 288;           // makes the bus markers purple
@@ -79,6 +80,11 @@ public class RouteMapActivity extends FragmentActivity
 
         Intent intent = getIntent();
         route = (Route) intent.getSerializableExtra("ROUTE");
+
+        refreshButton = (Button) findViewById(R.id.refresh_button);
+        refreshButton.setVisibility(View.INVISIBLE);
+
+        currentBusMarkers = new ArrayList<>();
     }
 
     @Override
@@ -117,6 +123,8 @@ public class RouteMapActivity extends FragmentActivity
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
+
+        refreshButton.setVisibility(View.VISIBLE);
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -148,7 +156,8 @@ public class RouteMapActivity extends FragmentActivity
                         markerOptions.position(busLocation);
                         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(MARKER_HUE));
 
-                        mMap.addMarker(markerOptions);
+                        Marker marker = mMap.addMarker(markerOptions);
+                        currentBusMarkers.add(marker);
                     }
                 }
             }
@@ -259,5 +268,21 @@ public class RouteMapActivity extends FragmentActivity
                 return;
             }
         }
+    }
+
+    public void refresh(View view) {
+        clearCurrentBusMarkers();
+        try {
+            busLocationRequest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void clearCurrentBusMarkers() {
+        for (Marker m : currentBusMarkers) {
+            m.remove();
+        }
+        currentBusMarkers = new ArrayList<>();
     }
 }
