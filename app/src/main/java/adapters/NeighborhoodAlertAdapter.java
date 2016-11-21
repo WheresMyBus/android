@@ -1,6 +1,7 @@
 package adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import java.util.Set;
 
 import modules.NeighborhoodAlert;
 import modules.Route;
+import modules.UserDataManager;
 
 /**
  * Created by lesli_000 on 11/12/2016.
@@ -86,16 +88,31 @@ public class NeighborhoodAlertAdapter extends ArrayAdapter<NeighborhoodAlert> {
             }
         }
 
+        // determine if the user has already downVoted/upVoted the alert
+        UserDataManager userDataManager = UserDataManager.getManager();
+        boolean alertIsUpVoted = userDataManager.getUpVotedAlertsByID().contains(alert.getId());
+        boolean alertIsDownVoted = userDataManager.getDownVotedAlertsByID().contains(alert.getId());
+
         // fill each view with associated data and set image button on click listeners
         alertType.setText(alert.getType());
         routesAffected.setText(routes);
         date.setText(dateFormatter.format(alertDate));
         time.setText(timeFormatter.format(alertDate));
-        thumbsUp.setOnClickListener(new ThumbsUpListener(alert));
+        thumbsUp.setOnClickListener(new ThumbsUpListener(alert, alertIsUpVoted, numThumbsUp));
         numThumbsUp.setText(alert.getUpvotes() + "");
-        thumbsDown.setOnClickListener(new ThumbsDownListener(alert));
+        thumbsDown.setOnClickListener(new ThumbsDownListener(alert, alertIsDownVoted, numThumbsDown));
         numThumbsDown.setText(alert.getDownvotes() + "");
 
+        // color the thumbsUp/thumbsDown buttons if this user has already clicked those buttons
+        // in a previous session
+        if (alertIsUpVoted) {
+            int green = ContextCompat.getColor(getContext(), R.color.green);
+            thumbsUp.setColorFilter(green);
+        }
+        if (alertIsDownVoted) {
+            int orange = ContextCompat.getColor(getContext(), R.color.orange);
+            thumbsDown.setColorFilter(orange);
+        }
         return convertView;
     }
 }

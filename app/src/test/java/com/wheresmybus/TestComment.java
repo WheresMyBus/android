@@ -5,9 +5,13 @@ import android.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
 import static junit.framework.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
 import modules.*;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * Unit tests for Comment.java
@@ -39,14 +43,24 @@ public class TestComment {
      */
     @Test
     public void testVote() {
-        comment.upvote("0", null);
-        comment.upvote("0", null);
-        comment.downvote("0", null);
-        comment.downvote("0", null);
-        comment.upvote("0", null);
-        comment.downvote("0", null);
-        assertEquals(comment.getDownvotes(), 3);
-        assertEquals(comment.getUpvotes(), 3);
+        comment.downvote("", new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                assertEquals(1, comment.getDownvotes());
+            }
+            @Override
+            public void onFailure(Throwable t) {
+            }
+        });
+        comment.upvote("", new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                assertEquals(1, comment.getUpvotes());
+            }
+            @Override
+            public void onFailure(Throwable t) {
+            }
+        });
     }
 
     /**

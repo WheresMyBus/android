@@ -1,8 +1,11 @@
 package com.wheresmybus;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.media.session.MediaControllerCompat;
@@ -10,14 +13,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.RadioButton;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
+import adapters.SpinnerAdapter;
+import controllers.OBAController;
 import controllers.WMBController;
 import modules.Neighborhood;
 import modules.NeighborhoodAlert;
@@ -71,6 +80,47 @@ public class SubmitAlertActivity extends FragmentActivity implements
 
         submitButton = (Button) findViewById(R.id.button_submit);
         submitButton.setVisibility(View.INVISIBLE);
+
+        Intent intent = getIntent();
+        boolean isRoute = intent.getBooleanExtra("IS_ROUTE", false);
+        Route route = (Route) intent.getSerializableExtra("ROUTE");
+        Neighborhood neighborhood = (Neighborhood) intent.getSerializableExtra("NEIGHBORHOOD");
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.type_buttons);
+        RadioButton routeRadioButton = (RadioButton) findViewById(R.id.radio_bus_route);
+        RadioButton neighborhoodRadioButton = (RadioButton) findViewById(R.id.radio_neighborhood);
+        if (isRoute || route != null) {
+            // set appropriate radio button and disable both spinner choices and make these non-clickable
+            radioGroup.check(R.id.radio_bus_route);
+            routeRadioButton.setEnabled(false);
+            neighborhoodRadioButton.setEnabled(false);
+
+            type = "route";
+
+            // make bus route fragment visible
+            busRouteFragment.getView().setVisibility(View.VISIBLE);
+
+            if (route != null) {
+                // set and disable the spinner
+                busRouteFragment.setSpinner(route);
+            }
+            
+            // make submit button visible
+            submitButton.setVisibility(View.VISIBLE);
+        } else if (neighborhood != null) {
+            // set radio button and spinner choices and make these non-clickable
+            radioGroup.check(R.id.radio_neighborhood);
+            routeRadioButton.setEnabled(false);
+            neighborhoodRadioButton.setEnabled(false);
+
+            type = "neighborhood";
+
+            // make neighborhood fragment visible and set and disable the spinner
+            neighborhoodFragment.getView().setVisibility(View.VISIBLE);
+            neighborhoodFragment.setSpinner(neighborhood);
+
+            // make submit button visible
+            submitButton.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -136,15 +186,15 @@ public class SubmitAlertActivity extends FragmentActivity implements
                     }
                 });
 
-                // switch back to home screen
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
+                // switch back to previous screen
+                finish();
             }
         } else if (type.equals("neighborhood")) {
             // get the information from the NeighborhoodFragment
             Neighborhood neighborhood = neighborhoodFragment.getNeighborhood();
             String alertType = neighborhoodFragment.getAlertType();
             String description = neighborhoodFragment.getDescription();
+            List<Route> routesAffected = neighborhoodFragment.getRoutesAffected();
 
             if (neighborhood == null || alertType == null || description == null || description.equals("")) {
                 // instruct the user that some parameter is missing information
@@ -154,6 +204,7 @@ public class SubmitAlertActivity extends FragmentActivity implements
             } else {
                 // submit new alert
                 WMBController controller = WMBController.getInstance();
+                // TODO: change to method that will post the alert with routes affected
                 controller.postAlert(neighborhood.getID(), alertType, description, "[User ID]", new Callback<NeighborhoodAlert>() {
                     @Override
                     public void onResponse(Response<NeighborhoodAlert> response, Retrofit retrofit) {
@@ -174,6 +225,10 @@ public class SubmitAlertActivity extends FragmentActivity implements
 
     public void switchToPreviousScreen(View view) {
         finish();
+    }
+
+    public void openRouteDialog(View view) {
+        neighborhoodFragment.openRouteDialog(view);
     }
 
     /**

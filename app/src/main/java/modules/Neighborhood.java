@@ -27,9 +27,6 @@ public class Neighborhood implements Serializable, Comparable<Neighborhood> {
     private int id;
     @SerializedName("name")
     private String name;
-    //private Pair<Double, Double> center;
-    //private double radius;
-    // private Set<BusStop> busStops;
 
     /**
      * Contructs a Neighborhood
@@ -55,14 +52,6 @@ public class Neighborhood implements Serializable, Comparable<Neighborhood> {
         this.id = id;
         checkRep();
     }
-
-    /*public boolean setId(int id) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
-    }
-
-    public int getId() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
-    } */
 
     /**
      * Gets a deep copy of the perimeter list
@@ -112,8 +101,4 @@ public class Neighborhood implements Serializable, Comparable<Neighborhood> {
     public int compareTo(Neighborhood o) {
         return name.compareTo(o.name);
     }
-
-    /*private Set<BusStop> getBusStops() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
-    }*/
 }

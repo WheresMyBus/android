@@ -55,7 +55,6 @@
         <activity
             android:name=".SubmitAlertActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-
         <activity
             android:name=".CatalogActivity"
             android:label="@string/title_activity_catalog"
@@ -71,8 +70,12 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".MapActivity"
-            android:label="@string/title_activity_map" />
+            android:name=".RouteMapActivity"
+            android:label="View Current Bus Locations" />
+        <activity
+            android:name=".SearchRouteMapActivity"
+            android:label="Search for a Route" />
+        <activity android:name=".RouteMainActivity"></activity>
     </application>
 
 </manifest>

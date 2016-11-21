@@ -5,12 +5,19 @@ import android.util.Pair;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.List;
 
 import modules.Alert;
+import modules.Comment;
 import modules.Route;
 import modules.RouteAlert;
+import modules.VoteConfirmation;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 import static junit.framework.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Nick on 11/9/2016.
@@ -67,7 +74,52 @@ public class TestRouteAlert extends TestAlertBase<RouteAlert> {
     }
 
     @Test
-    public void testGetComments() {
-        // TODO
+    public void test_initial_upvotes() {
+        assertEquals(0, sampleRouteAlert().getUpvotes());
     }
+
+    @Test
+    public void test_initial_downvotes() {
+        assertEquals(0, sampleRouteAlert().getDownvotes());
+    }
+
+
+    @Test
+    public void test_upvote_and_downvote() {
+        sampleRouteAlert().downvote("", new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                assertEquals(1, sampleRouteAlert().getDownvotes());
+            }
+            @Override
+            public void onFailure(Throwable t) {
+            }
+        });
+        sampleRouteAlert().upvote("", new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                assertEquals(1, sampleRouteAlert().getUpvotes());
+            }
+            @Override
+            public void onFailure(Throwable t) {
+            }
+        });
+    }
+
+    @Test
+    public void testGetComments() {
+        sampleRouteAlert().getComments(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Response<List<Comment>> response, Retrofit retrofit) {
+                assertTrue(response != null);
+                assertTrue(response.body().size() == 0);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                assertTrue(false);
+            }
+        });
+    }
+
 }

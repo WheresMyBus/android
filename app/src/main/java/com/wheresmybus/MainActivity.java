@@ -132,21 +132,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Switches the activity displayed from the current activity to the catalog of bus route forums.
-     *
-     * @param v
-     */
-    public void switchToRouteCatalog(View v) {
-        Intent intent = new Intent(this, CatalogActivity.class);
-        intent.putExtra("TAB_INDEX", 0);
-        startActivity(intent);
-    }
-
-    /**
      * Switches the activity displayed from the current activity to the catalog of neighborhood
      * forums.
      *
-     * @param v
+     * @param v the button clicked
      */
     public void switchToNeighborhoodCatalog(View v) {
         Intent intent = new Intent(this, CatalogActivity.class);
@@ -158,15 +147,21 @@ public class MainActivity extends AppCompatActivity {
      * Switches the activity displayed from the current activity to the activity where users can
      * submit an alert.
      *
-     * @param v
+     * @param v the button clicked
      */
     public void switchToSubmitAlert(View v) {
         Intent intent = new Intent(this, SubmitAlertActivity.class);
         startActivity(intent);
     }
 
-    public void switchToMap(View view) {
-        Intent intent = new Intent(this, MapActivity.class);
+    /**
+     * Switches the activity displayed from the current activity to the activity where users can
+     * indicate how they wish to search for a route forum.
+     *
+     * @param v the button clicked
+     */
+    public void switchToRouteMain(View v) {
+        Intent intent = new Intent(this, RouteMainActivity.class);
         startActivity(intent);
     }
 

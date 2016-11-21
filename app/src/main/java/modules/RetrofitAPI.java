@@ -30,20 +30,20 @@ public interface RetrofitAPI {
     @GET("neighborhood_alerts/{id}/comments")
     Call<List<Comment>> getNeighborhoodAlertComments(@Path("id") int alertID);
 
-    @GET("route/{id}/bus_locations")
+    @GET("routes/{id}/bus_locations")
     Call<List<Bus>> getBuses(@Path("id") String routeID);
 
     @FormUrlEncoded
     @POST("neighborhoods/{id}/alerts")
     Call<NeighborhoodAlert> postNeighborhoodAlert(@Path("id") int neighborhoodID,
-                                          @Field("issue_type") String alertType,
+                                          @Field("issues") String alertType,
                                           @Field("description") String description,
                                           @Field("user_id") String userID);
 
     @FormUrlEncoded
     @POST("routes/{id}/alerts")
     Call<RouteAlert> postRouteAlert(@Path("id") String routeID,
-                                    @Field("issue_type") String alertType,
+                                    @Field("issues") String alertType,
                                     @Field("description") String description,
                                     @Field("user_id") String userID);
 

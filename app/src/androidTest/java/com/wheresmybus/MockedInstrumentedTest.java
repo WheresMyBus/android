@@ -42,7 +42,7 @@ public class MockedInstrumentedTest {
         .setBody("{\n" +
                 "  \"id\": 1,\n" +
                 "  \"user_id\": \"420\",\n" +
-                "  \"issue_type\": \"construction\",\n" +
+                "  \"issues\": \"construction\",\n" +
                 "  \"description\": \"Bus driver was a ghost!\",\n" +
                 "  \"upvotes\": 0,\n" +
                 "  \"downvotes\": 0,\n" +
@@ -55,7 +55,7 @@ public class MockedInstrumentedTest {
         assertEquals("alert description correct", "Bus driver was a ghost!", alert.getDescription());
         RecordedRequest request = server.takeRequest();
         assertEquals("request path", "/neighborhoods/1/alerts", request.getPath());
-        assertEquals("request body", "issue_type=construction&description=Bus%20driver%20was%20a%20ghost%21&user_id=420", request.getBody().readUtf8());
+        assertEquals("request body", "issues=construction&description=Bus%20driver%20was%20a%20ghost%21&user_id=420", request.getBody().readUtf8());
     }
 
     @Test

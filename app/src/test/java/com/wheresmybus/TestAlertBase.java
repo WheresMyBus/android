@@ -5,6 +5,7 @@ import android.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.Date;
 
 import static junit.framework.Assert.assertFalse;
@@ -47,7 +48,7 @@ public abstract class TestAlertBase<T extends Alert> {
     abstract Alert createCoordinatesAreOneZero();
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException{
         defaultAlert = createDefaultInstance();
         typeIsFoo = createTypeFoo();
         descIsBaz = createDescBaz();
@@ -80,39 +81,6 @@ public abstract class TestAlertBase<T extends Alert> {
     public void test_set_id_large_number() {
         assertTrue(defaultAlert.setId(Integer.MAX_VALUE));
         assertEquals(defaultAlert.getId(), Integer.MAX_VALUE);
-    }
-
-    @Test
-    public void test_initial_upvotes() {
-        assertEquals(0, defaultAlert.getUpvotes());
-    }
-
-    @Test
-    public void test_initial_downvotes() {
-        assertEquals(0, defaultAlert.getDownvotes());
-    }
-
-    @Test
-    public void test_basic_upvote() {
-        defaultAlert.upvote("", null);
-        assertEquals(1, defaultAlert.getUpvotes());
-    }
-
-    @Test
-    public void test_basic_downvote() {
-        defaultAlert.downvote("", null);
-        assertEquals(1, defaultAlert.getDownvotes());
-    }
-
-    @Test
-    public void test_upvote_and_downvote() {
-        defaultAlert.downvote("", null);
-        defaultAlert.upvote("", null);
-        defaultAlert.upvote("", null);
-        defaultAlert.downvote("", null);
-        defaultAlert.upvote("", null);
-        assertEquals(2, defaultAlert.getDownvotes());
-        assertEquals(3, defaultAlert.getUpvotes());
     }
 
     @Test
