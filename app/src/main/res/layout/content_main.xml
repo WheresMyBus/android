@@ -66,7 +66,7 @@
             android:textSize="20sp"
             android:id="@+id/button4"
             android:textColor="@color/white"
-            android:onClick="switchToRouteCatalog"
+            android:onClick="switchToRouteMain"
             android:background="@drawable/bus_logo"
             android:scaleType="fitCenter"
             android:layout_marginTop="55dp"
@@ -91,18 +91,5 @@
             android:layout_below="@+id/button4"
             android:layout_alignLeft="@+id/button4"
             android:layout_alignStart="@+id/button4"/>
-
-    <Button
-        android:text="Map"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/temporary_map_button"
-        android:background="@color/purple"
-        android:textColor="@color/white"
-        android:textStyle="normal|bold"
-        android:onClick="switchToMap" />
 
 </RelativeLayout>

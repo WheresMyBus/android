@@ -70,14 +70,12 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".MapActivity"
-            android:label="@string/title_activity_map" />
-        <activity
             android:name=".RouteMapActivity"
-            android:label="@string/title_activity_route_map" />
+            android:label="View Current Bus Locations" />
         <activity
             android:name=".SearchRouteMapActivity"
-            android:label="@string/title_activity_search_route_map"></activity>
+            android:label="Search for a Route" />
+        <activity android:name=".RouteMainActivity"></activity>
     </application>
 
 </manifest>
