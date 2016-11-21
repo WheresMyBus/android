@@ -82,12 +82,13 @@ public class SubmitAlertActivity extends FragmentActivity implements
         submitButton.setVisibility(View.INVISIBLE);
 
         Intent intent = getIntent();
+        boolean isRoute = intent.getBooleanExtra("IS_ROUTE", false);
         Route route = (Route) intent.getSerializableExtra("ROUTE");
         Neighborhood neighborhood = (Neighborhood) intent.getSerializableExtra("NEIGHBORHOOD");
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.type_buttons);
         RadioButton routeRadioButton = (RadioButton) findViewById(R.id.radio_bus_route);
         RadioButton neighborhoodRadioButton = (RadioButton) findViewById(R.id.radio_neighborhood);
-        if (route != null) {
+        if (isRoute || route != null) {
             // set appropriate radio button and disable both spinner choices and make these non-clickable
             radioGroup.check(R.id.radio_bus_route);
             routeRadioButton.setEnabled(false);
@@ -95,10 +96,14 @@ public class SubmitAlertActivity extends FragmentActivity implements
 
             type = "route";
 
-            // make bus route fragment visible and set and disable the spinner
+            // make bus route fragment visible
             busRouteFragment.getView().setVisibility(View.VISIBLE);
-            busRouteFragment.setSpinner(route);
 
+            if (route != null) {
+                // set and disable the spinner
+                busRouteFragment.setSpinner(route);
+            }
+            
             // make submit button visible
             submitButton.setVisibility(View.VISIBLE);
         } else if (neighborhood != null) {

@@ -5,8 +5,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+/**
+ * The activity that displays different ways users can search for a route forum and a button to
+ * submit a route alert.
+ */
 public class RouteMainActivity extends AppCompatActivity {
 
+    /**
+     * Part of the call structure that displays this activity.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +62,7 @@ public class RouteMainActivity extends AppCompatActivity {
      */
     public void switchToSubmitAlert(View v) {
         Intent intent = new Intent(this, SubmitAlertActivity.class);
+        intent.putExtra("IS_ROUTE", true);
         startActivity(intent);
     }
 }
