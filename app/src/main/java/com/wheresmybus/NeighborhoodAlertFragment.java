@@ -328,7 +328,6 @@ public class NeighborhoodAlertFragment extends Fragment implements
 
     public void openRouteDialog(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
-        // builder.setIcon(android.R.drawable.ic_launcher);
         builder.setTitle("Select affected route(s):");
         try {
             ListView spinner = new ListView(this.getActivity());
