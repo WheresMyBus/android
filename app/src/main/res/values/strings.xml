@@ -38,6 +38,7 @@
     <string name="time">Time</string>
     <string name="submit_comment">Submit a Comment</string>
     <string name="title_activity_submit_comment">Submit a Comment</string>
+    <string name="website_url">https://wheresmybus.github.io/android/</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -45,4 +46,8 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="title_activity_route_map">Map</string>
     <string name="title_activity_search_route_map">Map</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
