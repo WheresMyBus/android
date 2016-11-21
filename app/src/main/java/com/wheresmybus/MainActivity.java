@@ -26,9 +26,9 @@ import modules.UserDataManager;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private ListView mDrawerList;
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
+//    private ListView mDrawerList;
+//    private DrawerLayout mDrawerLayout;
+//    private ActionBarDrawerToggle mDrawerToggle;
 
     /**
      * Part of the call structure that displays this activity.
@@ -40,36 +40,36 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String[] drawerItems = {"Help"};
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-        // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-               android.R.layout.simple_list_item_1, drawerItems));
-
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.string.drawer_open, R.string.drawer_close) {
-
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                //getActionBar().setTitle(mTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                //getActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-        };
-
-        // Set the drawer toggle as the DrawerListener
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
-
-        selectItem(0);
+//        String[] drawerItems = {"Help"};
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+//
+//        // Set the adapter for the list view
+//        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+//               android.R.layout.simple_list_item_1, drawerItems));
+//
+//        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+//                R.string.drawer_open, R.string.drawer_close) {
+//
+//            /** Called when a drawer has settled in a completely closed state. */
+//            public void onDrawerClosed(View view) {
+//                super.onDrawerClosed(view);
+//                //getActionBar().setTitle(mTitle);
+//                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+//            }
+//
+//            /** Called when a drawer has settled in a completely open state. */
+//            public void onDrawerOpened(View drawerView) {
+//                super.onDrawerOpened(drawerView);
+//                //getActionBar().setTitle(mDrawerTitle);
+//                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+//            }
+//        };
+//
+//        // Set the drawer toggle as the DrawerListener
+//        mDrawerLayout.addDrawerListener(mDrawerToggle);
+//
+//        selectItem(0);
     }
 
     @Override
@@ -78,18 +78,18 @@ public class MainActivity extends AppCompatActivity {
         UserDataManager.instantiateManager(this);
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
+//    @Override
+//    protected void onPostCreate(Bundle savedInstanceState) {
+//        super.onPostCreate(savedInstanceState);
+//        // Sync the toggle state after onRestoreInstanceState has occurred.
+//        mDrawerToggle.syncState();
+//    }
+//
+//    @Override
+//    public void onConfigurationChanged(Configuration newConfig) {
+//        super.onConfigurationChanged(newConfig);
+//        mDrawerToggle.onConfigurationChanged(newConfig);
+//    }
 
     /**
      * Creates an options menu.
@@ -119,9 +119,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+        /*if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
-        }
+        }*/
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
@@ -173,29 +173,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }*/
 
-    private void selectItem(int position) {
-        // update the main content by replacing fragments
-        Fragment fragment = new ContentFragment();
-
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-
-        // update selected item and title, then close the drawer
-        mDrawerList.setItemChecked(position, true);
-        mDrawerLayout.closeDrawer(mDrawerList);
-    }
-
-    public static class ContentFragment extends Fragment {
-
-        public ContentFragment() {
-            // Empty constructor required for fragment subclasses
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.content_main, container, false);
-            return rootView;
-        }
-    }
+//    private void selectItem(int position) {
+//        // update the main content by replacing fragments
+//        Fragment fragment = new ContentFragment();
+//
+//        FragmentManager fragmentManager = getFragmentManager();
+//        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+//
+//        // update selected item and title, then close the drawer
+//        mDrawerList.setItemChecked(position, true);
+//        mDrawerLayout.closeDrawer(mDrawerList);
+//    }
+//
+//    public static class ContentFragment extends Fragment {
+//
+//        public ContentFragment() {
+//            // Empty constructor required for fragment subclasses
+//        }
+//
+//        @Override
+//        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                                 Bundle savedInstanceState) {
+//            View rootView = inflater.inflate(R.layout.content_main, container, false);
+//            return rootView;
+//        }
+//    }
 }
