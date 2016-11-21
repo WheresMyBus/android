@@ -28,7 +28,7 @@ public abstract class Alert implements Serializable, Comparable<Alert> {
     private String creatorID;
     @SerializedName("created_at")
     private Date date;
-    @SerializedName("issue_type")
+    @SerializedName("issues")
     private String type;
     @SerializedName("description")
     private String description;

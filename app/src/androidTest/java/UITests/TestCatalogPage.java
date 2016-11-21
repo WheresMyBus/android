@@ -104,7 +104,7 @@ public class TestCatalogPage {
                                     "  {\n" +
                                     "    \"id\": 1,\n" +
                                     "    \"user_id\": \"50d1ce8e-a213-40a0-8228-587ea7fd604c\",\n" +
-                                    "    \"issue_type\": \"construction\",\n" +
+                                    "    \"issues\": \"construction\",\n" +
                                     "    \"description\": \"Alert description goes here...\",\n" +
                                     "    \"upvotes\": 0,\n" +
                                     "    \"downvotes\": 0,\n" +
@@ -118,7 +118,7 @@ public class TestCatalogPage {
                                     "  {\n" +
                                     "    \"id\": 1,\n" +
                                     "    \"user_id\": \"1d5a07f3-e980-49b7-bf6c-005a02fe3e13\",\n" +
-                                    "    \"issue_type\": \"construction\",\n" +
+                                    "    \"issues\": \"construction\",\n" +
                                     "    \"description\": \"Alert description goes here...\",\n" +
                                     "    \"upvotes\": 0,\n" +
                                     "    \"downvotes\": 0,\n" +
