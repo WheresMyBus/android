@@ -41,6 +41,8 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
     private CheckBox checkBox4;
     private EditText text;
 
+    private RouteAdapter adapter;
+
     // information for the alert
     private Route route;
     private List<String> alertTypes;
@@ -86,9 +88,18 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
      * @param data the list of routes to be displayed in the spinner
      */
     private void loadSpinnerData(List<Route> data) {
-        RouteAdapter adapter = new RouteAdapter(this.getActivity(), android.R.layout.simple_spinner_item, data, false);
+        adapter = new RouteAdapter(this.getActivity(), android.R.layout.simple_spinner_item, data, false);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         busRouteSpinner.setAdapter(adapter);
+        if (route != null) {
+            int spinnerPosition = adapter.getPosition(route);
+            busRouteSpinner.setSelection(spinnerPosition);
+            busRouteSpinner.setEnabled(false);
+        }
+    }
+
+    public void setSpinner(Route route) {
+        this.route = route;
     }
 
     /**

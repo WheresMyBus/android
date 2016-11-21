@@ -1,13 +1,18 @@
 package com.wheresmybus;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +42,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
     private boolean isRouteForum; // true if routes, false if neighborhoods
     private Route route;
     private Neighborhood neighborhood;
+    private Button viewLocationsButton;
 
     /**
      * Displays the alerts for the route or neighborhood that was clicked on
@@ -49,6 +55,8 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
 
         alertList = (ListView) findViewById(R.id.alert_list);
         alertList.setOnItemClickListener(this);
+
+        viewLocationsButton = (Button) findViewById(R.id.view_locations_button);
 
         Intent intent = getIntent();
         String type = intent.getStringExtra("ALERT_TYPE");
@@ -70,6 +78,8 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            // make view bus locations button invisible
+            viewLocationsButton.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -104,6 +114,17 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
         });
     }
 
+    /*
+    private void addViewLocationsButton() {
+        Button viewLocationsButton = new Button(this);
+        viewLocationsButton.setText("VIEW CURRENT BUS LOCATIONS");
+        viewLocationsButton.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
+        viewLocationsButton.setTextColor(ContextCompat.getColor(this, R.color.white));
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)
+                viewLocationsButton.getLayoutParams();
+        params.addRule(RelativeLayout.ABOVE, R.id.button);
+    }
+    */
 
     /**
      * Gets the alerts for a given route from the database
@@ -176,6 +197,12 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
         Intent intent = new Intent(this, SubmitAlertActivity.class);
         intent.putExtra("ROUTE", route);
         intent.putExtra("NEIGHBORHOOD", neighborhood);
+        startActivity(intent);
+    }
+
+    public void switchToViewLocations(View view) {
+        Intent intent = new Intent(this, RouteMapActivity.class);
+        intent.putExtra("ROUTE", route);
         startActivity(intent);
     }
 }

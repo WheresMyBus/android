@@ -19,6 +19,7 @@ android {
         installOptions "-d", "-t"
     }
     defaultConfig {
+        multiDexEnabled true
         applicationId "com.wheresmybus"
         minSdkVersion 15
         targetSdkVersion 24

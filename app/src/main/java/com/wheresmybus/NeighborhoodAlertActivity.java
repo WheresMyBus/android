@@ -119,9 +119,9 @@ public class NeighborhoodAlertActivity extends AppCompatActivity {
         boolean alertIsUpVoted = userDataManager.getUpVotedAlertsByID().contains(alert.getId());
         boolean alertIsDownVoted = userDataManager.getDownVotedAlertsByID().contains(alert.getId());
 
-        thumbsUp.setOnClickListener(new ThumbsUpListener(alert, alertIsUpVoted));
+        thumbsUp.setOnClickListener(new ThumbsUpListener(alert, alertIsUpVoted, numThumbsUp));
         //numThumbsUp.setText(alert.getUpvotes());        // TODO: fix this method call
-        thumbsDown.setOnClickListener(new ThumbsDownListener(alert, alertIsDownVoted));
+        thumbsDown.setOnClickListener(new ThumbsDownListener(alert, alertIsDownVoted, numThumbsDown));
         //numThumbsDown.setText(alert.getDownvotes());
 
         // color the thumbsUp/thumbsDown buttons if this user has already clicked those buttons

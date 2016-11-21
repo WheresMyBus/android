@@ -17,10 +17,14 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
+import adapters.RouteAdapter;
+import controllers.OBAController;
 import controllers.WMBController;
 import modules.Neighborhood;
 import adapters.NeighborhoodAdapter;
+import modules.Route;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -41,6 +45,8 @@ public class NeighborhoodAlertFragment extends Fragment implements
     private CheckBox checkBox3;
     private CheckBox checkBox4;
     private EditText text;
+
+    private NeighborhoodAdapter adapter;
 
     // information for the alerts
     private Neighborhood neighborhood;
@@ -97,10 +103,19 @@ public class NeighborhoodAlertFragment extends Fragment implements
      * @param data the list of neighborhoods to be imported into the spinner.
      */
     private void loadSpinnerData(List<Neighborhood> data) {
-        NeighborhoodAdapter adapter = new NeighborhoodAdapter(this.getActivity(),
+        adapter = new NeighborhoodAdapter(this.getActivity(),
                 android.R.layout.simple_spinner_item, data, false);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         neighborhoodSpinner.setAdapter(adapter);
+        if (neighborhood != null) {
+            int spinnerPosition = adapter.getPosition(neighborhood);
+            neighborhoodSpinner.setSelection(spinnerPosition);
+            neighborhoodSpinner.setEnabled(false);
+        }
+    }
+
+    public void setSpinner(Neighborhood neighborhood) {
+        this.neighborhood = neighborhood;
     }
 
     /*
