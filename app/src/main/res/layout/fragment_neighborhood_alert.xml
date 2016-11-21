@@ -104,18 +104,6 @@
         android:layout_alignParentEnd="true" />
 
     <CheckBox
-        android:text="@string/traffic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/checkBox7"
-        android:buttonTint="@color/darkBlue"
-        android:layout_below="@+id/choose_neighborhood_alert_types"
-        android:layout_toRightOf="@+id/checkBox5"
-        android:layout_toEndOf="@+id/checkBox5"
-        android:layout_marginLeft="81dp"
-        android:layout_marginStart="81dp" />
-
-    <CheckBox
         android:text="@string/other"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -139,5 +127,17 @@
         android:textColor="@color/white"
         android:textStyle="bold"
         android:onClick="openRouteDialog"/>
+
+    <CheckBox
+        android:text="@string/traffic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox7"
+        android:buttonTint="@color/darkBlue"
+        android:layout_marginLeft="67dp"
+        android:layout_marginStart="67dp"
+        android:layout_below="@+id/choose_neighborhood_alert_types"
+        android:layout_toRightOf="@+id/checkBox5"
+        android:layout_toEndOf="@+id/checkBox5" />
 
 </RelativeLayout>
