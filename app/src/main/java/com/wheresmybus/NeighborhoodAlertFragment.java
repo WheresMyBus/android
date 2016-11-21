@@ -268,6 +268,14 @@ public class NeighborhoodAlertFragment extends Fragment implements
         return text.getText().toString();
     }
 
+    public List<Route> getRoutesAffected() {
+        if (spinnerAdapter == null) {
+            return null;
+        } else {
+            return spinnerAdapter.getRoutesAffected();
+        }
+    }
+
     /**
      * Implements the View.OnClickListener interface. Determines which checkboxes the user has
      * checked and stores the alert types associated with those boxes.

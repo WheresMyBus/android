@@ -189,6 +189,10 @@ public class SubmitAlertActivity extends FragmentActivity implements
             Neighborhood neighborhood = neighborhoodFragment.getNeighborhood();
             String alertType = neighborhoodFragment.getAlertType();
             String description = neighborhoodFragment.getDescription();
+            List<Route> routesAffected = neighborhoodFragment.getRoutesAffected();
+            if (routesAffected == null) {
+                routesAffected = new ArrayList<>();
+            }
 
             if (neighborhood == null || alertType == null || description == null || description.equals("")) {
                 // instruct the user that some parameter is missing information
@@ -198,6 +202,7 @@ public class SubmitAlertActivity extends FragmentActivity implements
             } else {
                 // submit new alert
                 WMBController controller = WMBController.getInstance();
+                // TODO: change to method that will post the alert with routes affected
                 controller.postAlert(neighborhood.getID(), alertType, description, "[User ID]", new Callback<NeighborhoodAlert>() {
                     @Override
                     public void onResponse(Response<NeighborhoodAlert> response, Retrofit retrofit) {
