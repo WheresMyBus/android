@@ -270,7 +270,7 @@ public class NeighborhoodAlertFragment extends Fragment implements
 
     public List<Route> getRoutesAffected() {
         if (spinnerAdapter == null) {
-            return null;
+            return new ArrayList<>();
         } else {
             return spinnerAdapter.getRoutesAffected();
         }

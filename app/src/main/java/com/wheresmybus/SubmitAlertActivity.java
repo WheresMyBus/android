@@ -190,9 +190,6 @@ public class SubmitAlertActivity extends FragmentActivity implements
             String alertType = neighborhoodFragment.getAlertType();
             String description = neighborhoodFragment.getDescription();
             List<Route> routesAffected = neighborhoodFragment.getRoutesAffected();
-            if (routesAffected == null) {
-                routesAffected = new ArrayList<>();
-            }
 
             if (neighborhood == null || alertType == null || description == null || description.equals("")) {
                 // instruct the user that some parameter is missing information
