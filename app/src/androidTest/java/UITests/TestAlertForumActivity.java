@@ -57,7 +57,7 @@ public class TestAlertForumActivity {
                         "{" +
                         "\"id\":1," +
                         "\"user_id\":\"[User ID]\"," +
-                        "\"issue_type\":\"Maintenance Issue\"," +
+                        "\"issues\":\"Maintenance Issue\"," +
                         "\"description\":\"Front tire blew out\"," +
                         "\"upvotes\":0," +
                         "\"downvotes\":0," +

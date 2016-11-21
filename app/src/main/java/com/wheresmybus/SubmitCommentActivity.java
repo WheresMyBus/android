@@ -58,7 +58,7 @@ public class SubmitCommentActivity extends AppCompatActivity {
             WMBController controller = WMBController.getInstance();
             if (isRouteAlert) {
                 // post route alert comment
-                controller.postRouteAlertComment(routeAlert.getId(), description, "",
+                controller.postRouteAlertComment(routeAlert.getId(), description, "userid",
                         new Callback<Comment>() {
                     @Override
                     public void onResponse(Response<Comment> response, Retrofit retrofit) {
@@ -72,7 +72,7 @@ public class SubmitCommentActivity extends AppCompatActivity {
                 });
             } else {
                 // post neighborhood alert comment
-                controller.postNeighborhoodAlertComment(neighborhoodAlert.getId(), description, "",
+                controller.postNeighborhoodAlertComment(neighborhoodAlert.getId(), description, "userid",
                         new Callback<Comment>() {
                     @Override
                     public void onResponse(Response<Comment> response, Retrofit retrofit) {
