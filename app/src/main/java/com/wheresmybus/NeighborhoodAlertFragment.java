@@ -1,18 +1,25 @@
 package com.wheresmybus;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +27,7 @@ import java.util.List;
 import java.util.Set;
 
 import adapters.RouteAdapter;
+import adapters.SpinnerAdapter;
 import controllers.OBAController;
 import controllers.WMBController;
 import modules.Neighborhood;
@@ -47,6 +55,8 @@ public class NeighborhoodAlertFragment extends Fragment implements
     private EditText text;
 
     private NeighborhoodAdapter adapter;
+    private SpinnerAdapter spinnerAdapter;
+    private List<Route> routes;
 
     // information for the alerts
     private Neighborhood neighborhood;
@@ -68,6 +78,7 @@ public class NeighborhoodAlertFragment extends Fragment implements
         }*/
         try {
             neighborhoodRequest();
+            busRouteRequest();
             //loadCheckBoxData(getResources().getStringArray(R.array.neighborhood_alert_types));
         } catch (Exception e) {
             e.printStackTrace();
@@ -306,6 +317,70 @@ public class NeighborhoodAlertFragment extends Fragment implements
                 alertTypes.remove(alertType);
             }
         }
+    }
+
+    public void openRouteDialog(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
+        // builder.setIcon(android.R.drawable.ic_launcher);
+        builder.setTitle("Select which route(s) may be affected:");
+        try {
+            ListView spinner = new ListView(this.getActivity());
+            if (spinnerAdapter == null) {
+                spinnerAdapter = new SpinnerAdapter(this.getActivity(),
+                        android.R.layout.simple_spinner_item, routes);
+            }
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+            spinner.setAdapter(spinnerAdapter);
+            /*spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Route route = (Route) parent.getItemAtPosition(position);
+                    CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+                    boolean checked = checkBox.isChecked();
+                    if (checked) {
+                        routesAffected.add(route);
+                    } else {
+                        if (routesAffected.contains(route)) {
+                            routesAffected.remove(route);
+                        }
+                    }
+                }
+            });*/
+            builder.setView(spinner);
+            builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        builder.show();
+    }
+
+    /**
+     * Requests a set of bus routes from the OneBusAway controller and loads the routes in
+     * the spinner on the layout for this fragment to let users select a route for which they will
+     * submit an alert.
+     *
+     * @throws Exception
+     */
+    private void busRouteRequest() throws Exception {
+        OBAController controller = OBAController.getInstance();
+        controller.getRoutes(new Callback<Set<Route>>() {
+            @Override
+            public void onResponse(Response<Set<Route>> response, Retrofit retrofit) {
+                List<Route> data = new ArrayList<Route>(response.body());
+                Collections.sort(data);
+                routes = data;
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                // stuff to do when it doesn't work
+            }
+        });
     }
 
     /**

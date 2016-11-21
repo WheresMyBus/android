@@ -103,15 +103,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/select_routes_affected"
-        android:layout_below="@+id/neighborhood_alert_description"
-        android:text="Select which route(s) may be affected:"
-        android:textSize="20sp"
-        android:textColor="@android:color/black"/>
-
     <CheckBox
         android:text="@string/traffic"
         android:layout_width="wrap_content"
@@ -133,5 +124,20 @@
         android:layout_below="@+id/checkBox7"
         android:layout_alignLeft="@+id/checkBox7"
         android:layout_alignStart="@+id/checkBox7" />
+
+    <Button
+        android:text="Select which route(s) may be affected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/select_routes_affected_button"
+        android:layout_below="@+id/neighborhood_alert_description"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@color/mediumBlue"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:onClick="openRouteDialog"/>
 
 </RelativeLayout>

@@ -1,5 +1,7 @@
 package com.wheresmybus;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,8 +20,13 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
+import adapters.SpinnerAdapter;
+import controllers.OBAController;
 import controllers.WMBController;
 import modules.Neighborhood;
 import modules.NeighborhoodAlert;
@@ -211,6 +218,10 @@ public class SubmitAlertActivity extends FragmentActivity implements
 
     public void switchToPreviousScreen(View view) {
         finish();
+    }
+
+    public void openRouteDialog(View view) {
+        neighborhoodFragment.openRouteDialog(view);
     }
 
     /**
