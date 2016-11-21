@@ -58,14 +58,17 @@ public class Comment {
      * @param upvotes upvotes to initialize the comment to
      * @param downvotes downvotes to initialize the comment to
      * @throws IllegalArgumentException if creatorId < 1 or if data is null
-     * @throws IllegalArgumentException if upvotes, downvotes < 0, or if id is 0 or < -1
+     * @throws IllegalArgumentException if upvotes, downvotes < 0, or if id is < 1
      */
     public Comment(int id, String creatorId, String data, int upvotes, int downvotes, Date date) {
         this(data, creatorId, date);
-        setId(id);
+        if(id < 1) {
+            throw new IllegalArgumentException();
+        }
         if(upvotes < 0 || downvotes < 0) {
             throw new IllegalArgumentException();
         }
+        this.id = id;
         this.upvotes = upvotes;
         this.downvotes = downvotes;
         checkRep();
