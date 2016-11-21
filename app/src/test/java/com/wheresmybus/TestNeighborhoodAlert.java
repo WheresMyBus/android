@@ -6,12 +6,20 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import static junit.framework.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import modules.Alert;
+import modules.Comment;
 import modules.Neighborhood;
 import modules.NeighborhoodAlert;
 import modules.Route;
+import modules.VoteConfirmation;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * Created by Nick on 11/9/2016.
@@ -72,4 +80,63 @@ public class TestNeighborhoodAlert extends TestAlertBase<NeighborhoodAlert> {
         sampleNeighborhoodAlert().addAffectedRoute(new Route("1", "a", "2"));
         assertTrue(sampleNeighborhoodAlert().getRoutesAffected() != null);
     }
+
+
+    @Test
+    public void test_initial_upvotes() {
+        assertEquals(0, sampleNeighborhoodAlert().getUpvotes());
+    }
+
+    @Test
+    public void test_initial_downvotes() {
+        assertEquals(0, sampleNeighborhoodAlert().getDownvotes());
+    }
+
+
+    @Test
+    public void test_upvote_and_downvote() {
+        sampleNeighborhoodAlert().downvote("", new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                assertEquals(1, sampleNeighborhoodAlert().getDownvotes());
+            }
+            @Override
+            public void onFailure(Throwable t) {
+            }
+        });
+        sampleNeighborhoodAlert().upvote("", new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                assertEquals(1, sampleNeighborhoodAlert().getUpvotes());
+            }
+            @Override
+            public void onFailure(Throwable t) {
+            }
+        });
+    }
+
+    @Test
+    public void testGetNeighborhood() {
+        Neighborhood n = sampleNeighborhoodAlert().getNeighborhood();
+        assertFalse(n == null);
+        assertTrue(n.getName().equals(""));
+        assertTrue(n.getID() == 1);
+    }
+
+    @Test
+    public void testGetComments() {
+        sampleNeighborhoodAlert().getComments(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Response<List<Comment>> response, Retrofit retrofit) {
+                assertTrue(response != null);
+                assertTrue(response.body().size() == 0);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                assertTrue(false);
+            }
+        });
+    }
+
 }
