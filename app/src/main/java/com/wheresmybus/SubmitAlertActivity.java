@@ -103,7 +103,7 @@ public class SubmitAlertActivity extends FragmentActivity implements
                 // set and disable the spinner
                 busRouteFragment.setSpinner(route);
             }
-            
+
             // make submit button visible
             submitButton.setVisibility(View.VISIBLE);
         } else if (neighborhood != null) {

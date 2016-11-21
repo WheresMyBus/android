@@ -1,12 +1,20 @@
 package com.wheresmybus;
 
 import android.*;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -23,10 +31,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import adapters.RouteAdapter;
 import controllers.WMBController;
 import modules.Bus;
+import modules.BusStop;
 import modules.Route;
 import retrofit.Callback;
 import retrofit.Response;
@@ -241,6 +252,53 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
 
                 return;
             }
+        }
+    }
+
+    private class BusStopListener implements View.OnClickListener, ListView.OnItemClickListener {
+        private BusStop busStop;
+        private RouteAdapter routeAdapter;
+
+        public BusStopListener(BusStop busStop) {
+            this.busStop = busStop;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Context context = v.getRootView().getContext();
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Routes that stop here:");         // TODO: get bus stop name
+            try {
+                ListView routesList = new ListView(context);
+                if (routeAdapter == null) {
+                    // TODO: see if these should be starred
+                    // TODO: get actual method for getting the routes associated with the stops
+                    routeAdapter = new RouteAdapter(context, android.R.layout.simple_list_item_1,
+                            new ArrayList<>(busStop.getRoutes()), false);
+                }
+                routesList.setAdapter(routeAdapter);
+                routesList.setOnItemClickListener(this);
+                builder.setView(routesList);
+                builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            builder.show();
+        }
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Route route = (Route) parent.getItemAtPosition(position);
+            Intent intent = new Intent(view.getRootView().getContext(), AlertForumActivity.class);
+            intent.putExtra("ALERT_TYPE", "Route");
+            intent.putExtra("ROUTE", route);
+            intent.putExtra("ROUTE_ID", route.getId());
+            startActivity(intent);
         }
     }
 }
