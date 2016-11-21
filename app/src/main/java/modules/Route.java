@@ -130,40 +130,4 @@ public class Route implements Serializable, Comparable<Route> {
             return number.compareTo(o.number);
         }
     }
-/*
-    /**
-     * Gets a deep copy of the BusStops in this route
-     * @return BusStops in the route as a set
-
-    public Set<BusStop> getBusStops() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
-    }
-
-    /**
-     * Adds a bus stop to the Route
-     * @param stop BusStop to add
-     * @throws IllegalArgumentException if stop is null
-
-    public void addBusStop(BusStop stop) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
-    }
-
-    /**
-     * Gets a deep copy of the busses in this route
-     * @return busses in the route as a set
-
-    public Set<Bus> getBusses() {
-        throw new UnsupportedOperationException("Not Yet Implemented");
-    }
-
-    /**
-     * Adds a bus to a Route
-     * @param bus Bus to add to the route
-     * @throws IllegalArgumentException if bus is null
-
-    public void addBus(Bus bus) {
-        throw new UnsupportedOperationException("Not Yet Implemented");
-    }
-
-    public void removeBus() */
 }

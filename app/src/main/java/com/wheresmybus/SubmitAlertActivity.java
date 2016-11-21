@@ -1,5 +1,7 @@
 package com.wheresmybus;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,8 +20,13 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
+import adapters.SpinnerAdapter;
+import controllers.OBAController;
 import controllers.WMBController;
 import modules.Neighborhood;
 import modules.NeighborhoodAlert;
@@ -182,6 +189,7 @@ public class SubmitAlertActivity extends FragmentActivity implements
             Neighborhood neighborhood = neighborhoodFragment.getNeighborhood();
             String alertType = neighborhoodFragment.getAlertType();
             String description = neighborhoodFragment.getDescription();
+            List<Route> routesAffected = neighborhoodFragment.getRoutesAffected();
 
             if (neighborhood == null || alertType == null || description == null || description.equals("")) {
                 // instruct the user that some parameter is missing information
@@ -191,6 +199,7 @@ public class SubmitAlertActivity extends FragmentActivity implements
             } else {
                 // submit new alert
                 WMBController controller = WMBController.getInstance();
+                // TODO: change to method that will post the alert with routes affected
                 controller.postAlert(neighborhood.getID(), alertType, description, "[User ID]", new Callback<NeighborhoodAlert>() {
                     @Override
                     public void onResponse(Response<NeighborhoodAlert> response, Retrofit retrofit) {
@@ -211,6 +220,10 @@ public class SubmitAlertActivity extends FragmentActivity implements
 
     public void switchToPreviousScreen(View view) {
         finish();
+    }
+
+    public void openRouteDialog(View view) {
+        neighborhoodFragment.openRouteDialog(view);
     }
 
     /**

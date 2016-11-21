@@ -44,4 +44,5 @@
     <string name="title_activity_map">Map</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="title_activity_route_map">Map</string>
+    <string name="title_activity_search_route_map">Map</string>
 </resources>
