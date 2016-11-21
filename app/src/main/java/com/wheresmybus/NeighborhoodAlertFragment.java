@@ -54,7 +54,6 @@ public class NeighborhoodAlertFragment extends Fragment implements
     private CheckBox checkBox4;
     private EditText text;
 
-    private NeighborhoodAdapter adapter;
     private SpinnerAdapter spinnerAdapter;
     private List<Route> routes;
 
@@ -114,7 +113,7 @@ public class NeighborhoodAlertFragment extends Fragment implements
      * @param data the list of neighborhoods to be imported into the spinner.
      */
     private void loadSpinnerData(List<Neighborhood> data) {
-        adapter = new NeighborhoodAdapter(this.getActivity(),
+        NeighborhoodAdapter adapter = new NeighborhoodAdapter(this.getActivity(),
                 android.R.layout.simple_spinner_item, data, false);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         neighborhoodSpinner.setAdapter(adapter);
@@ -330,7 +329,7 @@ public class NeighborhoodAlertFragment extends Fragment implements
     public void openRouteDialog(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
         // builder.setIcon(android.R.drawable.ic_launcher);
-        builder.setTitle("Select which route(s) may be affected:");
+        builder.setTitle("Select affected route(s):");
         try {
             ListView spinner = new ListView(this.getActivity());
             if (spinnerAdapter == null) {
