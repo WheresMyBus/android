@@ -14,7 +14,7 @@ public class RouteMainActivity extends AppCompatActivity {
     /**
      * Part of the call structure that displays this activity.
      *
-     * @param savedInstanceState
+     * @param savedInstanceState previously saved state, or null
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +25,7 @@ public class RouteMainActivity extends AppCompatActivity {
     /**
      * Switches the activity displayed from the current activity to the catalog of bus route forums.
      *
-     * @param v the current view
+     * @param v the button clicked
      */
     public void switchToRouteCatalog(View v) {
         Intent intent = new Intent(this, CatalogActivity.class);
@@ -38,7 +38,7 @@ public class RouteMainActivity extends AppCompatActivity {
      * Switches the activity displayed from the current activity to the map where users can search
      * for a route forum by viewing nearby bus stops.
      *
-     * @param v the current view
+     * @param v the button clicked
      */
     public void switchToRouteMap(View v) {
         Intent intent = new Intent(this, SearchRouteMapActivity.class);
@@ -49,7 +49,7 @@ public class RouteMainActivity extends AppCompatActivity {
      * Switches the activity displayed from the current activity to the catalog page for routes with
      * the favorites switch turned on.
      *
-     * @param v the current view
+     * @param v the button clicked
      */
     public void switchToRouteFavorites(View v) {
         Intent intent = new Intent(this, CatalogActivity.class);
@@ -62,7 +62,7 @@ public class RouteMainActivity extends AppCompatActivity {
      * Switches the activity displayed from the current activity to the activity where users can
      * submit an alert.
      *
-     * @param v the current view
+     * @param v the button clicked
      */
     public void switchToSubmitAlert(View v) {
         Intent intent = new Intent(this, SubmitAlertActivity.class);

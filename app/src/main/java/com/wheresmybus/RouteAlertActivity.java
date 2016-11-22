@@ -34,7 +34,7 @@ public class RouteAlertActivity extends AppCompatActivity {
     /**
      * Part of the call structure to display the activity.
      *
-     * @param savedInstanceState
+     * @param savedInstanceState previously saved state, or null
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +131,7 @@ public class RouteAlertActivity extends AppCompatActivity {
     /**
      * Retrieves the comments submitted for the route alert and loads them on the page.
      *
-     * @throws Exception
+     * @throws Exception if request fails
      */
     private void commentRequest() throws Exception {
         alert.getComments(new Callback<List<Comment>>() {

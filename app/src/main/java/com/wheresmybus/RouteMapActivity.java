@@ -67,7 +67,7 @@ public class RouteMapActivity extends FragmentActivity
     /**
      * Part of the call structure to display the activity.
      *
-     * @param savedInstanceState
+     * @param savedInstanceState previously saved state, or null
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
