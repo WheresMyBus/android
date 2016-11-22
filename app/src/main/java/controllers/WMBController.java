@@ -146,11 +146,12 @@ public class WMBController {
      * @param alertType the type of the alert
      * @param description description of the alert
      * @param userID id of the user posting the alert
+     * @param affectedRouteIds list of affected route ids
      * @param callback handles response containing the generated NeighborhoodAlert.
      */
     public void postAlert(int neighborhoodID, String alertType, String description,
-                          String userID, Callback<NeighborhoodAlert> callback) {
-        Call<NeighborhoodAlert> call = retrofitService.postNeighborhoodAlert(neighborhoodID, alertType, description, userID);
+                          String userID, List<String> affectedRouteIds, Callback<NeighborhoodAlert> callback) {
+        Call<NeighborhoodAlert> call = retrofitService.postNeighborhoodAlert(neighborhoodID, alertType, description, userID, affectedRouteIds);
         call.enqueue(callback);
     }
 
@@ -170,8 +171,8 @@ public class WMBController {
 
     // the next two methods are for testing only.
     public NeighborhoodAlert postAlertSynchronously(int neighborhoodID, String alertType, String description,
-                                                    String userID) {
-        Call<NeighborhoodAlert> call = retrofitService.postNeighborhoodAlert(neighborhoodID,alertType,description,userID);
+                                                    String userID, List<String> affectedRouteIds) {
+        Call<NeighborhoodAlert> call = retrofitService.postNeighborhoodAlert(neighborhoodID,alertType,description,userID, affectedRouteIds);
         try {
             return call.execute().body();
         } catch (IOException e) {

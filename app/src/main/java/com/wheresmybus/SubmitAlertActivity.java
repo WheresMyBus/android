@@ -205,7 +205,12 @@ public class SubmitAlertActivity extends FragmentActivity implements
                 // submit new alert
                 WMBController controller = WMBController.getInstance();
                 // TODO: change to method that will post the alert with routes affected
-                controller.postAlert(neighborhood.getID(), alertType, description, "[User ID]", new Callback<NeighborhoodAlert>() {
+                List<String> affectedRouteIds = new ArrayList<>();
+                for (Route route : routesAffected) {
+                    affectedRouteIds.add(route.getId());
+                }
+
+                controller.postAlert(neighborhood.getID(), alertType, description, "[User ID]", affectedRouteIds, new Callback<NeighborhoodAlert>() {
                     @Override
                     public void onResponse(Response<NeighborhoodAlert> response, Retrofit retrofit) {
 
