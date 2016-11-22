@@ -34,6 +34,8 @@ import modules.UserDataManager;
 
 /**
  * A class for the catalog screen, with tabs for routes and neighborhoods
+ *
+ * Created by bmartz on 11/1/2016.
  */
 public class CatalogActivity extends AppCompatActivity implements BusRouteCatalogFragment.OnFragmentInteractionListener,
         NeighborhoodCatalogFragment.OnFragmentInteractionListener{
@@ -81,6 +83,8 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        // show the correct tab, depending on which button click sent here
+        // routes if tabIndex = 0, neighborhoods if tabIndex = 1
         Intent intent = getIntent();
         int tabIndex = intent.getIntExtra("TAB_INDEX", 0);
         favoritesOnly = intent.getBooleanExtra("FAVORITES_ONLY", false);
@@ -90,16 +94,30 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
         }
     }
 
+    /**
+     * Get the UserDataManager according to the singleton pattern
+     */
     @Override
     public void onStart() {
         super.onStart();
         UserDataManager.instantiateManager(this);
     }
+
+    /**
+     * Save the user data before stopping
+     */
     @Override
     public void onStop() {
         super.onStop();
         UserDataManager.getManager().saveUserData(this);
     }
+
+    /**
+     * Creates an options menu.
+     *
+     * @param menu the menu to be inflated
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -107,6 +125,12 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
         return true;
     }
 
+    /**
+     * Handles the event when an option is selected from the options menu.
+     *
+     * @param item The selected item
+     * @return false to allow normal menu processing to proceed, true to consume it here
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -188,6 +212,11 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
             }
         }
 
+        /**
+         * Gets the number of tabs
+         *
+         * @return the number of tabs, 2
+         */
         @Override
         public int getCount() {
             // Show 2 total pages.
@@ -196,6 +225,7 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
 
         /**
          * Gets the title of the tab/page at the given index
+         *
          * @param position the index of the tab
          * @return the title of the given tab
          */

@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Sets up the singleton UserDataManager when started
+     * Get the UserDataManager according to the singleton pattern
      */
     @Override
     public void onStart() {
