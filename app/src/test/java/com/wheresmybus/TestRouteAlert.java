@@ -122,4 +122,25 @@ public class TestRouteAlert extends TestAlertBase<RouteAlert> {
         });
     }
 
+    @Test
+    public void testUnvote() {
+        sampleRouteAlert().upvote("", new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                assertEquals(1, sampleRouteAlert().getUpvotes());
+            }
+            @Override
+            public void onFailure(Throwable t) {
+            }
+        });
+        sampleRouteAlert().unvote("", new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                assertEquals(0, sampleRouteAlert().getUpvotes());
+            }
+            @Override
+            public void onFailure(Throwable t) {
+            }
+        });
+    }
 }

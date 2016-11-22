@@ -89,4 +89,26 @@ public class TestComment {
         assertFalse(b);
         assertEquals(10, comment.getId());
     }
+
+    @Test
+    public void testUnvote() {
+        comment.upvote("", new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                assertEquals(1, comment.getUpvotes());
+            }
+            @Override
+            public void onFailure(Throwable t) {
+            }
+        });
+        comment.unvote("", new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                assertEquals(0, comment.getUpvotes());
+            }
+            @Override
+            public void onFailure(Throwable t) {
+            }
+        });
+    }
 }
