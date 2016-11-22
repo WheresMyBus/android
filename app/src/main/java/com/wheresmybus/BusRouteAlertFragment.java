@@ -52,7 +52,7 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
     /**
      * Part of the call structure that sets up the fragment.
      *
-     * @param savedInstanceState
+     * @param savedInstanceState previously saved state, or null
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -109,12 +109,12 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
     }
 
     /**
-     * Part of the call structure to display the activity.
+     * Part of the call structure that sets up the fragment to be displayed.
      *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
+     * @param inflater used to inflate any views in the fragment
+     * @param container parent view that the fragment's UI should be attached to
+     * @param savedInstanceState previously saved state, or null
+     * @return the view for the fragment's UI, or null
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -154,7 +154,7 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
     /**
      * Part of the call structure to display the activity.
      *
-     * @param savedInstanceState
+     * @param savedInstanceState previously saved state, or null
      */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -164,7 +164,7 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
     /**
      * Part of the call structure to display the activity.
      *
-     * @param context
+     * @param context Context
      */
     @Override
     public void onAttach(Context context) {
@@ -192,7 +192,7 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
      * @param parent the view of the spinner
      * @param view the view of the row in the spinner that was selected
      * @param position the position of the selected row within the spinner
-     * @param id
+     * @param id the id of the element clicked
      */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -270,7 +270,7 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
      * Implements the View.OnClickListener interface. Determines which checkboxes the user has
      * checked and stores the alert types associated with those boxes.
      *
-     * @param view
+     * @param view the current view
      */
     @Override
     public void onClick(View view) {
