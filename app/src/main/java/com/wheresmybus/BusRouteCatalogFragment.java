@@ -69,7 +69,8 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
 
     /**
      * Retrieves the list of routes from the database to populate the catalog
-     * @param savedInstanceState
+     *
+     * @param savedInstanceState previously saved state, or null
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,6 +88,7 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
 
     /**
      * Gets the routes from the database
+     *
      * @throws Exception if the request fails
      */
     private void routeRequest() throws Exception {
@@ -143,21 +145,28 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
     /**
      * Part of the call structure that sets up the fragment to be displayed.
      *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
+     * @param inflater used to inflate any views in the fragment
+     * @param container parent view that the fragment's UI should be attached to
+     * @param savedInstanceState previously saved state, or null
+     * @return the view for the fragment's UI, or null
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_bus_route_catalog, container, false);
+
+        // set up the view favorites only switch
         final Switch favoriteSwitch = (Switch) view.findViewById(R.id.favoriteSwitch);
         if (favoritesOnly) {
             favoriteSwitch.setChecked(true);
         }
         favoriteSwitch.setOnClickListener(new View.OnClickListener() {
+            /**
+             * When checked, shows only favorites, otherwise all routes
+             *
+             * @param view the current view
+             */
             @Override
             public void onClick(View view) {
                 adapter.clear();
@@ -175,7 +184,7 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
     /**
      * Part of the call structure that sets up the fragment to be displayed.
      *
-     * @param savedInstanceState
+     * @param savedInstanceState previously saved state, or null
      */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -187,7 +196,7 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
     /**
      * Part of the call structure that sets up the fragment to be displayed.
      *
-     * @param context
+     * @param context Context
      */
     @Override
     public void onAttach(Context context) {

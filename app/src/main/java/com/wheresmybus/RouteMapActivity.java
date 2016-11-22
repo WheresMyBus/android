@@ -36,34 +36,39 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-
-// shouldShowRequestPermissionsRationale(): returns true if app has requested permission before and
-//          user denied the report - returns false if user has requested permission previously and
-//          chose Don't Ask Again option or device policy prohibits app from having that permission
-
 // for latitude, positive ints are north; for longitude, positive ints are east
 
+/**
+ * A map that displays and zooms in on the user's location if permissions are enabled, or otherwise
+ * zooms in on Seattle, and then displays the current locations of buses running a given route.
+ */
 public class RouteMapActivity extends FragmentActivity
         implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    private GoogleMap mMap;
-    private SupportMapFragment mapFragment;
+    // private fields
+    private GoogleMap mMap;                     // the map
+    private SupportMapFragment mapFragment;     // the fragment storing the map
     private LocationRequest mLocationRequest;
-    private GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient mGoogleApiClient;   // tool to help track the user's current location
     private Location mLastLocation;
     private Marker mCurrLocationMarker;
-    private Route route;
-    private Button refreshButton;
-    private List<Marker> currentBusMarkers;
+    private Route route;                        // the route whose bus locations are being viewed
+    private Button refreshButton;               // the button that lets users refresh the markers
+    private List<Marker> currentBusMarkers;     // the bus locations currently marked
 
     private final LatLng SEATTLE = new LatLng(47.608013, -122.335167);
     private final float MARKER_HUE = 288;               // makes the bus markers purple
     private final float ZOOM_LEVEL = 18;                // goes up to 21
     private final int REQUEST_LOCATION = 0;
 
+    /**
+     * Part of the call structure to display the activity.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +90,9 @@ public class RouteMapActivity extends FragmentActivity
         currentBusMarkers = new ArrayList<>();
     }
 
+    /**
+     * Pauses the activity and stops updating the user's current location.
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -95,12 +103,22 @@ public class RouteMapActivity extends FragmentActivity
         }
     }
 
+    /**
+     * Stops the activity and disconnects the tool that helps track the user's current location.
+     */
     @Override
     protected void onStop() {
         super.onStop();
         mGoogleApiClient.disconnect();
     }
 
+    /**
+     * Stores the map once it is ready, adds the user's current location if the user's allows the
+     * permission or sets the map camera to Seattle, adds markers to the map to indicate the
+     * locations of the buses running the route for this page, and makes the refresh button visible.
+     *
+     * @param googleMap the map being displayed
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -125,6 +143,9 @@ public class RouteMapActivity extends FragmentActivity
         refreshButton.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Sets up and connects the tool that helps track the user's current location.
+     */
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -135,6 +156,13 @@ public class RouteMapActivity extends FragmentActivity
         mGoogleApiClient.connect();
     }
 
+    /**
+     * Requests the list of buses that are running the route for this page. Reports to the user if
+     * there are no buses currently running this route or adds markers to indicate the locations of
+     * all buses running it.
+     *
+     * @throws Exception
+     */
     private void busLocationRequest() throws Exception {
         WMBController controller = WMBController.getInstance();
         controller.getBuses(route.getId(), new Callback<List<Bus>>() {
@@ -143,6 +171,7 @@ public class RouteMapActivity extends FragmentActivity
                 List<Bus> buses = response.body();
 
                 if (buses.isEmpty()) {
+                    // report that no buses are running this route
                     Toast.makeText(RouteMapActivity.this,
                             "No buses are currently running on this route.",
                             Toast.LENGTH_LONG);
@@ -150,10 +179,12 @@ public class RouteMapActivity extends FragmentActivity
                     for (Bus bus : buses) {
                         LatLng busLocation = new LatLng(bus.getLat(), bus.getLon());
 
+                        // sets up a marker for the bus location
                         MarkerOptions markerOptions = new MarkerOptions();
                         markerOptions.position(busLocation);
                         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(MARKER_HUE));
 
+                        // adds the marker to the map and saves a reference to it
                         Marker marker = mMap.addMarker(markerOptions);
                         currentBusMarkers.add(marker);
                     }
@@ -167,6 +198,11 @@ public class RouteMapActivity extends FragmentActivity
         });
     }
 
+    /**
+     * Sets up the request for the user location.
+     *
+     * @param bundle
+     */
     @Override
     public void onConnected(Bundle bundle) {
         mLocationRequest = new LocationRequest();
@@ -184,6 +220,11 @@ public class RouteMapActivity extends FragmentActivity
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {}
 
+    /**
+     * Gets the user's current location if they have moved.
+     *
+     * @param location the user's new location
+     */
     @Override
     public void onLocationChanged(Location location) {
         mLastLocation = location;
@@ -213,6 +254,9 @@ public class RouteMapActivity extends FragmentActivity
         }
     }
 
+    /**
+     * Requests permission to access the user's location.
+     */
     private void requestUserLocationPermission() {
         if (!checkUserLocationPermission()) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -238,6 +282,15 @@ public class RouteMapActivity extends FragmentActivity
                 == PackageManager.PERMISSION_GRANTED;
     }
 
+    /**
+     * If the given request code corresponds to our request to access the user's location, gets the
+     * user's current location and adds it to the map if the user granted permission or adds a marker
+     * and zooms to Seattle.
+     *
+     * @param requestCode the code to indicate which permission result is being analyzed
+     * @param permissions the permissions requested
+     * @param grantResults the results of requesting the permissions
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
@@ -268,6 +321,12 @@ public class RouteMapActivity extends FragmentActivity
         }
     }
 
+    /**
+     * Clears the markers that indicate the current locations of the buses running this route, gets
+     * new information about the buses, and displays markers for the updated bus locations.
+     *
+     * @param view the button clicked
+     */
     public void refresh(View view) {
         clearCurrentBusMarkers();
         try {
@@ -277,6 +336,9 @@ public class RouteMapActivity extends FragmentActivity
         }
     }
 
+    /**
+     * Removes all the bus location markers from the map and any references to them in this class.
+     */
     public void clearCurrentBusMarkers() {
         for (Marker m : currentBusMarkers) {
             m.remove();
