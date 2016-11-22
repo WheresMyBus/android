@@ -34,7 +34,7 @@ public class ThumbsUpListener implements View.OnClickListener {
 
     /**
      * Constructs a new ThumbsUpListener for the given alert.
-     * @param alert
+     * @param alert the alert to upvote
      * @param startsToggledOn true if the button should start toggled
      *                      for when we must remember that the user
      *                      had clicked this button before
@@ -50,7 +50,7 @@ public class ThumbsUpListener implements View.OnClickListener {
 
     /**
      * Constructs a new ThumbsUpListener for the given comment.
-     * @param comment
+     * @param comment the comment to upvote
      * @param startsToggledOn true if the button should start toggled
      *                      for when we must remember that the user
      *                      had clicked this button before
