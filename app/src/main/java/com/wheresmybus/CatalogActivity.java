@@ -178,9 +178,11 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
             Set<Integer> favoriteNeighborhoodsByID = manager.getFavoriteNeighborhoodsByID();
             // getItem is called to instantiate the fragment for the given page.
             if (position == 0) {
-                return BusRouteCatalogFragment.newInstance(routeSetToList(favoriteRoutesByID));
+                return BusRouteCatalogFragment.newInstance(routeSetToList(favoriteRoutesByID),
+                        favoritesOnly);
             } else if (position == 1) {
-                return NeighborhoodCatalogFragment.newInstance(neighborhoodSetToList(favoriteNeighborhoodsByID));
+                return NeighborhoodCatalogFragment.newInstance(neighborhoodSetToList(favoriteNeighborhoodsByID),
+                        favoritesOnly);
             } else {
                 return null;
             }

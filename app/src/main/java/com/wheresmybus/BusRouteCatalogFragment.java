@@ -38,6 +38,7 @@ import retrofit.Retrofit;
 public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnItemClickListener {
     // the fragment initialization parameters
     private List<String> favoriteRoutesByID;
+    private boolean favoritesOnly;
 
     private ListView routeList;
     private List<Route> routes;
@@ -56,10 +57,12 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
      * @param favoriteRoutesByID List of the ids of favorite routes
      * @return A new instance of fragment BusRouteCatalogFragment
      */
-    public static BusRouteCatalogFragment newInstance(ArrayList<String> favoriteRoutesByID) {
+    public static BusRouteCatalogFragment newInstance(ArrayList<String> favoriteRoutesByID,
+                                                      boolean switchOn) {
         BusRouteCatalogFragment fragment = new BusRouteCatalogFragment();
         Bundle args = new Bundle();
         args.putStringArrayList("FAVORITES", favoriteRoutesByID);
+        args.putBoolean("SWITCH_ON", switchOn);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,7 +75,9 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         routes = new ArrayList<Route>();
-        favoriteRoutesByID = getArguments() != null ? getArguments().getStringArrayList("FAVORITES") : null;
+        favoriteRoutesByID = getArguments() != null ?
+                getArguments().getStringArrayList("FAVORITES") : null;
+        favoritesOnly = getArguments() != null && getArguments().getBoolean("SWITCH_ON");
         try {
             routeRequest();
         } catch (Exception e) {
@@ -113,6 +118,10 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
         for (int i = 0; i < adapter.getCount(); i++) {
             routes.add(adapter.getItem(i));
         }
+        if (favoritesOnly) {
+            adapter.clear();
+            adapter.addAll(filterFavorites(routes));
+        }
     }
 
     /**
@@ -137,6 +146,9 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_bus_route_catalog, container, false);
         final Switch favoriteSwitch = (Switch) view.findViewById(R.id.favoriteSwitch);
+        if (favoritesOnly) {
+            favoriteSwitch.setChecked(true);
+        }
         favoriteSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

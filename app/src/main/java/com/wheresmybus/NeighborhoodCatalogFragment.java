@@ -35,6 +35,7 @@ import retrofit.Retrofit;
 public class NeighborhoodCatalogFragment extends Fragment implements AdapterView.OnItemClickListener {
     // the fragment initialization parameters
     private List<Integer> favoriteNeighborhoodsByID;
+    private boolean favoritesOnly;
 
     private ListView neighborhoodList;
     private List<Neighborhood> neighborhoods;
@@ -53,10 +54,12 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
      * @param favoriteNeighborhoodsByID List of the ids of favorite neighborhoods
      * @return A new instance of fragment NeighborhoodCatalogFragment.
      */
-    public static NeighborhoodCatalogFragment newInstance(ArrayList<Integer> favoriteNeighborhoodsByID) {
+    public static NeighborhoodCatalogFragment newInstance(ArrayList<Integer> favoriteNeighborhoodsByID,
+                                                          boolean switchOn) {
         NeighborhoodCatalogFragment fragment = new NeighborhoodCatalogFragment();
         Bundle args = new Bundle();
         args.putIntegerArrayList("FAVORITES", favoriteNeighborhoodsByID);
+        args.putBoolean("SWITCH_ON", switchOn);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,7 +72,9 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         neighborhoods = new ArrayList<Neighborhood>();
-        favoriteNeighborhoodsByID = getArguments() != null ? getArguments().getIntegerArrayList("FAVORITES") : null;
+        favoriteNeighborhoodsByID = getArguments() != null ?
+                getArguments().getIntegerArrayList("FAVORITES") : null;
+        favoritesOnly = getArguments() != null && getArguments().getBoolean("SWITCH_ON");
         try {
             neighborhoodRequest();
         } catch (Exception e) {
@@ -110,6 +115,10 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
         for (int i = 0; i < adapter.getCount(); i++) {
             neighborhoods.add(adapter.getItem(i));
         }
+        if (favoritesOnly) {
+            adapter.clear();
+            adapter.addAll(filterFavorites(neighborhoods));
+        }
     }
 
     /**
@@ -135,6 +144,9 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
         View view = inflater.inflate(R.layout.fragment_neighborhood_catalog, container, false);
 
         final Switch favoriteSwitch = (Switch) view.findViewById(R.id.favoriteSwitch);
+        if (favoritesOnly) {
+            favoriteSwitch.setChecked(true);
+        }
         favoriteSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
