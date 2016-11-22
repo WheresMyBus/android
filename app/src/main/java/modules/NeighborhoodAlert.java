@@ -112,13 +112,13 @@ public class NeighborhoodAlert extends Alert {
 
     @Override
     public void upvote(String userID, Callback<VoteConfirmation> callback) {
-        WMBController controller = WMBController.getInstance();
+        final WMBController controller = WMBController.getInstance();
         final NeighborhoodAlert self = this;
         final Callback<VoteConfirmation> cb = callback;
         controller.neighborhoodAlertUpvote(this.getId(), userID, new Callback<VoteConfirmation>() {
             @Override
             public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
-                self.upvotes++;
+                self.setVotes(response.body());
                 cb.onResponse(response, retrofit);
             }
 
@@ -137,7 +137,26 @@ public class NeighborhoodAlert extends Alert {
         controller.neighborhoodAlertDownvote(this.getId(), userID, new Callback<VoteConfirmation>() {
             @Override
             public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
-                self.downvotes++;
+                self.setVotes(response.body());
+                cb.onResponse(response, retrofit);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                cb.onFailure(t);
+            }
+        });
+    }
+
+    @Override
+    public void unvote(String userID, Callback<VoteConfirmation> callback) {
+        WMBController controller = WMBController.getInstance();
+        final NeighborhoodAlert self = this;
+        final Callback<VoteConfirmation> cb = callback;
+        controller.neighborhoodAlertUnvote(this.getId(), userID, new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                self.setVotes(response.body());
                 cb.onResponse(response, retrofit);
             }
 

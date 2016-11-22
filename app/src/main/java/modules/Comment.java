@@ -99,7 +99,8 @@ public class Comment {
         controller.commentUpvote(this.getId(), userID, new Callback<VoteConfirmation>() {
             @Override
             public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
-                self.upvotes++;
+                self.downvotes = response.body().downvotes;
+                self.upvotes = response.body().upvotes;
                 cb.onResponse(response,retrofit);
             }
 
@@ -120,8 +121,28 @@ public class Comment {
         controller.commentDownvote(this.getId(), userID, new Callback<VoteConfirmation>() {
             @Override
             public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
-                self.downvotes++;
+                self.downvotes = response.body().downvotes;
+                self.upvotes = response.body().upvotes;
                 cb.onResponse(response,retrofit);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                cb.onFailure(t);
+            }
+        });
+    }
+
+    public void unvote(String userID, Callback<VoteConfirmation> callback) {
+        WMBController controller = WMBController.getInstance();
+        final Comment self = this;
+        final Callback<VoteConfirmation> cb = callback;
+        controller.commentUnvote(this.getId(), userID, new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                self.downvotes = response.body().downvotes;
+                self.upvotes = response.body().upvotes;
+                cb.onResponse(response, retrofit);
             }
 
             @Override

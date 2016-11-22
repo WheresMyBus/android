@@ -10,7 +10,10 @@ import java.util.List;
 
 import junit.framework.*;
 
+import controllers.WMBController;
 import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * Created by lidav on 10/23/2016.
@@ -110,10 +113,23 @@ public abstract class Alert implements Serializable, Comparable<Alert> {
     public abstract void downvote(String userID, Callback<VoteConfirmation> callback);
 
     /**
+     * removes previously logged vote on this alert.
+     */
+    public abstract void unvote(String userID, Callback<VoteConfirmation> callback);
+
+    /**
      * method for getting comments for an alert.
      */
     public abstract void getComments(Callback<List<Comment>> callback);
 
+    /**
+     * sets the upvotes and downvotes based on the received confirmation.
+     * @param confirmation
+     */
+    protected void setVotes(VoteConfirmation confirmation) {
+        this.upvotes = confirmation.upvotes;
+        this.downvotes = confirmation.downvotes;
+    }
 
     /**
      * Sets the id of this alert if id = -1
