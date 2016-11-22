@@ -63,6 +63,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
         if (type.equals("Route")) {
             isRouteForum = true;
             route = (Route) intent.getSerializableExtra("ROUTE");
+            setTitle(route.getNumber() + ": " + route.getName());
             String id = intent.getStringExtra("ROUTE_ID");
             try {
                 routeRequest(id);
@@ -72,6 +73,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
         } else { //neighborhood
             isRouteForum = false;
             neighborhood = (Neighborhood) intent.getSerializableExtra("NEIGHBORHOOD");
+            setTitle(neighborhood.getName());
             int id = intent.getIntExtra("NEIGHBORHOOD_ID", 0);
             try {
                 neighborhoodRequest(id);
