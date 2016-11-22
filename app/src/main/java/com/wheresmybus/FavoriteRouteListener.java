@@ -12,15 +12,34 @@ import modules.UserDataManager;
  * Created by lesli_000 on 11/13/2016.
  */
 
+/**
+ * A listener class that handles the event where a user selects or deselects a favorite route.
+ */
 public class FavoriteRouteListener implements View.OnClickListener {
     private String routeID;
     private boolean toggledOn;
 
+    /**
+     * Constructs a new FavoriteRouteListener.
+     *
+     * @param routeID the ID for the route associated with this listener
+     */
     public FavoriteRouteListener(String routeID) {
         this.routeID = routeID;
         this.toggledOn = false;
     }
 
+    /**
+     * Adds or removes the neighborhood associated with the given button view to or from the user's
+     * list of favorites as appropriate.
+     *
+     * If the button was off when the user clicked it, the button appears gray and then turns yellow.
+     * This means the neighborhood is being added to the user's list of favorite neighborhoods.
+     * Otherwise, if the button was on when the user clicked it, the button appears yellow and then
+     * turns gray. This means the neighborhood is being removed from the user's list of favorites.
+     *
+     * @param v the button clicked
+     */
     @Override
     public void onClick(View v) {
         // add to or remove from favorites
