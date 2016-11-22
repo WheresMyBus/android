@@ -10,6 +10,11 @@ import android.content.Intent;
 
 public class SplashActivity extends AppCompatActivity {
 
+    /**
+     * Displays the logo on the splash screen, then goes to the main screen
+     *
+     * @param savedInstanceState previously saved state, or null
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
