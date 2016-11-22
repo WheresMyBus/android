@@ -50,6 +50,17 @@ public class RouteAlert extends Alert {
         checkRep();
     }
 
+    /**
+     * Contructs a RouteAlert for usage by Retrofit on server response
+     * @param routeID id of the route that this alert is on
+     * @param alertID id of the alert
+     * @param user_id id of the creator of the alert
+     * @param alertType type of the alert
+     * @param description description of the alert
+     * @param date Date the alert was posted
+     * @param upvotes number of upvotes the alert has
+     * @param downvotes number of downvotes the alert has
+     */
     public RouteAlert(String routeID, int alertID, String user_id, String alertType,
                       String description, Date date, int upvotes, int downvotes) {
         super(alertID, user_id, alertType, description, date, upvotes, downvotes);
@@ -64,6 +75,11 @@ public class RouteAlert extends Alert {
         return new Route(route.getNumber(), route.getName(), route.getId());
     }
 
+    /**
+     * Upvotes the route alert in the server
+     * @param userID id of the user who is upvoting the alert
+     * @param callback Callback that describes what to do when the server responds
+     */
     @Override
     public void upvote(String userID, Callback<VoteConfirmation> callback) {
         WMBController controller = WMBController.getInstance();
@@ -83,6 +99,11 @@ public class RouteAlert extends Alert {
         });
     }
 
+    /**
+     * Downvotes the route alert in the server
+     * @param userID id of the user who is downvoting the alert
+     * @param callback Callback that describes what to do when the server responds
+     */
     @Override
     public void downvote(String userID, Callback<VoteConfirmation> callback) {
         WMBController controller = WMBController.getInstance();
@@ -102,6 +123,11 @@ public class RouteAlert extends Alert {
         });
     }
 
+    /**
+     * Removes the vote this user sent previously for this alert
+     * @param userID id of the user who is unvoting the alert
+     * @param callback Callback that describes what to do when the server responds
+     */
     @Override
     public void unvote(String userID, Callback<VoteConfirmation> callback) {
         WMBController controller = WMBController.getInstance();
@@ -123,7 +149,7 @@ public class RouteAlert extends Alert {
 
     /**
      * gets the comments on this alert.
-     * @param callback
+     * @param callback Callback that describes what to do when the server responds.
      */
     @Override
     public void getComments(Callback<List<Comment>> callback) {

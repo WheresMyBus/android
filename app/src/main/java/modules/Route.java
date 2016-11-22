@@ -22,9 +22,6 @@ public class Route implements Serializable, Comparable<Route> {
     @SerializedName("id")
     private String id;
 
-    //private Set<BusStop> busStops;
-    //private Set<Bus> busses;
-
     /**
      * Constructs a Route
      * If busStops or busses is null, creates empty sets for them
@@ -83,6 +80,11 @@ public class Route implements Serializable, Comparable<Route> {
         return id;
     }
 
+    /**
+     * Returns true iff name, number, and id all match, else return false
+     * @param other Route to compare to
+     * @return true if name, number, and id all match for both routes, else return false
+     */
     @Override
     public boolean equals(Object other) {
         boolean res = true;
@@ -98,13 +100,18 @@ public class Route implements Serializable, Comparable<Route> {
     public int hashCode() {
         return (this.getName() + this.getNumber() + this.getId()).hashCode();
     }
-
     private void checkRep() {
         Assert.assertTrue(number != null);
         Assert.assertTrue(name != null);
         Assert.assertTrue(id != null);
     }
 
+    /**
+     * Returns < 0 if the other route has a lower number
+     * returns 0 if the other route has the same number
+     * else returns > 0
+     * @param o Route to compare to
+     */
     @Override
     public int compareTo(Route o) {
         int number1 = 0;
