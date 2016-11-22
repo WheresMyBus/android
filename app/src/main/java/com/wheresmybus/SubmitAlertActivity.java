@@ -239,7 +239,7 @@ public class SubmitAlertActivity extends FragmentActivity implements
     /**
      * Redirects the user to the previous screen
      *
-     * @param view
+     * @param view the button clicked
      */
     public void switchToPreviousScreen(View view) {
         finish();
