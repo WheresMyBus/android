@@ -110,6 +110,11 @@ public class NeighborhoodAlert extends Alert {
         return routesAffected;
     }
 
+    /**
+     * Upvotes the neighborhood alert in the server
+     * @param userID id of the user who is upvoting the alert
+     * @param callback Callback that describes what to do when the server responds
+     */
     @Override
     public void upvote(String userID, Callback<VoteConfirmation> callback) {
         final WMBController controller = WMBController.getInstance();
@@ -129,6 +134,11 @@ public class NeighborhoodAlert extends Alert {
         });
     }
 
+    /**
+     * Downvotes the neighborhood alert in the server
+     * @param userID id of the user who is downvoting the alert
+     * @param callback Callback that describes what to do when the server responds
+     */
     @Override
     public void downvote(String userID, Callback<VoteConfirmation> callback) {
         WMBController controller = WMBController.getInstance();
@@ -148,6 +158,11 @@ public class NeighborhoodAlert extends Alert {
         });
     }
 
+    /**
+     * Removes the vote this user posted previously for this alert
+     * @param userID id of the user who is unvoting the alert
+     * @param callback Callback that describes what to do when the server responds
+     */
     @Override
     public void unvote(String userID, Callback<VoteConfirmation> callback) {
         WMBController controller = WMBController.getInstance();
@@ -169,7 +184,7 @@ public class NeighborhoodAlert extends Alert {
 
     /**
      * gets the comments associated with this alert and handles them with the callback.
-     * @param callback
+     * @param callback Callback that determines what to do when the server responds
      */
     @Override
     public void getComments(Callback<List<Comment>> callback) {

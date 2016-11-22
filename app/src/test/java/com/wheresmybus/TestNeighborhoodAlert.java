@@ -139,4 +139,25 @@ public class TestNeighborhoodAlert extends TestAlertBase<NeighborhoodAlert> {
         });
     }
 
+    @Test
+    public void testUnvote() {
+        sampleNeighborhoodAlert().upvote("", new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                assertEquals(1, sampleNeighborhoodAlert().getUpvotes());
+            }
+            @Override
+            public void onFailure(Throwable t) {
+            }
+        });
+        sampleNeighborhoodAlert().unvote("", new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                assertEquals(0, sampleNeighborhoodAlert().getUpvotes());
+            }
+            @Override
+            public void onFailure(Throwable t) {
+            }
+        });
+    }
 }

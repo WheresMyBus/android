@@ -10,6 +10,7 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
+import retrofit.http.Query;
 
 
 public interface RetrofitAPI {
@@ -68,9 +69,8 @@ public interface RetrofitAPI {
                                            @Path("upORdown") String updown,
                                            @Field("user_id") String userID);
 
-    @FormUrlEncoded
     @DELETE("{db_type}/{id}/unvote")
     Call<VoteConfirmation> unvote(@Path("db_type") String db_type,
                                   @Path("id") int id,
-                                  @Field("user_id") String userID);
+                                  @Query("user_id") String userID);
 }
