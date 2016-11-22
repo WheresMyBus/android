@@ -120,6 +120,7 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
         for (int i = 0; i < adapter.getCount(); i++) {
             routes.add(adapter.getItem(i));
         }
+        // if accessed from clicking view favorites, show only favorites
         if (favoritesOnly) {
             adapter.clear();
             adapter.addAll(filterFavorites(routes));
@@ -163,7 +164,7 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
         }
         favoriteSwitch.setOnClickListener(new View.OnClickListener() {
             /**
-             * When checked, shows only favorites, otherwise all routes
+             * When checked, shows only favorites; otherwise all routes
              *
              * @param view the current view
              */
@@ -221,6 +222,7 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
     /**
      * When a route is clicked, it takes the user to the corresponding
      * alert forum page
+     *
      * @param adapterView the AdapterView that keeps track of the ListView elements
      * @param view the ListView for this class
      * @param position the position of the element clicked
@@ -247,7 +249,6 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

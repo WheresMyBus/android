@@ -66,7 +66,8 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
 
     /**
      * Retrieves the list of neighborhoods from the database to populate the catalog
-     * @param savedInstanceState
+     *
+     * @param savedInstanceState previously saved state, or null
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,6 +116,7 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
         for (int i = 0; i < adapter.getCount(); i++) {
             neighborhoods.add(adapter.getItem(i));
         }
+        // if accessed from clicking view favorites, show only favorites
         if (favoritesOnly) {
             adapter.clear();
             adapter.addAll(filterFavorites(neighborhoods));
@@ -137,17 +139,31 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
         return favoriteList;
     }
 
+    /**
+     * Part of the call structure that sets up the fragment to be displayed.
+     *
+     * @param inflater used to inflate any views in the fragment
+     * @param container parent view that the fragment's UI should be attached to
+     * @param savedInstanceState previously saved state, or null
+     * @return the view for the fragment's UI, or null
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_neighborhood_catalog, container, false);
 
+        // set up the view favorites only switch
         final Switch favoriteSwitch = (Switch) view.findViewById(R.id.favoriteSwitch);
         if (favoritesOnly) {
             favoriteSwitch.setChecked(true);
         }
         favoriteSwitch.setOnClickListener(new View.OnClickListener() {
+            /**
+             * When checked, shows only favorites; otherwise all routes
+             *
+             * @param view the current view
+             */
             @Override
             public void onClick(View view) {
                 adapter.clear();
@@ -162,6 +178,11 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
         return view;
     }
 
+    /**
+     * Part of the call structure that sets up the fragment to be displayed.
+     *
+     * @param savedInstanceState previously saved state, or null
+     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -169,7 +190,11 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
         neighborhoodList.setOnItemClickListener(this);
     }
 
-
+    /**
+     * Part of the call structure that sets up the fragment to be displayed.
+     *
+     * @param context Context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -181,6 +206,9 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
         }
     }
 
+    /**
+     * Part of the fragment call structure.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
@@ -190,6 +218,7 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
     /**
      * When a neighborhood is clicked, it takes the user to the corresponding
      * alert forum page
+     *
      * @param adapterView the AdapterView that keeps track of the ListView elements
      * @param view the ListView for this class
      * @param position the position of the element clicked
@@ -216,7 +245,6 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
