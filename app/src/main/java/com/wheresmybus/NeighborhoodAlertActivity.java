@@ -28,11 +28,20 @@ import retrofit.Retrofit;
  * Created by lesli_000 on 11/15/2016.
  */
 
+/**
+ * The activity for the screen where a neighborhood alert selected in a forum is displayed along
+ * with the comments submitted for the alert and a button to submit a new comment.
+ */
 public class NeighborhoodAlertActivity extends AppCompatActivity {
     private NeighborhoodAlert alert;
     private SimpleDateFormat dateFormatter;
     private SimpleDateFormat timeFormatter;
 
+    /**
+     * Part of the call structure to display the activity.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +65,22 @@ public class NeighborhoodAlertActivity extends AppCompatActivity {
     // TODO: saving user data writes all of the user data to files, which could be unnecessarily
     // expensive to perform as often as we will be doing - Nick B. (though the files are small
     // enough that it probably won't matter
+    /**
+     * Saves any information relevant to the user, namely if the user upvoted or downvoted the
+     * alert or any comments.
+     */
     @Override
     public void onStop() {
         super.onStop();
         UserDataManager.getManager().saveUserData(this);
     }
 
+    /**
+     * Sets up the text at the top of the screen to display the information of the neighborhood
+     * alert, including the alert types, the description, the routes possibly affected by the alert,
+     * the date and time the alert was submitted, and the number of upvotes or downvotes the alert
+     * has received. Also sets the listeners for the thumbs up and down buttons.
+     */
     private void loadAlertData() {
         // get references to the different view we want to change
         TextView alertType = (TextView) findViewById(R.id.alert_type);
@@ -136,6 +155,11 @@ public class NeighborhoodAlertActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Retrieves the comments submitted for the neighborhood alert and loads them on the page.
+     *
+     * @throws Exception
+     */
     private void commentRequest() throws Exception {
         alert.getComments(new Callback<List<Comment>>() {
             @Override
@@ -151,6 +175,12 @@ public class NeighborhoodAlertActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Loads the list of comments submitted for the neighborhood alert onto the page displayed to
+     * the user.
+     *
+     * @param comments the list of comments
+     */
     private void loadComments(List<Comment> comments) {
         CommentAdapter adapter = new CommentAdapter(this, android.R.layout.simple_list_item_1,
                 comments);
@@ -158,6 +188,11 @@ public class NeighborhoodAlertActivity extends AppCompatActivity {
         commentList.setAdapter(adapter);
     }
 
+    /**
+     * Sends the user to the page where a new comment can be submitted for the neighborhood alert.
+     *
+     * @param view the button clicked
+     */
     public void switchToSubmitComment(View view) {
         Intent intent = new Intent(this, SubmitCommentActivity.class);
         intent.putExtra("ALERT", alert);
