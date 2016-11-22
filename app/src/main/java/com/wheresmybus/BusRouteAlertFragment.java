@@ -64,7 +64,7 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
      * the spinner on the layout for this fragment to let users select a route for which they will
      * submit an alert.
      *
-     * @throws Exception
+     * @throws Exception if the request fails
      */
     private void busRouteRequest() throws Exception {
         OBAController controller = OBAController.getInstance();

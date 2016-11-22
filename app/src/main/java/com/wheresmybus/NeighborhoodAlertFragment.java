@@ -66,14 +66,19 @@ public class NeighborhoodAlertFragment extends Fragment implements
     /**
      * Part of the call structure to display the activity.
      *
-     * @param savedInstanceState
+     * @param savedInstanceState previously saved state, or null
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }*/
         try {
             neighborhoodRequest();
             busRouteRequest();
+            //loadCheckBoxData(getResources().getStringArray(R.array.neighborhood_alert_types));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,7 +88,7 @@ public class NeighborhoodAlertFragment extends Fragment implements
      * Requests a list of neighborhoods from the Where's My Bus controller and loads it into the
      * spinner where the user will select a neighborhood for which to submit an alert.
      *
-     * @throws Exception
+     * @throws Exception if the request fails
      */
     private void neighborhoodRequest() throws Exception {
         WMBController controller = WMBController.getInstance();
@@ -119,22 +124,25 @@ public class NeighborhoodAlertFragment extends Fragment implements
         }
     }
 
-    /**
-     * Stores the neighborhood that should be selected in the spinner.
-     *
-     * @param neighborhood the neighborhood to be selected in the spinner
-     */
     public void setSpinner(Neighborhood neighborhood) {
         this.neighborhood = neighborhood;
     }
 
+    /*
+    private void loadCheckBoxData(String[] data) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(),
+                android.R.layout.simple_list_item_multiple_choice, data);
+        //alertTypes.setAdapter(adapter);
+    }
+    */
+
     /**
-     * Part of the call structure to display this activity.
+     * Part of the call structure that sets up the fragment to be displayed.
      *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
+     * @param inflater used to inflate any views in the fragment
+     * @param container parent view that the fragment's UI should be attached to
+     * @param savedInstanceState previously saved state, or null
+     * @return the view for the fragment's UI, or null
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -146,7 +154,7 @@ public class NeighborhoodAlertFragment extends Fragment implements
     /**
      * Part of the call structure to display this activity.
      *
-     * @param savedInstanceState
+     * @param savedInstanceState previously saved state, or null
      */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -156,6 +164,7 @@ public class NeighborhoodAlertFragment extends Fragment implements
         Activity activity = getActivity();
         neighborhoodSpinner = (Spinner) activity.findViewById(R.id.neighborhood_spinner);
         neighborhoodSpinner.setOnItemSelectedListener(this);
+        //alertTypes = (GridView) getActivity().findViewById(R.id.alert_types);
 
         checkBox1 = (CheckBox) activity.findViewById(R.id.checkBox5);
         checkBox1.setOnClickListener(this);
@@ -173,10 +182,17 @@ public class NeighborhoodAlertFragment extends Fragment implements
         alertTypes = new ArrayList<>();
     }
 
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
     /**
-     * Part of the call structure to display the fragment.
+     * Part of the call structure that sets up the fragment to be displayed.
      *
-     * @param context
+     * @param context Context
      */
     @Override
     public void onAttach(Context context) {
@@ -201,10 +217,10 @@ public class NeighborhoodAlertFragment extends Fragment implements
     /**
      * Stores the neighborhood the user selected in the spinner.
      *
-     * @param parent
-     * @param view
-     * @param position
-     * @param id
+     * @param parent the adapter that keeps track of the list elements
+     * @param view the view containing the selectable elements
+     * @param position the position of the element clicked
+     * @param id the id of the element clicked
      */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -287,7 +303,7 @@ public class NeighborhoodAlertFragment extends Fragment implements
      * Implements the View.OnClickListener interface. Determines which checkboxes the user has
      * checked and stores the alert types associated with those boxes.
      *
-     * @param view
+     * @param view the checkbox clicked
      */
     @Override
     public void onClick(View view) {
@@ -344,18 +360,9 @@ public class NeighborhoodAlertFragment extends Fragment implements
         }
     }
 
-    /**
-     * Opens a dialog that displays a list of routes. The user may check any number of routes from
-     * the list before closing the dialog.
-     *
-     * @param view the button clicked
-     */
     public void openRouteDialog(View view) {
-        // set up the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
         builder.setTitle("Select affected route(s):");
-
-        // set up the list view of routes
         try {
             ListView spinner = new ListView(this.getActivity());
             if (spinnerAdapter == null) {
@@ -364,18 +371,31 @@ public class NeighborhoodAlertFragment extends Fragment implements
             }
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
             spinner.setAdapter(spinnerAdapter);
+            /*spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Route route = (Route) parent.getItemAtPosition(position);
+                    CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+                    boolean checked = checkBox.isChecked();
+                    if (checked) {
+                        routesAffected.add(route);
+                    } else {
+                        if (routesAffected.contains(route)) {
+                            routesAffected.remove(route);
+                        }
+                    }
+                }
+            });*/
             builder.setView(spinner);
+            builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        // add a close button to the dialog and display
-        builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
         builder.show();
     }
 
