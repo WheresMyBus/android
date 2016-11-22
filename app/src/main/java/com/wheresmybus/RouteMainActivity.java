@@ -25,11 +25,12 @@ public class RouteMainActivity extends AppCompatActivity {
     /**
      * Switches the activity displayed from the current activity to the catalog of bus route forums.
      *
-     * @param v the button clicked
+     * @param v the current view
      */
     public void switchToRouteCatalog(View v) {
         Intent intent = new Intent(this, CatalogActivity.class);
         intent.putExtra("TAB_INDEX", 0);
+        intent.putExtra("FAVORITES_ONLY", false);
         startActivity(intent);
     }
 
@@ -37,7 +38,7 @@ public class RouteMainActivity extends AppCompatActivity {
      * Switches the activity displayed from the current activity to the map where users can search
      * for a route forum by viewing nearby bus stops.
      *
-     * @param v the button clicked
+     * @param v the current view
      */
     public void switchToRouteMap(View v) {
         Intent intent = new Intent(this, SearchRouteMapActivity.class);
@@ -48,17 +49,20 @@ public class RouteMainActivity extends AppCompatActivity {
      * Switches the activity displayed from the current activity to the catalog page for routes with
      * the favorites switch turned on.
      *
-     * @param v the button clicked
+     * @param v the current view
      */
     public void switchToRouteFavorites(View v) {
-        // TODO: implement this method
+        Intent intent = new Intent(this, CatalogActivity.class);
+        intent.putExtra("TAB_INDEX", 0);
+        intent.putExtra("FAVORITES_ONLY", true);
+        startActivity(intent);
     }
 
     /**
      * Switches the activity displayed from the current activity to the activity where users can
      * submit an alert.
      *
-     * @param v the button clicked
+     * @param v the current view
      */
     public void switchToSubmitAlert(View v) {
         Intent intent = new Intent(this, SubmitAlertActivity.class);
