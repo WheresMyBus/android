@@ -24,13 +24,26 @@ import modules.Route;
 public class SpinnerAdapter extends ArrayAdapter<Route> {
     private List<Route> alreadyChecked;
 
-    //constructor, call on creation
+    /**
+     * Constructs a SpinnerAdapter (used for neighborhood alerts)
+     *
+     * @param context Context
+     * @param resource the resource ID for a layout file
+     * @param routes the list of routes
+     */
     public SpinnerAdapter(Context context, int resource, List<Route> routes) {
         super(context, resource, routes);
         alreadyChecked = new ArrayList<>();
     }
 
-    //called when rendering the list
+    /**
+     * Gets a view that displays the data at the specified position in the data set
+     *
+     * @param position the position of the data in the dataset
+     * @param convertView the old view to reuse, if possible
+     * @param parent the parent that this view will eventually be attached to
+     * @return the view corresponding to the data at the specified position
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -62,10 +75,18 @@ public class SpinnerAdapter extends ArrayAdapter<Route> {
         return convertView;
     }
 
+    /**
+     * Get the list of routes affected
+     *
+     * @return the list of routes affected
+     */
     public List<Route> getRoutesAffected() {
         return alreadyChecked;
     }
 
+    /**
+     * A listener for the checkboxes that controls the onClicks
+     */
     private class CheckBoxListener implements View.OnClickListener {
         private Route route;
 
@@ -73,6 +94,12 @@ public class SpinnerAdapter extends ArrayAdapter<Route> {
             this.route = route;
         }
 
+        /**
+         * Adds a route to the list of routes affected when a checkbox is checked,
+         * removes a route from the list when a checkbox is unchecked
+         *
+         * @param v the current view
+         */
         @Override
         public void onClick(View v) {
             boolean checked = ((CheckBox) v).isChecked();
