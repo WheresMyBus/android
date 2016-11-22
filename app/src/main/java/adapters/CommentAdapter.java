@@ -25,12 +25,26 @@ import modules.UserDataManager;
 
 public class CommentAdapter extends ArrayAdapter<Comment> {
 
-    // constructor, call on creation
+    /**
+     * Constructs a CommentAdapter
+     * Used for the alert activities to show comments on an alert
+     *
+     * @param context Context
+     * @param resource the resource ID for a layout file
+     * @param neighborhoods the list of neighborhoods
+     */
     public CommentAdapter(Context context, int resource, List<Comment> neighborhoods) {
         super(context, resource, neighborhoods);
     }
 
-    // called when rendering the list
+    /**
+     * Gets a view that displays the data at the specified position in the data set
+     *
+     * @param position the position of the data in the dataset
+     * @param convertView the old view to reuse, if possible
+     * @param parent the parent that this view will eventually be attached to
+     * @return the view corresponding to the data at the specified position
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
