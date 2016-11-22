@@ -32,7 +32,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import adapters.RouteAdapter;
 import controllers.WMBController;
@@ -255,40 +257,21 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
         }
     }
 
-    private class BusStopListener implements View.OnClickListener, ListView.OnItemClickListener {
-        private BusStop busStop;
+    private class BusStopListener implements GoogleMap.OnMarkerClickListener, ListView.OnItemClickListener {
+        private Map<Marker, BusStop> markerBusStopMap;
         private RouteAdapter routeAdapter;
 
-        public BusStopListener(BusStop busStop) {
-            this.busStop = busStop;
-        }
-
-        @Override
-        public void onClick(View v) {
-            Context context = v.getRootView().getContext();
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("Routes that stop here:");         // TODO: get bus stop name
-            try {
-                ListView routesList = new ListView(context);
-                if (routeAdapter == null) {
-                    // TODO: see if these should be starred
-                    // TODO: get actual method for getting the routes associated with the stops
-                    routeAdapter = new RouteAdapter(context, android.R.layout.simple_list_item_1,
-                            new ArrayList<>(busStop.getRoutes()), false);
-                }
-                routesList.setAdapter(routeAdapter);
-                routesList.setOnItemClickListener(this);
-                builder.setView(routesList);
-                builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
+        /**
+         * Constructs a new BusStopListener.
+         *
+         * @param markerBusStopMap a map that matches markers to the bus stops they represent
+         */
+        public BusStopListener(Map<Marker, BusStop> markerBusStopMap) {
+            if (markerBusStopMap != null) {
+                this.markerBusStopMap = markerBusStopMap;
+            } else {
+                markerBusStopMap = new HashMap<>();
             }
-            builder.show();
         }
 
         @Override
@@ -299,6 +282,45 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
             intent.putExtra("ROUTE", route);
             intent.putExtra("ROUTE_ID", route.getId());
             startActivity(intent);
+        }
+
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+            BusStop busStop = getBusStop(marker);
+            if (busStop != null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SearchRouteMapActivity.this);
+                builder.setTitle("Routes that stop here:");         // TODO: get bus stop name
+                try {
+                    ListView routesList = new ListView(SearchRouteMapActivity.this);
+                    if (routeAdapter == null) {
+                        // TODO: see if these should be starred
+                        // TODO: get actual method for getting the routes associated with this stop
+                        routeAdapter = new RouteAdapter(SearchRouteMapActivity.this,
+                                android.R.layout.simple_list_item_1,
+                                new ArrayList<>(busStop.getRoutes()), false);
+                    }
+                    routesList.setAdapter(routeAdapter);
+                    routesList.setOnItemClickListener(this);
+                    builder.setView(routesList);
+                    builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                builder.show();
+
+                return false;   // the camera should move to the marker and an info window should appear
+            } else {
+                return true;    // the camera should not move to the marker and no info window appear
+            }
+        }
+
+        private BusStop getBusStop(Marker marker) {
+            return markerBusStopMap.get(marker);
         }
     }
 }
