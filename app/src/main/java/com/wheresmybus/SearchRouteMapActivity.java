@@ -12,6 +12,7 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -43,21 +44,22 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class SearchRouteMapActivity extends FragmentActivity implements OnMapReadyCallback,
+public class SearchRouteMapActivity extends FragmentActivity
+        implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
+
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
     private LocationRequest mLocationRequest;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private Marker mCurrLocationMarker;
-    private Route route;
 
     private final LatLng SEATTLE = new LatLng(47.608013, -122.335167);
-    private final float MARKER_HUE = 288;               // makes the bus markers purple
-    private final float ZOOM_LEVEL = 18;                // goes up to 21
+    private final float MARKER_HUE = 288;
+    private final float ZOOM_LEVEL = 18;
     private final int REQUEST_LOCATION = 0;
 
     @Override
@@ -69,9 +71,7 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
             requestUserLocationPermission();
         }
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
@@ -105,7 +105,18 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-        // TODO: call method that gets bus stop locations and add clickable markers for each
+        mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle() {
+                Log.d("TEST", "CAMERA STOPPED");
+
+                try {
+                    busStopsRequest(mMap.getCameraPosition().target);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkUserLocationPermission()) {
@@ -128,25 +139,22 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
         mGoogleApiClient.connect();
     }
 
-    // TODO: change to a request for bus stop locations
-    /*
-    private void busLocationRequest() throws Exception {
+    private void busStopsRequest(LatLng location) throws Exception {
         WMBController controller = WMBController.getInstance();
-        controller.getBuses(route.getId(), new Callback<List<Bus>>() {
+        controller.getBusStops(location.latitude, location.longitude, 300, new Callback<List<BusStop>>() {
             @Override
-            public void onResponse(Response<List<Bus>> response, Retrofit retrofit) {
-                List<Bus> buses = response.body();
+            public void onResponse(Response<List<BusStop>> response, Retrofit retrofit) {
+                List<BusStop> busStops = response.body();
 
-                if (buses.isEmpty()) {
-                    Toast.makeText(SearchRouteMapActivity.this,
-                            "No buses are currently running on this route.",
-                            Toast.LENGTH_LONG);
+                if (busStops.isEmpty()) {
+                    Log.d("TEST", "NO BUS STOPS");
                 } else {
-                    for (Bus bus : buses) {
-                        LatLng busLocation = new LatLng(bus.getLat(), bus.getLon());
+                    for (BusStop busStop : busStops) {
+                        Log.d("TEST", busStop.getName());
+                        LatLng busStopLocation = new LatLng(busStop.getLat(), busStop.getLon());
 
                         MarkerOptions markerOptions = new MarkerOptions();
-                        markerOptions.position(busLocation);
+                        markerOptions.position(busStopLocation);
                         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(MARKER_HUE));
 
                         mMap.addMarker(markerOptions);
@@ -155,12 +163,9 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
             }
 
             @Override
-            public void onFailure(Throwable t) {
-
-            }
+            public void onFailure(Throwable t) {}
         });
     }
-    */
 
     @Override
     public void onConnected(Bundle bundle) {
@@ -185,7 +190,6 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
         if (mCurrLocationMarker != null) {
             mCurrLocationMarker.remove();
         }
-
 
         // place current location marker
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -237,14 +241,7 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
 
                         mMap.setMyLocationEnabled(true);
                     }
-
                 } else {
-                    // add marker on Seattle
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(SEATTLE);
-
-                    mCurrLocationMarker = mMap.addMarker(markerOptions);
-
                     // move map camera
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(SEATTLE));
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(ZOOM_LEVEL));
@@ -267,7 +264,7 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
         public void onClick(View v) {
             Context context = v.getRootView().getContext();
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("Routes that stop here:");         // TODO: get bus stop name
+            builder.setTitle(busStop.getName());
             try {
                 ListView routesList = new ListView(context);
                 if (routeAdapter == null) {
