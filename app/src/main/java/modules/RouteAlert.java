@@ -72,7 +72,7 @@ public class RouteAlert extends Alert {
         controller.routeAlertUpvote(this.getId(), userID, new Callback<VoteConfirmation>() {
             @Override
             public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
-                self.upvotes++;
+                self.setVotes(response.body());
                 cb.onResponse(response, retrofit);
             }
 
@@ -91,7 +91,26 @@ public class RouteAlert extends Alert {
         controller.routeAlertDownvote(this.getId(), userID, new Callback<VoteConfirmation>() {
             @Override
             public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
-                self.downvotes++;
+                self.setVotes(response.body());
+                cb.onResponse(response, retrofit);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                cb.onFailure(t);
+            }
+        });
+    }
+
+    @Override
+    public void unvote(String userID, Callback<VoteConfirmation> callback) {
+        WMBController controller = WMBController.getInstance();
+        final RouteAlert self = this;
+        final Callback<VoteConfirmation> cb = callback;
+        controller.routeAlertUnvote(this.getId(), userID, new Callback<VoteConfirmation>() {
+            @Override
+            public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                self.setVotes(response.body());
                 cb.onResponse(response, retrofit);
             }
 

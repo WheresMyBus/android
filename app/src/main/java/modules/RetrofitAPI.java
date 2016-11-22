@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import retrofit.Call;
+import retrofit.http.DELETE;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -67,5 +68,9 @@ public interface RetrofitAPI {
                                            @Path("upORdown") String updown,
                                            @Field("user_id") String userID);
 
-
+    @FormUrlEncoded
+    @DELETE("{db_type}/{id}/unvote")
+    Call<VoteConfirmation> unvote(@Path("db_type") String db_type,
+                                  @Path("id") int id,
+                                  @Field("user_id") String userID);
 }

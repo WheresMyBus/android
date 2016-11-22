@@ -395,4 +395,37 @@ public class WMBController {
         Call<List<Bus>> call = retrofitService.getBuses(routeID);
         call.enqueue(callback);
     }
+
+    /**
+     * delete the previously logged vote.
+     * @param alertID
+     * @param userID
+     * @param callback
+     */
+    public void neighborhoodAlertUnvote(int alertID, String userID, Callback<VoteConfirmation> callback) {
+        Call<VoteConfirmation> call = retrofitService.unvote("neighborhood_alerts", alertID, userID);
+        call.enqueue(callback);
+    }
+
+    /**
+     * delete the previously logged vote.
+     * @param alertID
+     * @param userID
+     * @param callback
+     */
+    public void routeAlertUnvote(int alertID, String userID, Callback<VoteConfirmation> callback) {
+        Call<VoteConfirmation> call = retrofitService.unvote("route_alerts", alertID, userID);
+        call.enqueue(callback);
+    }
+
+    /**
+     * delete the previously logged vote.
+     * @param alertID
+     * @param userID
+     * @param callback
+     */
+    public void commentUnvote(int alertID, String userID, Callback<VoteConfirmation> callback) {
+        Call<VoteConfirmation> call = retrofitService.unvote("comments", alertID, userID);
+        call.enqueue(callback);
+    }
 }
