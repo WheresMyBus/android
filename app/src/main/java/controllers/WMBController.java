@@ -21,6 +21,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import modules.Alert;
 import modules.Bus;
+import modules.BusStop;
 import modules.Comment;
 import modules.Neighborhood;
 import modules.NeighborhoodAlert;
@@ -166,6 +167,14 @@ public class WMBController {
     public void postAlert(String routeID, String alertType, String description,
                           String userID, Callback<RouteAlert> callback) {
         Call<RouteAlert> call = retrofitService.postRouteAlert(routeID,alertType,description,userID);
+        call.enqueue(callback);
+    }
+
+    public void getBusStops(double latitude,
+                            double longitude,
+                            int radius,
+                            Callback<List<BusStop>> callback) {
+        Call<List<BusStop>> call = retrofitService.getBusStops(latitude, longitude, radius);
         call.enqueue(callback);
     }
 

@@ -14,6 +14,12 @@ import retrofit.http.Query;
 
 
 public interface RetrofitAPI {
+    @GET("bus_stops")
+    Call<List<BusStop>> getBusStops(
+            @Query("lat") double latitude,
+            @Query("lon") double longitude,
+            @Query("radius") int radius);
+
     @GET("neighborhoods.json")
     Call<List<Neighborhood>> getNeighborhoodsJSON();
 

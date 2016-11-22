@@ -55,7 +55,9 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
+
     private GoogleMap mMap;                     // the map
+    private SupportMapFragment mapFragment;
     private LocationRequest mLocationRequest;
     private GoogleApiClient mGoogleApiClient;   // a tool that helps track the user's location
     private Location mLastLocation;
@@ -81,8 +83,7 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
         }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
@@ -118,7 +119,18 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-        // TODO: call method that gets bus stop locations and add clickable markers for each
+        mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle() {
+                Log.d("TEST", "CAMERA STOPPED");
+
+                try {
+                    busStopsRequest(mMap.getCameraPosition().target);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkUserLocationPermission()) {
@@ -144,25 +156,22 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
         mGoogleApiClient.connect();
     }
 
-    // TODO: change to a request for bus stop locations
-    /*
-    private void busLocationRequest() throws Exception {
+    private void busStopsRequest(LatLng location) throws Exception {
         WMBController controller = WMBController.getInstance();
-        controller.getBuses(route.getId(), new Callback<List<Bus>>() {
+        controller.getBusStops(location.latitude, location.longitude, 300, new Callback<List<BusStop>>() {
             @Override
-            public void onResponse(Response<List<Bus>> response, Retrofit retrofit) {
-                List<Bus> buses = response.body();
+            public void onResponse(Response<List<BusStop>> response, Retrofit retrofit) {
+                List<BusStop> busStops = response.body();
 
-                if (buses.isEmpty()) {
-                    Toast.makeText(SearchRouteMapActivity.this,
-                            "No buses are currently running on this route.",
-                            Toast.LENGTH_LONG);
+                if (busStops.isEmpty()) {
+                    Log.d("TEST", "NO BUS STOPS");
                 } else {
-                    for (Bus bus : buses) {
-                        LatLng busLocation = new LatLng(bus.getLat(), bus.getLon());
+                    for (BusStop busStop : busStops) {
+                        Log.d("TEST", busStop.getName());
+                        LatLng busStopLocation = new LatLng(busStop.getLat(), busStop.getLon());
 
                         MarkerOptions markerOptions = new MarkerOptions();
-                        markerOptions.position(busLocation);
+                        markerOptions.position(busStopLocation);
                         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(MARKER_HUE));
 
                         mMap.addMarker(markerOptions);
@@ -171,12 +180,9 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
             }
 
             @Override
-            public void onFailure(Throwable t) {
-
-            }
+            public void onFailure(Throwable t) {}
         });
     }
-    */
 
     /**
      * Sets up the request for the user's location.
@@ -211,7 +217,6 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
         if (mCurrLocationMarker != null) {
             mCurrLocationMarker.remove();
         }
-
 
         // place current location marker
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -276,14 +281,7 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
 
                         mMap.setMyLocationEnabled(true);
                     }
-
                 } else {
-                    // add marker on Seattle
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(SEATTLE);
-
-                    mCurrLocationMarker = mMap.addMarker(markerOptions);
-
                     // move map camera
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(SEATTLE));
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(ZOOM_LEVEL));
@@ -336,16 +334,22 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
         }
 
         /**
+         * When a user clicks on the given marker, a dialog appears that displays a list of the
+         * routes that stops at that bus stop. If no bus stop was associated with the given marker,
+         * nothing happens.
          *
-         * @param marker
-         * @return
+         * @param marker the marker clicked
+         * @return false if the dialog appears or true otherwise
          */
         @Override
         public boolean onMarkerClick(Marker marker) {
             BusStop busStop = getBusStop(marker);
             if (busStop != null) {
+                // set up the dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(SearchRouteMapActivity.this);
                 builder.setTitle("Routes that stop here:");         // TODO: get bus stop name
+
+                // set up the list view of routes
                 try {
                     ListView routesList = new ListView(SearchRouteMapActivity.this);
                     if (routeAdapter == null) {
@@ -356,15 +360,17 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
                     routesList.setAdapter(routeAdapter);
                     routesList.setOnItemClickListener(this);
                     builder.setView(routesList);
-                    builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+                // add a button to close the dialog and display
+                builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
                 builder.show();
 
                 return false;   // the camera should move to the marker and an info window should appear
@@ -374,9 +380,11 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
         }
 
         /**
-         * 
-         * @param marker
-         * @return
+         * Returns the bus stop associated with the given marker or null if there is no associated
+         * bus stop.
+         *
+         * @param marker the marker for which an associated bus stop is to be retrieved
+         * @return the bus stop associated with the given marker or null if there is none
          */
         private BusStop getBusStop(Marker marker) {
             return markerBusStopMap.get(marker);
