@@ -190,7 +190,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
     /**
      * Sends the user to the submit alert screen
      *
-     * @param v The current view
+     * @param v the button clicked
      */
     public void switchToSubmitAlert(View v) {
         Intent intent = new Intent(this, SubmitAlertActivity.class);
@@ -204,7 +204,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
      * Sends the user to the screen where users can view the current locations of the buses running
      * the route whose forum is currently being viewed.
      *
-     * @param view the current view
+     * @param view the button clicked
      */
     public void switchToViewLocations(View view) {
         Intent intent = new Intent(this, RouteMapActivity.class);
