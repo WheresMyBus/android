@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created by nbissiri on 11/17/2016.
@@ -33,7 +34,14 @@ public class UserDataManager {
     private File fileDir;
 
     // TODO: make this private and figure out a better way
-    public String userID;
+    private String userID;
+
+    /**
+     * @return The user ID of this user
+     */
+    public String getUserID() {
+        return this.userID;
+    }
 
     /**
      * Gets the manager
@@ -202,6 +210,10 @@ public class UserDataManager {
         }
         if (downVotedCommentsByID == null) {
             downVotedCommentsByID = new HashSet<>();
+        }
+
+        if (userID == null) {
+            userID = UUID.randomUUID().toString();
         }
 
     }
