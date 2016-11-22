@@ -35,7 +35,7 @@ public class ThumbsDownListener implements View.OnClickListener {
 
     /**
      * Constructs a new ThumbsDownListener for the given alert.
-     * @param alert
+     * @param alert the alert to downvote
      * @param startsToggled true if the button should start toggled
      *                      for when we must remember that the user
      *                      had clicked this button before
@@ -57,7 +57,7 @@ public class ThumbsDownListener implements View.OnClickListener {
 
     /**
      * Constructs a new ThumbsDownListener for the given comment.
-     * @param comment
+     * @param comment the comment to downvote
      * @param startsToggledOn true if the button should start toggled
      *                      for when we must remember that the user
      *                      had clicked this button before
