@@ -97,6 +97,12 @@ public class Neighborhood implements Serializable, Comparable<Neighborhood> {
         //Assert.assertFalse(perimeter.contains(null));
     }
 
+    /**
+     * Allow Neighborhoods to be compared by their names
+     * @param o Neighborhood to compare to
+     * @return < 0 if other neighborhood's name comes alphabetically before this
+     *              neighborhood's, 0 if both names are identical, else > 0
+     */
     @Override
     public int compareTo(Neighborhood o) {
         return name.compareTo(o.name);

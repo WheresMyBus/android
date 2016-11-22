@@ -33,7 +33,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import adapters.RouteAdapter;
 import controllers.WMBController;
@@ -44,24 +46,34 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class SearchRouteMapActivity extends FragmentActivity
-        implements OnMapReadyCallback,
+/**
+ * The map screen that allows a user to search for a route forum by map. The map sets markers for
+ * bus stops. When a user clicks on a marker, it pulls up a dialog that lists the routes that stop
+ * at that bus stop. Users can then click on a route, which will direct them to the forum for that
+ * route.
+ */
+public class SearchRouteMapActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    private GoogleMap mMap;
+    private GoogleMap mMap;                     // the map
     private SupportMapFragment mapFragment;
     private LocationRequest mLocationRequest;
-    private GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient mGoogleApiClient;   // a tool that helps track the user's location
     private Location mLastLocation;
     private Marker mCurrLocationMarker;
 
     private final LatLng SEATTLE = new LatLng(47.608013, -122.335167);
-    private final float MARKER_HUE = 288;
-    private final float ZOOM_LEVEL = 18;
+    private final float MARKER_HUE = 288;               // makes the bus markers purple
+    private final float ZOOM_LEVEL = 18;                // goes up to 21
     private final int REQUEST_LOCATION = 0;
 
+    /**
+     * Part of the call structure that displays the activity.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,10 +83,14 @@ public class SearchRouteMapActivity extends FragmentActivity
             requestUserLocationPermission();
         }
 
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
+    /**
+     * Pauses the activity and stops receiving updates on the user's location.
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -85,6 +101,9 @@ public class SearchRouteMapActivity extends FragmentActivity
         }
     }
 
+    /**
+     * Stops the activity and disconnects the tool that tracks the user's location.
+     */
     @Override
     protected void onStop() {
         super.onStop();
@@ -92,13 +111,9 @@ public class SearchRouteMapActivity extends FragmentActivity
     }
 
     /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
+     * Manipulates the map once available. This callback is triggered when the map is ready to be
+     * used. Marks the user's current location if the user has granted permission or otherwise
+     * requests the user to grant location permissions.
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -129,6 +144,9 @@ public class SearchRouteMapActivity extends FragmentActivity
         }
     }
 
+    /**
+     * Builds the tool that helps track the user's current location.
+     */
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -167,6 +185,11 @@ public class SearchRouteMapActivity extends FragmentActivity
         });
     }
 
+    /**
+     * Sets up the request for the user's location.
+     *
+     * @param bundle
+     */
     @Override
     public void onConnected(Bundle bundle) {
         mLocationRequest = new LocationRequest();
@@ -184,6 +207,11 @@ public class SearchRouteMapActivity extends FragmentActivity
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {}
 
+    /**
+     * Gets the user's current location if they have moved.
+     *
+     * @param location the user's current location
+     */
     @Override
     public void onLocationChanged(Location location) {
         mLastLocation = location;
@@ -204,6 +232,9 @@ public class SearchRouteMapActivity extends FragmentActivity
         }
     }
 
+    /**
+     * Requests permission to access the user's location if not already granted.
+     */
     private void requestUserLocationPermission() {
         if (!checkUserLocationPermission()) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -222,13 +253,23 @@ public class SearchRouteMapActivity extends FragmentActivity
     /**
      * Returns true if the user has granted access to their location or false otherwise.
      *
-     * @return
+     * @return true if the user has granted permissions to access their current location or false
+     *              otherwise
      */
     private boolean checkUserLocationPermission() {
         return ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED;
     }
 
+    /**
+     * If the given request code corresponds to our request to access the user's location, gets the
+     * user's current location and adds it to the map if the user granted permission or adds a marker
+     * and zooms to Seattle.
+     *
+     * @param requestCode the code to indicate which permission result is being analyzed
+     * @param permissions the permissions requested
+     * @param grantResults the results of requesting the permissions
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
@@ -252,42 +293,37 @@ public class SearchRouteMapActivity extends FragmentActivity
         }
     }
 
-    private class BusStopListener implements View.OnClickListener, ListView.OnItemClickListener {
-        private BusStop busStop;
-        private RouteAdapter routeAdapter;
+    /**
+     * A listener for the markers on the map that shows bus stops. When a user clicks on the marker
+     * for a bus stop, a dialog appears that shows a list of routes that stop at that bus stop. The
+     * user can then click on a route to navigate to the forum for that route.
+     */
+    private class BusStopListener implements GoogleMap.OnMarkerClickListener, ListView.OnItemClickListener {
+        private Map<Marker, BusStop> markerBusStopMap;  // the map of markers to bus
+        private RouteAdapter routeAdapter;              // the adapter for the list view of routes
 
-        public BusStopListener(BusStop busStop) {
-            this.busStop = busStop;
-        }
-
-        @Override
-        public void onClick(View v) {
-            Context context = v.getRootView().getContext();
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle(busStop.getName());
-            try {
-                ListView routesList = new ListView(context);
-                if (routeAdapter == null) {
-                    // TODO: see if these should be starred
-                    // TODO: get actual method for getting the routes associated with the stops
-                    routeAdapter = new RouteAdapter(context, android.R.layout.simple_list_item_1,
-                            new ArrayList<>(busStop.getRoutes()), false);
-                }
-                routesList.setAdapter(routeAdapter);
-                routesList.setOnItemClickListener(this);
-                builder.setView(routesList);
-                builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
+        /**
+         * Constructs a new BusStopListener.
+         *
+         * @param markerBusStopMap a map that matches markers to the bus stops they represent
+         */
+        public BusStopListener(Map<Marker, BusStop> markerBusStopMap) {
+            if (markerBusStopMap != null) {
+                this.markerBusStopMap = markerBusStopMap;
+            } else {
+                markerBusStopMap = new HashMap<>();
             }
-            builder.show();
         }
 
+        /**
+         * When a user clicks on a route in the dialog that appears after clicking on a bus stop
+         * marker, the user is sent to the forum for that route.
+         *
+         * @param parent the list view
+         * @param view the view of the row for the given route
+         * @param position the position of the row within the list view
+         * @param id the ID of the row
+         */
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Route route = (Route) parent.getItemAtPosition(position);
@@ -296,6 +332,53 @@ public class SearchRouteMapActivity extends FragmentActivity
             intent.putExtra("ROUTE", route);
             intent.putExtra("ROUTE_ID", route.getId());
             startActivity(intent);
+        }
+
+        /**
+         *
+         * @param marker
+         * @return
+         */
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+            BusStop busStop = getBusStop(marker);
+            if (busStop != null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SearchRouteMapActivity.this);
+                builder.setTitle("Routes that stop here:");         // TODO: get bus stop name
+                try {
+                    ListView routesList = new ListView(SearchRouteMapActivity.this);
+                    if (routeAdapter == null) {
+                        routeAdapter = new RouteAdapter(SearchRouteMapActivity.this,
+                                android.R.layout.simple_list_item_1,
+                                new ArrayList<>(busStop.getRoutes()), false);
+                    }
+                    routesList.setAdapter(routeAdapter);
+                    routesList.setOnItemClickListener(this);
+                    builder.setView(routesList);
+                    builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                builder.show();
+
+                return false;   // the camera should move to the marker and an info window should appear
+            } else {
+                return true;    // the camera should not move to the marker and no info window appear
+            }
+        }
+
+        /**
+         *
+         * @param marker
+         * @return
+         */
+        private BusStop getBusStop(Marker marker) {
+            return markerBusStopMap.get(marker);
         }
     }
 }

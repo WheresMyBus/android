@@ -15,102 +15,34 @@ import junit.framework.Assert;
  */
 
 public class Bus {
-    // private int id;
-    // private Route route;
-    // private Pair<Double, Double> coordinates;
     @SerializedName("lat")
     private double lat;
     @SerializedName("lon")
     private double lon;
 
 
+    /**
+     * Creates a Bus with a latitude and longitude
+     *
+     * @param lat
+     * @param lon
+     */
     public Bus(double lat, double lon) {
         this.lat = lat;
         this.lon = lon;
     }
 
+    /**
+     * @return the latitude of the bus
+     */
     public double getLat() {
         return this.lat;
     }
 
+    /**
+     * @return the longitude of the bus
+     */
     public double getLon() {
         return this.lon;
     }
-
-    /*
-    /** TODO: delete these things we don't need.
-     * Constructs a Bus with id initialized to -1
-     * @param route Route on which the bus runs on
-     * @param coordinates Coordinates of where the bus is
-     * @throws IllegalArgumentException if route == null
-
-    public Bus(Route route, Pair<Double, Double> coordinates) {
-        if(route == null) {
-            throw new IllegalArgumentException();
-        }
-        this.route = route;
-        if(coordinates != null) {
-            this.coordinates = new Pair<>(coordinates.first, coordinates.second);
-        }
-        this.id = -1;
-        checkRep();
-    }
-
-    /**
-     * Sets the id of the bus
-     * If the id was already set (id != -1), then does not set id
-     * @param id int to set the id to
-     * @return true if id was set correctly, else returns false
-     * @throws IllegalArgumentException if id < 1
-
-    public boolean setId(int id) {
-        if(id < 1) {
-            throw new IllegalArgumentException();
-        }
-        if(this.id == -1) {
-            this.id = id;
-            checkRep();
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Gets the id of the bus
-     * @return int id of the bus, -1 if id was not set
-
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * Gets a deep copy of the Route the Bus is on
-     * @return Route that the bus is travelling on
-
-    public Route getRoute() {
-        return route; // Route is immutable
-    }
-
-    /**
-     * Gets a deep copy of the position of the bus
-     * @return coordinates of where the bus is
-
-    public Pair<Double, Double> getCoordinates() {
-        return new Pair<>(coordinates.first, coordinates.second);
-    }
-
-    /**
-     * Sets the coordinates of the bus
-     * @param coordinates position fo the bus as a Pair<Double,Double>
-
-    public void setCoordinates(Pair<Double,Double> coordinates) {
-        this.coordinates = new Pair<>(coordinates.first, coordinates.second);
-        checkRep();
-    }
-
-    private void checkRep() {
-        Assert.assertTrue(route != null);
-        Assert.assertTrue(id == -1 || id > 0);
-    }
-    */
 }

@@ -255,7 +255,7 @@ public class RouteMapActivity extends FragmentActivity
     }
 
     /**
-     * Requests permission to access the user's location.
+     * Requests permission to access the user's location if not already granted.
      */
     private void requestUserLocationPermission() {
         if (!checkUserLocationPermission()) {
@@ -275,7 +275,8 @@ public class RouteMapActivity extends FragmentActivity
     /**
      * Returns true if the user has granted access to their location or false otherwise.
      *
-     * @return
+     * @return true if the user has granted permissions to access their current location or false
+     *              otherwise
      */
     private boolean checkUserLocationPermission() {
         return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)

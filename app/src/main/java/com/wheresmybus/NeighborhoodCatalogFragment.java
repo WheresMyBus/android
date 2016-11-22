@@ -227,7 +227,7 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent intent = new Intent(getActivity(), AlertForumActivity.class);
-        intent.putExtra("ALERT_TYPE", "Neighborhood");
+        intent.putExtra("IS_ROUTE", false);
         Neighborhood neighborhood = (Neighborhood) adapterView.getItemAtPosition(position);
         intent.putExtra("NEIGHBORHOOD", neighborhood);
         intent.putExtra("NEIGHBORHOOD_ID", neighborhood.getID());

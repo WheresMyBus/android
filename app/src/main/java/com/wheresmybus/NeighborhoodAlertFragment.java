@@ -177,6 +177,8 @@ public class NeighborhoodAlertFragment extends Fragment implements
 
         text = (EditText) activity.findViewById(R.id.neighborhood_alert_description);
 
+        getView().findViewById(R.id.other_type_description).setVisibility(View.INVISIBLE);
+
         alertTypes = new ArrayList<>();
     }
 
@@ -258,6 +260,20 @@ public class NeighborhoodAlertFragment extends Fragment implements
     }
 
     /**
+     * Gets the description of the alert type if the "other" box is checked, null otherwise
+     *
+     * @return the description of the alert type; null if no text entered yet or "other" box not checked
+     */
+    public String getOtherType() {
+        if (checkBox4.isChecked()) {
+            EditText otherText = (EditText) getView().findViewById(R.id.other_type_description);
+            return otherText.getText().toString();
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Returns the description the user inputted for the alert or null if the user has not entered
      * a description yet.
      *
@@ -286,24 +302,34 @@ public class NeighborhoodAlertFragment extends Fragment implements
         // Is the view now checked?
         boolean checked = ((CheckBox) view).isChecked();
         String alertType;
+        EditText otherType = (EditText) getView().findViewById(R.id.other_type_description);
 
         // Check which checkbox was clicked
         switch(view.getId()) {
             case R.id.checkBox5:
                 alertType = checkBox1.getText().toString();
                 handleAlertType(alertType, checked);
+                otherType.setVisibility(View.INVISIBLE);
                 break;
             case R.id.checkBox6:
                 alertType = checkBox2.getText().toString();
                 handleAlertType(alertType, checked);
+                otherType.setVisibility(View.INVISIBLE);
                 break;
             case R.id.checkBox7:
                 alertType = checkBox3.getText().toString();
                 handleAlertType(alertType, checked);
+                otherType.setVisibility(View.INVISIBLE);
                 break;
             case R.id.checkBox8:
                 alertType = checkBox4.getText().toString();
                 handleAlertType(alertType, checked);
+                // only show EditText for alert type if "other" is checked
+                if (checkBox4.isChecked()) {
+                    otherType.setVisibility(View.VISIBLE);
+                } else {
+                    otherType.setVisibility(View.INVISIBLE);
+                }
                 break;
         }
     }

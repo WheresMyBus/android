@@ -60,10 +60,9 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
         viewLocationsButton = (Button) findViewById(R.id.view_locations_button);
 
         Intent intent = getIntent();
-        String type = intent.getStringExtra("ALERT_TYPE");
+        isRouteForum = intent.getBooleanExtra("IS_ROUTE", true);
         // Route alerts
-        if (type.equals("Route")) {
-            isRouteForum = true;
+        if (isRouteForum) {
             route = (Route) intent.getSerializableExtra("ROUTE");
             // set page title
             setTitle(route.getNumber() + ": " + route.getName());
@@ -75,7 +74,6 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
                 e.printStackTrace();
             }
         } else { // Neighborhood alerts
-            isRouteForum = false;
             neighborhood = (Neighborhood) intent.getSerializableExtra("NEIGHBORHOOD");
             // set page title
             setTitle(neighborhood.getName());
@@ -192,10 +190,11 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
     /**
      * Sends the user to the submit alert screen
      *
-     * @param v The current view
+     * @param v the button clicked
      */
     public void switchToSubmitAlert(View v) {
         Intent intent = new Intent(this, SubmitAlertActivity.class);
+        intent.putExtra("IS_ROUTE", isRouteForum);
         intent.putExtra("ROUTE", route);
         intent.putExtra("NEIGHBORHOOD", neighborhood);
         startActivity(intent);
@@ -205,7 +204,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
      * Sends the user to the screen where users can view the current locations of the buses running
      * the route whose forum is currently being viewed.
      *
-     * @param view the current view
+     * @param view the button clicked
      */
     public void switchToViewLocations(View view) {
         Intent intent = new Intent(this, RouteMapActivity.class);

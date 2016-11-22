@@ -24,6 +24,11 @@ public class SubmitCommentActivity extends AppCompatActivity {
     private RouteAlert routeAlert;
     private NeighborhoodAlert neighborhoodAlert;
 
+    /**
+     * Part of the call structure to display this activity.
+     *
+     * @param savedInstanceState previously saved state, or null
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,10 +47,20 @@ public class SubmitCommentActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Redirects the user to the previous screen
+     *
+     * @param view the button clicked
+     */
     public void switchToPreviousScreen(View view) {
         finish();
     }
 
+    /**
+     * Redirects the user to the forum screen
+     *
+     * @param view the button clicked
+     */
     public void switchToForum(View view) {
         EditText comment = (EditText) findViewById(R.id.comment_description);
         String description = comment.getText().toString();

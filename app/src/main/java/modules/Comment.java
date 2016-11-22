@@ -90,7 +90,9 @@ public class Comment {
     }
 
     /**
-     * Upvotes this comment
+     * Upvotes this comment in the server
+     * @param userID id of the user who is upvoting the alert
+     * @param callback Callback that describes what to do when the server responds
      */
     public void upvote(String userID, Callback<VoteConfirmation> callback) {
         WMBController controller = WMBController.getInstance();
@@ -112,7 +114,9 @@ public class Comment {
     }
 
     /**
-     * Downvotes this comment
+     * Downvotes this comment in the server
+     * @param userID id of the user who is downvoting the alert
+     * @param callback Callback that describes what to do when the server responds
      */
     public void downvote(String userID, Callback<VoteConfirmation> callback) {
         WMBController controller = WMBController.getInstance();
@@ -133,6 +137,11 @@ public class Comment {
         });
     }
 
+    /**
+     * Removes the vote that this user sent on this alert
+     * @param userID id of the user who is unvoting the alert
+     * @param callback callback that describes what to do when the server responds
+     */
     public void unvote(String userID, Callback<VoteConfirmation> callback) {
         WMBController controller = WMBController.getInstance();
         final Comment self = this;
@@ -192,6 +201,9 @@ public class Comment {
         return downvotes;
     }
 
+    /**
+     * @return copy of the Date of the Comment's post
+     */
     public Date getDate() { return (Date) this.date.clone(); }
 
 

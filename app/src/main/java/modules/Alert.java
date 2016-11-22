@@ -103,28 +103,35 @@ public abstract class Alert implements Serializable, Comparable<Alert> {
     }
 
     /**
-     * Upvotes this alert
+     * Upvotes this alert in the server
+     * @param userID id of the user who is upvoting the alert
+     * @param callback Callback that describes what to do when the server responds
      */
     public abstract void upvote(String userID, Callback<VoteConfirmation> callback);
 
     /**
-     * Downvotes this alert
+     * Downvotes this alert in the server
+     * @param userID id of the user who is downvoting the alert
+     * @param callback Callback that describes what to do when the server responds
      */
     public abstract void downvote(String userID, Callback<VoteConfirmation> callback);
 
     /**
-     * removes previously logged vote on this alert.
+     * removes previously logged vote on this alert in the server
+     * @param userID id of the user who is unvoting the alert
+     * @param callback Callback that describes what to do when the server responds
      */
     public abstract void unvote(String userID, Callback<VoteConfirmation> callback);
 
     /**
-     * method for getting comments for an alert.
+     * method for getting comments for an alert from the server
+     * @param callback Callback that describes what to do when the server responds
      */
     public abstract void getComments(Callback<List<Comment>> callback);
 
     /**
      * sets the upvotes and downvotes based on the received confirmation.
-     * @param confirmation
+     * @param confirmation callback that describes what to do when the server responds
      */
     protected void setVotes(VoteConfirmation confirmation) {
         this.upvotes = confirmation.upvotes;

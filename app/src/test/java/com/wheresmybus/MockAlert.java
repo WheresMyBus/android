@@ -39,4 +39,6 @@ class MockAlert extends Alert {
     public void upvote(String userId, Callback<VoteConfirmation> callback) {
         this.upvotes++;
     }
+
+    public void unvote(String userId, Callback<VoteConfirmation> callback) {}
 }

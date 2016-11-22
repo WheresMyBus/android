@@ -59,7 +59,7 @@ public class SubmitAlertActivity extends FragmentActivity implements
     /**
      * Part of the call structure to display this activity.
      *
-     * @param savedInstanceState
+     * @param savedInstanceState previously saved state, or null
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +128,7 @@ public class SubmitAlertActivity extends FragmentActivity implements
      * route radio button was selected. Loads the NeighborhoodAlertFragment and makes the
      * BusRouteAlertFragment invisible if the neighborhood radio button was selected.
      *
-     * @param view
+     * @param view the current view
      */
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
@@ -157,13 +157,17 @@ public class SubmitAlertActivity extends FragmentActivity implements
      * returns the user to the homepage. Otherwise, instructs the user to fill out any missing
      * parameters.
      *
-     * @param view
+     * @param view the button clicked
      */
     public void onSubmitButtonClicked(View view) {
         if (type.equals("route")) {
             // get the information from the BusRouteFragment
             Route route = busRouteFragment.getRoute();
             String alertType = busRouteFragment.getAlertType();
+            String otherType = busRouteFragment.getOtherType();
+            if (otherType != null) {
+                alertType = otherType;
+            }
             String description = busRouteFragment.getDescription();
 
             if (route == null || alertType == null || description == null || description.equals("")) {
@@ -193,6 +197,10 @@ public class SubmitAlertActivity extends FragmentActivity implements
             // get the information from the NeighborhoodFragment
             Neighborhood neighborhood = neighborhoodFragment.getNeighborhood();
             String alertType = neighborhoodFragment.getAlertType();
+            String otherType = neighborhoodFragment.getOtherType();
+            if (otherType != null) {
+                alertType = otherType;
+            }
             String description = neighborhoodFragment.getDescription();
             List<Route> routesAffected = neighborhoodFragment.getRoutesAffected();
 
@@ -228,10 +236,20 @@ public class SubmitAlertActivity extends FragmentActivity implements
         }
     }
 
+    /**
+     * Redirects the user to the previous screen
+     *
+     * @param view the button clicked
+     */
     public void switchToPreviousScreen(View view) {
         finish();
     }
 
+    /**
+     * Opens the dialog for selecting routes affected
+     *
+     * @param view the current view
+     */
     public void openRouteDialog(View view) {
         neighborhoodFragment.openRouteDialog(view);
     }
