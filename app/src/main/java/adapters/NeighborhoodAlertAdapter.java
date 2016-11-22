@@ -30,12 +30,25 @@ public class NeighborhoodAlertAdapter extends ArrayAdapter<NeighborhoodAlert> {
     private SimpleDateFormat dateFormatter;
     private SimpleDateFormat timeFormatter;
 
-    //constructor, call on creation
+    /**
+     * Constructs a NeighborhoodAlertAdapter (used for the alert forum)
+     *
+     * @param context Context
+     * @param resource the resource ID for a layout file
+     * @param alerts the list of alerts for the neighborhood
+     */
     public NeighborhoodAlertAdapter(Context context, int resource, List<NeighborhoodAlert> alerts) {
         super(context, resource, alerts);
     }
 
-    //called when rendering the list
+    /**
+     * Gets a view that displays the data at the specified position in the data set
+     *
+     * @param position the position of the alert in the list of alerts
+     * @param convertView the old view to reuse, if possible
+     * @param parent the parent that this view will eventually be attached to
+     * @return the view corresponding to the alert at the specified position
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

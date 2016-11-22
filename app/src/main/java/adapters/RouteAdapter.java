@@ -25,13 +25,27 @@ import modules.UserDataManager;
 public class RouteAdapter extends ArrayAdapter<Route> {
     private boolean isStarred;
 
-    //constructor, call on creation
+    /**
+     * Constructs a RouteAdapter (used for the route catalog)
+     *
+     * @param context Context
+     * @param resource the resource ID for a layout file
+     * @param routes the list of routes
+     * @param isStarred a boolean for whether or not the row is starred
+     */
     public RouteAdapter(Context context, int resource, List<Route> routes, boolean isStarred) {
         super(context, resource, routes);
         this.isStarred = isStarred;
     }
 
-    //called when rendering the list
+    /**
+     * Get a view that displays the data at the specified position in the data set
+     *
+     * @param position the position of the route in the list of routes
+     * @param convertView the old view to reuse, if possible
+     * @param parent the parent that this view will eventually be attached to
+     * @return the view corresponding to the route at the specified position
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
