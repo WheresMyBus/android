@@ -49,13 +49,14 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
 
     private OnFragmentInteractionListener mListener;
 
+    /**
+     * Part of the call structure that sets up the fragment.
+     *
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*if (getArguments() != null) {
-            textView = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }*/
     }
 
     /**
@@ -98,6 +99,11 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
         }
     }
 
+    /**
+     * Stores the route the spinner should select.
+     *
+     * @param route the route to be selected in the spinner
+     */
     public void setSpinner(Route route) {
         this.route = route;
     }
@@ -153,13 +159,6 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
         super.onActivityCreated(savedInstanceState);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     /**
      * Part of the call structure to display the activity.
      *
@@ -176,6 +175,9 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
         }
     }
 
+    /**
+     * Part of the fragment call structure.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
@@ -185,9 +187,9 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
     /**
      * Stores the route that the user selects in the spinner.
      *
-     * @param parent
-     * @param view
-     * @param position
+     * @param parent the view of the spinner
+     * @param view the view of the row in the spinner that was selected
+     * @param position the position of the selected row within the spinner
      * @param id
      */
     @Override
@@ -198,7 +200,11 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
         }
     }
 
-    // TODO: for spinner's setOnItemSelectedListener
+    /**
+     * Stores no information if the user does not select an item from the spinner.
+     *
+     * @param parent the view of the spinner
+     */
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
     }
