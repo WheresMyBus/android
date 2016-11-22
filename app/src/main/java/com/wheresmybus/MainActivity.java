@@ -89,11 +89,24 @@ public class MainActivity extends AppCompatActivity
      * Switches the activity displayed from the current activity to the catalog of neighborhood
      * forums.
      *
-     * @param v the button clicked
+     * @param v the current view
      */
     public void switchToNeighborhoodCatalog(View v) {
         Intent intent = new Intent(this, CatalogActivity.class);
         intent.putExtra("TAB_INDEX", 1);
+        intent.putExtra("FAVORITES_ONLY", false);
+        startActivity(intent);
+    }
+
+    /**
+     * Switches the activity displayed to the route catalog with the favorites switch on
+     *
+     * @param v the current view
+     */
+    public void viewFavorites(View v) {
+        Intent intent = new Intent(this, CatalogActivity.class);
+        intent.putExtra("TAB_INDEX", 0);
+        intent.putExtra("FAVORITES_ONLY", true);
         startActivity(intent);
     }
 
@@ -101,7 +114,7 @@ public class MainActivity extends AppCompatActivity
      * Switches the activity displayed from the current activity to the activity where users can
      * submit an alert.
      *
-     * @param v the button clicked
+     * @param v the current view
      */
     public void switchToSubmitAlert(View v) {
         Intent intent = new Intent(this, SubmitAlertActivity.class);
@@ -112,7 +125,7 @@ public class MainActivity extends AppCompatActivity
      * Switches the activity displayed from the current activity to the activity where users can
      * indicate how they wish to search for a route forum.
      *
-     * @param v the button clicked
+     * @param v the current view
      */
     public void switchToRouteMain(View v) {
         Intent intent = new Intent(this, RouteMainActivity.class);

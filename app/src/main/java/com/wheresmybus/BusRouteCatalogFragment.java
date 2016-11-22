@@ -194,20 +194,6 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
         startActivity(intent);
     }
 
-    /**
-     *
-     * @param view
-     */
-    /*public void favoritesSwitchClicked(View view) {
-        Switch favoriteSwitch = (Switch) getActivity().findViewById(R.id.favoriteSwitch);
-        adapter.clear();
-        if (favoriteSwitch.isChecked()) {
-            adapter.addAll(filterFavorites(routes));
-        } else {
-            adapter.addAll(routes);
-        }
-        adapter.notifyDataSetChanged();
-    }*/
 
     /**
      * This interface must be implemented by activities that contain this

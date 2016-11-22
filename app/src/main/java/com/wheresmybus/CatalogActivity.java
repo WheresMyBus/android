@@ -83,6 +83,7 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
 
         Intent intent = getIntent();
         int tabIndex = intent.getIntExtra("TAB_INDEX", 0);
+        favoritesOnly = intent.getBooleanExtra("FAVORITES_ONLY", false);
         TabLayout.Tab tab = tabLayout.getTabAt(tabIndex);
         if (tab != null) {
             tab.select();

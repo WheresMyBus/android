@@ -114,18 +114,6 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
         });
     }
 
-    /*
-    private void addViewLocationsButton() {
-        Button viewLocationsButton = new Button(this);
-        viewLocationsButton.setText("VIEW CURRENT BUS LOCATIONS");
-        viewLocationsButton.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
-        viewLocationsButton.setTextColor(ContextCompat.getColor(this, R.color.white));
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)
-                viewLocationsButton.getLayoutParams();
-        params.addRule(RelativeLayout.ABOVE, R.id.button);
-    }
-    */
-
     /**
      * Gets the alerts for a given route from the database
      * @param routeId the id of the route to get alerts for (as a String)
@@ -200,6 +188,12 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
         startActivity(intent);
     }
 
+    /**
+     * Sends the user to the screen where users can view the current locations of the buses running
+     * the route whose forum is currently being viewed.
+     *
+     * @param view the button clicked
+     */
     public void switchToViewLocations(View view) {
         Intent intent = new Intent(this, RouteMapActivity.class);
         intent.putExtra("ROUTE", route);
