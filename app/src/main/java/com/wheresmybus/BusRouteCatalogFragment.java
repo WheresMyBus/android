@@ -131,6 +131,14 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
         return favoriteList;
     }
 
+    /**
+     * Part of the call structure that sets up the fragment to be displayed.
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -152,6 +160,11 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
         return view;
     }
 
+    /**
+     * Part of the call structure that sets up the fragment to be displayed.
+     *
+     * @param savedInstanceState
+     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -159,6 +172,11 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
         routeList.setOnItemClickListener(this);
     }
 
+    /**
+     * Part of the call structure that sets up the fragment to be displayed.
+     *
+     * @param context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -170,6 +188,9 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
         }
     }
 
+    /**
+     * Part of the fragment call structure.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
@@ -193,7 +214,6 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
         intent.putExtra("ROUTE_ID", route.getId());
         startActivity(intent);
     }
-
 
     /**
      * This interface must be implemented by activities that contain this
