@@ -121,6 +121,7 @@ public class NeighborhoodAlertActivity extends AppCompatActivity {
 
         routesAffected.setText(routes);
 
+        // sets up formatters for the date and time the alert was submitted if not already set up
         if (dateFormatter == null) {
             dateFormatter = new SimpleDateFormat("E, MMM d");
         }

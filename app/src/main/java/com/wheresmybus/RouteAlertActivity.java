@@ -22,11 +22,20 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
+/**
+ * The activity for the screen where a route alert selected in a forum is displayed along with the
+ * comments submitted for the alert and a button to submit a new comment.
+ */
 public class RouteAlertActivity extends AppCompatActivity {
     private RouteAlert alert;
     private SimpleDateFormat dateFormatter;
     private SimpleDateFormat timeFormatter;
 
+    /**
+     * Part of the call structure to display the activity.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +56,10 @@ public class RouteAlertActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Saves any information relevant to the user, namely if the user upvoted or downvoted the
+     * alert or any comments.
+     */
     // TODO: saving user data writes all of the user data to files, which could be unnecessarily
     // expensive to perform as often as we will be doing - Nick B. (though the files are small
     // enough that it probably won't matter
@@ -56,6 +69,12 @@ public class RouteAlertActivity extends AppCompatActivity {
         UserDataManager.getManager().saveUserData(this);
     }
 
+    /**
+     * Sets up the text at the top of the screen to display the information of the route alert,
+     * including the alert types, the description, the date and time the alert was submitted, and
+     * the number of upvotes or downvotes the alert has received. Also sets the listeners for the
+     * thumbs up and down buttons.
+     */
     private void loadAlertData() {
         // get references to the different view we want to change
         TextView alertType = (TextView) findViewById(R.id.alert_type);
@@ -71,6 +90,7 @@ public class RouteAlertActivity extends AppCompatActivity {
         alertType.setText(alert.getType());
         alertDescription.setText(alert.getDescription());
 
+        // sets up formatters for the date and time the alert was submitted if not already set up
         if (dateFormatter == null) {
             dateFormatter = new SimpleDateFormat("E, MMM d");
         }
@@ -108,6 +128,11 @@ public class RouteAlertActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Retrieves the comments submitted for the route alert and loads them on the page.
+     *
+     * @throws Exception
+     */
     private void commentRequest() throws Exception {
         alert.getComments(new Callback<List<Comment>>() {
             @Override
@@ -123,6 +148,12 @@ public class RouteAlertActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Loads the list of comments submitted for the neighborhood alert onto the page displayed to
+     * the user.
+     *
+     * @param comments the list of comments
+     */
     private void loadComments(List<Comment> comments) {
         CommentAdapter adapter = new CommentAdapter(this, android.R.layout.simple_list_item_1,
                 comments);
@@ -130,6 +161,11 @@ public class RouteAlertActivity extends AppCompatActivity {
         commentList.setAdapter(adapter);
     }
 
+    /**
+     * Sends the user to the page where a new comment can be submitted for the neighborhood alert.
+     *
+     * @param view the button clicked
+     */
     public void switchToSubmitComment(View view) {
         Intent intent = new Intent(this, SubmitCommentActivity.class);
         intent.putExtra("ALERT", alert);
