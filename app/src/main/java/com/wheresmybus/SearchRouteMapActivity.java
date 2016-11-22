@@ -336,16 +336,22 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
         }
 
         /**
+         * When a user clicks on the given marker, a dialog appears that displays a list of the
+         * routes that stops at that bus stop. If no bus stop was associated with the given marker,
+         * nothing happens.
          *
-         * @param marker
-         * @return
+         * @param marker the marker clicked
+         * @return false if the dialog appears or true otherwise
          */
         @Override
         public boolean onMarkerClick(Marker marker) {
             BusStop busStop = getBusStop(marker);
             if (busStop != null) {
+                // set up the dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(SearchRouteMapActivity.this);
                 builder.setTitle("Routes that stop here:");         // TODO: get bus stop name
+
+                // set up the list view of routes
                 try {
                     ListView routesList = new ListView(SearchRouteMapActivity.this);
                     if (routeAdapter == null) {
@@ -356,15 +362,17 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
                     routesList.setAdapter(routeAdapter);
                     routesList.setOnItemClickListener(this);
                     builder.setView(routesList);
-                    builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+                // add a button to close the dialog and display
+                builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
                 builder.show();
 
                 return false;   // the camera should move to the marker and an info window should appear
@@ -374,9 +382,11 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
         }
 
         /**
-         * 
-         * @param marker
-         * @return
+         * Returns the bus stop associated with the given marker or null if there is no associated
+         * bus stop.
+         *
+         * @param marker the marker for which an associated bus stop is to be retrieved
+         * @return the bus stop associated with the given marker or null if there is none
          */
         private BusStop getBusStop(Marker marker) {
             return markerBusStopMap.get(marker);
