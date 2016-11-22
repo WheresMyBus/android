@@ -22,7 +22,7 @@ public class FavoriteNeighborhoodListener implements View.OnClickListener {
     /**
      * Constructs a new FavoriteNeighborhoodListener.
      *
-     * @param neighborhoodID the ID of the nieghborhood that is being added to or removed from favorites
+     * @param neighborhoodID the ID of the neighborhood that is being added to or removed from favorites
      */
     public FavoriteNeighborhoodListener(int neighborhoodID) {
         this.neighborhoodID = neighborhoodID;
