@@ -66,7 +66,7 @@ public class NeighborhoodAlertFragment extends Fragment implements
     /**
      * Part of the call structure to display the activity.
      *
-     * @param savedInstanceState
+     * @param savedInstanceState previously saved state, or null
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,7 +88,7 @@ public class NeighborhoodAlertFragment extends Fragment implements
      * Requests a list of neighborhoods from the Where's My Bus controller and loads it into the
      * spinner where the user will select a neighborhood for which to submit an alert.
      *
-     * @throws Exception
+     * @throws Exception if the request fails
      */
     private void neighborhoodRequest() throws Exception {
         WMBController controller = WMBController.getInstance();
@@ -137,12 +137,12 @@ public class NeighborhoodAlertFragment extends Fragment implements
     */
 
     /**
-     * Part of the call structure to display this activity.
+     * Part of the call structure that sets up the fragment to be displayed.
      *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
+     * @param inflater used to inflate any views in the fragment
+     * @param container parent view that the fragment's UI should be attached to
+     * @param savedInstanceState previously saved state, or null
+     * @return the view for the fragment's UI, or null
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -154,7 +154,7 @@ public class NeighborhoodAlertFragment extends Fragment implements
     /**
      * Part of the call structure to display this activity.
      *
-     * @param savedInstanceState
+     * @param savedInstanceState previously saved state, or null
      */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -189,6 +189,11 @@ public class NeighborhoodAlertFragment extends Fragment implements
         }
     }
 
+    /**
+     * Part of the call structure that sets up the fragment to be displayed.
+     *
+     * @param context Context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -200,6 +205,9 @@ public class NeighborhoodAlertFragment extends Fragment implements
         }
     }
 
+    /**
+     * Part of the fragment call structure.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
@@ -209,10 +217,10 @@ public class NeighborhoodAlertFragment extends Fragment implements
     /**
      * Stores the neighborhood the user selected in the spinner.
      *
-     * @param parent
-     * @param view
-     * @param position
-     * @param id
+     * @param parent the adapter that keeps track of the list elements
+     * @param view the view containing the selectable elements
+     * @param position the position of the element clicked
+     * @param id the id of the element clicked
      */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -295,7 +303,7 @@ public class NeighborhoodAlertFragment extends Fragment implements
      * Implements the View.OnClickListener interface. Determines which checkboxes the user has
      * checked and stores the alert types associated with those boxes.
      *
-     * @param view
+     * @param view the checkbox clicked
      */
     @Override
     public void onClick(View view) {

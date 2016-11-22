@@ -61,7 +61,7 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
     /**
      * Sets up the catalog screen with a routes and a neighborhoods tab
      * Each tab shows a list of the routes/neighborhoods in Seattle
-     * The tab intially selected is determined by the button clicked to navigate here
+     * The tab initially selected is determined by the button clicked to navigate here
      *
      * @param savedInstanceState previously saved state, or null
      */
