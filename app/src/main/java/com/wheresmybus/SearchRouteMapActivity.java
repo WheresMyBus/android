@@ -305,7 +305,6 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
      */
     private class BusStopListener implements GoogleMap.OnMarkerClickListener, ListView.OnItemClickListener {
         private Map<Marker, BusStop> markerBusStopMap;  // the map of markers to bus
-        private RouteAdapter routeAdapter;              // the adapter for the list view of routes
 
         /**
          * Constructs a new BusStopListener.
@@ -316,7 +315,7 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
             if (markerBusStopMap != null) {
                 this.markerBusStopMap = markerBusStopMap;
             } else {
-                markerBusStopMap = new HashMap<>();
+                this.markerBusStopMap = new HashMap<>();
             }
         }
 
@@ -358,11 +357,8 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
                 // set up the list view of routes
                 try {
                     ListView routesList = new ListView(SearchRouteMapActivity.this);
-                    if (routeAdapter == null) {
-                        routeAdapter = new RouteAdapter(SearchRouteMapActivity.this,
-                                android.R.layout.simple_list_item_1,
-                                new ArrayList<>(busStop.getRoutes()), false);
-                    }
+                    RouteAdapter routeAdapter = new RouteAdapter(SearchRouteMapActivity.this,
+                            android.R.layout.simple_list_item_1, busStop.getRoutes(), false);
                     routesList.setAdapter(routeAdapter);
                     routesList.setOnItemClickListener(this);
                     builder.setView(routesList);
