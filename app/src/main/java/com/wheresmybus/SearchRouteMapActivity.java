@@ -12,6 +12,7 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -62,6 +63,8 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
     private GoogleApiClient mGoogleApiClient;   // a tool that helps track the user's location
     private Location mLastLocation;
     private Marker mCurrLocationMarker;
+
+    private Map<Marker, BusStop> markerBusStopHashMap = new HashMap<>();
 
     private final LatLng SEATTLE = new LatLng(47.608013, -122.335167);
     private final float MARKER_HUE = 288;               // makes the bus markers purple
@@ -132,6 +135,8 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
             }
         });
 
+        mMap.setOnMarkerClickListener(new BusStopListener(markerBusStopHashMap));
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkUserLocationPermission()) {
                 buildGoogleApiClient();
@@ -163,18 +168,19 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
             public void onResponse(Response<List<BusStop>> response, Retrofit retrofit) {
                 List<BusStop> busStops = response.body();
 
-                if (busStops.isEmpty()) {
-                    Log.d("TEST", "NO BUS STOPS");
-                } else {
+                if (!busStops.isEmpty()) {
                     for (BusStop busStop : busStops) {
-                        Log.d("TEST", busStop.getName());
-                        LatLng busStopLocation = new LatLng(busStop.getLat(), busStop.getLon());
+                        if (!markerBusStopHashMap.containsValue(busStop)) {
+                            LatLng busStopLocation = new LatLng(busStop.getLat(), busStop.getLon());
 
-                        MarkerOptions markerOptions = new MarkerOptions();
-                        markerOptions.position(busStopLocation);
-                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(MARKER_HUE));
+                            MarkerOptions markerOptions = new MarkerOptions();
+                            markerOptions.position(busStopLocation);
+                            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(MARKER_HUE));
 
-                        mMap.addMarker(markerOptions);
+                            Marker marker = mMap.addMarker(markerOptions);
+
+                            markerBusStopHashMap.put(marker, busStop);
+                        }
                     }
                 }
             }
@@ -347,7 +353,7 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
             if (busStop != null) {
                 // set up the dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(SearchRouteMapActivity.this);
-                builder.setTitle("Routes that stop here:");         // TODO: get bus stop name
+                builder.setTitle(busStop.getName());
 
                 // set up the list view of routes
                 try {
