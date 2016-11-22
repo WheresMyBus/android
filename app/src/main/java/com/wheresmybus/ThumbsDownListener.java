@@ -105,7 +105,7 @@ public class ThumbsDownListener implements View.OnClickListener {
             downVotedSetByID = userDataManager.getDownVotedAlertsByID();
             ID = alert.getId();
         } else {
-            upvoted = userDataManager.getUpVotedCommentsByID().contains(alert.getId());
+            upvoted = userDataManager.getUpVotedCommentsByID().contains(comment.getId());
             // send a downvote to the comment
             // comment.downvote();
             if (toggledOn) {
