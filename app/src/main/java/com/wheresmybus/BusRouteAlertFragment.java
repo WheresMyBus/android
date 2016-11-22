@@ -137,6 +137,8 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
 
         text = (EditText) view.findViewById(R.id.route_alert_description);
 
+        view.findViewById(R.id.other_type_description).setVisibility(View.INVISIBLE);
+
         alertTypes = new ArrayList<>();
 
         // get and load spinner data
@@ -251,6 +253,20 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
     }
 
     /**
+     * Gets the description of the alert type if the "other" box is checked, null otherwise
+     *
+     * @return the description of the alert type; null if no text entered yet or "other" box not checked
+     */
+    public String getOtherType() {
+        if (checkBox4.isChecked()) {
+            EditText otherText = (EditText) getView().findViewById(R.id.other_type_description);
+            return otherText.getText().toString();
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Implements the View.OnClickListener interface. Determines which checkboxes the user has
      * checked and stores the alert types associated with those boxes.
      *
@@ -260,24 +276,34 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
     public void onClick(View view) {
         boolean checked = ((CheckBox) view).isChecked();
         String alertType;
+        EditText otherType = (EditText) getView().findViewById(R.id.other_type_description);
 
         // Check which checkbox was clicked
         switch(view.getId()) {
             case R.id.checkBox1:
                 alertType = checkBox1.getText().toString();
                 handleAlertType(alertType, checked);
+                otherType.setVisibility(View.INVISIBLE);
                 break;
             case R.id.checkBox2:
                 alertType = checkBox2.getText().toString();
                 handleAlertType(alertType, checked);
+                otherType.setVisibility(View.INVISIBLE);
                 break;
             case R.id.checkBox3:
                 alertType = checkBox3.getText().toString();
                 handleAlertType(alertType, checked);
+                otherType.setVisibility(View.INVISIBLE);
                 break;
             case R.id.checkBox4:
                 alertType = checkBox4.getText().toString();
                 handleAlertType(alertType, checked);
+                // only show EditText for alert type if "other" is checked
+                if (checkBox4.isChecked()) {
+                    otherType.setVisibility(View.VISIBLE);
+                } else {
+                    otherType.setVisibility(View.INVISIBLE);
+                }
                 break;
         }
     }

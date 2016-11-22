@@ -164,6 +164,10 @@ public class SubmitAlertActivity extends FragmentActivity implements
             // get the information from the BusRouteFragment
             Route route = busRouteFragment.getRoute();
             String alertType = busRouteFragment.getAlertType();
+            String otherType = busRouteFragment.getOtherType();
+            if (otherType != null) {
+                alertType = otherType;
+            }
             String description = busRouteFragment.getDescription();
 
             if (route == null || alertType == null || description == null || description.equals("")) {
@@ -193,6 +197,10 @@ public class SubmitAlertActivity extends FragmentActivity implements
             // get the information from the NeighborhoodFragment
             Neighborhood neighborhood = neighborhoodFragment.getNeighborhood();
             String alertType = neighborhoodFragment.getAlertType();
+            String otherType = neighborhoodFragment.getOtherType();
+            if (otherType != null) {
+                alertType = otherType;
+            }
             String description = neighborhoodFragment.getDescription();
             List<Route> routesAffected = neighborhoodFragment.getRoutesAffected();
 

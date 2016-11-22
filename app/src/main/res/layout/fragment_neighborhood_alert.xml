@@ -76,7 +76,7 @@
         android:text="@string/write_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/checkBox8"
+        android:layout_below="@+id/other_type_description"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/write_neighborhood_description_prompt"
@@ -87,7 +87,7 @@
 
     <EditText
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="122dp"
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/neighborhood_alert_description"
@@ -112,6 +112,24 @@
         android:layout_below="@+id/checkBox7"
         android:layout_alignLeft="@+id/checkBox7"
         android:layout_alignStart="@+id/checkBox7" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/other_type_description"
+        android:allowUndo="true"
+        android:isScrollContainer="true"
+        android:textColor="@android:color/black"
+        android:minLines="6"
+        android:gravity="top|left"
+        android:scrollbars="vertical"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/checkBox8" />
 
     <Button
         android:text="Select which route(s) may be affected"
