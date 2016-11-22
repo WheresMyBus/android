@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import controllers.WMBController;
@@ -50,7 +52,11 @@ public class MockedInstrumentedTest {
                 "  \"created_at\": \"2016-11-10T17:29:53.626Z\"\n" +
                 "}"));
 
-        NeighborhoodAlert alert = controller.postAlertSynchronously(1,"construction", "Bus driver was a ghost!","420");
+        NeighborhoodAlert alert = controller.postAlertSynchronously(1,
+                "construction",
+                "Bus driver was a ghost!",
+                "420",
+                Arrays.asList("1_100001"));
 
         assertEquals("alert description correct", "Bus driver was a ghost!", alert.getDescription());
         RecordedRequest request = server.takeRequest();
