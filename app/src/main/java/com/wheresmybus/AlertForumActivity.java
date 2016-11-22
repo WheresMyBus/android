@@ -46,7 +46,8 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
 
     /**
      * Displays the alerts for the route or neighborhood that was clicked on
-     * @param savedInstanceState
+     *
+     * @param savedInstanceState previously saved state, or null
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,21 +61,26 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
 
         Intent intent = getIntent();
         String type = intent.getStringExtra("ALERT_TYPE");
+        // Route alerts
         if (type.equals("Route")) {
             isRouteForum = true;
             route = (Route) intent.getSerializableExtra("ROUTE");
+            // set page title
             setTitle(route.getNumber() + ": " + route.getName());
             String id = intent.getStringExtra("ROUTE_ID");
+            // get and load alerts for the route from database
             try {
                 routeRequest(id);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else { //neighborhood
+        } else { // Neighborhood alerts
             isRouteForum = false;
             neighborhood = (Neighborhood) intent.getSerializableExtra("NEIGHBORHOOD");
+            // set page title
             setTitle(neighborhood.getName());
             int id = intent.getIntExtra("NEIGHBORHOOD_ID", 0);
+            // get and load alerts for the neighborhood from database
             try {
                 neighborhoodRequest(id);
             } catch (Exception e) {
@@ -96,6 +102,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
 
     /**
      * Gets the alerts for a given neighborhood from the database
+     *
      * @param neighborhoodId the id of the neighborhood to get alerts for
      * @throws Exception if the request fails
      */
@@ -118,6 +125,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
 
     /**
      * Gets the alerts for a given route from the database
+     *
      * @param routeId the id of the route to get alerts for (as a String)
      * @throws Exception if the request fails
      */
@@ -140,6 +148,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
 
     /**
      * Load the given neighborhood alerts into the ListView
+     *
      * @param data the list of alerts to be loaded
      */
     private void loadNeighborhoodData(List<NeighborhoodAlert> data) {
@@ -149,6 +158,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
 
     /**
      * Load the given route alerts into the ListView
+     *
      * @param data the list of alerts to be loaded
      */
     private void loadRouteData(List<RouteAlert> data) {
@@ -159,6 +169,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
     /**
      * When an alert is clicked, it takes the user to the corresponding
      * alert page
+     *
      * @param adapterView the AdapterView that keeps track of the ListView elements
      * @param view the ListView for this class
      * @param position the position of the element clicked
@@ -194,7 +205,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
      * Sends the user to the screen where users can view the current locations of the buses running
      * the route whose forum is currently being viewed.
      *
-     * @param view the button clicked
+     * @param view the current view
      */
     public void switchToViewLocations(View view) {
         Intent intent = new Intent(this, RouteMapActivity.class);
