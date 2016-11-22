@@ -46,7 +46,7 @@ public class NeighborhoodAdapter extends ArrayAdapter<Neighborhood> {
      * @param position the position of the neighborhood in the list of neighborhoods
      * @param convertView the old view to reuse, if possible
      * @param parent the parent that this view will eventually be attached to
-     * @return the view corresponding to the data at the specified position
+     * @return the view corresponding to the neighborhood at the specified position
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
