@@ -12,15 +12,34 @@ import modules.UserDataManager;
  * Created by lesli_000 on 11/13/2016.
  */
 
+/**
+ * A listener class that handles the event where a user selects or deselects a favorite neighborhood.
+ */
 public class FavoriteNeighborhoodListener implements View.OnClickListener {
     private int neighborhoodID;
     private boolean toggledOn;
 
+    /**
+     * Constructs a new FavoriteNeighborhoodListener.
+     *
+     * @param neighborhoodID the ID of the nieghborhood that is being added to or removed from favorites
+     */
     public FavoriteNeighborhoodListener(int neighborhoodID) {
         this.neighborhoodID = neighborhoodID;
         this.toggledOn = false;
     }
 
+    /**
+     * Adds or removes the neighborhood associated with the given button view to or from the user's
+     * list of favorites as appropriate.
+     *
+     * If the button was off when the user clicked it, the button appears gray and then turns yellow.
+     * This means the neighborhood is being added to the user's list of favorite neighborhoods.
+     * Otherwise, if the button was on when the user clicked it, the button appears yellow and then
+     * turns gray. This means the neighborhood is being removed from the user's list of favorites.
+     *
+     * @param v the button clicked
+     */
     @Override
     public void onClick(View v) {
         // add to or remove from favorites
