@@ -161,6 +161,11 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
         mGoogleApiClient.connect();
     }
 
+    /**
+     * Gets bus stops near a given location and puts a marker for each of them on the map.
+     * @param location the location around which to search for bus stops
+     * @throws Exception
+     */
     private void busStopsRequest(LatLng location) throws Exception {
         WMBController controller = WMBController.getInstance();
         controller.getBusStops(location.latitude, location.longitude, 300, new Callback<List<BusStop>>() {
