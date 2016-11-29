@@ -65,10 +65,10 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
         // determine if the user has already downVoted/upVoted the alert
         UserDataManager userDataManager = UserDataManager.getManager();
         boolean commentIsUpVoted = userDataManager
-                .getUpVotedAlertsByID()
+                .getUpVotedCommentsByID()
                 .contains(comment.getId());
         boolean commentIsDownVoted = userDataManager
-                .getDownVotedAlertsByID()
+                .getDownVotedCommentsByID()
                 .contains(comment.getId());
 
         // fill each view with associated data
