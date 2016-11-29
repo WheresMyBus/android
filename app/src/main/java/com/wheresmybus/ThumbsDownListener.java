@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.Locale;
 import java.util.Set;
 
 import controllers.OBAController;
@@ -71,9 +72,6 @@ public class ThumbsDownListener implements View.OnClickListener {
         this.numThumbsDown = numThumbsDown;
     }
 
-    // need to add case where if user clicks button again it undoes the action from before (i.e.
-    // removes a downvote and unfills the button
-
     /**
      * see @super
      * If neither this button or the corresponding thumbs up is pressed, highlights this button
@@ -83,46 +81,34 @@ public class ThumbsDownListener implements View.OnClickListener {
      */
     @Override
     public void onClick(View v) {
-        Set<Integer> downVotedSetByID; // the set of down-voted alerts or comments by ID
         UserDataManager userDataManager = UserDataManager.getManager();
-        Integer ID; // the ID of this alert/comment
         boolean upvoted;
 
         if (isAlert) {
             upvoted = userDataManager.getUpVotedAlertsByID().contains(alert.getId());
-            // send a downvote to the controller
-            // change number of thumbs down shown
             if (toggledOn) {
+                // user has already disliked the associated post, un-vote
+                // and remove from the downvoted set
                 userDataManager.getDownVotedAlertsByID().remove(alert.getId());
-                alert.unvote(userDataManager.getUserID(), new ThumbsDownCallback(true));
+                alert.unvote(userDataManager.getUserID(), new ThumbsDownCallback());
             } else if (!upvoted) {
+                // user has not liked or disliked this post, downvote and
+                // add to the downvoted set
                 userDataManager.getDownVotedAlertsByID().add(alert.getId());
-                alert.downvote(userDataManager.getUserID(), new ThumbsDownCallback(true));
+                alert.downvote(userDataManager.getUserID(), new ThumbsDownCallback());
             }
-            //TextView numThumbsDown = (TextView) v.getRootView().findViewById(R.id.num_thumbs_down);
-            //numThumbsDown.setText(alert.getDownvotes() + "");
-            // get the down-voted set for
-            downVotedSetByID = userDataManager.getDownVotedAlertsByID();
-            ID = alert.getId();
         } else {
             upvoted = userDataManager.getUpVotedCommentsByID().contains(comment.getId());
-            // send a downvote to the comment
-            // comment.downvote();
             if (toggledOn) {
                 userDataManager.getDownVotedCommentsByID().remove(comment.getId());
-                comment.unvote(userDataManager.getUserID(), new ThumbsDownCallback(false));
+                comment.unvote(userDataManager.getUserID(), new ThumbsDownCallback());
             } else if (!upvoted) {
                 userDataManager.getDownVotedCommentsByID().add(comment.getId());
-                comment.downvote(userDataManager.getUserID(), new ThumbsDownCallback(false));
+                comment.downvote(userDataManager.getUserID(), new ThumbsDownCallback());
             }
 
-            // change number of thumbs down shown
-            //TextView numThumbsDown = (TextView) v.getRootView().findViewById(R.id.num_thumbs_down);
-            //numThumbsDown.setText(comment.getDownvotes() + "");
-            downVotedSetByID = userDataManager.getDownVotedCommentsByID();
-            ID = comment.getId();
         }
-        // change the color of the button
+        // change the color of the button and change the toggled status
         ImageButton thumbsDown = (ImageButton) v.findViewById(R.id.thumbs_down);
         if (toggledOn) {
             thumbsDown.clearColorFilter();
@@ -131,23 +117,22 @@ public class ThumbsDownListener implements View.OnClickListener {
             thumbsDown.setColorFilter(ContextCompat.getColor(v.getContext(), R.color.orange));
             toggledOn = true;
         }
-        // to get the user ID: Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
     }
+
+    // Helper class implementing Callback to construct callbacks in several places,
+    // simply updates the number of dislikes displayed as is returned with the server response
+    // to an downvote
     private class ThumbsDownCallback implements Callback<VoteConfirmation> {
-        private boolean useAlert;
-        private ThumbsDownCallback(boolean useAlert) {
-            this.useAlert = useAlert;
+        private ThumbsDownCallback() {
         }
 
         @Override
         public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
             VoteConfirmation confirmation = response.body();
-            numThumbsDown.setText(confirmation.downvotes + "");
-//            if (useAlert) {
-//                numThumbsDown.setText(alert.getUpvotes() + "");
-//            } else {
-//                numThumbsDown.setText(comment.getUpvotes() + "");
-//            }
+            // use the downvotes returned from the response to update the thumbs down number next
+            // to the button
+            String dislikeNum = String.format(Locale.getDefault(), "%1$d", confirmation.downvotes);
+            numThumbsDown.setText(dislikeNum);
         }
         @Override
         public void onFailure(Throwable t) {

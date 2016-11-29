@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.Locale;
 import java.util.Set;
 
 import modules.Alert;
@@ -64,9 +65,6 @@ public class ThumbsUpListener implements View.OnClickListener {
         this.numThumbsUp = numThumbsUp;
     }
 
-    // need to add case where if user clicks button again it undoes the action from before (i.e.
-    // removes an upvote and unfills the button
-
     /**
      * see @super
      * If neither this button or the corresponding thumbs down is pressed, highlights this button
@@ -76,48 +74,33 @@ public class ThumbsUpListener implements View.OnClickListener {
      */
     @Override
     public void onClick(View v) {
-        Set<Integer> upVotedSetByID; // the set of up-voted alerts or comments by ID
         UserDataManager userDataManager = UserDataManager.getManager();
-        Integer ID; // the ID of this alert/comment
         boolean downvoted;
 
         if (isAlert) {
             downvoted = userDataManager.getDownVotedAlertsByID().contains(alert.getId());
             if (toggledOn) {
+                // user has already liked the associated post, un-vote
+                // and remove from the upvoted set
                 userDataManager.getUpVotedAlertsByID().remove(alert.getId());
-                alert.unvote(userDataManager.getUserID(), new ThumbsUpCallback(true));
+                alert.unvote(userDataManager.getUserID(), new ThumbsUpCallback());
             } else if (!downvoted) {
+                // user has not liked or disliked this post, upvote and
+                // add to the upvoted set
                 userDataManager.getUpVotedAlertsByID().add(alert.getId());
-                alert.upvote(userDataManager.getUserID(), new ThumbsUpCallback(true));
+                alert.upvote(userDataManager.getUserID(), new ThumbsUpCallback());
             }
-            // send an upvote to the alert
-            // alert.upvote();
-
-            // change number of thumbs up shown
-            //TextView numThumbsUp = (TextView) v.getRootView().findViewById(R.id.num_thumbs_up);
-            //numThumbsUp.setText(alert.getUpvotes() + "");
-            upVotedSetByID = userDataManager.getUpVotedAlertsByID();
-            ID = alert.getId();
         } else {
             downvoted = userDataManager.getDownVotedCommentsByID().contains(comment.getId());
-            // send an upvote to the comment
-            // comment.upvote();
             if (toggledOn) {
                 userDataManager.getUpVotedCommentsByID().remove(comment.getId());
-                comment.unvote(userDataManager.getUserID(), new ThumbsUpCallback(false));
+                comment.unvote(userDataManager.getUserID(), new ThumbsUpCallback());
             } else if (!downvoted) {
                 userDataManager.getUpVotedCommentsByID().add(comment.getId());
-                comment.upvote(userDataManager.getUserID(), new ThumbsUpCallback(false));
+                comment.upvote(userDataManager.getUserID(), new ThumbsUpCallback());
             }
-            // change number of thumbs up shown
-            //TextView numThumbsUp = (TextView) v.getRootView().findViewById(R.id.num_thumbs_up);
-            // numThumbsUp.setText(comment.getUpvotes() + "");
-            upVotedSetByID = userDataManager.getUpVotedCommentsByID();
-            ID = comment.getId();
         }
-
-        // change the color of the button
-        // change the color of the button
+        // change the color of the button and change the toggled status
         ImageButton thumbsUp = (ImageButton) v.findViewById(R.id.thumbs_up);
         if (toggledOn) {
             thumbsUp.clearColorFilter();
@@ -126,24 +109,21 @@ public class ThumbsUpListener implements View.OnClickListener {
             thumbsUp.setColorFilter(ContextCompat.getColor(v.getContext(), R.color.green));
             toggledOn = true;
         }
-
-        // to get the user ID: Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
     }
+
+    // Helper class implementing Callback to construct callbacks in several places,
+    // simply updates the number of likes displayed as is returned with the server response
+    // to an upvote
     private class ThumbsUpCallback implements Callback<VoteConfirmation> {
-        private boolean useAlert;
-        private ThumbsUpCallback(boolean useAlert) {
-            this.useAlert = useAlert;
+        private ThumbsUpCallback() {
         }
 
         @Override
         public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
             VoteConfirmation confirmation = response.body();
-            numThumbsUp.setText(confirmation.upvotes + "");
-//            if (useAlert) {
-//                //numThumbsUp.setText(alert.getUpvotes() + "");
-//            } else {
-//                //numThumbsUp.setText(comment.getUpvotes() + "");
-//            }
+            // use the upvotes returned from the response to update the thumbs up number next
+            // to the button
+            numThumbsUp.setText(String.format(Locale.getDefault(), "%1$d", confirmation.upvotes));
         }
         @Override
         public void onFailure(Throwable t) {
