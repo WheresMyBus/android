@@ -5,6 +5,7 @@ import android.util.Pair;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,8 +23,9 @@ public class TestBusStop {
      */
     @Test
     public void testBusStopGetCoords() {
-        BusStop stop = new BusStop(new Pair<>(0.,1.), new HashSet<Route>());
-        assertTrue(stop.getCoordinates() != null);
+        BusStop stop = new BusStop("s", 0.0,1,"b", "a", new ArrayList<Route>());
+        assertTrue(stop.getLon() == 0.0);
+        assertTrue(stop.getLat() == 1.0);
     }
 
     /**
@@ -34,7 +36,8 @@ public class TestBusStop {
     public void testGetRoutes() {
         Set<Route> routes = new HashSet<>();
         routes.add(new Route("1", "a", "b"));
-        BusStop stop = new BusStop(new Pair<>(0.,1.), routes);
+        BusStop stop = new BusStop("s", 0.0,1,"b", "a", new ArrayList<Route>());
+
         assertTrue(stop.getRoutes() != null);
         assertTrue(stop.getRoutes().size() == 1);
 
@@ -43,22 +46,11 @@ public class TestBusStop {
     }
 
     /**
-     * Tests that setId sets properly once and returns true and changes id
-     */
-    @Test
-    public void testSetId(){
-        BusStop sampleBus = new BusStop(new Pair<>(0.,1.), new HashSet<Route>());
-        assertEquals(-1, sampleBus.getId());
-        assertTrue(sampleBus.setId(2));
-        assertEquals(sampleBus.getId(), 2);
-    }
-
-    /**
      * Tests that IllegalArgumentException is thrown when coordinates is null
      */
     @Test(expected = IllegalArgumentException.class)
     public void testNullCoords() {
-        BusStop stop = new BusStop(null, new HashSet<Route>());
+        BusStop stop = new BusStop("s", 0.0,1,"b", "a", new ArrayList<Route>());
     }
 
     /**
@@ -66,21 +58,6 @@ public class TestBusStop {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testNullRoutes() {
-        BusStop stop = new BusStop(new Pair<>(0.,1.), null);
-    }
-
-    /**
-     * Test that id is stored properly and calling setId() twice will not affect id
-     */
-    @Test
-    public void testGetId() {
-        BusStop sampleBus = new BusStop(new Pair<>(0.,1.), new HashSet<Route>());
-        boolean b = sampleBus.setId(2);
-        assertTrue(b);
-        assertTrue(sampleBus.getId() == 2);
-
-        b = sampleBus.setId(3);
-        assertFalse(b);
-        assertTrue(sampleBus.getId() == 2);
+        BusStop stop = new BusStop("s", 0.0,1,"b", "a", new ArrayList<Route>());
     }
 }

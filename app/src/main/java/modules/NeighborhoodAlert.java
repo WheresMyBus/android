@@ -20,7 +20,8 @@ import retrofit.Retrofit;
  *
  * Stores data about a alert of a specific neighborhood
  * Invariant: id = -1 if id has not been set, else id > 0
- *          neighborhood, date, type, coordinates != null
+ *          date, type != null
+ *          either neighborhood != null, or neighborhoodID != -1
  *          routesAffected != null and all elements of routesAffected != null
  */
 
@@ -35,6 +36,8 @@ public class NeighborhoodAlert extends Alert {
     /**
      * Constructs a NeighborhoodAlert with id initialized to -1
      * and upvotes/downvotes initialized to 0
+     * Used for creating a new NeighborhoodAlert to
+     * post to the server, when the id is not defined yet.
      * @param neighborhood neighborhood of the alert
      * @param date Date the alert was posted
      * @param type type of alert posted
@@ -44,22 +47,30 @@ public class NeighborhoodAlert extends Alert {
      * @param routesAffected List of routes that are affected
      * @throws IllegalArgumentException if any of neighborhood, date, type,
      *              description, coordinates are null
-     * @throws IllegalArgumentException if creatorID < 1
+     * @throws IllegalArgumentException if creatorID < 1 or upvotes, downvotes < 0
      */
     public NeighborhoodAlert(Neighborhood neighborhood, Date date, String description,
                              String type, Pair<Double, Double> coordinates, String creatorID,
                              List<Route> routesAffected) {
         super(description, date, type, creatorID, coordinates);
         if(neighborhood == null || routesAffected == null) {
-            throw new IllegalArgumentException("null parameters");
+            if(neighborhood == null) {
+                throw new IllegalArgumentException("null neighborhood");
+            } else {
+                throw new IllegalArgumentException("null routesAffected list");
+            }
         }
         this.neighborhood = neighborhood;
+        this.neighborhoodID = -1; // unused for this constructor
         this.routesAffected = new ArrayList<>(routesAffected);
+        checkRep();
     }
 
     /**
      * Creates a Neighborhood alert with upvotes, downvotes, and id as parameters
      * initializes routesAffected to empty List, and references a neighborhood by its id.
+     * Used for building NeighborhoodAlerts from the data retrieved from the server, when
+     * the id is known and some fields can be blank.
      * @param neighborhoodID neighborhood of the alert
      * @param date Date the alert was posted
      * @param alertType type of alert posted
@@ -67,12 +78,19 @@ public class NeighborhoodAlert extends Alert {
      * @param user_id id of the creator of the post
      * @param upvotes upvotes to initialize the alert to
      * @param downvotes downvotes to initialize the alert to
+     * @throws IllegalArgumentException if any of date, alertType, user_id
+     *              description are null
+     * @throws IllegalArgumentException if any of neighborhoodID, upvotes, downvotes < 0
      */
     public NeighborhoodAlert(int neighborhoodID, int alertID, String user_id, String alertType,
                              String description, Date date, int upvotes, int downvotes) {
         super(alertID, user_id, alertType, description, date, upvotes, downvotes);
+        if(neighborhoodID < 0) {
+            throw new IllegalArgumentException("neighborhoodID < 0");
+        }
         this.neighborhoodID = neighborhoodID;
         routesAffected = new ArrayList<>();
+        checkRep();
     }
 
     /**
@@ -94,7 +112,9 @@ public class NeighborhoodAlert extends Alert {
         if(newRoute == null) {
             throw new IllegalArgumentException();
         }
-        return routesAffected.add(newRoute);
+        boolean b = routesAffected.add(newRoute);
+        checkRep();
+        return b;
     }
 
     /**
@@ -102,12 +122,7 @@ public class NeighborhoodAlert extends Alert {
      * @return List of routes affected
      */
     public List<Route> getRoutesAffected() {
-        // if no affected routes, return empty list
-        if (routesAffected == null) {
-            return new ArrayList<>();
-        }
-
-        return routesAffected;
+        return new ArrayList<>(routesAffected);
     }
 
     /**
@@ -121,12 +136,21 @@ public class NeighborhoodAlert extends Alert {
         final NeighborhoodAlert self = this;
         final Callback<VoteConfirmation> cb = callback;
         controller.neighborhoodAlertUpvote(this.getId(), userID, new Callback<VoteConfirmation>() {
+            /**
+             * On success, upvotes the Alert locally and invokes the passed callback's onResponse()
+             * @param response response that was returned
+             * @param retrofit Retrofit that the callback was queued on
+             */
             @Override
             public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
                 self.setVotes(response.body());
                 cb.onResponse(response, retrofit);
             }
 
+            /**
+             * On failure, invokes the passed callback's onFailure() with the error
+             * @param t error to be thrown
+             */
             @Override
             public void onFailure(Throwable t) {
                 cb.onFailure(t);
@@ -141,16 +165,24 @@ public class NeighborhoodAlert extends Alert {
      */
     @Override
     public void downvote(String userID, Callback<VoteConfirmation> callback) {
-        WMBController controller = WMBController.getInstance();
+        final WMBController controller = WMBController.getInstance();
         final NeighborhoodAlert self = this;
         final Callback<VoteConfirmation> cb = callback;
         controller.neighborhoodAlertDownvote(this.getId(), userID, new Callback<VoteConfirmation>() {
+            /**
+             * On success, downvotes the Alert locally and invokes the passed callback's onResponse()
+             * @param response response that was returned
+             * @param retrofit Retrofit that the callback was queued on
+             */
             @Override
             public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
                 self.setVotes(response.body());
                 cb.onResponse(response, retrofit);
             }
-
+            /**
+             * On failure, invokes the passed callback's onFailure() with the error
+             * @param t error to be thrown
+             */
             @Override
             public void onFailure(Throwable t) {
                 cb.onFailure(t);
@@ -165,16 +197,24 @@ public class NeighborhoodAlert extends Alert {
      */
     @Override
     public void unvote(String userID, Callback<VoteConfirmation> callback) {
-        WMBController controller = WMBController.getInstance();
+        final WMBController controller = WMBController.getInstance();
         final NeighborhoodAlert self = this;
         final Callback<VoteConfirmation> cb = callback;
         controller.neighborhoodAlertUnvote(this.getId(), userID, new Callback<VoteConfirmation>() {
+            /**
+             * On success, unvotes the Alert locally and invokes the passed callback's onResponse()
+             * @param response response that was returned
+             * @param retrofit Retrofit that the callback was queued on
+             */
             @Override
             public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
                 self.setVotes(response.body());
                 cb.onResponse(response, retrofit);
             }
-
+            /**
+             * On failure, invokes the passed callback's onFailure() with the error
+             * @param t error to be thrown
+             */
             @Override
             public void onFailure(Throwable t) {
                 cb.onFailure(t);
@@ -195,8 +235,8 @@ public class NeighborhoodAlert extends Alert {
     @Override
     protected void checkRep() {
         super.checkRep();
-        // Assert.assertTrue(neighborhood != null);
-        // Assert.assertTrue(routesAffected != null);
-        // Assert.assertFalse(routesAffected.contains(null));
+        Assert.assertTrue(neighborhood != null || neighborhoodID != -1);
+        Assert.assertTrue(routesAffected != null);
+        Assert.assertFalse(routesAffected.contains(null));
     }
 }

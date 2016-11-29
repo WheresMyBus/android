@@ -55,7 +55,17 @@ public abstract class Alert implements Serializable, Comparable<Alert> {
     public Alert(String description, Date date, String type,
                  String creatorID, Pair<Double, Double> coordinates) {
         if(description == null || creatorID == null || date == null || type == null || coordinates == null) {
-            throw new IllegalArgumentException("null parameters");
+            if(description == null) {
+                throw new IllegalArgumentException("null description");
+            } else if (creatorID == null) {
+                throw new IllegalArgumentException("null creatorID");
+            } else if (date == null) {
+                throw new IllegalArgumentException("null date");
+            } else if (type == null) {
+                throw new IllegalArgumentException("null type");
+            } else {
+                throw new IllegalArgumentException("null coordinates");
+            }
         }
         this.description = description;
         this.date = (Date) date.clone();
@@ -80,10 +90,24 @@ public abstract class Alert implements Serializable, Comparable<Alert> {
     public Alert(int alertID, String user_id, String alertType, String description,
                  Date date, int upvotes, int downvotes) {
         if (description == null || user_id == null || date == null || alertType == null) {
-            throw new IllegalArgumentException("null parameters");
+            if(description == null) {
+                throw new IllegalArgumentException("null description");
+            } else if (user_id == null) {
+                throw new IllegalArgumentException("null user id");
+            } else if (date == null) {
+                throw new IllegalArgumentException("null date");
+            } else {
+                throw new IllegalArgumentException("null alertType");
+            }
         }
         if(alertID < 1 || upvotes < 0 || downvotes < 0) {
-            throw new IllegalArgumentException();
+            if(alertID  < 1) {
+                throw new IllegalArgumentException("alertID < 1");
+            } else if (upvotes < 0) {
+                throw new IllegalArgumentException("upvotes < 0");
+            } else {
+                throw new IllegalArgumentException("downvotes < 0");
+            }
         }
         this.id = alertID;
         this.creatorID = user_id;
@@ -218,11 +242,9 @@ public abstract class Alert implements Serializable, Comparable<Alert> {
     }
 
     protected void checkRep() {
-        // Assert.assertTrue(this.creatorID > 0);
         Assert.assertTrue(date != null);
         Assert.assertTrue(type != null);
         Assert.assertTrue(description != null);
-        // Assert.assertTrue(coordinates != null);
         Assert.assertTrue(upvotes > -1);
         Assert.assertTrue(downvotes > -1);
         Assert.assertTrue(id == -1 || id > 0);
