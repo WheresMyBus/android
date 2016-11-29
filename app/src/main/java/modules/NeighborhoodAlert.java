@@ -28,7 +28,9 @@ import retrofit.Retrofit;
 public class NeighborhoodAlert extends Alert {
     // This is the old stuff.
     private Neighborhood neighborhood;
-    private List<Route> routesAffected;
+
+    @SerializedName("routes_affected")
+    private ArrayList<Route> routesAffected;
 
     @SerializedName("neighborhood_id")
     private int neighborhoodID;
@@ -122,6 +124,7 @@ public class NeighborhoodAlert extends Alert {
      * @return List of routes affected
      */
     public List<Route> getRoutesAffected() {
+        checkRep();
         return new ArrayList<>(routesAffected);
     }
 
