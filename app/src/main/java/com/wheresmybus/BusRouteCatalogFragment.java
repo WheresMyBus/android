@@ -22,6 +22,7 @@ import java.util.Set;
 import controllers.OBAController;
 import modules.Route;
 import adapters.RouteAdapter;
+import modules.UserDataManager;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -37,7 +38,6 @@ import retrofit.Retrofit;
  */
 public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnItemClickListener {
     // the fragment initialization parameters
-    private List<String> favoriteRoutesByID;
     private boolean favoritesOnly;
 
     private ListView routeList;
@@ -57,11 +57,9 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
      * @param favoriteRoutesByID List of the ids of favorite routes
      * @return A new instance of fragment BusRouteCatalogFragment
      */
-    public static BusRouteCatalogFragment newInstance(ArrayList<String> favoriteRoutesByID,
-                                                      boolean switchOn) {
+    public static BusRouteCatalogFragment newInstance(boolean switchOn) {
         BusRouteCatalogFragment fragment = new BusRouteCatalogFragment();
         Bundle args = new Bundle();
-        args.putStringArrayList("FAVORITES", favoriteRoutesByID);
         args.putBoolean("SWITCH_ON", switchOn);
         fragment.setArguments(args);
         return fragment;
@@ -76,8 +74,6 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         routes = new ArrayList<Route>();
-        favoriteRoutesByID = getArguments() != null ?
-                getArguments().getStringArrayList("FAVORITES") : null;
         favoritesOnly = getArguments() != null && getArguments().getBoolean("SWITCH_ON");
         try {
             routeRequest();
@@ -135,6 +131,7 @@ public class BusRouteCatalogFragment extends Fragment implements AdapterView.OnI
      */
     private List<Route> filterFavorites(List<Route> routes) {
         List<Route> favoriteList = new ArrayList<Route>();
+        Set<String> favoriteRoutesByID = UserDataManager.getManager().getFavoriteRoutesByID();
         for (Route route : routes) {
             if (favoriteRoutesByID.contains(route.getId())) {
                 favoriteList.add(route);

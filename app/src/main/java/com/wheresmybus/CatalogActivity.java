@@ -56,7 +56,7 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
     private ViewPager mViewPager;
 
     // favorites only switch is on
-    private boolean favoritesOnly;
+    protected boolean favoritesOnly;
 
     /**
      * Sets up the catalog screen with a routes and a neighborhoods tab
@@ -203,11 +203,9 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
             Set<Integer> favoriteNeighborhoodsByID = manager.getFavoriteNeighborhoodsByID();
             // getItem is called to instantiate the fragment for the given page.
             if (position == 0) {
-                return BusRouteCatalogFragment.newInstance(routeSetToList(favoriteRoutesByID),
-                        favoritesOnly);
+                return BusRouteCatalogFragment.newInstance(favoritesOnly);
             } else if (position == 1) {
-                return NeighborhoodCatalogFragment.newInstance(neighborhoodSetToList(favoriteNeighborhoodsByID),
-                        favoritesOnly);
+                return NeighborhoodCatalogFragment.newInstance(favoritesOnly);
             } else {
                 return null;
             }
