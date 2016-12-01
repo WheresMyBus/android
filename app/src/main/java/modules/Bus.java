@@ -10,8 +10,6 @@ import junit.framework.Assert;
  * Created by lidav on 10/23/2016.
  *
  * Class that stores data for an individual bus
- * Invariant: id = -1 only if id was not set yet, else id > 0
- *            route != null
  */
 
 public class Bus {
@@ -24,8 +22,8 @@ public class Bus {
     /**
      * Creates a Bus with a latitude and longitude
      *
-     * @param lat
-     * @param lon
+     * @param lat latitude of the bus
+     * @param lon longitude of the bus
      */
     public Bus(double lat, double lon) {
         this.lat = lat;

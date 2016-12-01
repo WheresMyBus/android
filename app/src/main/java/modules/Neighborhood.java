@@ -16,8 +16,7 @@ import java.util.Set;
  * Created by lidav on 10/23/2016.
  *
  * Immutable class that describes a neighborhood
- * Invariant: perimeter, name != null
- *          no element of perimeter is null
+ * Invariant: name != null, id == -1 if not initialized or id > 0
  */
 
 public class Neighborhood implements Serializable, Comparable<Neighborhood> {
@@ -31,22 +30,15 @@ public class Neighborhood implements Serializable, Comparable<Neighborhood> {
     /**
      * Contructs a Neighborhood
      * @param id unique int ID of the neighborhood.
-     * //@param perimeter List<Pair<Double,Double>> of Points in the perimeter of the neighborhood
      * @param name name of the neighborhood
-     * @throws IllegalArgumentException if perimeter or name is null or id < 0.
-     * @throws IllegalArgumentException if any element of perimeter is null
+     * @throws IllegalArgumentException if name is null or id < 0.
      */
     public Neighborhood(int id, String name) {
-        /* TODO: adjust once perimeter data is available. Then uncomment with checkRep().
-        if(perimeter == null || perimeter.contains(null) || name == null) {
-            throw new IllegalArgumentException();
+        if(name == null) {
+            throw new IllegalArgumentException("null name");
         }
-        for(Pair<Double,Double> next : perimeter) {
-            this.perimeter.add(new Pair<>(next.first, next.second));
-        }
-        */
-        if(id < 1 || name == null) {
-            throw new IllegalArgumentException();
+        if(id < 1) {
+            throw new IllegalArgumentException("bad id");
         }
         this.name = name;
         this.id = id;
@@ -93,8 +85,6 @@ public class Neighborhood implements Serializable, Comparable<Neighborhood> {
 
     private void checkRep() {
         Assert.assertFalse(name == null);
-        //Assert.assertFalse(perimeter == null);
-        //Assert.assertFalse(perimeter.contains(null));
     }
 
     /**

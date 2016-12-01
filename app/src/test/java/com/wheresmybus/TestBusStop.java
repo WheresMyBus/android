@@ -24,8 +24,8 @@ public class TestBusStop {
     @Test
     public void testBusStopGetCoords() {
         BusStop stop = new BusStop("s", 0.0,1,"b", "a", new ArrayList<Route>());
-        assertTrue(stop.getLon() == 0.0);
-        assertTrue(stop.getLat() == 1.0);
+        assertTrue(stop.getLon() == 1.0);
+        assertTrue(stop.getLat() == 0.0);
     }
 
     /**
@@ -39,18 +39,18 @@ public class TestBusStop {
         BusStop stop = new BusStop("s", 0.0,1,"b", "a", new ArrayList<Route>());
 
         assertTrue(stop.getRoutes() != null);
-        assertTrue(stop.getRoutes().size() == 1);
+        assertTrue(stop.getRoutes().size() == 0);
 
         routes.add(new Route("2", "c", "d"));
-        assertTrue(stop.getRoutes().size() == 1);
+        assertTrue(stop.getRoutes().size() == 0);
     }
 
     /**
-     * Tests that IllegalArgumentException is thrown when coordinates is null
+     * Tests that IllegalArgumentException is thrown when id is null
      */
     @Test(expected = IllegalArgumentException.class)
-    public void testNullCoords() {
-        BusStop stop = new BusStop("s", 0.0,1,"b", "a", new ArrayList<Route>());
+    public void testNullId() {
+        BusStop stop = new BusStop(null, 0.0,1,"b", "a", new ArrayList<Route>());
     }
 
     /**
@@ -58,6 +58,22 @@ public class TestBusStop {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testNullRoutes() {
-        BusStop stop = new BusStop("s", 0.0,1,"b", "a", new ArrayList<Route>());
+        BusStop stop = new BusStop("s", 0.0,1,"b", "a",null);
+    }
+
+    /**
+     * Tests that IllegalArgumentException is thrown when Set of routes is null
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullDirection() {
+        BusStop stop = new BusStop("s", 0.0,1,null, "a",null);
+    }
+
+    /**
+     * Tests that IllegalArgumentException is thrown when Set of routes is null
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullName() {
+        BusStop stop = new BusStop("s", 0.0,1,"b",null,null);
     }
 }

@@ -20,8 +20,8 @@ import retrofit.Retrofit;
  *
  * Describes an Alert abstract class which stores the data for a bus alert and allows up/down voting
  * Invariant: id = -1 if id has not been set, else id > 0
- *          date, type, coordinates, description != null
- *          creatorID > 0
+ *          date, type, description != null
+ *          creatorID != null
  */
 
 public abstract class Alert implements Serializable, Comparable<Alert> {

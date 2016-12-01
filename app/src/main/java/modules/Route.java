@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by lidav on 10/23/2016.
  *
  * Immutable class that stores data for a bus route
- * Invariant: number > 0, name != null
+ * Invariant: number != null, name != null, id != null
  */
 
 public class Route implements Serializable, Comparable<Route> {

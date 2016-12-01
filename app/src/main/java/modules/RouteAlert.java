@@ -19,7 +19,8 @@ import retrofit.Retrofit;
  *
  * Stores data about a alert of a specific route
  * Invariant: id = -1 if id has not been set, else id > 0
- *         route, date, type, coordinates != null
+ *         date, type != null
+ *         either route is not null, or routeID is not null
  */
 
 public class RouteAlert extends Alert {
@@ -65,6 +66,7 @@ public class RouteAlert extends Alert {
                       String description, Date date, int upvotes, int downvotes) {
         super(alertID, user_id, alertType, description, date, upvotes, downvotes);
         this.routeID = routeID;
+        checkRep();
     }
 
     /**
@@ -160,6 +162,6 @@ public class RouteAlert extends Alert {
     @Override
     protected void checkRep() {
         super.checkRep();
-        // Assert.assertFalse(route == null);
+        Assert.assertFalse(route == null && routeID == null);
     }
 }

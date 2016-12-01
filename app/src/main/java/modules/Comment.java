@@ -15,8 +15,8 @@ import retrofit.Retrofit;
  * Created by lidav on 10/26/2016.
  * Stores data for a comment that a user posts about an alert
  * Invariant: id = -1 if id has not been set, else id > 0
- *          creatorId > 0
- *          alert, data != null
+ *          creatorId != null
+ *          data != null
  */
 
 public class Comment {
