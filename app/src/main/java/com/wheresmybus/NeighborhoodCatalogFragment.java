@@ -15,10 +15,12 @@ import android.widget.Switch;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import controllers.WMBController;
 import modules.Neighborhood;
 import adapters.NeighborhoodAdapter;
+import modules.UserDataManager;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -34,7 +36,6 @@ import retrofit.Retrofit;
  */
 public class NeighborhoodCatalogFragment extends Fragment implements AdapterView.OnItemClickListener {
     // the fragment initialization parameters
-    private List<Integer> favoriteNeighborhoodsByID;
     private boolean favoritesOnly;
 
     private ListView neighborhoodList;
@@ -51,14 +52,11 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param favoriteNeighborhoodsByID List of the ids of favorite neighborhoods
      * @return A new instance of fragment NeighborhoodCatalogFragment.
      */
-    public static NeighborhoodCatalogFragment newInstance(ArrayList<Integer> favoriteNeighborhoodsByID,
-                                                          boolean switchOn) {
+    public static NeighborhoodCatalogFragment newInstance(boolean switchOn) {
         NeighborhoodCatalogFragment fragment = new NeighborhoodCatalogFragment();
         Bundle args = new Bundle();
-        args.putIntegerArrayList("FAVORITES", favoriteNeighborhoodsByID);
         args.putBoolean("SWITCH_ON", switchOn);
         fragment.setArguments(args);
         return fragment;
@@ -73,8 +71,6 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         neighborhoods = new ArrayList<Neighborhood>();
-        favoriteNeighborhoodsByID = getArguments() != null ?
-                getArguments().getIntegerArrayList("FAVORITES") : null;
         favoritesOnly = getArguments() != null && getArguments().getBoolean("SWITCH_ON");
         try {
             neighborhoodRequest();
@@ -131,6 +127,7 @@ public class NeighborhoodCatalogFragment extends Fragment implements AdapterView
      */
     private List<Neighborhood> filterFavorites(List<Neighborhood> neighborhoods) {
         List<Neighborhood> favoriteList = new ArrayList<Neighborhood>();
+        Set<Integer> favoriteNeighborhoodsByID = UserDataManager.getManager().getFavoriteNeighborhoodsByID();
         for (Neighborhood neighborhood : neighborhoods) {
             if (favoriteNeighborhoodsByID.contains(neighborhood.getID())) {
                 favoriteList.add(neighborhood);
