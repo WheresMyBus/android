@@ -89,6 +89,51 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
         }
     }
 
+    /**
+     * Refreshes the data when the activity starts
+     */
+    public void onStart() {
+        super.onStart();
+        refreshData();
+    }
+
+    /**
+     * Refreshes the data when the activity restarts
+     */
+    public void onRestart() {
+        super.onRestart();
+        refreshData();
+    }
+
+    /**
+     * Refreshes the data when the activity resumes
+     */
+    public void onResume() {
+        super.onResume();
+        refreshData();
+    }
+
+    public void refreshData() {
+        // Route alerts
+        if (isRouteForum) {
+            String id = route.getId();
+            // get and load alerts for the route from database
+            try {
+                routeRequest(id);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else { // Neighborhood alerts
+            int id = neighborhood.getID();
+            // get and load alerts for the neighborhood from database
+            try {
+                neighborhoodRequest(id);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     // TODO: saving user data writes all of the user data to files, which could be unnecessarily
     // expensive to perform as often as we will be doing - Nick B. (though the files are small
     // enough that it probably won't matter
@@ -150,7 +195,8 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
      * @param data the list of alerts to be loaded
      */
     private void loadNeighborhoodData(List<NeighborhoodAlert> data) {
-        NeighborhoodAlertAdapter adapter = new NeighborhoodAlertAdapter(this, android.R.layout.simple_list_item_1, data);
+        NeighborhoodAlertAdapter adapter = new NeighborhoodAlertAdapter(this,
+                android.R.layout.simple_list_item_1, data);
         alertList.setAdapter(adapter);
     }
 
@@ -160,7 +206,8 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
      * @param data the list of alerts to be loaded
      */
     private void loadRouteData(List<RouteAlert> data) {
-        RouteAlertAdapter adapter = new RouteAlertAdapter(this, android.R.layout.simple_list_item_1, data);
+        RouteAlertAdapter adapter = new RouteAlertAdapter(this,
+                android.R.layout.simple_list_item_1, data);
         alertList.setAdapter(adapter);
     }
 
