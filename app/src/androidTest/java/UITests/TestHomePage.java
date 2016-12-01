@@ -49,8 +49,7 @@ public class TestHomePage {
     @Test
     public void testBusRoutesButton() {
         onView(withId(R.id.button4)).perform(click());
-        intended(hasComponent("com.wheresmybus.CatalogActivity"));
-        intended(hasExtra("TAB_INDEX", 0));
+        intended(hasComponent("com.wheresmybus.RouteMainActivity"));
     }
 
     @Test

@@ -64,23 +64,23 @@ public class MockedInstrumentedTest {
         assertEquals("request body", "issues=construction&description=Bus%20driver%20was%20a%20ghost%21&user_id=420", request.getBody().readUtf8());
     }
 
-    @Test
-    public void testPOSTofNeighborhoodAlertUpvote() throws Exception {
-        server.enqueue(new MockResponse()
-                .setResponseCode(200)
-                .setBody("{\n" +
-                "  \"id\": 1,\n" +
-                "  \"user_id\": \"420\",\n" +
-                "  \"value\": \"up\"\n" +
-                "}"));
-
-        VoteConfirmation vc = controller.neighborhoodAlertUpvoteSynchronously(1, "420");
-        assertEquals("id ", 1, vc.getId());
-        assertEquals("user_id ", "420", vc.getUserID());
-        assertEquals("value ", "up", vc.getValue());
-        RecordedRequest request = server.takeRequest();
-        assertEquals("request path", "/neighborhood_alerts/1/upvote", request.getPath());
-    }
+//    @Test
+//    public void testPOSTofNeighborhoodAlertUpvote() throws Exception {
+//        server.enqueue(new MockResponse()
+//                .setResponseCode(200)
+//                .setBody("{\n" +
+//                "  \"id\": 1,\n" +
+//                "  \"user_id\": \"420\",\n" +
+//                "  \"value\": \"up\"\n" +
+//                "}"));
+//
+//        VoteConfirmation vc = controller.neighborhoodAlertUpvoteSynchronously(1, "420");
+//        assertEquals("id ", 1, );
+//        assertEquals("user_id ", "420", vc.getUserID());
+//        assertEquals("value ", "up", vc.getValue());
+//        RecordedRequest request = server.takeRequest();
+//        assertEquals("request path", "/neighborhood_alerts/1/upvote", request.getPath());
+//    }
 
 
     @Test

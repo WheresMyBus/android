@@ -157,6 +157,10 @@ public class TestCatalogPage {
     public ActivityTestRule<CatalogActivity> rule =
             new ActivityTestRule<CatalogActivity>(CatalogActivity.class, true, false);
 
+    /**
+     * Tests that the catalog is populated with routes.
+     * @throws Exception
+     */
     @Test
     public void testRouteCatalogPopulated() throws Exception {
         Intent startIntent = new Intent();
@@ -191,6 +195,10 @@ public class TestCatalogPage {
 
 }
 
+    /**
+     * tests that the catalog is populated by neighborhoods.
+     * @throws Exception
+     */
     @Test
     public void testNeighborhoodCatalogPopulated() throws Exception {
         Intent startIntent = new Intent();
@@ -217,6 +225,10 @@ public class TestCatalogPage {
 //                .check(matches(withTint(R.color.yellow)));
     }
 
+    /**
+     * tests that the selection of a neighborhood creates the proper intent.
+     * @throws Exception
+     */
     @Test
     public void testNeighborhoodSelection() throws Exception {
         Intent startIntent = new Intent();
@@ -233,6 +245,10 @@ public class TestCatalogPage {
         intended(hasExtra("NEIGHBORHOOD_ID", 3));
     }
 
+    /**
+     * tests that the selection of a route creates the correct intent.
+     * @throws Exception
+     */
     @Test
     public void testRouteSelection() throws Exception {
         Intent startIntent = new Intent();
@@ -248,7 +264,6 @@ public class TestCatalogPage {
         intended(hasExtra("ALERT_TYPE", "Route"));
         intended(hasExtra("ROUTE_ID", "1_100512"));
     }
-
 
 
 
