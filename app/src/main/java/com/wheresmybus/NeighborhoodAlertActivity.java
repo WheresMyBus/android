@@ -62,6 +62,41 @@ public class NeighborhoodAlertActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Refreshes the comments when the activity starts
+     */
+    public void onStart() {
+        super.onStart();
+        refreshComments();
+    }
+
+    /**
+     * Refreshes the comments when the activity restarts
+     */
+    public void onRestart() {
+        super.onRestart();
+        refreshComments();
+    }
+
+    /**
+     * Refreshes the comments when the activity resumes
+     */
+    public void onResume() {
+        super.onResume();
+        refreshComments();
+    }
+
+    /**
+     * Refresh the comments by getting the latest from the database
+     */
+    private void refreshComments() {
+        try {
+            commentRequest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // TODO: saving user data writes all of the user data to files, which could be unnecessarily
     // expensive to perform as often as we will be doing - Nick B. (though the files are small
     // enough that it probably won't matter

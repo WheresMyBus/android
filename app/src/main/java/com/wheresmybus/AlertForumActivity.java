@@ -113,7 +113,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
         refreshData();
     }
 
-    public void refreshData() {
+    private void refreshData() {
         // Route alerts
         if (isRouteForum) {
             String id = route.getId();
