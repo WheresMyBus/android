@@ -65,6 +65,7 @@ public class NeighborhoodAlertActivity extends AppCompatActivity {
     /**
      * Refreshes the comments when the activity starts
      */
+    @Override
     public void onStart() {
         super.onStart();
         refreshComments();
@@ -73,6 +74,7 @@ public class NeighborhoodAlertActivity extends AppCompatActivity {
     /**
      * Refreshes the comments when the activity restarts
      */
+    @Override
     public void onRestart() {
         super.onRestart();
         refreshComments();
@@ -81,6 +83,7 @@ public class NeighborhoodAlertActivity extends AppCompatActivity {
     /**
      * Refreshes the comments when the activity resumes
      */
+    @Override
     public void onResume() {
         super.onResume();
         refreshComments();

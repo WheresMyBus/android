@@ -92,6 +92,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
     /**
      * Refreshes the data when the activity starts
      */
+    @Override
     public void onStart() {
         super.onStart();
         refreshData();
@@ -100,6 +101,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
     /**
      * Refreshes the data when the activity restarts
      */
+    @Override
     public void onRestart() {
         super.onRestart();
         refreshData();
@@ -108,6 +110,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
     /**
      * Refreshes the data when the activity resumes
      */
+    @Override
     public void onResume() {
         super.onResume();
         refreshData();
