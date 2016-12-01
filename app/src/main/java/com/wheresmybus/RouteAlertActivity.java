@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import adapters.CommentAdapter;
 import modules.Comment;
@@ -149,9 +150,9 @@ public class RouteAlertActivity extends AppCompatActivity {
 
 
         thumbsUp.setOnClickListener(new ThumbsUpListener(alert, alertIsUpVoted, numThumbsUp));
-        //numThumbsUp.setText(alert.getUpvotes());        // TODO: fix this method call
+        numThumbsUp.setText(String.format(Locale.getDefault(), "%1$d", alert.getUpvotes()));
         thumbsDown.setOnClickListener(new ThumbsDownListener(alert, alertIsDownVoted, numThumbsDown));
-        //numThumbsDown.setText(alert.getDownvotes());
+        numThumbsDown.setText(String.format(Locale.getDefault(), "%1$d", alert.getDownvotes()));
 
         // TODO: refactor this code so that it's not copied in the same place in 5 different classes
         // color the thumbsUp/thumbsDown buttons if this user has already clicked those buttons

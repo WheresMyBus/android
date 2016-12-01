@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import adapters.CommentAdapter;
 import modules.Comment;
@@ -178,9 +179,9 @@ public class NeighborhoodAlertActivity extends AppCompatActivity {
         boolean alertIsDownVoted = userDataManager.getDownVotedAlertsByID().contains(alert.getId());
 
         thumbsUp.setOnClickListener(new ThumbsUpListener(alert, alertIsUpVoted, numThumbsUp));
-        //numThumbsUp.setText(alert.getUpvotes());        // TODO: fix this method call
+        numThumbsUp.setText(String.format(Locale.getDefault(), "%1$d", alert.getUpvotes()));        // TODO: fix this method call
         thumbsDown.setOnClickListener(new ThumbsDownListener(alert, alertIsDownVoted, numThumbsDown));
-        //numThumbsDown.setText(alert.getDownvotes());
+        numThumbsDown.setText(String.format(Locale.getDefault(), "%1$d", alert.getDownvotes()));
 
         // color the thumbsUp/thumbsDown buttons if this user has already clicked those buttons
         // in a previous session
