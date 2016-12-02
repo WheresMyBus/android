@@ -97,4 +97,30 @@ public class Neighborhood implements Serializable, Comparable<Neighborhood> {
     public int compareTo(Neighborhood o) {
         return name.compareTo(o.name);
     }
+
+    /**
+     * Returns true if the given object is a neighborhood with the same ID as this one.
+     *
+     * @param obj the object to be checked for equality
+     * @return true if the given object is a neighborhood with the same ID as this one or false
+     *              otherwise
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Neighborhood) {
+            return this.id == ((Neighborhood) obj).id;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Returns the hash code of this neighborhood.
+     *
+     * @return the hash code of this neighborhood
+     */
+    @Override
+    public int hashCode() {
+        return (this.getName() + this.getID()).hashCode();
+    }
 }
