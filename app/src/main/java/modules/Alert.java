@@ -35,7 +35,6 @@ public abstract class Alert implements Serializable, Comparable<Alert> {
     private String type;
     @SerializedName("description")
     private String description;
-    private Pair<Double, Double> coordinates;
     @SerializedName("upvotes")
     protected int upvotes;
     @SerializedName("downvotes")
@@ -47,14 +46,13 @@ public abstract class Alert implements Serializable, Comparable<Alert> {
      * @param description the text describing the details of the alert
      * @param date Date the alert was posted
      * @param type type of alert as a String
-     * @param coordinates position the alert was posted from
      * @param creatorID id of the creator of the post
      * @throws IllegalArgumentException if any of description, date, type, coordinates are null
      * @throws IllegalArgumentException if creatorID < 1
      */
     public Alert(String description, Date date, String type,
-                 String creatorID, Pair<Double, Double> coordinates) {
-        if(description == null || creatorID == null || date == null || type == null || coordinates == null) {
+                 String creatorID) {
+        if(description == null || creatorID == null || date == null || type == null) {
             if(description == null) {
                 throw new IllegalArgumentException("null description");
             } else if (creatorID == null) {
@@ -63,14 +61,11 @@ public abstract class Alert implements Serializable, Comparable<Alert> {
                 throw new IllegalArgumentException("null date");
             } else if (type == null) {
                 throw new IllegalArgumentException("null type");
-            } else {
-                throw new IllegalArgumentException("null coordinates");
             }
         }
         this.description = description;
         this.date = (Date) date.clone();
         this.type = type;
-        this.coordinates = new Pair<>(coordinates.first, coordinates.second);
         this.creatorID = creatorID;
         this.id = -1;
     }
@@ -194,14 +189,6 @@ public abstract class Alert implements Serializable, Comparable<Alert> {
      */
     public String getType() {
         return type;
-    }
-
-    /**
-     * Gets a deep copy of the coordinates of this alert
-     * @return coordinates of this alert as a double Pair
-     */
-    public Pair<Double, Double> getCoordinates() {
-        return new Pair<>(coordinates.first, coordinates.second);
     }
 
     /**

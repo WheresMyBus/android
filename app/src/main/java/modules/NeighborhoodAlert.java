@@ -52,9 +52,9 @@ public class NeighborhoodAlert extends Alert {
      * @throws IllegalArgumentException if creatorID < 1 or upvotes, downvotes < 0
      */
     public NeighborhoodAlert(Neighborhood neighborhood, Date date, String description,
-                             String type, Pair<Double, Double> coordinates, String creatorID,
+                             String type, String creatorID,
                              List<Route> routesAffected) {
-        super(description, date, type, creatorID, coordinates);
+        super(description, date, type, creatorID);
         if(neighborhood == null || routesAffected == null) {
             if(neighborhood == null) {
                 throw new IllegalArgumentException("null neighborhood");

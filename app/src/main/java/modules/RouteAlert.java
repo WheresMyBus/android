@@ -34,16 +34,15 @@ public class RouteAlert extends Alert {
      * @param route Route that Alert is on
      * @param date Date the alert was posted
      * @param type type of alert posted
-     * @param coordinates position of alert
      * @param creatorID id of the creator of the post
      * @param description the text describing the details of the alert
      * @throws IllegalArgumentException if any of route, date, type,
      *                      coordinates, description are null
      * @throws IllegalArgumentException if creatorID < 1
      */
-    public RouteAlert(Route route, Date date, String type, Pair<Double, Double> coordinates,
+    public RouteAlert(Route route, Date date, String type,
             String description, String creatorID) {
-        super(description,date,type,creatorID,coordinates);
+        super(description,date,type,creatorID);
         if(route == null) {
             throw new IllegalArgumentException("route == null");
         }
