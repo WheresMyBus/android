@@ -113,4 +113,14 @@ public class Neighborhood implements Serializable, Comparable<Neighborhood> {
             return false;
         }
     }
+
+    /**
+     * Returns the hash code of this neighborhood.
+     *
+     * @return the hash code of this neighborhood
+     */
+    @Override
+    public int hashCode() {
+        return (this.getName() + this.getID()).hashCode();
+    }
 }
