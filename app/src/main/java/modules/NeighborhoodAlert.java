@@ -43,7 +43,6 @@ public class NeighborhoodAlert extends Alert {
      * @param neighborhood neighborhood of the alert
      * @param date Date the alert was posted
      * @param type type of alert posted
-     * @param coordinates position of alert
      * @param description the text describing the details of the alert
      * @param creatorID id of the creator of the post
      * @param routesAffected List of routes that are affected
