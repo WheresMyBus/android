@@ -16,6 +16,7 @@ import com.wheresmybus.ThumbsUpListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import modules.RouteAlert;
 import modules.UserDataManager;
@@ -25,6 +26,8 @@ import modules.UserDataManager;
  */
 
 public class RouteAlertAdapter extends ArrayAdapter<RouteAlert> {
+    private static final String TIME_ZONE_ID = "US/Pacific-New";
+
     private SimpleDateFormat dateFormatter;
     private SimpleDateFormat timeFormatter;
 
@@ -69,9 +72,11 @@ public class RouteAlertAdapter extends ArrayAdapter<RouteAlert> {
         // get strings for the date and time the alert was submitted
         if (dateFormatter == null) {
             dateFormatter = new SimpleDateFormat("E, MMM d");
+            dateFormatter.setTimeZone(TimeZone.getTimeZone(TIME_ZONE_ID));
         }
         if (timeFormatter == null) {
             timeFormatter = new SimpleDateFormat("h:mm a");
+            timeFormatter.setTimeZone(TimeZone.getTimeZone(TIME_ZONE_ID));
         }
 
         Date alertDate = alert.getDate();
