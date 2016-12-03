@@ -5,7 +5,7 @@
     tools:context="com.wheresmybus.NeighborhoodCatalogFragment">
 
     <Switch
-        android:text="@string/view_favorites_switch"
+        android:text="@string/view_favorite_neighborhoods_switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/favoriteSwitch"
