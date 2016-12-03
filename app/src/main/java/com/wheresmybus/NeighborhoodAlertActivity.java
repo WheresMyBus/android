@@ -144,6 +144,8 @@ public class NeighborhoodAlertActivity extends AppCompatActivity {
         if (routesSet.isEmpty()) {
             // reports no routes affected
             routes += " none";
+        } else if (routesSet.size() > 10) {
+            routes += " several";
         } else {
             // adds the numbers of the routes affected to the string that will be displayed
             boolean firstRoute = true;

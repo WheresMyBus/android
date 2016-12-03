@@ -23,23 +23,23 @@
         android:id="@+id/alert_type"
         android:text="@string/alert_type"
         android:textSize="20sp"
-        android:textColor="@android:color/black"
+        android:textColor="@color/black"
         android:textStyle="normal|bold"
         android:layout_toLeftOf="@+id/thumbs_up"
         android:layout_toStartOf="@+id/thumbs_up" />
 
     <TextView
         android:text="@string/alert_description"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/alert_type"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/alert_description"
         android:paddingTop="10dp"
-        android:layout_toLeftOf="@+id/thumbs_up"
         android:layout_toStartOf="@+id/thumbs_up"
-        android:textColor="@android:color/black" />
+        android:textColor="@color/black"
+        android:layout_width="150dp"
+        android:layout_toLeftOf="@+id/thumbs_up" />
 
     <TextView
         android:text="@string/routes_affected"
@@ -50,7 +50,7 @@
         android:layout_alignParentStart="true"
         android:id="@+id/routes_affected"
         android:paddingTop="10dp"
-        android:textColor="@android:color/black"
+        android:textColor="@color/black"
         android:layout_toLeftOf="@+id/thumbs_up"
         android:layout_toStartOf="@+id/thumbs_up" />
 
@@ -100,26 +100,16 @@
 
     <TextView
         android:text="Number"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/thumbs_down"
         android:layout_toRightOf="@+id/thumbs_up"
         android:layout_toEndOf="@+id/thumbs_up"
         android:id="@+id/num_thumbs_down"
-        android:textColor="@android:color/black"
-        android:gravity="center" />
-
-    <TextView
-        android:text="Number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/alert_description"
-        android:layout_toRightOf="@+id/alert_description"
-        android:layout_toEndOf="@+id/alert_description"
-        android:id="@+id/num_thumbs_up"
-        android:textColor="@android:color/black"
+        android:textColor="@color/black"
         android:gravity="center"
-        android:layout_alignBottom="@+id/num_thumbs_down" />
+        android:layout_toLeftOf="@+id/thumbs_down"
+        android:layout_toStartOf="@+id/thu"/>
 
     <TextView
         android:text="Comments"
@@ -130,10 +120,11 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/date"
-        android:textColor="@android:color/black"
+        android:textColor="@color/black"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:paddingLeft="25dp" />
+        android:paddingLeft="25dp"
+        android:layout_toRightOf="@+id/date" />
 
     <ListView
         android:layout_width="match_parent"
@@ -146,7 +137,8 @@
         android:layout_below="@+id/comments_header"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:paddingLeft="25dp" />
+        android:paddingLeft="25dp"
+        android:layout_toRightOf="@+id/date" />
 
     <Button
         android:layout_width="wrap_content"
@@ -161,5 +153,17 @@
         android:background="@color/lightGreen"
         android:text="@string/submit_comment"
         android:onClick="switchToSubmitComment"/>
+
+    <TextView
+        android:text="Number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/num_thumbs_up"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_alignBottom="@+id/num_thumbs_down"
+        android:layout_toLeftOf="@+id/thumbs_down"
+        android:layout_toRightOf="@+id/routes_affected"
+        android:layout_toEndOf="@+id/routes_affected" />
 
 </RelativeLayout>
