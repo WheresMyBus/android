@@ -40,9 +40,4 @@ public class TestAlert extends TestAlertBase {
     Alert createCreatorIdIsSeven() {
         return makeSampleAlert();
     }
-
-    @Override
-    Alert createCoordinatesAreOneZero() {
-        return makeSampleAlert();
-    }
 }

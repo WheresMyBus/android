@@ -27,7 +27,6 @@ public abstract class TestAlertBase<T extends Alert> {
     private Alert descIsBaz;
     private Alert dateIsZero;
     private Alert creatorIdIsSeven;
-    private Alert coordinatesAreOneZero;
 
     // call the default constructor
     abstract Alert createDefaultInstance();
@@ -44,9 +43,6 @@ public abstract class TestAlertBase<T extends Alert> {
     // construct with creator id = 7
     abstract Alert createCreatorIdIsSeven();
 
-    // construct with coordinates = Pair(1.0, 0.0)
-    abstract Alert createCoordinatesAreOneZero();
-
     @Before
     public void setUp() throws IOException{
         defaultAlert = createDefaultInstance();
@@ -54,7 +50,6 @@ public abstract class TestAlertBase<T extends Alert> {
         descIsBaz = createDescBaz();
         dateIsZero = createDateZero();
         creatorIdIsSeven = createCreatorIdIsSeven();
-        coordinatesAreOneZero = createCoordinatesAreOneZero();
     }
 
     @Test

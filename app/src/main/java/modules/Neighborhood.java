@@ -46,18 +46,6 @@ public class Neighborhood implements Serializable, Comparable<Neighborhood> {
     }
 
     /**
-     * Gets a deep copy of the perimeter list
-     * @return perimeter of the neighborhood as a List of Pairs
-     */
-    public List<Pair<Double, Double>> getPerimeter() {
-        ArrayList<Pair<Double,Double>> newList = new ArrayList<>();
-        for(Pair<Double,Double> next : perimeter) {
-            newList.add(new Pair<>(next.first, next.second));
-        }
-        return newList;
-    }
-
-    /**
      * Gets the name of the neighborhood
      * @return name of the neighborhood
      */
