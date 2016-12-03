@@ -16,8 +16,7 @@ import android.view.MenuItem;
 import modules.UserDataManager;
 
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     /**
      * Sets up the main screen upon the activity's creation
@@ -31,16 +30,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        // sets up the navigation drawer
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     /**
@@ -53,20 +42,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * If back is pressed while the navigation drawer is open, the drawer closes
-     * else, the normal back functionality (previous screen, or such)
-     */
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    /**
      * Creates an options menu.
      *
      * @param menu the menu to be inflated
@@ -75,7 +50,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -93,7 +68,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_help) {
+            Uri uri = Uri.parse("https://github.com/WheresMyBus/android/wiki/User-Documentation");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+
             return true;
         }
 
@@ -146,32 +125,5 @@ public class MainActivity extends AppCompatActivity
     public void switchToRouteMain(View v) {
         Intent intent = new Intent(this, RouteMainActivity.class);
         startActivity(intent);
-    }
-
-    /**
-     * Sets up the events for the selection of menu items
-     * defaults to closing the drawer (off-click)
-     *
-     * @param item the menu item which was selected
-     * @return the success of the selection action
-     */
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        // Handle the help action
-        if (id == R.id.nav_manage) {
-            // redirect to the user documentation of our website
-            Uri uri = Uri.parse("https://github.com/WheresMyBus/android/wiki/User-Documentation");
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
-        }
-
-        // If no item clicked, close the drawer
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 }

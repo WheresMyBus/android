@@ -140,7 +140,11 @@ public class CatalogActivity extends AppCompatActivity implements BusRouteCatalo
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_help) {
+            Uri uri = Uri.parse("https://github.com/WheresMyBus/android/wiki/User-Documentation");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+
             return true;
         }
 
