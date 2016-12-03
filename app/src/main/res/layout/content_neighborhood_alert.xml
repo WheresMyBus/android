@@ -107,9 +107,7 @@
         android:layout_toEndOf="@+id/thumbs_up"
         android:id="@+id/num_thumbs_down"
         android:textColor="@color/black"
-        android:gravity="center"
-        android:layout_toLeftOf="@+id/thumbs_down"
-        android:layout_toStartOf="@+id/thu"/>
+        android:gravity="center"/>
 
     <TextView
         android:text="Comments"
