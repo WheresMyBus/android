@@ -78,11 +78,12 @@ public class SubmitCommentActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Response<Comment> response, Retrofit retrofit) {
 
+                        finish();
                     }
 
                     @Override
                     public void onFailure(Throwable t) {
-
+                        finish();
                     }
                 });
             } else {
@@ -91,18 +92,18 @@ public class SubmitCommentActivity extends AppCompatActivity {
                         new Callback<Comment>() {
                     @Override
                     public void onResponse(Response<Comment> response, Retrofit retrofit) {
-
+                        finish();
                     }
 
                     @Override
                     public void onFailure(Throwable t) {
-
+                        finish();
                     }
                 });
             }
 
             // switch back to the previous screen
-            finish();
+            //finish();
         }
     }
 }
