@@ -70,6 +70,7 @@ public class RouteAlertAdapter extends ArrayAdapter<RouteAlert> {
         ImageButton thumbsDown = (ImageButton) convertView.findViewById(R.id.thumbs_down);
         TextView numThumbsDown = (TextView) convertView.findViewById(R.id.num_thumbs_down);
 
+        // get strings for the date and time the alert was submitted
         TimeZone zone = TimeZone.getDefault();
 
         dateFormatter = new SimpleDateFormat("E, MMM d");

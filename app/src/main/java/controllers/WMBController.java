@@ -1,6 +1,5 @@
 package controllers;
 
-import android.util.JsonReader;
 import android.util.Pair;
 import android.util.Log;
 
@@ -14,9 +13,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import org.json.JSONArray;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
@@ -50,9 +47,7 @@ import retrofit.Retrofit;
 import retrofit.Callback;
 
 /**
- * Created by lidav on 10/23/2016.
- *
- * Controller that receives information from Where'sMyBus backend server and database
+ * Controller that retrieves information from Where'sMyBus backend server and database
  */
 
 public class WMBController {
@@ -186,6 +181,13 @@ public class WMBController {
         call.enqueue(callback);
     }
 
+    /**
+     * gets the bus stops in an area.
+     * @param latitude of area's center
+     * @param longitude of area's center
+     * @param radius of area
+     * @param callback handles the bus stops in the area.
+     */
     public void getBusStops(double latitude,
                             double longitude,
                             int radius,
@@ -238,7 +240,7 @@ public class WMBController {
         Call<Comment> call = retrofitService.postNeighborhoodAlertComment(neighborhoodAlertID, data, userID);
         call.enqueue(callback);
     }
-
+    // used only for testing.
     public Comment postNeighborhoodAlertCommentSynchronously(int neighborhoodAlertID, String data, String userID) {
         Call<Comment> call = retrofitService.postNeighborhoodAlertComment(neighborhoodAlertID, data, userID);
         try {
@@ -259,7 +261,7 @@ public class WMBController {
         Call<VoteConfirmation> call = retrofitService.postVote("neighborhood_alerts", alertID, "upvote", userID);
         call.enqueue(callback);
     }
-
+    // used for testing only
     public VoteConfirmation neighborhoodAlertUpvoteSynchronously(int alertID, String userID) {
         Call<VoteConfirmation> call = retrofitService.postVote("neighborhood_alerts", alertID, "upvote", userID);
         try {
@@ -302,29 +304,12 @@ public class WMBController {
         call.enqueue(callback);
     }
 
-    /** TODO: remove block once certain doing so will cause no bugs.
-     * upvotes a neighborhood alert comment
-     * @param commentID id of the comment
-     * @param userID id of this user
-     * @param callback handles response containing VoteConfirmation
-     *
-    public void neighborhoodAlertCommentUpvote(int commentID, String userID, Callback<VoteConfirmation> callback) {
-        Call<VoteConfirmation> call = retrofitService.postVote("comments", commentID, "upvote", userID);
-        call.enqueue(callback);
-    }
-
     /**
-     * downvotes a neighborhood alert comment
-     * @param commentID id of the comment
-     * @param userID id of the user
-     * @param callback handles response containing VoteConfirmation
-     *
-    public void neighborhoodAlertCommentDownvote(int commentID, String userID, Callback<VoteConfirmation> callback) {
-        Call<VoteConfirmation> call = retrofitService.postVote("comments", commentID, "downvote", userID);
-        call.enqueue(callback);
-    }
-    */
-
+     * upvotes a comment
+     * @param commentID of the comment
+     * @param userID of this user
+     * @param callback handles the VoteConfimation
+     */
     public void commentUpvote(int commentID, String userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("comments", commentID, "upvote", userID);
         call.enqueue(callback);
@@ -335,27 +320,6 @@ public class WMBController {
         call.enqueue(callback);
     }
 
-    /** TODO: remove block when certain doing so will cause no bugs.
-     * upvote a route alert comment
-     * @param commentID id of the comment
-     * @param userID id of the user
-     * @param callback handles response containing VoteConfirmation
-     *
-    public void routeAlertCommentUpvote(int commentID, String userID, Callback<VoteConfirmation> callback) {
-        Call<VoteConfirmation> call = retrofitService.postVote("comments", commentID, "upvote", userID);
-        call.enqueue(callback);
-    }
-    /**
-     * downvote a route alert comment
-     * @param commentID id of the comment
-     * @param userID id of the user
-     * @param callback handles response containing a VoteConfirmation
-     *
-    public void routeAlertCommentDownvote(int commentID, String userID, Callback<VoteConfirmation> callback) {
-        Call<VoteConfirmation> call = retrofitService.postVote("comments", commentID, "downvote", userID);
-        call.enqueue(callback);
-    }
-    */
 
     /**
      * Performs actions of callback on List of Neighborhoods obtained from api.
@@ -406,7 +370,7 @@ public class WMBController {
         try {
             return call.execute().body();
         } catch (IOException e) {
-            Log.d("getHoodAlertComment", e.toString());
+            //Log.d("getHoodAlertComment", e.toString());
             return null;
         }
     }
@@ -458,8 +422,8 @@ public class WMBController {
      * gets the set of all routes.
      * @param callback handles set of all routes
      */
-    public void getRoutes(Callback<Set<Route>> callback) {
-        Call<Set<Route>> call = retrofitService.getRoutesJSON();
+    public void getRoutes(Callback<List<Route>> callback) {
+        Call<List<Route>> call = retrofitService.getRoutesJSON();
         call.enqueue(callback);
     }
 
@@ -467,10 +431,10 @@ public class WMBController {
      * Gets a complete List of Neighborhoods
      * @return List of Neighborhoods, empty if request failed
      */
-    public Set<Route> getRoutesSynchonously() {
-        Call<Set<Route>> call = retrofitService.getRoutesJSON();
+    public List<Route> getRoutesSynchonously() {
+        Call<List<Route>> call = retrofitService.getRoutesJSON();
         try {
-            Set<Route> routeList = call.execute().body();
+            List<Route> routeList = call.execute().body();
             /* // debug logging.
             for (Route r : routeList) {
                 Log.d("route name: ", r.getName());
@@ -480,7 +444,7 @@ public class WMBController {
             return routeList;
         } catch (Exception e) {
             Log.d("In getRoutesSynch: ", e.toString());
-            return new HashSet<>();
+            return new ArrayList<>();
         }
     }
 

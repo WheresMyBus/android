@@ -408,10 +408,10 @@ public class NeighborhoodAlertFragment extends Fragment implements
      */
     private void busRouteRequest() throws Exception {
         WMBController controller = WMBController.getInstance();
-        controller.getRoutes(new Callback<Set<Route>>() {
+        controller.getRoutes(new Callback<List<Route>>() {
             @Override
-            public void onResponse(Response<Set<Route>> response, Retrofit retrofit) {
-                List<Route> data = new ArrayList<Route>(response.body());
+            public void onResponse(Response<List<Route>> response, Retrofit retrofit) {
+                List<Route> data = response.body();
                 Collections.sort(data);
                 routes = data;
             }
