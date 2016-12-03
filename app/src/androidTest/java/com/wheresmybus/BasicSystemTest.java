@@ -46,7 +46,7 @@ public class BasicSystemTest {
     public void sendRoutesRequestToAPI() throws Exception {
         WMBController controller = WMBController.getInstance();
 
-        Set<Route> routeList = controller.getRoutesSynchonously();
+        List<Route> routeList = controller.getRoutesSynchonously();
         assertFalse(routeList.isEmpty());
         assertTrue(routeList.contains(new Route("556", "Issaquah University District Northgate", "40_100451")));
         //assertEquals("name comparison of first route", "Pacific to Algona to Auburn Station", routeList.get(0).getName());
