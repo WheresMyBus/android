@@ -15,7 +15,10 @@
     <string name="choose_bus_route">Choose a bus route:</string>
     <string name="choose_neighborhood">Choose a neighborhood:</string>
     <string name="check_alert_types">Check the type(s) of the alert:</string>
-    <string name="view_favorites_switch">View Favorites Only</string>
+    <string name="view_favorite_routes_switch">Favorite Routes</string>
+    <string name="view_favorite_neighborhoods_switch">Favorite Neighborhoods</string>
+    <string name="alert_description_hint">Enter a description (140 characters max)</string>
+    <string name="alert_type_hint">Enter the type (20 characters max)</string>
     <!--
     <string-array name="neighborhood_alert_types">
         <item>Construction</item>

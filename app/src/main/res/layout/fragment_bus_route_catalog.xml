@@ -5,7 +5,7 @@
     tools:context="com.wheresmybus.BusRouteCatalogFragment">
 
     <Switch
-        android:text="@string/view_favorites_switch"
+        android:text="@string/view_favorite_routes_switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/favoriteSwitch"
