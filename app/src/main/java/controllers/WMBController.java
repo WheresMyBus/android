@@ -37,9 +37,7 @@ import retrofit.Retrofit;
 import retrofit.Callback;
 
 /**
- * Created by lidav on 10/23/2016.
- *
- * Controller that receives information from Where'sMyBus backend server and database
+ * Controller that retrieves information from Where'sMyBus backend server and database
  */
 
 public class WMBController {
@@ -173,6 +171,13 @@ public class WMBController {
         call.enqueue(callback);
     }
 
+    /**
+     * gets the bus stops in an area.
+     * @param latitude of area's center
+     * @param longitude of area's center
+     * @param radius of area
+     * @param callback handles the bus stops in the area.
+     */
     public void getBusStops(double latitude,
                             double longitude,
                             int radius,
@@ -225,7 +230,7 @@ public class WMBController {
         Call<Comment> call = retrofitService.postNeighborhoodAlertComment(neighborhoodAlertID, data, userID);
         call.enqueue(callback);
     }
-
+    // used only for testing.
     public Comment postNeighborhoodAlertCommentSynchronously(int neighborhoodAlertID, String data, String userID) {
         Call<Comment> call = retrofitService.postNeighborhoodAlertComment(neighborhoodAlertID, data, userID);
         try {
@@ -246,7 +251,7 @@ public class WMBController {
         Call<VoteConfirmation> call = retrofitService.postVote("neighborhood_alerts", alertID, "upvote", userID);
         call.enqueue(callback);
     }
-
+    // used for testing only
     public VoteConfirmation neighborhoodAlertUpvoteSynchronously(int alertID, String userID) {
         Call<VoteConfirmation> call = retrofitService.postVote("neighborhood_alerts", alertID, "upvote", userID);
         try {
@@ -289,6 +294,12 @@ public class WMBController {
         call.enqueue(callback);
     }
 
+    /**
+     * upvotes a comment
+     * @param commentID of the comment
+     * @param userID of this user
+     * @param callback handles the VoteConfimation
+     */
     public void commentUpvote(int commentID, String userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("comments", commentID, "upvote", userID);
         call.enqueue(callback);
