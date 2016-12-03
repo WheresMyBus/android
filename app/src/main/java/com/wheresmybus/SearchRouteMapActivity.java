@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +68,7 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
     private Map<Marker, BusStop> markerBusStopHashMap = new HashMap<>();
 
     private final LatLng SEATTLE = new LatLng(47.608013, -122.335167);
-    private final float MARKER_HUE = 288;               // makes the bus markers purple
+    private final float MARKER_HUE = 205;               // makes the bus markers purple
     private final float ZOOM_LEVEL = 18;                // goes up to 21
     private final int REQUEST_LOCATION = 0;
 
@@ -356,14 +357,22 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
             BusStop busStop = getBusStop(marker);
             if (busStop != null) {
                 // set up the dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(SearchRouteMapActivity.this);
+                AlertDialog.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(SearchRouteMapActivity.this,
+                            android.R.style.Theme_Material_Light_Dialog_Alert);
+                } else {
+                    builder = new AlertDialog.Builder(SearchRouteMapActivity.this);
+                }
                 builder.setTitle(busStop.getName());
 
                 // set up the list view of routes
                 try {
                     ListView routesList = new ListView(SearchRouteMapActivity.this);
+                    List<Route> routes = busStop.getRoutes();
+                    Collections.sort(routes);
                     RouteAdapter routeAdapter = new RouteAdapter(SearchRouteMapActivity.this,
-                            android.R.layout.simple_list_item_1, busStop.getRoutes(), false);
+                            android.R.layout.simple_list_item_1, routes, false);
                     routesList.setAdapter(routeAdapter);
                     routesList.setOnItemClickListener(this);
                     builder.setView(routesList);

@@ -16,4 +16,5 @@
     <color name="lightOrange">#ECA027</color>
     <color name="lightBlue">#7AB3D9</color>
     <color name="lighterBlue">#AACFE6</color>
+    <color name="black">#000000</color>
 </resources>

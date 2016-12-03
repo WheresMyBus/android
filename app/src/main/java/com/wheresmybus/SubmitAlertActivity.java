@@ -181,17 +181,17 @@ public class SubmitAlertActivity extends FragmentActivity implements
                 controller.postAlert(route.getId(), alertType, description, "[User ID]", new Callback<RouteAlert>() {
                     @Override
                     public void onResponse(Response<RouteAlert> response, Retrofit retrofit) {
-
+                        finish();
                     }
 
                     @Override
                     public void onFailure(Throwable t) {
-
+                        finish();
                     }
                 });
 
                 // switch back to previous screen
-                finish();
+                //finish();
             }
         } else if (type.equals("neighborhood")) {
             // get the information from the NeighborhoodFragment
@@ -221,17 +221,17 @@ public class SubmitAlertActivity extends FragmentActivity implements
                 controller.postAlert(neighborhood.getID(), alertType, description, "[User ID]", affectedRouteIds, new Callback<NeighborhoodAlert>() {
                     @Override
                     public void onResponse(Response<NeighborhoodAlert> response, Retrofit retrofit) {
-
+                        finish();
                     }
 
                     @Override
                     public void onFailure(Throwable t) {
-
+                        finish();
                     }
                 });
 
                 // switch back to previous screen
-                finish();
+                //finish();
             }
         }
     }

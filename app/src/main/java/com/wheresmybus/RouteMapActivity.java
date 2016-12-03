@@ -23,6 +23,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -61,7 +62,7 @@ public class RouteMapActivity extends FragmentActivity
 
     private final LatLng SEATTLE = new LatLng(47.608013, -122.335167);
     private final float MARKER_HUE = 288;               // makes the bus markers purple
-    private final float ZOOM_LEVEL = 18;                // goes up to 21
+    private final float ZOOM_LEVEL = 14;                // goes up to 21
     private final int REQUEST_LOCATION = 0;
 
     /**
@@ -176,6 +177,8 @@ public class RouteMapActivity extends FragmentActivity
                             "No buses are currently running on this route.",
                             Toast.LENGTH_LONG);
                 } else {
+                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
                     for (Bus bus : buses) {
                         LatLng busLocation = new LatLng(bus.getLat(), bus.getLon());
 
@@ -187,7 +190,11 @@ public class RouteMapActivity extends FragmentActivity
                         // adds the marker to the map and saves a reference to it
                         Marker marker = mMap.addMarker(markerOptions);
                         currentBusMarkers.add(marker);
+
+                        builder.include(busLocation);
                     }
+
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100));
                 }
             }
 
