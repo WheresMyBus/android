@@ -356,7 +356,13 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
             BusStop busStop = getBusStop(marker);
             if (busStop != null) {
                 // set up the dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(SearchRouteMapActivity.this);
+                AlertDialog.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(SearchRouteMapActivity.this,
+                            android.R.style.Theme_Material_Light_Dialog_Alert);
+                } else {
+                    builder = new AlertDialog.Builder(SearchRouteMapActivity.this);
+                }
                 builder.setTitle(busStop.getName());
 
                 // set up the list view of routes
