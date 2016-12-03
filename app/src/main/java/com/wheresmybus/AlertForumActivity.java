@@ -44,6 +44,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
     private Route route;
     private Neighborhood neighborhood;
     private Button viewLocationsButton;
+    private TextView message;           // message to user if no alerts have been submitted yet
 
     /**
      * Displays the alerts for the route or neighborhood that was clicked on
@@ -89,14 +90,14 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
             viewLocationsButton.setVisibility(View.INVISIBLE);
         }
 
-        // set the empty view of the list view
-        TextView message = new TextView(this);
+        // set the message to be displayed to the user if no alerts have been submitted yet
+        message = new TextView(this);
         message.setText("No alerts have been submitted yet.");
         message.setTextColor(ContextCompat.getColor(this, R.color.black));
         message.setTextSize(20);
         addContentView(message, new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-        alertList.setEmptyView(message);
+        message.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -168,8 +169,13 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
             @Override
             public void onResponse(Response<List<NeighborhoodAlert>> response, Retrofit retrofit) {
                 List<NeighborhoodAlert> data = response.body();
-                Collections.sort(data);
-                loadNeighborhoodData(data);
+                if (data.isEmpty()) {
+                    message.setVisibility(View.VISIBLE);
+                } else {
+                    message.setVisibility(View.INVISIBLE);
+                    Collections.sort(data);
+                    loadNeighborhoodData(data);
+                }
             }
 
             @Override
@@ -191,8 +197,13 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
             @Override
             public void onResponse(Response<List<RouteAlert>> response, Retrofit retrofit) {
                 List<RouteAlert> data = response.body();
-                Collections.sort(data);
-                loadRouteData(data);
+                if (data.isEmpty()) {
+                    message.setVisibility(View.VISIBLE);
+                } else {
+                    message.setVisibility(View.INVISIBLE);
+                    Collections.sort(data);
+                    loadRouteData(data);
+                }
             }
 
             @Override
