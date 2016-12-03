@@ -6,10 +6,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.Locale;
-import java.util.Set;
 
-import controllers.OBAController;
-import controllers.WMBController;
 import modules.Alert;
 import modules.Comment;
 import modules.UserDataManager;

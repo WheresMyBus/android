@@ -15,7 +15,9 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -26,6 +28,7 @@ import modules.Comment;
 import modules.Neighborhood;
 import modules.NeighborhoodAlert;
 import modules.RetrofitAPI;
+import modules.Route;
 import modules.RouteAlert;
 import modules.VoteConfirmation;
 import retrofit.Call;
@@ -436,5 +439,35 @@ public class WMBController {
     public void commentUnvote(int alertID, String userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.unvote("comments", alertID, userID);
         call.enqueue(callback);
+    }
+
+    /**
+     * gets the set of all routes.
+     * @param callback handles set of all routes
+     */
+    public void getRoutes(Callback<Set<Route>> callback) {
+        Call<Set<Route>> call = retrofitService.getRoutesJSON();
+        call.enqueue(callback);
+    }
+
+    /**
+     * Gets a complete List of Neighborhoods
+     * @return List of Neighborhoods, empty if request failed
+     */
+    public Set<Route> getRoutesSynchonously() {
+        Call<Set<Route>> call = retrofitService.getRoutesJSON();
+        try {
+            Set<Route> routeList = call.execute().body();
+            /* // debug logging.
+            for (Route r : routeList) {
+                Log.d("route name: ", r.getName());
+            }
+            Log.d("routeList.isEmpty():", "" + routeList.isEmpty());
+            */
+            return routeList;
+        } catch (Exception e) {
+            Log.d("In getRoutesSynch: ", e.toString());
+            return new HashSet<>();
+        }
     }
 }

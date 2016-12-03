@@ -9,27 +9,21 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import adapters.RouteAdapter;
 import adapters.SpinnerAdapter;
-import controllers.OBAController;
 import controllers.WMBController;
 import modules.Neighborhood;
 import adapters.NeighborhoodAdapter;
@@ -413,7 +407,7 @@ public class NeighborhoodAlertFragment extends Fragment implements
      * @throws Exception
      */
     private void busRouteRequest() throws Exception {
-        OBAController controller = OBAController.getInstance();
+        WMBController controller = WMBController.getInstance();
         controller.getRoutes(new Callback<Set<Route>>() {
             @Override
             public void onResponse(Response<Set<Route>> response, Retrofit retrofit) {

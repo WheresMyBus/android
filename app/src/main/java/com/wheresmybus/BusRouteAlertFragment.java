@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import controllers.OBAController;
+import controllers.WMBController;
 import modules.Route;
 import adapters.RouteAdapter;
 import retrofit.Callback;
@@ -67,7 +67,7 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
      * @throws Exception if the request fails
      */
     private void busRouteRequest() throws Exception {
-        OBAController controller = OBAController.getInstance();
+        WMBController controller = WMBController.getInstance();
         controller.getRoutes(new Callback<Set<Route>>() {
             @Override
             public void onResponse(Response<Set<Route>> response, Retrofit retrofit) {
