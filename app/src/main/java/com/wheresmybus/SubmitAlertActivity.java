@@ -1,32 +1,19 @@
 package com.wheresmybus;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.media.session.MediaControllerCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.RadioButton;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
-import adapters.SpinnerAdapter;
-import controllers.OBAController;
 import controllers.WMBController;
 import modules.Neighborhood;
 import modules.NeighborhoodAlert;
@@ -166,7 +153,10 @@ public class SubmitAlertActivity extends FragmentActivity implements
             String alertType = busRouteFragment.getAlertType();
             String otherType = busRouteFragment.getOtherType();
             if (otherType != null) {
-                alertType = otherType;
+                if ((otherType.trim()).equals("")) {
+                    otherType = "Other";
+                }
+                alertType = alertType.replace("Other", otherType);
             }
             String description = busRouteFragment.getDescription();
 
@@ -199,7 +189,10 @@ public class SubmitAlertActivity extends FragmentActivity implements
             String alertType = neighborhoodFragment.getAlertType();
             String otherType = neighborhoodFragment.getOtherType();
             if (otherType != null) {
-                alertType = otherType;
+                if ((otherType.trim()).equals("")) {
+                    otherType = "Other";
+                }
+                alertType = alertType.replace("Other", otherType);
             }
             String description = neighborhoodFragment.getDescription();
             List<Route> routesAffected = neighborhoodFragment.getRoutesAffected();
