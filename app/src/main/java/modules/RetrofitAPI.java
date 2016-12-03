@@ -24,7 +24,7 @@ public interface RetrofitAPI {
     Call<List<Neighborhood>> getNeighborhoodsJSON();
 
     @GET("routes.json")
-    Call<Set<Route>> getRoutesJSON();
+    Call<List<Route>> getRoutesJSON();
 
     @GET("neighborhoods/{id}/alerts")
     Call<List<NeighborhoodAlert>> getNeighborhoodAlertsJSON(@Path("id") int NeighborhoodID);

@@ -1,25 +1,15 @@
 package controllers;
 
-import android.util.JsonReader;
 import android.util.Pair;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.json.JSONArray;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import modules.Alert;
 import modules.Bus;
@@ -412,8 +402,8 @@ public class WMBController {
      * gets the set of all routes.
      * @param callback handles set of all routes
      */
-    public void getRoutes(Callback<Set<Route>> callback) {
-        Call<Set<Route>> call = retrofitService.getRoutesJSON();
+    public void getRoutes(Callback<List<Route>> callback) {
+        Call<List<Route>> call = retrofitService.getRoutesJSON();
         call.enqueue(callback);
     }
 
@@ -421,10 +411,10 @@ public class WMBController {
      * Gets a complete List of Neighborhoods
      * @return List of Neighborhoods, empty if request failed
      */
-    public Set<Route> getRoutesSynchonously() {
-        Call<Set<Route>> call = retrofitService.getRoutesJSON();
+    public List<Route> getRoutesSynchonously() {
+        Call<List<Route>> call = retrofitService.getRoutesJSON();
         try {
-            Set<Route> routeList = call.execute().body();
+            List<Route> routeList = call.execute().body();
             /* // debug logging.
             for (Route r : routeList) {
                 Log.d("route name: ", r.getName());
@@ -434,7 +424,7 @@ public class WMBController {
             return routeList;
         } catch (Exception e) {
             Log.d("In getRoutesSynch: ", e.toString());
-            return new HashSet<>();
+            return new ArrayList<>();
         }
     }
 }
