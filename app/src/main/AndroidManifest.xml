@@ -62,7 +62,8 @@
         <activity
             android:name=".AlertForumActivity"
             android:label="@string/title_forum_page" />
-        <activity android:name=".RouteAlertActivity" />
+        <activity
+            android:name=".RouteAlertActivity" />
         <activity android:name=".NeighborhoodAlertActivity" />
         <activity
             android:name=".SubmitCommentActivity"
