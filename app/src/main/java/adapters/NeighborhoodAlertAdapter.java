@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.TimeZone;
 
 import modules.NeighborhoodAlert;
 import modules.Route;
@@ -69,13 +70,13 @@ public class NeighborhoodAlertAdapter extends ArrayAdapter<NeighborhoodAlert> {
         ImageButton thumbsDown = (ImageButton) convertView.findViewById(R.id.thumbs_down);
         TextView numThumbsDown = (TextView) convertView.findViewById(R.id.num_thumbs_down);
 
-        // get strings for the date and time the alert was submitted
-        if (dateFormatter == null) {
-            dateFormatter = new SimpleDateFormat("E, MMM d");
-        }
-        if (timeFormatter == null) {
-            timeFormatter = new SimpleDateFormat("h:mm a");
-        }
+        TimeZone zone = TimeZone.getDefault();
+
+        dateFormatter = new SimpleDateFormat("E, MMM d");
+        dateFormatter.setTimeZone(zone);
+
+        timeFormatter = new SimpleDateFormat("h:mm a");
+        timeFormatter.setTimeZone(zone);
 
         Date alertDate = alert.getDate();
 

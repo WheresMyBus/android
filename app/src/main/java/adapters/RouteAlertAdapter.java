@@ -71,14 +71,13 @@ public class RouteAlertAdapter extends ArrayAdapter<RouteAlert> {
         TextView numThumbsDown = (TextView) convertView.findViewById(R.id.num_thumbs_down);
 
         // get strings for the date and time the alert was submitted
-        if (dateFormatter == null) {
-            dateFormatter = new SimpleDateFormat("E, MMM d");
-            dateFormatter.setTimeZone(TimeZone.getDefault());
-        }
-        if (timeFormatter == null) {
-            timeFormatter = new SimpleDateFormat("h:mm a");
-            timeFormatter.setTimeZone(TimeZone.getDefault());
-        }
+        TimeZone zone = TimeZone.getDefault();
+
+        dateFormatter = new SimpleDateFormat("E, MMM d");
+        dateFormatter.setTimeZone(zone);
+
+        timeFormatter = new SimpleDateFormat("h:mm a");
+        timeFormatter.setTimeZone(zone);
 
         Date alertDate = alert.getDate();
 
