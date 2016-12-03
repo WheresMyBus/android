@@ -6,18 +6,31 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import org.json.JSONArray;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TimeZone;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -45,7 +58,7 @@ import retrofit.Callback;
 public class WMBController {
     private static WMBController instance = null;
     private static Gson gson = new GsonBuilder()
-            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            .registerTypeAdapter(Date.class, new GsonUTCDateAdapter())
             .create();
 
     private static RetrofitAPI retrofitService = new Retrofit.Builder()
@@ -468,6 +481,30 @@ public class WMBController {
         } catch (Exception e) {
             Log.d("In getRoutesSynch: ", e.toString());
             return new HashSet<>();
+        }
+    }
+
+    private static class GsonUTCDateAdapter implements
+            JsonSerializer<Date>,
+            JsonDeserializer<Date> {
+
+        private final DateFormat dateFormat;
+
+        public GsonUTCDateAdapter() {
+            dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        }
+
+        @Override public synchronized JsonElement serialize(Date date, Type type, JsonSerializationContext jsonSerializationContext) {
+            return new JsonPrimitive(dateFormat.format(date));
+        }
+
+        @Override public synchronized Date deserialize(JsonElement jsonElement,Type type,JsonDeserializationContext jsonDeserializationContext) {
+            try {
+                return dateFormat.parse(jsonElement.getAsString());
+            } catch (ParseException e) {
+                throw new JsonParseException(e);
+            }
         }
     }
 }
