@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -362,8 +363,10 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
                 // set up the list view of routes
                 try {
                     ListView routesList = new ListView(SearchRouteMapActivity.this);
+                    List<Route> routes = busStop.getRoutes();
+                    Collections.sort(routes);
                     RouteAdapter routeAdapter = new RouteAdapter(SearchRouteMapActivity.this,
-                            android.R.layout.simple_list_item_1, busStop.getRoutes(), false);
+                            android.R.layout.simple_list_item_1, routes, false);
                     routesList.setAdapter(routeAdapter);
                     routesList.setOnItemClickListener(this);
                     builder.setView(routesList);
