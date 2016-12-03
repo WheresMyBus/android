@@ -79,6 +79,8 @@ public class RouteMapActivity extends FragmentActivity
             requestUserLocationPermission();
         }
 
+        buildGoogleApiClient();
+
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -102,6 +104,15 @@ public class RouteMapActivity extends FragmentActivity
         if (mGoogleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
+    }
+
+    /**
+     * Connects to the user location service when the activity starts.
+     */
+    @Override
+    public void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
     }
 
     /**
@@ -133,11 +144,9 @@ public class RouteMapActivity extends FragmentActivity
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkUserLocationPermission()) {
-                buildGoogleApiClient();
                 mMap.setMyLocationEnabled(true);
             }
         } else {
-            buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
 
@@ -153,8 +162,6 @@ public class RouteMapActivity extends FragmentActivity
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-
-        mGoogleApiClient.connect();
     }
 
     /**
@@ -305,10 +312,6 @@ public class RouteMapActivity extends FragmentActivity
             case REQUEST_LOCATION: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (checkUserLocationPermission()) {
-                        if (mGoogleApiClient == null) {
-                            buildGoogleApiClient();
-                        }
-
                         mMap.setMyLocationEnabled(true);
                     }
 
