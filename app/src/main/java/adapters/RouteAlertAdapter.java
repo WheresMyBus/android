@@ -14,6 +14,7 @@ import com.wheresmybus.ThumbsDownListener;
 import com.wheresmybus.ThumbsUpListener;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -70,14 +71,14 @@ public class RouteAlertAdapter extends ArrayAdapter<RouteAlert> {
         TextView numThumbsDown = (TextView) convertView.findViewById(R.id.num_thumbs_down);
 
         // get strings for the date and time the alert was submitted
-        if (dateFormatter == null) {
+       // if (dateFormatter == null) {
             dateFormatter = new SimpleDateFormat("E, MMM d");
-            dateFormatter.setTimeZone(TimeZone.getTimeZone(TIME_ZONE_ID));
-        }
-        if (timeFormatter == null) {
+            dateFormatter.setTimeZone(TimeZone.getDefault());
+        //}
+       // if (timeFormatter == null) {
             timeFormatter = new SimpleDateFormat("h:mm a");
-            timeFormatter.setTimeZone(TimeZone.getTimeZone(TIME_ZONE_ID));
-        }
+            timeFormatter.setTimeZone(TimeZone.getDefault());
+        //}
 
         Date alertDate = alert.getDate();
 
