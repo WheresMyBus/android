@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,6 +57,15 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
 
         alertList = (ListView) findViewById(R.id.alert_list);
         alertList.setOnItemClickListener(this);
+
+        // set the empty view of the list view
+        TextView message = new TextView(this);
+        message.setText("No alerts have been submitted yet.");
+        message.setTextColor(ContextCompat.getColor(this, R.color.black));
+        message.setTextSize(20);
+        addContentView(message, new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+        alertList.setEmptyView(message);
 
         viewLocationsButton = (Button) findViewById(R.id.view_locations_button);
 
