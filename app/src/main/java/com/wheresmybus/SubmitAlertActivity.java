@@ -186,12 +186,12 @@ public class SubmitAlertActivity extends FragmentActivity implements
 
                     @Override
                     public void onFailure(Throwable t) {
-
+                        finish();
                     }
                 });
 
                 // switch back to previous screen
-                finish();
+                //finish();
             }
         } else if (type.equals("neighborhood")) {
             // get the information from the NeighborhoodFragment
