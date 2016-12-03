@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 import java.util.List;
 import java.util.Set;
 
-import controllers.OBAController;
 import controllers.WMBController;
 import modules.Neighborhood;
 import modules.NeighborhoodAlert;
@@ -45,7 +44,7 @@ public class BasicSystemTest {
 
     @Test
     public void sendRoutesRequestToAPI() throws Exception {
-        OBAController controller = OBAController.getInstance();
+        WMBController controller = WMBController.getInstance();
 
         Set<Route> routeList = controller.getRoutesSynchonously();
         assertFalse(routeList.isEmpty());

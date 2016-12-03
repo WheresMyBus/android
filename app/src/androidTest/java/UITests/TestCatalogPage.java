@@ -2,20 +2,12 @@ package UITests;
 
 import android.content.Intent;
 import android.support.test.espresso.intent.Intents;
-import android.support.test.espresso.matcher.BoundedMatcher;
-import android.support.test.internal.runner.junit3.JUnit38ClassRunner;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageButton;
 
 import com.wheresmybus.CatalogActivity;
 import com.wheresmybus.R;
-import com.wheresmybus.SubmitAlertActivity;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -24,9 +16,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import controllers.OBAController;
 import controllers.WMBController;
-import modules.UserDataManager;
 import okhttp3.mockwebserver.Dispatcher;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -50,12 +40,10 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class TestCatalogPage {
     private static WMBController controller;
-    private static OBAController controller2;
     private static MockWebServer server;
     @BeforeClass
     public static void setUpClass() throws Exception {
         controller = WMBController.getInstance();
-        controller2 = OBAController.getInstance();
         server = new MockWebServer();
         server.setDispatcher(new Dispatcher() {
             @Override
@@ -133,13 +121,11 @@ public class TestCatalogPage {
         });
         server.start();
         controller.useMockURL(server.url("/").toString());
-        controller2.useMockURL(server.url("/").toString());
     }
 
     @AfterClass
     public static void tearDownClass() throws Exception {
         controller.useProdURL();
-        controller2.useProdURL();
         server.shutdown();
     }
 
