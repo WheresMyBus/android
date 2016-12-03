@@ -82,9 +82,9 @@
         android:id="@+id/routes_affected"
         android:layout_toLeftOf="@+id/thumbs_up"
         android:layout_toStartOf="@+id/thumbs_up"
-        android:layout_above="@+id/num_thumbs_up"
         android:gravity="center_vertical"
-        android:textColor="@color/darkBlue" />
+        android:textColor="@color/darkBlue"
+        android:layout_alignBottom="@+id/num_thumbs_up" />
 
     <TextView
         android:text="Date"
