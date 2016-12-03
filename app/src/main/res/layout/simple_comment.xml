@@ -5,16 +5,16 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="Number"
-        android:layout_width="wrap_content"
+        android:text="Comment"
         android:layout_height="wrap_content"
-        android:id="@+id/num_thumbs_up"
+        android:id="@+id/comment"
         android:textColor="@android:color/black"
-        android:paddingRight="5dp"
-        android:layout_marginTop="14dp"
-        android:layout_below="@+id/thumbs_up"
-        android:layout_toLeftOf="@+id/num_thumbs_down"
-        android:layout_toStartOf="@+id/num_thumbs_down" />
+        android:gravity="center_vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/num_thumbs_up"
+        android:layout_width="250dp" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -24,11 +24,8 @@
         android:background="@android:color/transparent"
         android:tint="@android:color/darker_gray"
         android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/num_thumbs_up"
-        android:layout_alignStart="@+id/num_thumbs_up"
-        android:layout_toLeftOf="@+id/num_thumbs_down"
-        android:layout_toStartOf="@+id/num_thumbs_down"
-        />
+        android:layout_toRightOf="@+id/comment"
+        android:layout_toEndOf="@+id/comment" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -40,9 +37,19 @@
         android:contentDescription="thumbs_down_button"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/thumbs_up"
-        android:layout_toEndOf="@+id/thumbs_up" />
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="Number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/num_thumbs_up"
+        android:textColor="@android:color/black"
+        android:paddingRight="5dp"
+        android:layout_marginTop="14dp"
+        android:layout_below="@+id/thumbs_up"
+        android:layout_toRightOf="@+id/comment"
+        android:layout_toEndOf="@+id/comment" />
 
     <TextView
         android:text="Number"
@@ -54,18 +61,6 @@
         android:layout_alignBottom="@+id/num_thumbs_up"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:text="Comment"
-        android:layout_height="wrap_content"
-        android:id="@+id/comment"
-        android:textColor="@android:color/black"
-        android:gravity="center_vertical"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/num_thumbs_up"
-        android:layout_width="250dp" />
 
 
 </RelativeLayout>
