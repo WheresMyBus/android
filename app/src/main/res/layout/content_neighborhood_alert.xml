@@ -154,13 +154,14 @@
 
     <TextView
         android:text="Number"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/num_thumbs_up"
         android:textColor="@color/black"
         android:gravity="center"
-        android:layout_below="@+id/thumbs_up"
-        android:layout_toRightOf="@+id/routes_affected"
-        android:layout_toEndOf="@+id/routes_affected" />
+        android:layout_alignBaseline="@+id/num_thumbs_down"
+        android:layout_alignBottom="@+id/num_thumbs_down"
+        android:layout_toLeftOf="@+id/thumbs_down"
+        android:layout_toStartOf="@+id/thumbs_down"
+        android:layout_width="55dp" />
 
 </RelativeLayout>
