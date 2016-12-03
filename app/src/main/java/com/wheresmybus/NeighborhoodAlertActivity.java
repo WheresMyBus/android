@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import adapters.CommentAdapter;
 import modules.Comment;
@@ -162,13 +163,13 @@ public class NeighborhoodAlertActivity extends AppCompatActivity {
 
         routesAffected.setText(routes);
 
-        // sets up formatters for the date and time the alert was submitted if not already set up
-        if (dateFormatter == null) {
-            dateFormatter = new SimpleDateFormat("E, MMM d");
-        }
-        if (timeFormatter == null) {
-            timeFormatter = new SimpleDateFormat("h:mm a");
-        }
+        TimeZone zone = TimeZone.getDefault();
+
+        dateFormatter = new SimpleDateFormat("E, MMM d");
+        dateFormatter.setTimeZone(zone);
+
+        timeFormatter = new SimpleDateFormat("h:mm a");
+        timeFormatter.setTimeZone(zone);
 
         Date alertDate = alert.getDate();
 
