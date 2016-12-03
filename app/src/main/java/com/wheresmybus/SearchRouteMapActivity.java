@@ -67,7 +67,7 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
     private Map<Marker, BusStop> markerBusStopHashMap = new HashMap<>();
 
     private final LatLng SEATTLE = new LatLng(47.608013, -122.335167);
-    private final float MARKER_HUE = 288;               // makes the bus markers purple
+    private final float MARKER_HUE = 205;               // makes the bus markers purple
     private final float ZOOM_LEVEL = 18;                // goes up to 21
     private final int REQUEST_LOCATION = 0;
 
