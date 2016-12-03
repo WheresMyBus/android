@@ -289,29 +289,6 @@ public class WMBController {
         call.enqueue(callback);
     }
 
-    /** TODO: remove block once certain doing so will cause no bugs.
-     * upvotes a neighborhood alert comment
-     * @param commentID id of the comment
-     * @param userID id of this user
-     * @param callback handles response containing VoteConfirmation
-     *
-    public void neighborhoodAlertCommentUpvote(int commentID, String userID, Callback<VoteConfirmation> callback) {
-        Call<VoteConfirmation> call = retrofitService.postVote("comments", commentID, "upvote", userID);
-        call.enqueue(callback);
-    }
-
-    /**
-     * downvotes a neighborhood alert comment
-     * @param commentID id of the comment
-     * @param userID id of the user
-     * @param callback handles response containing VoteConfirmation
-     *
-    public void neighborhoodAlertCommentDownvote(int commentID, String userID, Callback<VoteConfirmation> callback) {
-        Call<VoteConfirmation> call = retrofitService.postVote("comments", commentID, "downvote", userID);
-        call.enqueue(callback);
-    }
-    */
-
     public void commentUpvote(int commentID, String userID, Callback<VoteConfirmation> callback) {
         Call<VoteConfirmation> call = retrofitService.postVote("comments", commentID, "upvote", userID);
         call.enqueue(callback);
@@ -322,27 +299,6 @@ public class WMBController {
         call.enqueue(callback);
     }
 
-    /** TODO: remove block when certain doing so will cause no bugs.
-     * upvote a route alert comment
-     * @param commentID id of the comment
-     * @param userID id of the user
-     * @param callback handles response containing VoteConfirmation
-     *
-    public void routeAlertCommentUpvote(int commentID, String userID, Callback<VoteConfirmation> callback) {
-        Call<VoteConfirmation> call = retrofitService.postVote("comments", commentID, "upvote", userID);
-        call.enqueue(callback);
-    }
-    /**
-     * downvote a route alert comment
-     * @param commentID id of the comment
-     * @param userID id of the user
-     * @param callback handles response containing a VoteConfirmation
-     *
-    public void routeAlertCommentDownvote(int commentID, String userID, Callback<VoteConfirmation> callback) {
-        Call<VoteConfirmation> call = retrofitService.postVote("comments", commentID, "downvote", userID);
-        call.enqueue(callback);
-    }
-    */
 
     /**
      * Performs actions of callback on List of Neighborhoods obtained from api.
@@ -393,7 +349,7 @@ public class WMBController {
         try {
             return call.execute().body();
         } catch (IOException e) {
-            Log.d("getHoodAlertComment", e.toString());
+            //Log.d("getHoodAlertComment", e.toString());
             return null;
         }
     }
