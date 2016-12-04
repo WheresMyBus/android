@@ -14,7 +14,10 @@ import com.wheresmybus.R;
 import com.wheresmybus.ThumbsDownListener;
 import com.wheresmybus.ThumbsUpListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import modules.Comment;
 import modules.UserDataManager;
@@ -24,6 +27,8 @@ import modules.UserDataManager;
  */
 
 public class CommentAdapter extends ArrayAdapter<Comment> {
+    private SimpleDateFormat dateFormatter;
+    private SimpleDateFormat timeFormatter;
 
     /**
      * Constructs a CommentAdapter
@@ -57,10 +62,26 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 
         // get references to specific views so we can populate them with data
         TextView message = (TextView) convertView.findViewById(R.id.comment);
+        TextView date = (TextView) convertView.findViewById(R.id.date);
+        TextView time = (TextView) convertView.findViewById(R.id.time);
         ImageButton thumbsUp = (ImageButton) convertView.findViewById(R.id.thumbs_up);
         TextView numThumbsUp = (TextView) convertView.findViewById(R.id.num_thumbs_up);
         ImageButton thumbsDown = (ImageButton) convertView.findViewById(R.id.thumbs_down);
         TextView numThumbsDown = (TextView) convertView.findViewById(R.id.num_thumbs_down);
+
+        // get strings for the date and time the alert was submitted
+        TimeZone zone = TimeZone.getDefault();
+
+        if (dateFormatter == null) {
+            dateFormatter = new SimpleDateFormat("E, MMM d");
+            dateFormatter.setTimeZone(zone);
+        }
+        if (timeFormatter == null) {
+            timeFormatter = new SimpleDateFormat("h:mm a");
+            timeFormatter.setTimeZone(zone);
+        }
+
+        Date commentDate = comment.getDate();
 
         // determine if the user has already downVoted/upVoted the alert
         UserDataManager userDataManager = UserDataManager.getManager();
@@ -73,6 +94,8 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 
         // fill each view with associated data
         message.setText(comment.getData());
+        date.setText(dateFormatter.format(commentDate));
+        time.setText(timeFormatter.format(commentDate));
         thumbsUp.setOnClickListener(new ThumbsUpListener(comment, commentIsUpVoted, numThumbsUp));
         numThumbsUp.setText(comment.getUpvotes() + "");
         thumbsDown.setOnClickListener(new ThumbsDownListener(comment, commentIsDownVoted, numThumbsDown));
