@@ -19,6 +19,7 @@ import java.util.TimeZone;
 
 import adapters.CommentAdapter;
 import modules.Comment;
+import modules.Neighborhood;
 import modules.NeighborhoodAlert;
 import modules.Route;
 import modules.UserDataManager;
@@ -52,6 +53,10 @@ public class NeighborhoodAlertActivity extends AppCompatActivity {
         // get the alert
         Intent intent = getIntent();
         alert = (NeighborhoodAlert) intent.getSerializableExtra("ALERT");
+
+        // set page title
+        Neighborhood neighborhood = alert.getNeighborhood();
+        setTitle(neighborhood.getName());
 
         // set up the alert at the top of the page
         loadAlertData();

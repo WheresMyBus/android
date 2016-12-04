@@ -18,6 +18,7 @@ import java.util.TimeZone;
 
 import adapters.CommentAdapter;
 import modules.Comment;
+import modules.Route;
 import modules.RouteAlert;
 import modules.UserDataManager;
 import retrofit.Callback;
@@ -46,6 +47,10 @@ public class RouteAlertActivity extends AppCompatActivity {
         // get the alert
         Intent intent = getIntent();
         alert = (RouteAlert) intent.getSerializableExtra("ALERT");
+
+        // set page title
+        Route route = alert.getRoute();
+        setTitle(route.getNumber() + ": " + route.getName());
 
         // set up the alert at the top of the page
         loadAlertData();
