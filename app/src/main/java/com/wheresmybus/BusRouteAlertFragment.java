@@ -283,17 +283,14 @@ public class BusRouteAlertFragment extends Fragment implements AdapterView.OnIte
             case R.id.checkBox1:
                 alertType = checkBox1.getText().toString();
                 handleAlertType(alertType, checked);
-                otherType.setVisibility(View.INVISIBLE);
                 break;
             case R.id.checkBox2:
                 alertType = checkBox2.getText().toString();
                 handleAlertType(alertType, checked);
-                otherType.setVisibility(View.INVISIBLE);
                 break;
             case R.id.checkBox3:
                 alertType = checkBox3.getText().toString();
                 handleAlertType(alertType, checked);
-                otherType.setVisibility(View.INVISIBLE);
                 break;
             case R.id.checkBox4:
                 alertType = checkBox4.getText().toString();

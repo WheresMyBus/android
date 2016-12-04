@@ -312,17 +312,14 @@ public class NeighborhoodAlertFragment extends Fragment implements
             case R.id.checkBox5:
                 alertType = checkBox1.getText().toString();
                 handleAlertType(alertType, checked);
-                otherType.setVisibility(View.INVISIBLE);
                 break;
             case R.id.checkBox6:
                 alertType = checkBox2.getText().toString();
                 handleAlertType(alertType, checked);
-                otherType.setVisibility(View.INVISIBLE);
                 break;
             case R.id.checkBox7:
                 alertType = checkBox3.getText().toString();
                 handleAlertType(alertType, checked);
-                otherType.setVisibility(View.INVISIBLE);
                 break;
             case R.id.checkBox8:
                 alertType = checkBox4.getText().toString();
