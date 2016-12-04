@@ -73,12 +73,14 @@ public class NeighborhoodAlertAdapter extends ArrayAdapter<NeighborhoodAlert> {
         TextView numThumbsDown = (TextView) convertView.findViewById(R.id.num_thumbs_down);
 
         TimeZone zone = TimeZone.getDefault();
-
-        dateFormatter = new SimpleDateFormat("E, MMM d");
-        dateFormatter.setTimeZone(zone);
-
-        timeFormatter = new SimpleDateFormat("h:mm a");
-        timeFormatter.setTimeZone(zone);
+        if (dateFormatter == null) {
+            dateFormatter = new SimpleDateFormat("E, MMM d");
+            dateFormatter.setTimeZone(zone);
+        }
+        if (timeFormatter == null) {
+            timeFormatter = new SimpleDateFormat("h:mm a");
+            timeFormatter.setTimeZone(zone);
+        }
 
         Date alertDate = alert.getDate();
 
