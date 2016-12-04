@@ -64,12 +64,13 @@ public class SubmitCommentActivity extends AppCompatActivity {
     public void switchToForum(View view) {
         EditText comment = (EditText) findViewById(R.id.comment_description);
         String description = comment.getText().toString();
-        if (description == null || description.equals("")) {
+        if (description.equals("")) {
             // instruct the user to enter a comment
             Toast toast = Toast.makeText(this, "Please enter a comment.", Toast.LENGTH_SHORT);
             toast.show();
         } else {
             // submit the user's comment
+            view.setEnabled(false);
             WMBController controller = WMBController.getInstance();
             if (isRouteAlert) {
                 // post route alert comment
@@ -77,7 +78,7 @@ public class SubmitCommentActivity extends AppCompatActivity {
                         new Callback<Comment>() {
                     @Override
                     public void onResponse(Response<Comment> response, Retrofit retrofit) {
-
+                        // switch back to previous screen
                         finish();
                     }
 
@@ -92,6 +93,7 @@ public class SubmitCommentActivity extends AppCompatActivity {
                         new Callback<Comment>() {
                     @Override
                     public void onResponse(Response<Comment> response, Retrofit retrofit) {
+                        // switch back to previous screen
                         finish();
                     }
 
@@ -101,9 +103,6 @@ public class SubmitCommentActivity extends AppCompatActivity {
                     }
                 });
             }
-
-            // switch back to the previous screen
-            //finish();
         }
     }
 }

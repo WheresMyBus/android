@@ -166,11 +166,13 @@ public class SubmitAlertActivity extends FragmentActivity implements
                         Toast.LENGTH_SHORT);
                 toast.show();
             } else {
+                submitButton.setEnabled(false);
                 // submit new route alert
                 WMBController controller = WMBController.getInstance();
                 controller.postAlert(route.getId(), alertType, description, "[User ID]", new Callback<RouteAlert>() {
                     @Override
                     public void onResponse(Response<RouteAlert> response, Retrofit retrofit) {
+                        // switch back to previous screen
                         finish();
                     }
 
@@ -179,9 +181,6 @@ public class SubmitAlertActivity extends FragmentActivity implements
                         finish();
                     }
                 });
-
-                // switch back to previous screen
-                //finish();
             }
         } else if (type.equals("neighborhood")) {
             // get the information from the NeighborhoodFragment
@@ -204,6 +203,7 @@ public class SubmitAlertActivity extends FragmentActivity implements
                 toast.show();
             } else {
                 // submit new alert
+                submitButton.setEnabled(false);
                 WMBController controller = WMBController.getInstance();
                 // TODO: change to method that will post the alert with routes affected
                 List<String> affectedRouteIds = new ArrayList<>();
@@ -214,6 +214,7 @@ public class SubmitAlertActivity extends FragmentActivity implements
                 controller.postAlert(neighborhood.getID(), alertType, description, "[User ID]", affectedRouteIds, new Callback<NeighborhoodAlert>() {
                     @Override
                     public void onResponse(Response<NeighborhoodAlert> response, Retrofit retrofit) {
+                        // switch back to previous screen
                         finish();
                     }
 
@@ -222,9 +223,6 @@ public class SubmitAlertActivity extends FragmentActivity implements
                         finish();
                     }
                 });
-
-                // switch back to previous screen
-                //finish();
             }
         }
     }
