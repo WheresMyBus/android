@@ -54,6 +54,7 @@
         </activity>
         <activity
             android:name=".SubmitAlertActivity"
+            android:label="@string/submit_alert_title"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".CatalogActivity"
