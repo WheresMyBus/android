@@ -17,7 +17,6 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -36,7 +35,8 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,7 +45,8 @@
         </activity>
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,30 +56,39 @@
         <activity
             android:name=".SubmitAlertActivity"
             android:label="@string/submit_alert_title"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".CatalogActivity"
             android:label="@string/title_activity_catalog"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".AlertForumActivity"
-            android:label="@string/title_forum_page" />
+            android:label="@string/title_forum_page"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".RouteAlertActivity"
-            android:label="@string/title_route_alert" />
-        <activity android:name=".NeighborhoodAlertActivity" />
+            android:label="@string/title_route_alert"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".NeighborhoodAlertActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SubmitCommentActivity"
             android:label="@string/title_activity_submit_comment"
             android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".RouteMapActivity"
-            android:label="View Current Bus Locations" />
+            android:label="View Current Bus Locations"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SearchRouteMapActivity"
-            android:label="Search for a Route" />
-        <activity android:name=".RouteMainActivity" />
+            android:label="Search for a Route"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".RouteMainActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
