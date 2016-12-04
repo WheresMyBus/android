@@ -73,11 +73,14 @@ public class RouteAlertAdapter extends ArrayAdapter<RouteAlert> {
         // get strings for the date and time the alert was submitted
         TimeZone zone = TimeZone.getDefault();
 
-        dateFormatter = new SimpleDateFormat("E, MMM d");
-        dateFormatter.setTimeZone(zone);
-
-        timeFormatter = new SimpleDateFormat("h:mm a");
-        timeFormatter.setTimeZone(zone);
+        if (dateFormatter == null) {
+            dateFormatter = new SimpleDateFormat("E, MMM d");
+            dateFormatter.setTimeZone(zone);
+        }
+        if (timeFormatter == null) {
+            timeFormatter = new SimpleDateFormat("h:mm a");
+            timeFormatter.setTimeZone(zone);
+        }
 
         Date alertDate = alert.getDate();
 
