@@ -17,15 +17,8 @@
     <string name="check_alert_types">Check the type(s) of the alert:</string>
     <string name="view_favorite_routes_switch">View Favorite Routes</string>
     <string name="view_favorite_neighborhoods_switch">View Favorite Neighborhoods</string>
-    <string name="alert_description_hint">Enter a description (140 characters max)</string>
-    <string name="alert_type_hint">Enter the type (10 characters max)</string>
-    <!--
-    <string-array name="neighborhood_alert_types">
-        <item>Construction</item>
-        <item>Traffic</item>
-        <item>Event</item>
-        <item>Other</item>
-    </string-array> -->
+    <string name="long_characters_hint">Enter 140 characters max</string>
+    <string name="other_type_hint">Enter the type (10 characters max)</string>
     <string name="construction">Construction</string>
     <string name="traffic">Traffic</string>
     <string name="event">Event</string>

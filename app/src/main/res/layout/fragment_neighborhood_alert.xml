@@ -40,20 +40,6 @@
         android:textSize="20sp"
         android:textColor="@android:color/black" />
 
-    <!--
-    <GridView
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_below="@+id/choose_alert_types"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:numColumns="auto_fit"
-        android:choiceMode="multipleChoice"
-        android:id="@+id/alert_types"
-        android:clickable="true"
-        android:elevation="10dp"/>
-        -->
-
     <CheckBox
         android:text="@string/construction"
         android:layout_width="wrap_content"
@@ -90,10 +76,9 @@
         android:layout_height="122dp"
         android:inputType="textMultiLine"
         android:maxLength="140"
-        android:hint="@string/alert_description_hint"
+        android:hint="@string/long_characters_hint"
         android:ems="10"
         android:id="@+id/neighborhood_alert_description"
-        android:allowUndo="true"
         android:isScrollContainer="true"
         android:textColor="@android:color/black"
         android:minLines="6"
@@ -120,10 +105,9 @@
         android:layout_height="50dp"
         android:inputType="textMultiLine"
         android:maxLength="10"
-        android:hint="@string/alert_type_hint"
+        android:hint="@string/other_type_hint"
         android:ems="10"
         android:id="@+id/other_type_description"
-        android:allowUndo="true"
         android:isScrollContainer="true"
         android:textColor="@android:color/black"
         android:minLines="6"
