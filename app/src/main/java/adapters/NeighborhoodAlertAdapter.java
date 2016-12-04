@@ -28,6 +28,8 @@ import modules.UserDataManager;
  */
 
 public class NeighborhoodAlertAdapter extends ArrayAdapter<NeighborhoodAlert> {
+    private static final int MAX_TYPE_LENGTH = 20;
+
     private SimpleDateFormat dateFormatter;
     private SimpleDateFormat timeFormatter;
 
@@ -110,7 +112,12 @@ public class NeighborhoodAlertAdapter extends ArrayAdapter<NeighborhoodAlert> {
         boolean alertIsDownVoted = userDataManager.getDownVotedAlertsByID().contains(alert.getId());
 
         // fill each view with associated data and set image button on click listeners
-        alertType.setText(alert.getType());
+        String type = alert.getType();
+        if (type.length() > MAX_TYPE_LENGTH) {
+            alertType.setText(type.substring(0, MAX_TYPE_LENGTH) + "...");
+        } else {
+            alertType.setText(type);
+        }
         routesAffected.setText(routes);
         date.setText(dateFormatter.format(alertDate));
         time.setText(timeFormatter.format(alertDate));
