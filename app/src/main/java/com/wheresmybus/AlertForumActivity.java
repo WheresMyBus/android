@@ -251,8 +251,10 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
         Intent intent;
         if (isRouteForum) {
             intent = new Intent(this, RouteAlertActivity.class);
+            intent.putExtra("TITLE", route.getNumber() + ": " + route.getName());
         } else {
             intent = new Intent(this, NeighborhoodAlertActivity.class);
+            intent.putExtra("TITLE", neighborhood.getName());
         }
         intent.putExtra("ALERT", alert);
         startActivity(intent);

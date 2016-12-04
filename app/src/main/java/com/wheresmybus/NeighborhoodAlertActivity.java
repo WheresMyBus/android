@@ -55,8 +55,7 @@ public class NeighborhoodAlertActivity extends AppCompatActivity {
         alert = (NeighborhoodAlert) intent.getSerializableExtra("ALERT");
 
         // set page title
-        Neighborhood neighborhood = alert.getNeighborhood();
-        setTitle(neighborhood.getName());
+        setTitle(intent.getStringExtra("TITLE"));
 
         // set up the alert at the top of the page
         loadAlertData();

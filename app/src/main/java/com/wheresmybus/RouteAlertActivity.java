@@ -49,8 +49,7 @@ public class RouteAlertActivity extends AppCompatActivity {
         alert = (RouteAlert) intent.getSerializableExtra("ALERT");
 
         // set page title
-        Route route = alert.getRoute();
-        setTitle(route.getNumber() + ": " + route.getName());
+        setTitle(intent.getStringExtra("TITLE"));
 
         // set up the alert at the top of the page
         loadAlertData();
