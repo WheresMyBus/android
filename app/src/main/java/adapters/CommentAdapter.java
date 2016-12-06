@@ -96,9 +96,9 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
         message.setText(comment.getData());
         date.setText(dateFormatter.format(commentDate));
         time.setText(timeFormatter.format(commentDate));
-        thumbsUp.setOnClickListener(new ThumbsUpListener(comment, commentIsUpVoted, numThumbsUp));
+        thumbsUp.setOnClickListener(new ThumbsUpListener(comment, commentIsUpVoted, numThumbsUp, thumbsDown, numThumbsDown));
         numThumbsUp.setText(comment.getUpvotes() + "");
-        thumbsDown.setOnClickListener(new ThumbsDownListener(comment, commentIsDownVoted, numThumbsDown));
+        thumbsDown.setOnClickListener(new ThumbsDownListener(comment, commentIsDownVoted, numThumbsDown, thumbsUp, numThumbsUp));
         numThumbsDown.setText(comment.getDownvotes() + "");
 
         // color the thumbsUp/thumbsDown buttons if this user has already clicked those buttons
