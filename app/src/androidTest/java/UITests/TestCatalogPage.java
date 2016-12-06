@@ -98,6 +98,7 @@ public class TestCatalogPage {
                                     "    \"downvotes\": 0,\n" +
                                     "    \"neighborhood_id\": 1,\n" +
                                     "    \"created_at\": \"2016-11-10T17:29:53.626Z\"\n" +
+                                    "    \"routes_affected\": \"[]\"\n" +
                                     "  }\n" +
                                     "]");
                 } else if (request.getPath().equals("/routes/1_100512/alerts")) {
@@ -227,7 +228,7 @@ public class TestCatalogPage {
                 .perform(click());
 
         intended(hasComponent("com.wheresmybus.AlertForumActivity"));
-        intended(hasExtra("ALERT_TYPE", "Neighborhood"));
+        intended(hasExtra("IS_ROUTE", false));
         intended(hasExtra("NEIGHBORHOOD_ID", 3));
     }
 
@@ -247,7 +248,7 @@ public class TestCatalogPage {
                 .perform(click());
 
         intended(hasComponent("com.wheresmybus.AlertForumActivity"));
-        intended(hasExtra("ALERT_TYPE", "Route"));
+        intended(hasExtra("IS_ROUTE", true));
         intended(hasExtra("ROUTE_ID", "1_100512"));
     }
 

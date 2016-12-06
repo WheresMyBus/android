@@ -151,6 +151,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
     @Override
     public void onStart() {
         super.onStart();
+        UserDataManager.instantiateManager(this);
         refreshData();
     }
 
