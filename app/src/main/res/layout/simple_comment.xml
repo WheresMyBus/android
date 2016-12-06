@@ -8,35 +8,33 @@
     <TextView
         android:text="Comment"
         android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:id="@+id/comment"
-        android:textColor="@android:color/black"
         android:gravity="center_vertical"
+        android:textColor="@android:color/black"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_width="250dp"
         android:layout_toLeftOf="@+id/thumbs_up"
-        android:layout_toStartOf="@+id/thumbs_up"
-        android:layout_alignBottom="@+id/thumbs_up" />
+            />
 
     <TextView
         android:text="@string/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/comment"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/date" />
+        android:layout_alignParentBottom="true"
+        android:id="@+id/date"
+        android:layout_below="@+id/comment"/>
 
     <TextView
         android:text="@string/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/comment"
         android:layout_toRightOf="@+id/date"
-        android:layout_toEndOf="@+id/date"
+        android:layout_alignParentBottom="true"
         android:id="@+id/time"
-        android:paddingLeft="10dp" />
+        android:paddingLeft="10dp"
+        android:layout_below="@+id/comment"/>
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -44,7 +42,6 @@
         app:srcCompat="@drawable/thumbs_down"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:id="@+id/thumbs_down"
         android:backgroundTint="@android:color/transparent"
         android:tint="@android:color/darker_gray"/>
@@ -53,9 +50,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/thumbs_up"
-        android:layout_alignBottom="@+id/thumbs_down"
+        android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/thumbs_down"
-        android:layout_toStartOf="@+id/thumbs_down"
         android:id="@+id/thumbs_up"
         android:backgroundTint="@android:color/transparent"
         android:tint="@android:color/darker_gray" />
@@ -65,11 +61,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/thumbs_down"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:id="@+id/num_thumbs_down"
-        android:layout_toRightOf="@+id/thumbs_up"
-        android:layout_toEndOf="@+id/thumbs_up"
+        android:layout_alignLeft="@+id/thumbs_down"
+        android:layout_alignRight="@+id/thumbs_down"
         android:textAlignment="center"
         android:textColor="@android:color/black" />
 
@@ -78,10 +72,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/thumbs_down"
-        android:layout_toLeftOf="@+id/thumbs_down"
         android:id="@+id/num_thumbs_up"
         android:layout_alignLeft="@+id/thumbs_up"
-        android:layout_alignStart="@+id/thumbs_up"
+        android:layout_alignRight="@+id/thumbs_up"
         android:textAlignment="center"
         android:textColor="@android:color/black" />
 
