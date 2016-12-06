@@ -98,12 +98,12 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
         }
 
         // set the message to be displayed to the user if no alerts have been submitted yet
-        message = new TextView(this);
+        message = (TextView) findViewById(R.id.message);
         message.setText("No alerts have been submitted yet.");
         message.setTextColor(ContextCompat.getColor(this, R.color.black));
         message.setTextSize(20);
-        addContentView(message, new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+        //addContentView(message, new RelativeLayout.LayoutParams(
+                //RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         message.setVisibility(View.INVISIBLE);
     }
 
