@@ -67,6 +67,7 @@
         <activity
             android:name=".AlertForumActivity"
             android:label="@string/title_forum_page"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".RouteAlertActivity"
