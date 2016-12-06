@@ -18,6 +18,7 @@ import com.wheresmybus.SubmitAlertActivity;
 import java.io.IOException;
 
 import controllers.WMBController;
+import modules.Route;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 
@@ -46,7 +47,7 @@ public class TestAlertForumActivity {
 
     @Rule
     public ActivityTestRule<AlertForumActivity> rule =
-            new ActivityTestRule<>(AlertForumActivity.class);
+            new ActivityTestRule<>(AlertForumActivity.class, true, false);
 
     @Test
     public void testAlertDisplay() throws IOException {
@@ -68,6 +69,10 @@ public class TestAlertForumActivity {
         server.start();
         controller.useMockURL(server.url("/").toString());
         Intent startIntent = new Intent();
+        startIntent.putExtra("IS_ROUTE", true);
+        Route route = new Route("123", "some route", "1_100224");
+        startIntent.putExtra("ROUTE", route);
+        startIntent.putExtra("ROUTE_ID", "1_100224");
         startIntent.putExtra("TAB_INDEX", 1);
         rule.launchActivity(startIntent);
     }
