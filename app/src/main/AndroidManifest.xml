@@ -92,6 +92,7 @@
             android:label="Search for a Route"
             android:screenOrientation="portrait"/>
         <activity android:name=".RouteMainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
     </application>
 
