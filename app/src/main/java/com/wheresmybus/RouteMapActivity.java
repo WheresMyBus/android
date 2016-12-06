@@ -59,6 +59,7 @@ public class RouteMapActivity extends FragmentActivity
     private Route route;                        // the route whose bus locations are being viewed
     private Button refreshButton;               // the button that lets users refresh the markers
     private List<Marker> currentBusMarkers;     // the bus locations currently marked
+    private boolean zoomed = false;
 
     private final LatLng SEATTLE = new LatLng(47.608013, -122.335167);
     private final float MARKER_HUE = 288;               // makes the bus markers purple
@@ -201,7 +202,10 @@ public class RouteMapActivity extends FragmentActivity
                         builder.include(busLocation);
                     }
 
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100));
+                    if (!zoomed) {
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100));
+                        zoomed = true;
+                    }
                 }
             }
 

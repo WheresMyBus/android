@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_alert_forum"
@@ -23,49 +24,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <TextView
-        android:id="@+id/message"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/appbar"
-        android:layout_above="@+id/button" />
+    <include layout="@layout/content_alert_forum" />
 
-    <ListView
-        android:id="@+id/alert_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/message"
-        android:layout_above="@+id/view_locations_button"
-        />
-
-    <Button
-        android:text="@string/submit_alert_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button"
-        android:background="@color/green"
-        android:textColor="@color/white"
-        android:onClick="switchToSubmitAlert"
-        android:textStyle="bold"
-        android:layout_marginTop="430dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:text="View Current Bus Locations"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/view_locations_button"
-        android:background="@color/purple"
-        android:textColor="@color/white"
-        android:onClick="switchToViewLocations"
-        android:textStyle="bold"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="46dp" />
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

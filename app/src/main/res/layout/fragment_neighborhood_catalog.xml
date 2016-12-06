@@ -5,14 +5,16 @@
     tools:context="com.wheresmybus.NeighborhoodCatalogFragment">
 
     <Switch
-        android:text="@string/view_favorite_neighborhoods_switch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/favoriteSwitch"
-        android:theme="@style/AppTheme.SwitchTheme"
-        android:background="@color/white"
-        android:layout_gravity="end"
-        android:textAlignment="viewEnd"/>
+            android:text="@string/view_favorite_neighborhoods_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/favoriteSwitch"
+            android:theme="@style/AppTheme.SwitchTheme"
+            android:background="@color/white"
+            android:layout_gravity="end"
+            android:textAlignment="viewEnd"
+            android:padding="10dp"
+            android:switchPadding="10dp"/>
 
     <ListView
         android:layout_width="match_parent"
