@@ -35,8 +35,8 @@
         android:layout_alignParentEnd="true"
         android:layout_above="@+id/submit_button"
         android:gravity="top|left"
-        android:maxLength="140"
-        android:hint="@string/long_characters_hint"/>
+        android:maxLength="70"
+        android:hint="@string/comment_length_hint"/>
 
     <Button
         android:text="Cancel"

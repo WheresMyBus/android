@@ -19,6 +19,7 @@
     <string name="view_favorite_routes_switch">View Favorite Routes</string>
     <string name="view_favorite_neighborhoods_switch">View Favorite Neighborhoods</string>
     <string name="long_characters_hint">Enter 140 characters max</string>
+    <string name="comment_length_hint">Enter 70 characters max</string>
     <string name="other_type_hint">Enter the type (30 characters max)</string>
     <string name="construction">Construction</string>
     <string name="traffic">Traffic</string>
