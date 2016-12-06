@@ -72,8 +72,10 @@
         <activity
             android:name=".RouteAlertActivity"
             android:label="@string/title_route_alert"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
         <activity android:name=".NeighborhoodAlertActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".SubmitCommentActivity"
