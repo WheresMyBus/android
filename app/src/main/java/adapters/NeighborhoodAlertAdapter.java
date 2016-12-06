@@ -123,9 +123,9 @@ public class NeighborhoodAlertAdapter extends ArrayAdapter<NeighborhoodAlert> {
         routesAffected.setText(routes);
         date.setText(dateFormatter.format(alertDate));
         time.setText(timeFormatter.format(alertDate));
-        thumbsUp.setOnClickListener(new ThumbsUpListener(alert, alertIsUpVoted, numThumbsUp));
+        thumbsUp.setOnClickListener(new ThumbsUpListener(alert, alertIsUpVoted, numThumbsUp, thumbsDown, numThumbsDown));
         numThumbsUp.setText(alert.getUpvotes() + "");
-        thumbsDown.setOnClickListener(new ThumbsDownListener(alert, alertIsDownVoted, numThumbsDown));
+        thumbsDown.setOnClickListener(new ThumbsDownListener(alert, alertIsDownVoted, numThumbsDown, thumbsUp, numThumbsUp));
         numThumbsDown.setText(alert.getDownvotes() + "");
 
         // color the thumbsUp/thumbsDown buttons if this user has already clicked those buttons

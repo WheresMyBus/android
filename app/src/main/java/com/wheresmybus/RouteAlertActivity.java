@@ -155,9 +155,9 @@ public class RouteAlertActivity extends AppCompatActivity {
         boolean alertIsDownVoted = userDataManager.getDownVotedAlertsByID().contains(alert.getId());
 
 
-        thumbsUp.setOnClickListener(new ThumbsUpListener(alert, alertIsUpVoted, numThumbsUp));
+        thumbsUp.setOnClickListener(new ThumbsUpListener(alert, alertIsUpVoted, numThumbsUp, thumbsDown, numThumbsDown));
         numThumbsUp.setText(String.format(Locale.getDefault(), "%1$d", alert.getUpvotes()));
-        thumbsDown.setOnClickListener(new ThumbsDownListener(alert, alertIsDownVoted, numThumbsDown));
+        thumbsDown.setOnClickListener(new ThumbsDownListener(alert, alertIsDownVoted, numThumbsDown, thumbsUp, numThumbsUp));
         numThumbsDown.setText(String.format(Locale.getDefault(), "%1$d", alert.getDownvotes()));
 
         // TODO: refactor this code so that it's not copied in the same place in 5 different classes

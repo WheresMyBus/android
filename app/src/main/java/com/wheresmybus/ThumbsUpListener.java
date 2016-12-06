@@ -1,5 +1,6 @@
 package com.wheresmybus;
 
+import android.media.Image;
 import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -32,7 +33,8 @@ public class ThumbsUpListener implements View.OnClickListener {
     private boolean isAlert;
     private boolean toggledOn;
     private TextView numThumbsUp;
-
+    private ImageButton thumbsDownButton;
+    private TextView numThumbsDown;
     /**
      * Constructs a new ThumbsUpListener for the given alert.
      * @param alert the alert to upvote
@@ -42,11 +44,13 @@ public class ThumbsUpListener implements View.OnClickListener {
      * @param numThumbsUp The text view holding the number of upvotes
      *                      to be displayed to the user and updated on click
      */
-    public ThumbsUpListener(Alert alert, boolean startsToggledOn, TextView numThumbsUp) {
+    public ThumbsUpListener(Alert alert, boolean startsToggledOn, TextView numThumbsUp, ImageButton thumbsDownButton, TextView numThumbsDown) {
         this.alert = alert;
         isAlert = true;
         toggledOn = startsToggledOn;
         this.numThumbsUp = numThumbsUp;
+        this.thumbsDownButton = thumbsDownButton;
+        this.numThumbsDown = numThumbsDown;
     }
 
     /**
@@ -58,11 +62,13 @@ public class ThumbsUpListener implements View.OnClickListener {
      * @param numThumbsUp The text view holding the number of upvotes
      *                      to be displayed to the user and updated on click
      */
-    public ThumbsUpListener(Comment comment, boolean startsToggledOn, TextView numThumbsUp) {
+    public ThumbsUpListener(Comment comment, boolean startsToggledOn, TextView numThumbsUp, ImageButton thumbsDownButton, TextView numThumbsDown) {
         this.comment = comment;
         isAlert = false;
         toggledOn = startsToggledOn;
         this.numThumbsUp = numThumbsUp;
+        this.thumbsDownButton = thumbsDownButton;
+        this.numThumbsDown = numThumbsDown;
     }
 
     /**
@@ -74,10 +80,12 @@ public class ThumbsUpListener implements View.OnClickListener {
      */
     @Override
     public void onClick(View v) {
-        UserDataManager userDataManager = UserDataManager.getManager();
+        final UserDataManager userDataManager = UserDataManager.getManager();
         boolean downvoted;
-
+        final ImageButton finalThumbsDown = thumbsDownButton;
+        final TextView finalNumThumbsDown = numThumbsDown;
         if (isAlert) {
+            toggledOn = userDataManager.getUpVotedAlertsByID().contains(alert.getId());
             downvoted = userDataManager.getDownVotedAlertsByID().contains(alert.getId());
             if (toggledOn) {
                 // user has already liked the associated post, un-vote
@@ -89,8 +97,30 @@ public class ThumbsUpListener implements View.OnClickListener {
                 // add to the upvoted set
                 userDataManager.getUpVotedAlertsByID().add(alert.getId());
                 alert.upvote(userDataManager.getUserID(), new ThumbsUpCallback());
+            } else {
+                // user has disliked this post, unvote then revote
+                userDataManager.getDownVotedAlertsByID().remove(alert.getId());
+                alert.unvote(userDataManager.getUserID(), new Callback<VoteConfirmation>() {
+                    @Override
+                    public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                        // set the number of dislikes
+                        finalNumThumbsDown.setText(
+                                String.format(Locale.getDefault(), "%1$d", response.body().downvotes)
+                        );
+                        // clear the thumbs down color
+                        finalThumbsDown.clearColorFilter();
+
+                        // vote up the post
+                        userDataManager.getUpVotedAlertsByID().add(alert.getId());
+                        alert.upvote(userDataManager.getUserID(), new ThumbsUpCallback());
+                    }
+                    @Override
+                    public void onFailure(Throwable t) {
+                    }
+                });
             }
         } else {
+            toggledOn = userDataManager.getUpVotedCommentsByID().contains(comment.getId());
             downvoted = userDataManager.getDownVotedCommentsByID().contains(comment.getId());
             if (toggledOn) {
                 userDataManager.getUpVotedCommentsByID().remove(comment.getId());
@@ -98,6 +128,27 @@ public class ThumbsUpListener implements View.OnClickListener {
             } else if (!downvoted) {
                 userDataManager.getUpVotedCommentsByID().add(comment.getId());
                 comment.upvote(userDataManager.getUserID(), new ThumbsUpCallback());
+            } else {
+                // user has disliked this post, unvote then revote
+                userDataManager.getDownVotedCommentsByID().remove(comment.getId());
+                comment.unvote(userDataManager.getUserID(), new Callback<VoteConfirmation>() {
+                    @Override
+                    public void onResponse(Response<VoteConfirmation> response, Retrofit retrofit) {
+                        // set the number of dislikes
+                        finalNumThumbsDown.setText(
+                                String.format(Locale.getDefault(), "%1$d", response.body().downvotes)
+                        );
+                        // clear the thumbs down color
+                        finalThumbsDown.clearColorFilter();
+
+                        // vote up the post
+                        userDataManager.getUpVotedCommentsByID().add(comment.getId());
+                        comment.upvote(userDataManager.getUserID(), new ThumbsUpCallback());
+                    }
+                    @Override
+                    public void onFailure(Throwable t) {
+                    }
+                });
             }
         }
         // change the color of the button and change the toggled status
@@ -105,7 +156,7 @@ public class ThumbsUpListener implements View.OnClickListener {
         if (toggledOn) {
             thumbsUp.clearColorFilter();
             toggledOn = false;
-        } else if (!downvoted){
+        } else {
             thumbsUp.setColorFilter(ContextCompat.getColor(v.getContext(), R.color.green));
             toggledOn = true;
         }
