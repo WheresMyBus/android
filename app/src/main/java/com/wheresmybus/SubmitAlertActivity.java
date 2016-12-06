@@ -4,6 +4,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.RadioButton;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +35,7 @@ import retrofit.Retrofit;
  * The activity associated with the screen for the Submit Alert page found by clicking the
  * "Submit Alert" button on the home screen.
  */
-public class SubmitAlertActivity extends FragmentActivity implements
+public class SubmitAlertActivity extends AppCompatActivity implements
         BusRouteAlertFragment.OnFragmentInteractionListener,
         NeighborhoodAlertFragment.OnFragmentInteractionListener {
     // references to the buttons and the fragments used on this screen
@@ -52,6 +56,9 @@ public class SubmitAlertActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit_alert);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         busRouteFragment = (BusRouteAlertFragment)
@@ -108,6 +115,44 @@ public class SubmitAlertActivity extends FragmentActivity implements
             // make submit button visible
             submitButton.setVisibility(View.VISIBLE);
         }
+    }
+
+    /**
+     * Creates an options menu.
+     *
+     * @param menu the menu to be inflated
+     * @return true
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    /**
+     * Handles the event when an option is selected from the options menu.
+     *
+     * @param item The selected item
+     * @return false to allow normal menu processing to proceed, true to consume it here
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_help) {
+            Uri uri = Uri.parse("https://github.com/WheresMyBus/android/wiki/User-Documentation");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     /**
