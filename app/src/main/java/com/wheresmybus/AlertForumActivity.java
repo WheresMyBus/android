@@ -48,7 +48,7 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
     private Route route;
     private Neighborhood neighborhood;
     private Button viewLocationsButton;
-    private TextView message;           // message to user if no alerts have been submitted yet
+    private TextView message;               // message for users if the list of alerts is empty
 
     /**
      * Displays the alerts for the route or neighborhood that was clicked on
@@ -68,6 +68,8 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
 
         viewLocationsButton = (Button) findViewById(R.id.view_locations_button);
 
+        message = (TextView) findViewById(R.id.empty_list_message);
+
         Intent intent = getIntent();
         isRouteForum = intent.getBooleanExtra("IS_ROUTE", true);
         // Route alerts
@@ -82,6 +84,10 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            // set message for empty list and make it invisible until load list with data
+            message.setText("No alerts have been submitted yet for this route.");
+            message.setVisibility(View.INVISIBLE);
         } else { // Neighborhood alerts
             neighborhood = (Neighborhood) intent.getSerializableExtra("NEIGHBORHOOD");
             // set page title
@@ -95,16 +101,11 @@ public class AlertForumActivity extends AppCompatActivity implements AdapterView
             }
             // make view bus locations button invisible
             viewLocationsButton.setVisibility(View.INVISIBLE);
-        }
 
-        // set the message to be displayed to the user if no alerts have been submitted yet
-        message = new TextView(this);
-        message.setText("No alerts have been submitted yet.");
-        message.setTextColor(ContextCompat.getColor(this, R.color.black));
-        message.setTextSize(20);
-        addContentView(message, new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-        message.setVisibility(View.INVISIBLE);
+            // set message for empty list and make it invisible until load list with data
+            message.setText("No alerts have been submitted yet for this neighborhood.");
+            message.setVisibility(View.INVISIBLE);
+        }
     }
 
     /**
