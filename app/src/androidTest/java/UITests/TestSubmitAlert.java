@@ -7,10 +7,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 
 import com.wheresmybus.R;
 import com.wheresmybus.SubmitAlertActivity;
@@ -34,6 +36,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.core.StringStartsWith.startsWith;
@@ -109,8 +112,49 @@ public class TestSubmitAlert {
                                     "    }\n" +
                                     "  ]\n" +
                                     "}");
+                } else if (request.getPath().equals("neighborhoods/1/alerts")) {
+                    return new MockResponse()
+                            .setResponseCode(200)
+                            .setBody("{\n" +
+                                    "  \"id\": 1,\n" +
+                                    "  \"user_id\": \"50d1ce8e-a213-40a0-8228-587ea7fd604c\",\n" +
+                                    "  \"issues\": \"construction\",\n" +
+                                    "  \"description\": \"Alert description goes here...\",\n" +
+                                    "  \"upvotes\": 0,\n" +
+                                    "  \"downvotes\": 0,\n" +
+                                    "  \"neighborhood_id\": 1,\n" +
+                                    "  \"created_at\": \"2016-11-10T17:29:53.626Z\",\n" +
+                                    "  \"routes_affected\": [\n" +
+                                    "    {\n" +
+                                    "      \"id\": \"1_100224\",\n" +
+                                    "      \"number\": \"44\",\n" +
+                                    "      \"name\": \"Ballard - Montlake\"\n" +
+                                    "    }\n" +
+                                    "  ]\n" +
+                                    "}");
+                } else if (request.getPath().equals("neighborhoods/3/alerts")) {
+                    return new MockResponse()
+                            .setResponseCode(200)
+                            .setBody("{\n" +
+                                    "  \"id\": 1,\n" +
+                                    "  \"user_id\": \"50d1ce8e-a213-40a0-8228-587ea7fd604c\",\n" +
+                                    "  \"issues\": \"construction\",\n" +
+                                    "  \"description\": \"Alert description goes here...\",\n" +
+                                    "  \"upvotes\": 0,\n" +
+                                    "  \"downvotes\": 0,\n" +
+                                    "  \"neighborhood_id\": 1,\n" +
+                                    "  \"created_at\": \"2016-11-10T17:29:53.626Z\",\n" +
+                                    "  \"routes_affected\": [\n" +
+                                    "    {\n" +
+                                    "      \"id\": \"1_100224\",\n" +
+                                    "      \"number\": \"44\",\n" +
+                                    "      \"name\": \"Ballard - Montlake\"\n" +
+                                    "    }\n" +
+                                    "  ]\n" +
+                                    "}");
                 } else {
-                    return null;
+                    return new MockResponse()
+                            .setBody(request.getPath());
                 }
             }
         });
@@ -142,13 +186,14 @@ public class TestSubmitAlert {
      * checks that the route fragment becomes visible after selecting bus route.
      */
     @Test
-    public void testChangeToRouteFragment() {
+    public void testChangeToRouteFragment() throws InterruptedException {
         onView(withId(R.id.bus_route_alert_fragment))
                 .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
         onView(withId(R.id.radio_bus_route))
                 .perform(click());
         onView(withId(R.id.bus_route_alert_fragment))
                 .check(matches(isDisplayed()));
+        RecordedRequest request = server.takeRequest();
     }
 
     /**
@@ -156,20 +201,21 @@ public class TestSubmitAlert {
      * neighborhood.
      */
     @Test
-    public void testChangeToNeighborhoodFragment() {
+    public void testChangeToNeighborhoodFragment() throws InterruptedException {
         onView(withId(R.id.neighborhood_alert_fragment))
                 .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
         onView(withId(R.id.radio_neighborhood))
                 .perform(click());
         onView(withId(R.id.neighborhood_alert_fragment))
                 .check(matches(isDisplayed()));
+        RecordedRequest request = server.takeRequest();
     }
 
     /**
      * checks that selecting route then neighborhood makes route invisible and neighborhood visible.
      */
     @Test
-    public void testAlternateAlertType() {
+    public void testAlternateAlertType() throws InterruptedException {
         onView(withId(R.id.bus_route_alert_fragment))
                 .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
         onView(withId(R.id.neighborhood_alert_fragment))
@@ -187,14 +233,14 @@ public class TestSubmitAlert {
                 .check(matches(isDisplayed()));
         onView(withId(R.id.bus_route_alert_fragment))
                 .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
-
+        RecordedRequest request = server.takeRequest();
     }
 
     /**
      * tests that clicking on spinner option Alki causes the spinner to display Alki.
      */
     @Test
-    public void testSpinnerTextSelection() {
+    public void testSpinnerTextSelection() throws InterruptedException {
         onView(withId(R.id.radio_neighborhood))
                 .perform(click());
         onView(withId(R.id.neighborhood_spinner))
@@ -203,6 +249,7 @@ public class TestSubmitAlert {
         .perform(click());
         onView(withId(R.id.neighborhood_spinner))
                 .check(matches(withSpinnerText("Alki")));
+        RecordedRequest request = server.takeRequest();
     }
 
     @Test
@@ -217,10 +264,9 @@ public class TestSubmitAlert {
                 .perform(click());
         onView(withId(R.id.neighborhood_alert_description))
                 .perform(typeText("whatever you want"));
+        Espresso.closeSoftKeyboard();
         onView(withId(R.id.button_submit))
                 .perform(click());
-        RecordedRequest request = server.takeRequest();
-        request.getBody().readUtf8().equals("issues=construction&description=whateveryouwant&user_id=1234&affected_routes[]=[]");
     }
 
 
