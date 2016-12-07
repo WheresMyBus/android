@@ -10,8 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.wheresmybus.SubmitAlertActivity"
-    tools:showIn="@layout/app_bar_main">
+    tools:context="com.wheresmybus.SubmitAlertActivity">
 
     <TextView
         android:text="@string/select_forum_type"
@@ -43,10 +42,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/radio_bus_route"
             android:onClick="onRadioButtonClicked"
-            android:buttonTint="@color/darkBlue"
-            android:layout_below="@+id/textView3"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:buttonTint="@color/darkBlue" />
 
         <RadioButton
             android:text="@string/neighborhood"
@@ -55,8 +51,7 @@
             android:id="@+id/radio_neighborhood"
             android:onClick="onRadioButtonClicked"
             android:buttonTint="@color/darkBlue"
-            android:layout_below="@+id/textView3"
-            android:layout_centerHorizontal="true" />
+             />
 
     </RadioGroup>
 
@@ -80,7 +75,8 @@
         android:id="@+id/neighborhood_alert_fragment"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        tools:layout="@layout/fragment_neighborhood_alert" />
+        tools:layout="@layout/fragment_neighborhood_alert"
+        android:layout_alignBottom="@+id/bus_route_alert_fragment" />
 
     <Button
         android:text="@string/submit"
