@@ -101,7 +101,7 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
         super.onPause();
 
         // stop location updates when Activity is no longer active
-        if (mGoogleApiClient != null) {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
     }
@@ -121,7 +121,10 @@ public class SearchRouteMapActivity extends FragmentActivity implements OnMapRea
     @Override
     protected void onStop() {
         super.onStop();
-        mGoogleApiClient.disconnect();
+
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
     }
 
     /**

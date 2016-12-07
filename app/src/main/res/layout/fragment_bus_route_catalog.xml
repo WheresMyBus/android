@@ -13,18 +13,19 @@
     </ListView>
 
     <Switch
-            android:text="@string/view_favorite_routes_switch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/favoriteSwitch"
-            android:theme="@style/AppTheme.SwitchTheme"
-            android:background="@color/white"
-            android:layout_gravity="end"
-            android:textAlignment="viewEnd"
-            android:switchPadding="10dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:padding="10dp"/>
+        android:text="@string/view_favorite_routes_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/favoriteSwitch"
+        android:theme="@style/AppTheme.SwitchTheme"
+        android:background="@color/white"
+        android:layout_gravity="end"
+        android:textAlignment="viewEnd"
+        android:switchPadding="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:elevation="5dp"
+        android:padding="10dp"/>
 
 </RelativeLayout>

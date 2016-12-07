@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -57,7 +58,6 @@ public class RouteMapActivity extends FragmentActivity
     private Location mLastLocation;
     private Marker mCurrLocationMarker;
     private Route route;                        // the route whose bus locations are being viewed
-    private Button refreshButton;               // the button that lets users refresh the markers
     private List<Marker> currentBusMarkers;     // the bus locations currently marked
     private boolean zoomed = false;
 
@@ -88,9 +88,6 @@ public class RouteMapActivity extends FragmentActivity
         Intent intent = getIntent();
         route = (Route) intent.getSerializableExtra("ROUTE");
 
-        refreshButton = (Button) findViewById(R.id.refresh_button);
-        refreshButton.setVisibility(View.INVISIBLE);
-
         currentBusMarkers = new ArrayList<>();
     }
 
@@ -102,7 +99,7 @@ public class RouteMapActivity extends FragmentActivity
         super.onPause();
 
         // stop location updates when Activity is no longer active
-        if (mGoogleApiClient != null) {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
     }
@@ -122,7 +119,10 @@ public class RouteMapActivity extends FragmentActivity
     @Override
     protected void onStop() {
         super.onStop();
-        mGoogleApiClient.disconnect();
+
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
     }
 
     /**
@@ -150,8 +150,6 @@ public class RouteMapActivity extends FragmentActivity
         } else {
             mMap.setMyLocationEnabled(true);
         }
-
-        refreshButton.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -185,6 +183,8 @@ public class RouteMapActivity extends FragmentActivity
                             "No buses are currently running on this route.",
                             Toast.LENGTH_LONG);
                 } else {
+                    clearCurrentBusMarkers();
+
                     LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
                     for (Bus bus : buses) {
@@ -250,17 +250,8 @@ public class RouteMapActivity extends FragmentActivity
             mCurrLocationMarker.remove();
         }
 
-
         // place current location marker
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        /*
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        markerOptions.title("Current Position");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(USER_MARKER_HUE));
-
-        mCurrLocationMarker = mMap.addMarker(markerOptions);
-        */
 
         // move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -343,7 +334,6 @@ public class RouteMapActivity extends FragmentActivity
      * @param view the button clicked
      */
     public void refresh(View view) {
-        clearCurrentBusMarkers();
         try {
             busLocationRequest();
         } catch (Exception e) {
