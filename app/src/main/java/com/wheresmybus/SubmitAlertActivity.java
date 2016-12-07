@@ -205,6 +205,10 @@ public class SubmitAlertActivity extends AppCompatActivity implements
             }
             String description = busRouteFragment.getDescription();
 
+            if (description != null) {
+                description = description.replaceAll("[\n\t]", "");
+            }
+
             if (route == null || alertType == null || description == null || description.equals("")) {
                 // instruct user that some parameter is missing information
                 Toast toast = Toast.makeText(this, "Please enter any missing parameters.",
@@ -240,6 +244,10 @@ public class SubmitAlertActivity extends AppCompatActivity implements
             }
             String description = neighborhoodFragment.getDescription();
             List<Route> routesAffected = neighborhoodFragment.getRoutesAffected();
+
+            if (description != null) {
+                description = description.replaceAll("[\n\t]", "");
+            }
 
             if (neighborhood == null || alertType == null || description == null || description.equals("")) {
                 // instruct the user that some parameter is missing information

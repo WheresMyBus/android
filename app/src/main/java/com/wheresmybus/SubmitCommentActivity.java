@@ -106,6 +106,7 @@ public class SubmitCommentActivity extends AppCompatActivity {
     public void switchToForum(View view) {
         EditText comment = (EditText) findViewById(R.id.comment_description);
         String description = comment.getText().toString();
+        description = description.replaceAll("[\n\t]", "");
         if (description.equals("")) {
             // instruct the user to enter a comment
             Toast toast = Toast.makeText(this, "Please enter a comment.", Toast.LENGTH_SHORT);
