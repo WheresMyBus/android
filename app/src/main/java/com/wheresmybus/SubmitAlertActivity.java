@@ -83,7 +83,7 @@ public class SubmitAlertActivity extends AppCompatActivity implements
         RadioButton routeRadioButton = (RadioButton) findViewById(R.id.radio_bus_route);
         RadioButton neighborhoodRadioButton = (RadioButton) findViewById(R.id.radio_neighborhood);
         if (isRoute || route != null) {
-            // set appropriate radio button and disable both spinner choices and make these non-clickable
+            // set appropriate radio button and disable both spinner choices and make them non-clickable
             radioGroup.check(R.id.radio_bus_route);
             routeRadioButton.setEnabled(false);
             neighborhoodRadioButton.setEnabled(false);
@@ -194,7 +194,7 @@ public class SubmitAlertActivity extends AppCompatActivity implements
     public void onSubmitButtonClicked(View view) {
         if (type.equals("route")) {
             // get the information from the BusRouteFragment
-            Route route = busRouteFragment.getRoute();
+            final Route route = busRouteFragment.getRoute();
             String alertType = busRouteFragment.getAlertType();
             String otherType = busRouteFragment.getOtherType();
             if (otherType != null) {
@@ -221,7 +221,14 @@ public class SubmitAlertActivity extends AppCompatActivity implements
                 controller.postAlert(route.getId(), alertType, description, "[User ID]", new Callback<RouteAlert>() {
                     @Override
                     public void onResponse(Response<RouteAlert> response, Retrofit retrofit) {
-                        // switch back to previous screen
+                        // switch to the screen that displays the alert just submitted
+                        RouteAlert alert = response.body();
+                        if (alert != null) {
+                            Intent intent = new Intent(SubmitAlertActivity.this, RouteAlertActivity.class);
+                            intent.putExtra("TITLE", route.getNumber() + ": " + route.getName());
+                            intent.putExtra("ALERT", alert);
+                            startActivity(intent);
+                        }
                         finish();
                     }
 
@@ -233,7 +240,7 @@ public class SubmitAlertActivity extends AppCompatActivity implements
             }
         } else if (type.equals("neighborhood")) {
             // get the information from the NeighborhoodFragment
-            Neighborhood neighborhood = neighborhoodFragment.getNeighborhood();
+            final Neighborhood neighborhood = neighborhoodFragment.getNeighborhood();
             String alertType = neighborhoodFragment.getAlertType();
             String otherType = neighborhoodFragment.getOtherType();
             if (otherType != null) {
@@ -249,7 +256,8 @@ public class SubmitAlertActivity extends AppCompatActivity implements
                 description = description.replaceAll("[\n\t]", "");
             }
 
-            if (neighborhood == null || alertType == null || description == null || description.equals("")) {
+            if (neighborhood == null || alertType == null || description == null ||
+                    description.equals("")) {
                 // instruct the user that some parameter is missing information
                 Toast toast = Toast.makeText(this, "Please enter any missing parameters.",
                         Toast.LENGTH_SHORT);
@@ -264,10 +272,19 @@ public class SubmitAlertActivity extends AppCompatActivity implements
                     affectedRouteIds.add(route.getId());
                 }
 
-                controller.postAlert(neighborhood.getID(), alertType, description, "[User ID]", affectedRouteIds, new Callback<NeighborhoodAlert>() {
+                controller.postAlert(neighborhood.getID(), alertType, description, "[User ID]",
+                        affectedRouteIds, new Callback<NeighborhoodAlert>() {
                     @Override
                     public void onResponse(Response<NeighborhoodAlert> response, Retrofit retrofit) {
-                        // switch back to previous screen
+                        // switch to the screen that displays the alert just submitted
+                        NeighborhoodAlert alert = response.body();
+                        if (alert != null) {
+                            Intent intent = new Intent(SubmitAlertActivity.this,
+                                    NeighborhoodAlertActivity.class);
+                            intent.putExtra("TITLE", neighborhood.getName());
+                            intent.putExtra("ALERT", alert);
+                            startActivity(intent);
+                        }
                         finish();
                     }
 
