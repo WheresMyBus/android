@@ -5,6 +5,10 @@
     android:id="@+id/content_submit_comment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.wheresmybus.SubmitCommentActivity"
     tools:showIn="@layout/activity_submit_comment">
@@ -35,8 +39,8 @@
         android:layout_alignParentEnd="true"
         android:layout_above="@+id/submit_button"
         android:gravity="top|left"
-        android:maxLength="70"
-        android:hint="@string/comment_length_hint"/>
+        android:maxLength="140"
+        android:hint="@string/long_characters_hint"/>
 
     <Button
         android:text="Cancel"
