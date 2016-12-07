@@ -56,7 +56,12 @@ public class RouteMainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_help) {
+        if (id == R.id.action_home) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+
+            return true;
+        } else if (id == R.id.action_help) {
             Uri uri = Uri.parse("https://github.com/WheresMyBus/android/wiki/User-Documentation");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
